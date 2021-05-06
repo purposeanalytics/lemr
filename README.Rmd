@@ -1,0 +1,31 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# lemur
+
+CMHC Housing Supply Challenge Proof of Concept
+
+## Installation
+
+``` r
+# install.packages("devtools")
+devtools::install_github("purposeanalytics/lemur")
+```
+
+## Usage
+
+```r
+lemur::run_app()
+```
