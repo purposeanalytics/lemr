@@ -14,14 +14,24 @@ app_ui <- function(request) {
         "Map",
         sidebarLayout(
           mainPanel(
-            mapboxer::mapboxerOutput("map",
-            )
+            mapboxer::mapboxerOutput("map", )
           ),
-          sidebarPanel()
-        )
-      ),
-      tabPanel("Portal"),
-      tabPanel("About")
+          sidebarPanel(
+            shinyWidgets::pickerInput("address",
+              "Address",
+              choices = apartment_building_registry[["address"]],
+              # choices = NULL,
+              options = shinyWidgets::pickerOptions(liveSearch = TRUE, size = 10)
+            ),
+            shinyWidgets::searchInput("address_search",
+                                      "Address",
+                                      placeholder = "Enter an address"
+            )
+          )
+        ),
+        tabPanel("Portal"),
+        tabPanel("About")
+      )
     )
   )
 }
