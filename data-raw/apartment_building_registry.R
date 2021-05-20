@@ -1,6 +1,9 @@
 library(opendatatoronto)
 library(dplyr)
 library(janitor)
+library(progress)
+library(purrr)
+dplyr::load_all() # Load package itself to get geocode_address
 
 # Get Apartment Building Registration Resource ----
 # Extracted May 19, 2021
@@ -20,8 +23,13 @@ write_csv(apartment_building_registry, here::here("data-raw", "apartment_buildin
 geocode_address("235 Bloor St E")
 
 # Iterate through addresses - function automatically waits 0.25 seconds between calls to abide by license
+# Using a progress bar to say how far along we are
+pb <- progress_bar$new(total = nrow(apartment_building_registry))
 apartment_building_registry_geocoded <- apartment_building_registry %>%
-  mutate(address_geocode = map(SITE_ADDRESS, geocode_address))
+  mutate(address_geocode = map(SITE_ADDRESS, function(x) {
+    pb$tick()
+    geocode_address(x, quiet = TRUE)
+  }))
 
 # Unnest results
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
@@ -39,6 +47,8 @@ apartment_building_registry_geocoded %>%
   distinct()
 
 # TODO - ask Daniel
+
+# Not done here onwards ----
 
 
 # corrections from manual inspection of missing geocoded entries

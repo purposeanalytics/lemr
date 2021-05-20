@@ -14,7 +14,7 @@ geocode_address(
 \arguments{
 \item{address}{Address to geocode}
 
-\item{base}{Base URL of Bing Geocoder:}
+\item{base}{Base URL of Bing Geocoder: \link{http://dev.virtualearth.net/REST/v1/Locations/CA/}.}
 
 \item{token}{BING Geocoder token, defaults to \code{BING_TOKEN} environment variable.}
 
