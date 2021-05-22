@@ -22,7 +22,7 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
   clean_address <- address %>%
     stringr::str_squish() %>% # Remove excess whitespace
     stringr::str_replace_all("[^a-zA-Z0-9]", "%20") # Replace any spaces with %20, required for URLs
-  call <- glue::glue("{base}{clean_address}Toronto%20ON?key={token}") # Full call URL
+  call <- glue::glue("{base}{clean_address}Toronto%20ON?maxResults=1&key={token}") # Full call URL
 
   # Get geocoding
   geocode_result <- httr::GET(call)
@@ -59,7 +59,8 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
     geocode_points_tidied <- geocode_json_tidied %>%
       dplyr::pull(geocodePoints) %>%
       purrr::pluck(1) %>%
-      dplyr::slice(1)
+      dplyr::slice(1) %>%
+      dplyr::filter(usageTypes == "Display")
 
     # Method of determining geocoding
     method <- geocode_points_tidied[["calculationMethod"]]
