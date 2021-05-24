@@ -3,7 +3,10 @@ library(dplyr)
 library(janitor)
 library(progress)
 library(purrr)
-dplyr::load_all() # Load package itself to get geocode_address
+library(stringr)
+library(tid)
+library(readr)
+devtools::load_all() # Load package itself to get geocode_address
 
 # Get Apartment Building Registration Resource ----
 # Extracted May 19, 2021
@@ -14,7 +17,7 @@ apartment_building_registry <- list_package_resources("https://open.toronto.ca/d
 # Save resource with date extracted
 write_csv(apartment_building_registry, here::here("data-raw", "apartment_building_registry", glue::glue("{Sys.Date()}-apartment_building_registry.csv")))
 
-# Geocode addressess ---
+# Geocode addresses ---
 # For two purposes:
 # 1. to get lat/lon points
 # 2. to get standardized address to use as a key with other datasets
@@ -25,33 +28,57 @@ geocode_address("235 Bloor St E")
 # Iterate through addresses - function automatically waits 0.25 seconds between calls to abide by license
 # Using a progress bar to say how far along we are
 pb <- progress_bar$new(total = nrow(apartment_building_registry))
+
+# And a "safe" version in case there's errors!
+safely_geocode_address <- safely( ~ geocode_address(.x, quiet = TRUE), otherwise = NA)
+
 apartment_building_registry_geocoded <- apartment_building_registry %>%
   mutate(address_geocode = map(SITE_ADDRESS, function(x) {
     pb$tick()
-    geocode_address(x, quiet = TRUE)
+    safely_geocode_address(x)
   }))
+
+# Separate results from errors
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  mutate(address_geocode = map(address_geocode, "result"),
+         address_geocode_error = map(address_geocode, "error"))
 
 # Unnest results
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
-  unnest(cols = address_geocode)
+  unnest(cols = c(address_geocode)) %>%
+  select(-address_geocode)
 
 # Save results ----
 saveRDS(apartment_building_registry_geocoded, here::here("data-raw", "apartment_building_registry", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded.rds")))
 
-# Check if any addresses were duplicated
+# Check if any records were duplicated
 nrow(apartment_building_registry) == nrow(apartment_building_registry_geocoded)
 
+# Check any that had errors
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  mutate(address_geocode_error = map_lgl(address_geocode_error,  ~ !is.null(.x)))
+
 apartment_building_registry_geocoded %>%
-  get_dupes(SITE_ADDRESS) %>%
-  select(SITE_ADDRESS, starts_with("bing")) %>%
-  distinct()
+  filter(address_geocode_error) %>%
+  nrow() == 0
+
+# Check for issues
+# Check data - look at any with low confidence, or where PCODE (from the data) doesn't match the postal code (from the)
+apartment_building_registry_geocoded %>%
+  filter(bing_confidence == "Low" | !str_starts(bing_postal_code, PCODE)) %>%
+  select(SITE_ADDRESS, bing_address, PCODE, bing_postal_code)
+
 
 # TODO - ask Daniel
 
 # Not done here onwards ----
 
+# Look at low confidence
+# Look at pcode field
+
 
 # corrections from manual inspection of missing geocoded entries
+# From google
 corrections <- tribble(
   ~SITE_ADDRESS, ~manual_address, ~manual_latitude, ~manual_longitude,
   "2877 A  ELLESMERE RD", "2877 Ellesmere Rd", 43.780633, -79.20349,
@@ -65,11 +92,14 @@ corrections <- tribble(
   "74  HUBBARD BLVD", "74 Hubbard Blvd", 43.669107, -79.291128
 )
 
+
+# TODO: look into dplyr::update
+
 # replace with corrections
 corrected_apt_registry <- geocode_apt_registry %>%
   left_join(corrections, by = "SITE_ADDRESS") %>%
   mutate(
-    bing_address = if_else(!is.na(manual_address), manual_address, bing_address),
+    bing_address = coalesce(manual_address, bing_address),
     bing_latitude = if_else(!is.na(manual_latitude), manual_latitude, bing_latitude),
     bing_longitude = if_else(!is.na(manual_longitude), manual_longitude, bing_longitude)
   ) %>%
