@@ -4,12 +4,9 @@
 # 2. to get standardized address to use as a key with other datasets
 
 library(dplyr)
-library(janitor)
 library(progress)
 library(purrr)
-library(stringr)
 library(tidyr)
-library(readr)
 devtools::load_all() # Load package itself to get geocode_address and read_latest_file
 
 # Read in latest extract

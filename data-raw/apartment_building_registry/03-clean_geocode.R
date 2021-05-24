@@ -1,5 +1,12 @@
 # Clean results from geocoding
 
+library(dplyr)
+library(progress)
+library(purrr)
+library(tidyr)
+library(stringr)
+devtools::load_all() # Load package itself to get geocode_address and read_latest_file
+
 apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
 
 # Check if any records were duplicated
@@ -47,13 +54,7 @@ geocode_issues <- issues_missing %>%
 geocode_issues %>%
   count(issue)
 
-
-# TODO - ask Daniel
-
 # Not done here onwards ----
-
-# Look at low confidence
-# Look at pcode field
 
 
 # corrections from manual inspection of missing geocoded entries
