@@ -3,7 +3,7 @@
 library(dplyr)
 library(stringr)
 library(purrr)
-library
+library(tidyr)
 devtools::load_all() # Load package itself to get read_latest_file
 
 apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
@@ -24,35 +24,7 @@ apartment_building_registry_geocoded %>%
   select(starts_with("bing")) %>%
   visdat::vis_miss()
 
-issues_missing <- apartment_building_registry_geocoded %>%
-  select(`_id`, SITE_ADDRESS, PCODE, starts_with("bing")) %>%
-  filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code)) %>%
-  mutate(issue = "missing")
-
-# Requery ones that are missing - some of them come up!
-safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise = NA)
-
-missing_geocoding_filled <- issues_missing %>%
-  select(`_id`, SITE_ADDRESS) %>%
-  mutate(address_geocode = map(SITE_ADDRESS, function(x) {
-    safely_geocode_address(x)
-  })) %>%
-  mutate(
-    address_geocode = map(address_geocode, "result"),
-    address_geocode_error = map(address_geocode, "error")
-  ) %>%
-  unnest(cols = c(address_geocode)) %>%
-  select(-address_geocode_error)
-
-missing_geocoding_filled <- missing_geocoding_filled %>%
-  filter(!is.na(bing_address))
-
-# Update the missing ones with these, then check for other issues
-apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
-  rows_update(missing_geocoding_filled, by = c("_id", "SITE_ADDRESS"))
-
-# Any still missing
-
+# Records with missing postal code / lat/long
 issues_missing <- apartment_building_registry_geocoded %>%
   select(`_id`, SITE_ADDRESS, PCODE, starts_with("bing")) %>%
   filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code)) %>%
@@ -85,15 +57,14 @@ geocode_issues %>%
 
 # Fixing
 
-geocode_issues %>%
-  select(issue, SITE_ADDRESS, bing_address, PCODE, bing_postal_code, bing_latitude, bing_longitude) %>% View()
+# What to do with 3171-3181  EGLINTON AVE E? Is this multiple addresses? How many?
 
 corrections <- tribble(
-  ~SITE_ADDRESS, ~manual_address, ~manual_latitude, ~manual_longitude, ~manual_postal_code,
-  "10  VENA WAY", "10 Vena Way", 43.75049883092916, -79.5416203305828, NA_character_,
+  ~SITE_ADDRESS, ~bing_address, ~bing_latitude, ~bing_longitude, ~bing_postal_code,
+  "10  VENA WAY ", "10 Vena Way", 43.75049883092916, -79.5416203305828, NA_character_,
   "245 A  HOWLAND AVE ", "245 Howland Ave", 43.672864274077, -79.41102178778262, NA_character_,
   "190  JAMESON AVE ", "190 Jameson Ave", 43.639510732000055, -79.43710527249598, "M6K 2Z5",
-  "6  VENA WAY", "6 Vena Way", 43.75040688113031, -79.54156401524023, NA_character_,
+  "6  VENA WAY ", "6 Vena Way", 43.75040688113031, -79.54156401524023, NA_character_,
   "6 A  GREENLAW AVE ", "6 A Greenlaw Ave", 43.67267750136975, -79.44646015900271, NA_character_,
   "8  ST THOMAS ST ", "8 St Thomas St", 43.66862519229393, -79.3909378724956, "M5S 2B8",
   "75  FORTY SECOND ST ", "75 Forty Second St", 43.58905081747705, -79.54391345715403, "M8W 3P5",
@@ -117,52 +88,41 @@ corrections <- tribble(
   "280  ST GEORGE ST ", "280 St George St", 43.67401083908051, -79.40325970132774, "M5R 2P7",
   "355  ST CLAIR AVE W", "355 St Clair Ave W", 43.683933337797, -79.41284060132753, "M5P 1N5",
   "4  SHERBOURNE ST N", "4 Sherbourne St N", 43.674069939072936, -79.37777085899904, "M4W 2T1",
-  "7  EDMUND AVE  ", "7 Edmund Ave", 43.68207272020809, -79.40082021482047, "M4V 1H2",
+  "7  EDMUND AVE ", "7 Edmund Ave", 43.68207272020809, -79.40082021482047, "M4V 1H2",
   "651  LAWRENCE AVE W", "651 Lawrence Ave W", 43.71622188811714, -79.44264040132697, "M6A 1A9",
   "3171-3181  EGLINTON AVE E", "3181 Eglinton Ave E", 43.74259578128866, -79.2192437436552, "M1J 2G9",
   "1607  JANE ST ", "1607 Jane St", 43.70080382263062, -79.50267177249151, "M9N 2R8",
-  "25  FORTY THIRD ST  ", "25 Forty Third St", 43.590352562200415, -79.54645818783612, "M8W 3P7",
+  "25  FORTY THIRD ST ", "25 Forty Third St", 43.590352562200415, -79.54645818783612, "M8W 3P7",
   "1540  VICTORIA PARK AVE ", "1540 Victoria Park Ave", 43.72612787269327, -79.30380707249113, "M1L 4S1",
   "36  CHURCH ST ", "36 Church St", 43.704291691204936, -79.52341414365578, "M9N 1M7",
-  "1780  VICTORIA PARK AVE  ", "1780 Victoria Park Ave", 43.73853562429903, -79.30874350132665, "M1R 1S6",
-  "9  THIRTY THIRD ST  ", "9 Thirty Third St", 43.59166980852946, -79.530529701329, "M8W 3G7",
+  "1780  VICTORIA PARK AVE ", "1780 Victoria Park Ave", 43.73853562429903, -79.30874350132665, "M1R 1S6",
+  "9  THIRTY THIRD ST ", "9 Thirty Third St", 43.59166980852946, -79.530529701329, "M8W 3G7",
   "3125  LAWRENCE AVE E", "3125 Lawrence Ave E", 43.75528312856072, -79.2438524724907, "M1H 1A2",
-  "345  MERTON ST  ", "345 Merton St", 43.69797966540959, -79.38567783016298, "M4S 1B5",
-  "3131  EGLINTON AVE E ", "3131 Eglinton Ave E", 43.741713479120826, -79.22286610132659, "M1J 2G6",
+  "345  MERTON ST ", "345 Merton St", 43.69797966540959, -79.38567783016298, "M4S 1B5",
+  "3131  EGLINTON AVE E", "3131 Eglinton Ave E", 43.741713479120826, -79.22286610132659, "M1J 2G6",
   "11  THIRTY THIRD ST ", "11 Thirty Third St", 43.59190037912575, -79.53052970132894, "M8W 3G7",
   "4000  YONGE ST ", "4000 Yonge St", 43.7423371280044, -79.40741625899793, "M4N 2N9",
   "551  EGLINTON AVE E", "551 Eglinton Ave E", 43.71046158960812, -79.37863993016272, "M4P 1N8",
-
-
+  "276  ST GEORGE ST ", "276 St George St", 43.67351815908287, -79.40297434358844, "M5R 2P6",
+  "3091  EGLINTON AVE E", "3091 Eglinton Ave E", 43.74093372782287, -79.2260183300954, "M1J 2G1",
+  "1111  LAWRENCE AVE W", "1111 Lawrence Ave W", 43.711821713927, -79.46349953009585, "M6A 1E1",
+  "745  YORK MILLS RD ", "745 York Mills Rd", 43.75231577947311, -79.36189044358724, "M3B 1X3",
+  "5  FORTY THIRD ST ", "5 Forty Third St", 43.589945108306814, -79.54616200126188,"M8W 3P7"
 )
 
+# Check we got them all
+geocode_issues %>%
+  anti_join(corrections, by = "SITE_ADDRESS")
+# 15  HARDING AVE  is actually right - it's on the border of M9N but postal code is in fact M6M 0A4
 
-# corrections from manual inspection of missing geocoded entries
-# From google
-corrections <- tribble(
-  ~SITE_ADDRESS, ~manual_address, ~manual_latitude, ~manual_longitude,
-  "2877 A  ELLESMERE RD", "2877 Ellesmere Rd", 43.780633, -79.20349,
-  "2  KINGSTON RD", "2 Kingston Rd", 43.774061, -79.183909,
-  "2  VENA WAY", "2 Vena Way", 43.7493214854571, -79.54115877106196,
-  "360  BLOOR ST W", "360 Bloor St W", 43.666789, -79.405123,
-  "21  MAYFAIR AVE", "21 Mayfair Ave", 43.703712, -79.422213,
-  "127  ISABELLA ST", "127 Isabella St", 43.669023, -79.377737,
-  "74  HUBBARD BLVD", "74 Hubbard Blvd", 43.669107, -79.291128,
-)
+# Replace with corrections ----
 
+corrections_with_id <- apartment_building_registry_geocoded %>%
+  select(`_id`, SITE_ADDRESS) %>%
+  right_join(corrections, by = "SITE_ADDRESS")
 
-# TODO: look into dplyr::update
+apartment_building_registry_geocode_with_corrections <- apartment_building_registry_geocoded %>%
+  rows_update(corrections_with_id, by = c("_id", "SITE_ADDRESS"))
 
-# replace with corrections
-corrected_apt_registry <- geocode_apt_registry %>%
-  left_join(corrections, by = "SITE_ADDRESS") %>%
-  mutate(
-    bing_address = coalesce(manual_address, bing_address),
-    bing_latitude = if_else(!is.na(manual_latitude), manual_latitude, bing_latitude),
-    bing_longitude = if_else(!is.na(manual_longitude), manual_longitude, bing_longitude)
-  ) %>%
-  select(-manual_address, -manual_latitude, -manual_longitude)
-
-# convert to sf
-apt_registry_sf <- corrected_apt_registry %>%
-  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)
+# Write data
+saveRDS(apartment_building_registry_geocode_with_corrections, here::here("data-raw", "apartment_building_registry", "geocode_clean", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded_clean.rds")))

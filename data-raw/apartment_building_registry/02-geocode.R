@@ -40,5 +40,31 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   unnest(cols = c(address_geocode)) %>%
   select(-address_geocode)
 
+# Sometimes the call is "successful" but nothing actually comes through
+# For ones that are missing, requery - they mostly come up again!
+
+geocode_missing <- apartment_building_registry_geocoded %>%
+  select(`_id`, SITE_ADDRESS, PCODE, starts_with("bing")) %>%
+  filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code))
+
+geocode_missing_filled <- geocode_missing %>%
+  select(`_id`, SITE_ADDRESS) %>%
+  mutate(address_geocode = map(SITE_ADDRESS, function(x) {
+    safely_geocode_address(x)
+  })) %>%
+  mutate(
+    address_geocode = map(address_geocode, "result"),
+    address_geocode_error = map(address_geocode, "error")
+  ) %>%
+  unnest(cols = c(address_geocode)) %>%
+  select(-address_geocode_error)
+
+geocode_missing_filled <- geocode_missing_filled %>%
+  filter(!is.na(bing_postal_code))
+
+# Update the missing ones with these
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  rows_update(geocode_missing_filled, by = c("_id", "SITE_ADDRESS"))
+
 # Save results ----
 saveRDS(apartment_building_registry_geocoded, here::here("data-raw", "apartment_building_registry", "geocode_raw", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded.rds")))
