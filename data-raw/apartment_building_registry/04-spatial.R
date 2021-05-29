@@ -15,7 +15,7 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
 
 # Convert to SF
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%
-  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)
+  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326, remove = FALSE)
 
 # Save as data set in package
 apartment_building_registry <- apartment_building_registry_sf

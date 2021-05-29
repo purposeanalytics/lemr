@@ -6,7 +6,6 @@ library(janitor)
 library(readr)
 
 # Get Apartment Building Registration Resource ----
-# Extracted May 19, 2021
 apartment_building_registry <- list_package_resources("https://open.toronto.ca/dataset/apartment-building-registration/") %>%
   filter(name == "Apartment Building Registration Data") %>%
   get_resource()

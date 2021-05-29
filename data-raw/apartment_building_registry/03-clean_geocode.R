@@ -4,20 +4,35 @@ library(dplyr)
 library(stringr)
 library(purrr)
 library(tidyr)
+library(usethis)
 devtools::load_all() # Load package itself to get read_latest_file
 
 apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
 
 # Check if any records were duplicated
-nrow(apartment_building_registry) == nrow(apartment_building_registry_geocoded)
+no_duplicated_records <- nrow(apartment_building_registry) == nrow(apartment_building_registry_geocoded)
+
+if (no_duplicated_records) {
+  ui_done("No records duplicated!")
+} else {
+  ui_todo("Uh oh, the datasets are not 1 to 1! There was some duplication in the geocoding.")
+}
 
 # Check any that had errors
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   mutate(address_geocode_error = map_lgl(address_geocode_error,  ~ !is.null(.x)))
 
-apartment_building_registry_geocoded %>%
+no_geocoding_errors <- apartment_building_registry_geocoded %>%
   filter(address_geocode_error) %>%
   nrow() == 0
+
+if (no_geocoding_errors) {
+  ui_done("No errors in running the geocoding function in the first step!")
+} else {
+  ui_todo("Uh oh, there were some geocoding errors! Take a look at these records:")
+  apartment_building_registry_geocoded %>%
+    filter(address_geocode_error)
+}
 
 # Check that we have all fields for every record
 apartment_building_registry_geocoded %>%
@@ -51,6 +66,7 @@ geocode_issues <- issues_missing %>%
   mutate(issue = stringr::str_c(issue, collapse = ", ")) %>%
   ungroup() %>%
   distinct()
+
 
 geocode_issues %>%
   count(issue)
@@ -114,6 +130,7 @@ corrections <- tribble(
 geocode_issues %>%
   anti_join(corrections, by = "SITE_ADDRESS")
 # 15  HARDING AVE  is actually right - it's on the border of M9N but postal code is in fact M6M 0A4
+# If there are any others - then we should look into and correct those!
 
 # Replace with corrections ----
 
