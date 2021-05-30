@@ -17,19 +17,7 @@ app_ui <- function(request) {
             mod_map_ui("map")
           ),
           sidebarPanel(
-            shinyWidgets::pickerInput("address",
-              "Address",
-              choices = apartment_building_registry[["bing_address"]],
-              selected = NULL,
-              options = shinyWidgets::pickerOptions(
-                liveSearch = TRUE, size = 10,
-                liveSearchPlaceholder = "Search..."
-              )
-            ),
-            shinyWidgets::searchInput("address_search",
-              "Address",
-              placeholder = "Enter an address"
-            )
+            mod_address_search_ui("address")
           )
         ),
         tabPanel("Portal"),
