@@ -28,21 +28,18 @@ mod_map_server <- function(id, address){
         mapboxer::mapboxer(style = mapboxer::basemap_raster_style(), center = c(-79.39021, 43.72557), zoom = 11, minZoom = 10, pitch = 0, bearing = -15) %>%
         mapboxer::add_navigation_control() %>%
         mapboxer::add_line_layer(line_color = "green", line_width = 2) %>%
-        mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(apartment_building_registry), circle_color = NA, id = "apartment_building") %>%
+        mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(apartment_building_registry), circle_color = "grey", id = "apartment_building") %>%
+        mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(apartment_building_registry), circle_color = "red", id = "apartment_building_searched", filter = list("==", "bing_address", "none")) %>%
         mapboxer::add_tooltips(layer_id = "apartment_building", "{{bing_address}}<br>Units: {{confirmed_units}}")
     })
 
     # Update zoom of map and highlighted apartment based on address search
     shiny::observeEvent(address(), {
-      selected_address <- apartment_building_registry %>%
-        dplyr::filter(.data$bing_address == address())
-
       mapboxer::mapboxer_proxy(ns("map")) %>%
         # Zoom to the address
-        mapboxer::fit_bounds(sf::st_bbox(selected_address), maxZoom = 15, pitch = 0, bearing = -15) %>%
-        # Add a layer to it with that address highlighted
-        # mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(address_lat_long), circle_color = "red", id = "searched_address") %>%
-        # mapboxer::set_data(data = selected_address, source_id = "apartment_building") %>%
+        mapboxer::fit_bounds(sf::st_bbox(searched_address), maxZoom = 15, pitch = 0, bearing = -15) %>%
+        # Filter the "apartment_building_searched" layer to be for this address, so that that point is highlighted in red
+        set_filter(layer_id = "apartment_building_searched", list("==", "bing_address", address())) %>%
         mapboxer::update_mapboxer()
     })
 
