@@ -6,7 +6,7 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    shiny::tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}"),
+    shiny::tags$style(type = "text/css", "#map-map {height: calc(100vh - 80px) !important;}"),
     golem_add_external_resources(),
     navbarPage(
       "LEMUR",
@@ -14,7 +14,7 @@ app_ui <- function(request) {
         "Map",
         sidebarLayout(
           mainPanel(
-            mapboxer::mapboxerOutput("map", )
+            mod_map_ui("map")
           ),
           sidebarPanel(
             shinyWidgets::pickerInput("address",
