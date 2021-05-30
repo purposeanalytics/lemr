@@ -20,7 +20,7 @@ if (no_duplicated_records) {
 
 # Check any that had errors
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
-  mutate(address_geocode_error = map_lgl(address_geocode_error,  ~ !is.null(.x)))
+  mutate(address_geocode_error = map_lgl(address_geocode_error, ~ !is.null(.x)))
 
 no_geocoding_errors <- apartment_building_registry_geocoded %>%
   filter(address_geocode_error) %>%
@@ -94,7 +94,7 @@ corrections <- tribble(
   "1079  LAWRENCE AVE W", "1079 Lawrence Ave W", 43.711962658834956, -79.46270853001178, "M6A 1C9",
   "2126  VICTORIA PARK AVE ", "2126 Victoria Park Ave", 43.759446681217504, -79.31639663001107, "M1R 1V7",
   "100  CAVELL AVE ", "100 Cavell Ave", 43.61603156284792, -79.49653436628094, "M8V 3V6",
-  "1049  LAWRENCE AVE W", "1049 Lawrence Ave W", 43.71240910408016, -79.46043385884825,"M6A 1C3",
+  "1049  LAWRENCE AVE W", "1049 Lawrence Ave W", 43.71240910408016, -79.46043385884825, "M6A 1C3",
   "1055  VICTORIA PARK AVE ", "1055 Victoria Park Ave", 43.70674167901931, -79.29449785884835, "M4B 2J8",
   "750  YORK MILLS RD ", "750 York Mills Rd", 43.753760928757956, -79.36088917249076, "M3B 1W9",
   "8  HECTOR AVE ", "8 Hector Ave", 43.68007403829632, -79.48977327249183, "M6N 2M1",
@@ -123,7 +123,7 @@ corrections <- tribble(
   "3091  EGLINTON AVE E", "3091 Eglinton Ave E", 43.74093372782287, -79.2260183300954, "M1J 2G1",
   "1111  LAWRENCE AVE W", "1111 Lawrence Ave W", 43.711821713927, -79.46349953009585, "M6A 1E1",
   "745  YORK MILLS RD ", "745 York Mills Rd", 43.75231577947311, -79.36189044358724, "M3B 1X3",
-  "5  FORTY THIRD ST ", "5 Forty Third St", 43.589945108306814, -79.54616200126188,"M8W 3P7"
+  "5  FORTY THIRD ST ", "5 Forty Third St", 43.589945108306814, -79.54616200126188, "M8W 3P7"
 )
 
 # Check we got them all

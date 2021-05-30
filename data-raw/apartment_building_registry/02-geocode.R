@@ -23,7 +23,7 @@ if (length(geocoded_files) > 0) {
   apartment_building_registry_not_geocoded <- apartment_building_registry %>%
     anti_join(apartment_building_registry_already_geocoded, by = "_id")
 
-  if(nrow(apartment_building_registry_not_geocoded) == 0) {
+  if (nrow(apartment_building_registry_not_geocoded) == 0) {
     ui_done("All addresses done - no geocoding required! No need to run through the rest of the script or others for this data set.")
   } else {
     ui_todo("Some addresses need to be geocoded! Continue through the script and next steps.")
@@ -31,7 +31,7 @@ if (length(geocoded_files) > 0) {
   }
 } else { # If there is no existing dataset, the whole thing needs to be geocoded
   ui_todo("All addresses need to be geocoded! Continue through the script and next steps.")
-  apartment_building_registry_for_geocoding <-apartment_building_registry
+  apartment_building_registry_for_geocoding <- apartment_building_registry
 }
 
 # Test function for geocoding a single address

@@ -8,7 +8,7 @@
 #' within your package. The default, none, returns the root of the app.
 #'
 #' @noRd
-app_sys <- function(...){
+app_sys <- function(...) {
   system.file(..., package = "lemur")
 }
 
@@ -21,17 +21,15 @@ app_sys <- function(...){
 #' @param use_parent Logical, scan the parent directory for config file.
 #'
 #' @noRd
-get_golem_config <- function(
-  value,
-  config = Sys.getenv(
-    "GOLEM_CONFIG_ACTIVE",
-    Sys.getenv(
-      "R_CONFIG_ACTIVE",
-      "default"
-    )
-  ),
-  use_parent = TRUE
-){
+get_golem_config <- function(value,
+                             config = Sys.getenv(
+                               "GOLEM_CONFIG_ACTIVE",
+                               Sys.getenv(
+                                 "R_CONFIG_ACTIVE",
+                                 "default"
+                               )
+                             ),
+                             use_parent = TRUE) {
   config::get(
     value = value,
     config = config,
@@ -40,4 +38,3 @@ get_golem_config <- function(
     use_parent = use_parent
   )
 }
-

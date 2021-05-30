@@ -19,13 +19,16 @@ app_ui <- function(request) {
           sidebarPanel(
             shinyWidgets::pickerInput("address",
               "Address",
-              choices = apartment_building_registry[["address"]],
-              # choices = NULL,
-              options = shinyWidgets::pickerOptions(liveSearch = TRUE, size = 10)
+              choices = apartment_building_registry[["bing_address"]],
+              selected = NULL,
+              options = shinyWidgets::pickerOptions(
+                liveSearch = TRUE, size = 10,
+                liveSearchPlaceholder = "Search..."
+              )
             ),
             shinyWidgets::searchInput("address_search",
-                                      "Address",
-                                      placeholder = "Enter an address"
+              "Address",
+              placeholder = "Enter an address"
             )
           )
         ),
