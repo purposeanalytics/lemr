@@ -10,9 +10,21 @@ Description: What the package does (one paragraph).
 License: What license is it under?
 Imports: 
     config (>= 0.3.1),
+    dplyr,
+    fs,
+    glue,
     golem (>= 0.3.1),
+    httr,
+    jsonlite,
     magrittr,
-    shiny (>= 1.6.0)
+    mapboxer,
+    purrr,
+    readr,
+    rlang,
+    sf,
+    shiny (>= 1.6.0),
+    stringr,
+    usethis
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

@@ -7,18 +7,19 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_address_search_ui <- function(id){
+mod_address_search_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::selectizeInput(
       inputId = ns("address"),
       label = "Address",
-      choices = apartment_building_registry[["bing_address"]],
+      choices = lemur::apartment_building_registry[["bing_address"]],
       multiple = TRUE,
       selected = NULL,
       options = list(
         placeholder = "Search address...",
-        maxItems = 1)
+        maxItems = 1
+      )
     )
   )
 }
@@ -26,13 +27,12 @@ mod_address_search_ui <- function(id){
 #' Address Search Server Functions
 #'
 #' @noRd
-mod_address_search_server <- function(id){
-  moduleServer( id, function(input, output, session){
+mod_address_search_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # For now, just return the address to be used by other modules
     shiny::reactive(input$address)
-
   })
 }
 

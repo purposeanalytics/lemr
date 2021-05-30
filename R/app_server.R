@@ -5,9 +5,6 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  library(sf)
-
   address <- mod_address_search_server("address")
-
   mod_map_server("map", address)
 }

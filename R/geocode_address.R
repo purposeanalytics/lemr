@@ -42,7 +42,7 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::pluck("resourceSets") %>%
       # Extract the element named "resourceSets"
-      dplyr::pull(resources) %>%
+      dplyr::pull(.data$resources) %>%
       # Column named "resources"
       purrr::pluck(1) # First element
 
@@ -57,10 +57,10 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
 
     # Information on geocoding
     geocode_points_tidied <- geocode_json_tidied %>%
-      dplyr::pull(geocodePoints) %>%
+      dplyr::pull(.data$geocodePoints) %>%
       purrr::pluck(1) %>%
       dplyr::slice(1) %>%
-      dplyr::filter(usageTypes == "Display")
+      dplyr::filter(.data$usageTypes == "Display")
 
     # Method of determining geocoding
     method <- geocode_points_tidied[["calculationMethod"]]
@@ -70,7 +70,7 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
 
     # Latitude and longitude
     latitude_longitude <- geocode_points_tidied %>%
-      dplyr::pull(coordinates) %>% # Pull coordinates
+      dplyr::pull(.data$coordinates) %>% # Pull coordinates
       purrr::pluck(1) # In a list, so first element
 
     latitude <- latitude_longitude[[1]]
