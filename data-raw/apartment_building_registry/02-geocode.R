@@ -35,7 +35,7 @@ if (length(geocoded_files) > 0) {
 }
 
 # Test function for geocoding a single address
-geocode_address("235 Bloor St E")
+geocode_address("235 Bloor St E Toronto, ON M4W")
 
 # Iterate through addresses - function automatically waits 0.25 seconds between calls to abide by license
 # Using a progress bar to say how far along we are
@@ -45,10 +45,14 @@ pb <- progress_bar$new(total = nrow(apartment_building_registry_for_geocoding))
 safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise = NA)
 
 apartment_building_registry_geocoded <- apartment_building_registry_for_geocoding %>%
-  mutate(address_geocode = map(SITE_ADDRESS, function(x) {
-    pb$tick()
-    safely_geocode_address(x)
-  }))
+  mutate(
+    # Combine address, city (Toronto, ON), and FSA for better results when geocoding
+    address_for_geocoding = glue::glue("{SITE_ADDRESS} Toronto, ON {ifelse(is.na(PCODE), '', PCODE)}"),
+    address_geocode = map(address_for_geocoding, function(x) {
+      pb$tick()
+      safely_geocode_address(x)
+    })
+  )
 
 # Separate results from errors
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
@@ -66,12 +70,12 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
 # For ones that are missing, requery - they mostly come up again!
 
 geocode_missing <- apartment_building_registry_geocoded %>%
-  select(`_id`, SITE_ADDRESS, PCODE, starts_with("bing")) %>%
+  select(`_id`, address_for_geocoding, PCODE, starts_with("bing")) %>%
   filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code))
 
 geocode_missing_filled <- geocode_missing %>%
-  select(`_id`, SITE_ADDRESS) %>%
-  mutate(address_geocode = map(SITE_ADDRESS, function(x) {
+  select(`_id`, address_for_geocoding) %>%
+  mutate(address_geocode = map(address_for_geocoding, function(x) {
     safely_geocode_address(x)
   })) %>%
   mutate(
@@ -86,7 +90,7 @@ geocode_missing_filled <- geocode_missing_filled %>%
 
 # Update the missing ones with these
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
-  rows_update(geocode_missing_filled, by = c("_id", "SITE_ADDRESS"))
+  rows_update(geocode_missing_filled, by = c("_id", "address_for_geocoding"))
 
 # If there were some already geocoded, just append these news ones to that!
 if (length(geocoded_files) > 0) {

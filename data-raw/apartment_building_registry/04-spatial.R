@@ -11,7 +11,7 @@ apartment_building_registry_geocoded <- read_latest_file(directory = here::here(
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   clean_names() %>%
   select(id, starts_with("bing"), everything()) %>%
-  select(-bing_status_code, -bing_method, -bing_confidence, -site_address, -address_geocode_error)
+  select(-bing_status_code, -bing_method, -bing_confidence, -site_address, -address_geocode_error, -address_for_geocoding)
 
 # Convert to SF
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%
