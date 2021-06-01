@@ -64,7 +64,7 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
 # Unnest results
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   unnest(cols = c(address_geocode)) %>%
-  select(-address_geocode)
+  select(-tidyselect::any_of("address_geocode"))
 
 # Sometimes the call is "successful" but nothing actually comes through
 # For ones that are missing, requery - they mostly come up again!
@@ -89,8 +89,10 @@ geocode_missing_filled <- geocode_missing_filled %>%
   filter(!is.na(bing_postal_code))
 
 # Update the missing ones with these
-apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
-  rows_update(geocode_missing_filled, by = c("_id", "address_for_geocoding"))
+if (nrow(geocode_missing_filled) > 0) {
+  apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+    rows_update(geocode_missing_filled, by = c("_id", "address_for_geocoding"))
+}
 
 # If there were some already geocoded, just append these news ones to that!
 if (length(geocoded_files) > 0) {

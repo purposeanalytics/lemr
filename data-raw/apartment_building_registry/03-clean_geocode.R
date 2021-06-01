@@ -85,6 +85,7 @@ corrections <- tribble(
   "6  TWENTY FOURTH ST", "6 Twenty Fourth St", 43.59744386947406, -79.52336113001373, "M8V 3N4",
   "5  FORTY THIRD ST", "5 Forty Third St", 43.589945108306814, -79.54616200126188, "M8W 3P7",
   "15  FORTY THIRD ST", "15 Forty Third St", 43.59027353747142, -79.54609615885032, "M8W 3P7",
+  "25  FORTY THIRD ST", "25 Forty Third St", 43.59030982296632, -79.54641527309683, "M8W 3P7",
   "9  THIRTY THIRD ST", "9 Thirty Third St", 43.59166980852946, -79.530529701329, "M8W 3G7",
   "11  THIRTY THIRD ST", "11 Thirty Third St", 43.59190037912575, -79.53052970132894, "M8W 3G7",
   "15  THIRTY THIRD ST", "15 Thirty Third St", 43.59205730857955, -79.53071613016472, "M8W 3G7",
@@ -101,7 +102,7 @@ geocode_issues %>%
 
 corrections_with_id <- apartment_building_registry_geocoded %>%
   select(`_id`, SITE_ADDRESS) %>%
-  right_join(corrections, by = "SITE_ADDRESS")
+  inner_join(corrections, by = "SITE_ADDRESS")
 
 apartment_building_registry_geocode_with_corrections <- apartment_building_registry_geocoded %>%
   rows_update(corrections_with_id, by = c("_id", "SITE_ADDRESS"))
