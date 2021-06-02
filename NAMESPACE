@@ -2,8 +2,10 @@
 
 export("%>%")
 export(geocode_address)
+export(map_toronto)
 export(run_app)
 export(zoom_map_to_address)
+export(zoom_map_to_neighbourhood)
 import(shiny)
 importFrom(golem,activate_js)
 importFrom(golem,add_resource_path)

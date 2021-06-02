@@ -12,7 +12,7 @@ zoom_map_to_address <- function(map, address) {
     dplyr::filter(.data$bing_address == address)
 
   if (nrow(searched_address) == 0) {
-    error("Address not found in `apartment_building_registry`", call. = FALSE)
+    stop("Address not found in `apartment_building_registry`", call. = FALSE)
   }
 
   map %>%

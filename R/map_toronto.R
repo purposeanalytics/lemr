@@ -1,6 +1,7 @@
 #' Create a map of Toronto
 #'
 #' @return A mapboxer map of Toronto
+#' @export
 #'
 #' @examples
 #' map_toronto()
