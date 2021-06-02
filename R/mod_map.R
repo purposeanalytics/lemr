@@ -28,14 +28,8 @@ mod_map_server <- function(id, address, neighbourhood) {
 
     # Update zoom of map and highlighted apartment based on address search
     shiny::observeEvent(address(), {
-      searched_address <- lemur::apartment_building_registry %>%
-        dplyr::filter(.data$bing_address == address())
-
       mapboxer::mapboxer_proxy(ns("map")) %>%
-        # Zoom to the address
-        mapboxer::fit_bounds(sf::st_bbox(searched_address), maxZoom = 15, pitch = 0, bearing = -15) %>%
-        # Filter the "apartment_building_searched" layer to be for this address, so that that point is highlighted in red
-        mapboxer::set_filter(layer_id = "apartment_building_searched", list("==", "bing_address", address())) %>%
+        zoom_map_to_address(address()) %>%
         mapboxer::update_mapboxer()
     })
 

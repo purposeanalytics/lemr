@@ -3,6 +3,7 @@
 export("%>%")
 export(geocode_address)
 export(run_app)
+export(zoom_map_to_address)
 import(shiny)
 importFrom(golem,activate_js)
 importFrom(golem,add_resource_path)
