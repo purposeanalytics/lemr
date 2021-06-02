@@ -7,3 +7,7 @@
 #'
 #' City of Toronto boundaries, retrieved from \link{https://open.toronto.ca/dataset/regional-municipal-boundary/}
 "toronto"
+
+#' City of Toronto Neighbourhoods
+#' Neighbourhood boundaries from the City of Toronto, retrieved from \link{https://open.toronto.ca/dataset/neighbourhoods/}
+"neighbourhoods"
