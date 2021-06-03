@@ -8,7 +8,7 @@
 #' @examples
 #' library(sf)
 #'
-#' map_toronto() %>% zoom_map_to_address("378 Markham St")
+#' map_toronto() %>% add_blank_apartment_layer() %>% zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
   searched_address <- lemur::apartment_building_registry %>%
     dplyr::filter(.data$bing_address == address)
@@ -16,8 +16,6 @@ zoom_map_to_address <- function(map, address) {
   if (nrow(searched_address) == 0) {
     stop("Address not found in `apartment_building_registry`", call. = FALSE)
   }
-
-  # TODO: maybe need to add the layer first, or check if it exists... otherwise it won't update the data shown if you search a different address
 
   map %>%
     # Zoom to the address

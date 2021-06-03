@@ -24,7 +24,8 @@ mod_map_server <- function(id, address, neighbourhood) {
     # Initial map
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_apartment_layer()
+        add_blank_apartment_layer() %>%
+        add_blank_neighbourhood_layer()
     })
 
     # Update zoom of map and highlighted apartment based on address search
