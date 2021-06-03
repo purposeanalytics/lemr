@@ -15,5 +15,6 @@ zoom_map_to_neighbourhood(map, neighbourhood)
 Zoom map of Toronto to neighbourhood
 }
 \examples{
+library(sf)
 map_toronto() \%>\% zoom_map_to_neighbourhood("Casa Loma")
 }

@@ -15,5 +15,7 @@ zoom_map_to_address(map, address)
 Zoom map of Toronto to address
 }
 \examples{
-map_toronto() \%>\% zoom_map_to_address("378 Markam St")
+library(sf)
+
+map_toronto() \%>\% zoom_map_to_address("378 Markham St")
 }

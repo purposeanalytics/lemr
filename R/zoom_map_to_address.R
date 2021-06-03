@@ -6,7 +6,9 @@
 #' @export
 #'
 #' @examples
-#' map_toronto() %>% zoom_map_to_address("378 Markam St")
+#' library(sf)
+#'
+#' map_toronto() %>% zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
   searched_address <- lemur::apartment_building_registry %>%
     dplyr::filter(.data$bing_address == address)
