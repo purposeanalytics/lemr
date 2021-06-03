@@ -19,7 +19,7 @@ zoom_map_to_neighbourhood <- function(map, neighbourhood) {
   map %>%
     # Zoom to the address
     mapboxer::fit_bounds(sf::st_bbox(searched_neighbourhood), maxZoom = 15, pitch = 0, bearing = -15) %>%
-    # Highlight the address
-    mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(searched_neighbourhood), line_color = "green", line_width = 2, id = "neighbourhood_line") %>%
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(searched_neighbourhood), fill_color = "green", fill_opacity = 0.25, id = "neighbourhood_fill")
+    # Filter the "neighbourhood_line" and "neighbourhood_fill" layers to be for this neighbourhood
+    mapboxer::set_filter(layer_id = "neighbourhood_line", list("==", "neighbourhood", neighbourhood)) %>%
+    mapboxer::set_filter(layer_id = "neighbourhood_fill", list("==", "neighbourhood", neighbourhood))
 }
