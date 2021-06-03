@@ -7,7 +7,9 @@
 #'
 #' @examples
 #' library(sf)
-#' map_toronto() %>% add_blank_neighbourhood_layer() %>% zoom_map_to_neighbourhood("Casa Loma")
+#' map_toronto() %>%
+#'   add_blank_neighbourhood_layer() %>%
+#'   zoom_map_to_neighbourhood("Casa Loma")
 zoom_map_to_neighbourhood <- function(map, neighbourhood) {
   searched_neighbourhood <- lemur::neighbourhoods %>%
     dplyr::filter(.data$neighbourhood == !!neighbourhood)

@@ -16,5 +16,7 @@ Zoom map of Toronto to neighbourhood
 }
 \examples{
 library(sf)
-map_toronto() \%>\% add_blank_neighbourhood_layer() \%>\% zoom_map_to_neighbourhood("Casa Loma")
+map_toronto() \%>\%
+  add_blank_neighbourhood_layer() \%>\%
+  zoom_map_to_neighbourhood("Casa Loma")
 }

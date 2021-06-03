@@ -8,7 +8,9 @@
 #' @examples
 #' library(sf)
 #'
-#' map_toronto() %>% add_blank_apartment_layer() %>% zoom_map_to_address("378 Markham St")
+#' map_toronto() %>%
+#'   add_blank_apartment_layer() %>%
+#'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
   searched_address <- lemur::apartment_building_registry %>%
     dplyr::filter(.data$bing_address == address)
@@ -22,5 +24,4 @@ zoom_map_to_address <- function(map, address) {
     mapboxer::fit_bounds(sf::st_bbox(searched_address), maxZoom = 15, pitch = 0, bearing = -15) %>%
     # Filter the "apartment_building_searched" layer to be for this address, so that that point is highlighted in red
     mapboxer::set_filter(layer_id = "apartment_building_searched", list("==", "bing_address", address))
-
 }

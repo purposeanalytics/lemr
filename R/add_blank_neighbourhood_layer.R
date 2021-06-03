@@ -1,3 +1,16 @@
+#' Add a blank neighbourhood layer
+#'
+#' Add a blank layer of \link{neighbourhoods} to a map (created via \link{map_toronto}). The purpose of this function is to allow for zooming and highlighting to a neighbourhood from the data, via \link{zoom_map_to_neighbourhood}.
+#'
+#' @param map Map created via \link{map_toronto}
+#'
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' map_toronto() %>%
+#'   add_blank_neighbourhood_layer() %>%
+#'   zoom_map_to_neighbourhood("Casa Loma")
 add_blank_neighbourhood_layer <- function(map) {
   map %>%
     mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), line_color = "green", line_width = 2, id = "neighbourhood_line", filter = list("==", "neighbourhood", "none")) %>%
