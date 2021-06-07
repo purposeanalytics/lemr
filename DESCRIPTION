@@ -23,6 +23,7 @@ Imports:
     rlang,
     sf,
     shiny (>= 1.6.0),
+    shinyWidgets,
     stringr,
     usethis
 Encoding: UTF-8

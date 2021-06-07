@@ -10,16 +10,10 @@
 mod_address_search_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    shiny::selectizeInput(
+    shinyWidgets::pickerInput(
       inputId = ns("address"),
       label = "Address",
-      choices = lemur::apartment_building_registry[["bing_address"]],
-      multiple = TRUE,
-      selected = NULL,
-      options = list(
-        placeholder = "Search address...",
-        maxItems = 1
-      )
+      choices = lemur::apartment_building_registry[["bing_address"]], multiple = TRUE, selected = NULL, options = shinyWidgets::pickerOptions(liveSearch = TRUE, maxOptions = 1, size = 10)
     )
   )
 }
