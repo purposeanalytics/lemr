@@ -4,7 +4,7 @@
 \name{neighbourhoods}
 \alias{neighbourhoods}
 \title{City of Toronto Neighbourhoods
-Neighbourhood boundaries from the City of Toronto, retrieved from \link{https://open.toronto.ca/dataset/neighbourhoods/}}
+Neighbourhood boundaries from the City of Toronto, from \href{https://open.toronto.ca/dataset/neighbourhoods/}{Neighbourhoods data set}}
 \format{
 An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 140 rows and 2 columns.
 }
@@ -13,6 +13,10 @@ neighbourhoods
 }
 \description{
 City of Toronto Neighbourhoods
-Neighbourhood boundaries from the City of Toronto, retrieved from \link{https://open.toronto.ca/dataset/neighbourhoods/}
+Neighbourhood boundaries from the City of Toronto, from \href{https://open.toronto.ca/dataset/neighbourhoods/}{Neighbourhoods data set}
+}
+\examples{
+library(sf)
+neighbourhoods
 }
 \keyword{datasets}

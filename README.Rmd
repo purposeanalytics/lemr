@@ -9,8 +9,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "80%",
+  dpi = 300
 )
+options(tibble.max_extra_cols = 20)
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 # lemur
@@ -28,13 +31,19 @@ devtools::install_github("purposeanalytics/lemur")
 
 ## Usage
 
-To load the app, run:
+### App
+
+The primary product of lemur is a Shiny app which will show low-end of market rental housing in Toronto, along with other data sets. To load the app, run:
 
 ```r
 lemur::run_app()
 ```
 
-lemur also contains a utility function for geocoding addresses using the Bing geocoder:
+### Functions
+
+lemur also contains a few utility functions.
+
+For example, you can geocode addresses using the Bing geocoder:
 
 ```{r}
 library(lemur)
@@ -48,3 +57,46 @@ geocode_address("220 Yonge St")
 ```
 
 An API token is required, and the function looks for it in the `BING_TOKEN` environment variable, buit this can be changed or supplied directly via the `token` argument.
+
+### Data sets
+
+lemur contains a number of spatial data sets (used in the app), which can also be used in other code or packages.
+
+#### toronto
+
+toronto is a data set that includes the boundary of Toronto:
+
+```{r}
+library(sf)
+library(ggplot2)
+toronto
+
+p <- ggplot() + 
+  geom_sf(data = toronto)
+
+p
+```
+
+#### neighbourhoods
+
+neighbourhoods contains the 140 social planning neighbourhoods in Toronto and their boundaries. Once the [new 158 neighbourhoods](https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/neighbourhood-profiles/) are released by the City of Toronto, this data set will be updated.
+
+```{r}
+neighbourhoods
+
+p <- p +
+  geom_sf(data = neighbourhoods)
+
+p
+```
+ 
+#### apartment_building_registry
+
+apartment_building_registry is a geocoded version of the City of Toronto's [Apartment Building Registration Dataset](https://open.toronto.ca/dataset/apartment-building-registration/), with cleaned addresses and latitude and longitude:
+
+```{r}
+apartment_building_registry
+
+p + 
+  geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
+```

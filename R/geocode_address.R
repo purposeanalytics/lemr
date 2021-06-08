@@ -1,9 +1,9 @@
 #' Geocode an address
 #'
-#' Geocode an address using the Bing geocoding API (\link{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}), to get a cleaned address, municipality, postal code, latitude, and longitude. This function adds an additional 0.25 seconds at the end of the call to comply with the Bing API license (\link{http://mapsforenterprise.binginternal.com/en-us/maps/product}), which only allows 5 calls per second.
+#' Geocode an address using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}, to get a cleaned address, municipality, postal code, latitude, and longitude. This function adds an additional 0.25 seconds at the end of the call to comply with the \href{http://mapsforenterprise.binginternal.com/en-us/maps/product}{Bing API license}, which only allows 5 calls per second.
 #'
 #' @param address Address to geocode
-#' @param base Base URL of Bing Geocoder: \link{http://dev.virtualearth.net/REST/v1/Locations/CA/}.
+#' @param base Base URL of Bing Geocoder: http://dev.virtualearth.net/REST/v1/Locations/CA/
 #' @param token BING Geocoder token, defaults to \code{BING_TOKEN} environment variable.
 #' @param quiet Whether to silence message that address is being geocoded, with its status - defaults to \code{FALSE} (display the message). Useful if geocoding many addresses at once.
 #'

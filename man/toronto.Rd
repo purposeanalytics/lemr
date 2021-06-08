@@ -11,6 +11,10 @@ An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{dat
 toronto
 }
 \description{
-City of Toronto boundaries, retrieved from \link{https://open.toronto.ca/dataset/regional-municipal-boundary/}
+City of Toronto boundaries, retrieved from the \href{https://open.toronto.ca/dataset/regional-municipal-boundary/}{Regional Municipal Boundary dataset}
+}
+\examples{
+library(sf)
+toronto
 }
 \keyword{datasets}
