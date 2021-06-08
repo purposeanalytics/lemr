@@ -13,4 +13,8 @@ toronto
 \description{
 City of Toronto boundaries, retrieved from \link{https://open.toronto.ca/dataset/regional-municipal-boundary/}
 }
+\examples{
+library(sf)
+toronto
+}
 \keyword{datasets}

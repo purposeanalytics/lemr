@@ -15,4 +15,8 @@ neighbourhoods
 City of Toronto Neighbourhoods
 Neighbourhood boundaries from the City of Toronto, retrieved from \link{https://open.toronto.ca/dataset/neighbourhoods/}
 }
+\examples{
+library(sf)
+neighbourhoods
+}
 \keyword{datasets}
