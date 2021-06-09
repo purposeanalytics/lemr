@@ -16,7 +16,7 @@ devtools::install_github("purposeanalytics/lemur")
 
 The next section discusses usage of the package for *users* of lemur.
 For information on the *development*, please skip ahead to the
-“Development” section.
+[“Development” section](#development).
 
 ## Usage
 
@@ -27,7 +27,8 @@ market rental housing in Toronto, along with other data sets. To load
 the app, run:
 
 ``` r
-lemur::run_app()
+library(lemur)
+run_app()
 ```
 
 ### Functions
@@ -97,7 +98,7 @@ p <- ggplot() +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" />
 
 #### neighbourhoods
 
@@ -134,7 +135,7 @@ p <- p +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" />
 
 #### apartment\_building\_registry
 
@@ -180,7 +181,7 @@ p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" />
 
 ## Development
 

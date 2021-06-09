@@ -29,7 +29,7 @@ You can install lemur from GitHub:
 devtools::install_github("purposeanalytics/lemur")
 ```
 
-The next section discusses usage of the package for _users_ of lemur. For information on the _development_, please skip ahead to the "Development" section.
+The next section discusses usage of the package for _users_ of lemur. For information on the _development_, please skip ahead to the ["Development" section](#development).
 
 ## Usage
 
@@ -37,8 +37,9 @@ The next section discusses usage of the package for _users_ of lemur. For inform
 
 The primary product of lemur is a Shiny app which will show low-end of market rental housing in Toronto, along with other data sets. To load the app, run:
 
-```r
-lemur::run_app()
+```{r, eval = FALSE}
+library(lemur)
+run_app()
 ```
 
 ### Functions
