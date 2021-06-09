@@ -14,6 +14,10 @@ You can install lemur from GitHub:
 devtools::install_github("purposeanalytics/lemur")
 ```
 
+The next section discusses usage of the package for *users* of lemur.
+For information on the *development*, please skip ahead to the
+[“Development” section](#development).
+
 ## Usage
 
 ### App
@@ -23,7 +27,8 @@ market rental housing in Toronto, along with other data sets. To load
 the app, run:
 
 ``` r
-lemur::run_app()
+library(lemur)
+run_app()
 ```
 
 ### Functions
@@ -93,7 +98,7 @@ p <- ggplot() +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" />
+<img src="man/figures/README-map-toronto-1.png" width="80%" />
 
 #### neighbourhoods
 
@@ -130,7 +135,7 @@ p <- p +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" />
+<img src="man/figures/README-map-neighbourhoods-1.png" width="80%" />
 
 #### apartment\_building\_registry
 
@@ -176,4 +181,58 @@ p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" />
+<img src="man/figures/README-map-apt-1.png" width="80%" />
+
+## Development
+
+To add to lemur code or work within the package repository itself, first
+clone the repository and open the project in RStudio.
+
+### renv
+
+This package uses
+[`renv`](https://rstudio.github.io/renv/articles/renv.html) for managing
+dependencies during the *development* of lemur and to ensure package
+versions stay consistent, on your own machine and across other machines.
+`renv` isolates dependencies so that e.g. the set of (and versions of)
+libraries used in the development of `lemur` can be different than the
+libraries used in your other analyses.
+
+This [article about collaborating with
+`renv`](https://rstudio.github.io/renv/articles/collaborating.html)
+outlines the steps for collaborating with `renv`. The setup has already
+been done, so the key is step \#4 under “Collaborating with renv”:
+
+> When a collaborator first launches in this project, renv should
+> automatically bootstrap itself, thereby downloading and installing the
+> appropriate version of renv into the project library. After this has
+> completed, they can then use `renv::restore()` to restore the project
+> library locally on their machine.
+
+So, fingers crossed, all you need to do is `renv::restore()` and `renv`
+will install all the correct packages and versions for you!
+
+### Loading, developing, and updating code
+
+The [`devtools`](https://devtools.r-lib.org) package is a package
+developer’s best friend! It contains all the needed functions to load,
+document, test, etc a package.
+
+In particular, `devtools::load_all()` “simulates installing and
+reloading your package”, and so it loads all R code in `R/` as well as
+any data files in `data/`, allowing you to access all functions and data
+without really “installing” the package.
+
+So to load the package and launch the app, you load the package, then
+use the `run_app()` function:
+
+``` r
+devtools::load_all(".")
+# ℹ Loading lemur
+run_app()
+```
+
+If you make changes to the app, or any other functions / data, just
+`devtools::load_all(".")` again and relaunch! Particularly useful is the
+*shortcut* for `load_all()`, `control + shift + l` (that’s an L), which
+is well-worked into my muscle memory :)
