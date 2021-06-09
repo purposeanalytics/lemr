@@ -98,7 +98,7 @@ p <- ggplot() +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" />
+<img src="man/figures/README-map-toronto-1.png" width="80%" />
 
 #### neighbourhoods
 
@@ -135,7 +135,7 @@ p <- p +
 p
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" />
+<img src="man/figures/README-map-neighbourhoods-1.png" width="80%" />
 
 #### apartment\_building\_registry
 
@@ -181,7 +181,7 @@ p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" />
+<img src="man/figures/README-map-apt-1.png" width="80%" />
 
 ## Development
 

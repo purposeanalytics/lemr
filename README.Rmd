@@ -69,7 +69,7 @@ lemur contains a number of spatial data sets (used in the app), which can also b
 
 toronto is a data set that includes the boundary of Toronto:
 
-```{r}
+```{r map-toronto}
 library(sf)
 library(ggplot2)
 toronto
@@ -84,7 +84,7 @@ p
 
 neighbourhoods contains the 140 social planning neighbourhoods in Toronto and their boundaries. Once the [new 158 neighbourhoods](https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/neighbourhood-profiles/) are released by the City of Toronto, this data set will be updated.
 
-```{r}
+```{r map-neighbourhoods}
 neighbourhoods
 
 p <- p +
@@ -97,7 +97,7 @@ p
 
 apartment_building_registry is a geocoded version of the City of Toronto's [Apartment Building Registration Dataset](https://open.toronto.ca/dataset/apartment-building-registration/), with cleaned addresses and latitude and longitude:
 
-```{r}
+```{r map-apt}
 apartment_building_registry
 
 p + 
