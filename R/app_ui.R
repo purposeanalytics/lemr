@@ -19,7 +19,8 @@ app_ui <- function(request) {
           sidebarPanel(
             shiny::h3("Select an address or neighbourhood"),
             mod_address_search_ui("address"),
-            mod_neighbourhood_search_ui("neighbourhood")
+            mod_neighbourhood_search_ui("neighbourhood"),
+            mod_sidebar_ui("sidebar")
           )
         ),
         tabPanel("Portal"),

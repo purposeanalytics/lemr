@@ -27,9 +27,14 @@ mod_neighbourhood_search_ui <- function(id) {
 #' Neighbourhood Search Server Functions
 #'
 #' @noRd
-mod_neighbourhood_search_server <- function(id) {
+mod_neighbourhood_search_server <- function(id, search_method) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    # Update that the search method was via address
+    shiny::observeEvent(input$neighbourhood, {
+      search_method("neighbourhood")
+    })
 
     # For now, just return the neighbourhood to be used by other modules
     shiny::reactive(input$neighbourhood)
