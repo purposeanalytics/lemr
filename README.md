@@ -35,6 +35,8 @@ run_app()
 
 lemur also contains a few utility functions.
 
+#### geocode\_address
+
 For example, you can geocode addresses using the Bing geocoder:
 
 ``` r
@@ -65,8 +67,92 @@ geocode_address("220 Yonge St")
 ```
 
 An API token is required, and the function looks for it in the
-`BING_TOKEN` environment variable, buit this can be changed or supplied
+`BING_TOKEN` environment variable, but this can be changed or supplied
 directly via the `token` argument.
+
+#### clean\_neighbourhood\_names
+
+There is also a utility function to clean City of Toronto neighbourhood
+names, which often come attached with their neighbourhood numbers
+(e.g. “Danforth (66)”) or inconcistent spacing:
+
+``` r
+library(opendatatoronto)
+library(dplyr)
+
+to_neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
+  get_resource()
+
+to_neighbourhoods
+#> Simple feature collection with 140 features and 17 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -79.63926 ymin: 43.581 xmax: -79.11527 ymax: 43.85546
+#> Geodetic CRS:  WGS 84
+#> # A tibble: 140 x 18
+#>    `_id` AREA_ID AREA_ATTR_ID PARENT_AREA_ID AREA_SHORT_CODE AREA_LONG_CODE
+#>    <int>   <int>        <int> <lgl>          <chr>           <chr>         
+#>  1 11481 2480141     26005521 NA             096             096           
+#>  2 11482 2480140     26005520 NA             095             095           
+#>  3 11483 2480139     26005519 NA             109             109           
+#>  4 11484 2480064     26005444 NA             064             064           
+#>  5 11485 2480063     26005443 NA             103             103           
+#>  6 11486 2480062     26005442 NA             130             130           
+#>  7 11487 2480138     26005518 NA             053             053           
+#>  8 11488 2480137     26005517 NA             026             026           
+#>  9 11489 2480136     26005516 NA             006             006           
+#> 10 11490 2480135     26005515 NA             124             124           
+#> # … with 130 more rows, and 12 more variables: AREA_NAME <chr>,
+#> #   AREA_DESC <chr>, X <lgl>, Y <lgl>, LONGITUDE <lgl>, LATITUDE <lgl>,
+#> #   OBJECTID <int>, Shape__Area <dbl>, Shape__Length <dbl>,
+#> #   geometry <POLYGON [°]>, CLASSIFICATION <chr>, CLASSIFICATION_CODE <chr>
+
+to_neighbourhoods %>%
+  mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME)) %>%
+  select(AREA_NAME, neighbourhood)
+#> Simple feature collection with 140 features and 2 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -79.63926 ymin: 43.581 xmax: -79.11527 ymax: 43.85546
+#> Geodetic CRS:  WGS 84
+#> # A tibble: 140 x 3
+#>    AREA_NAME         neighbourhood                                      geometry
+#>    <chr>             <chr>                                         <POLYGON [°]>
+#>  1 Casa Loma (96)    Casa Loma          ((-79.41469 43.67391, -79.41485 43.6743…
+#>  2 Annex (95)        Annex              ((-79.39414 43.66872, -79.39588 43.6683…
+#>  3 Caledonia-Fairba… Caledonia-Fairbank ((-79.46021 43.68156, -79.46044 43.6819…
+#>  4 Woodbine Corrido… Woodbine Corridor  ((-79.31485 43.66674, -79.3166 43.66636…
+#>  5 Lawrence Park So… Lawrence Park Sou… ((-79.41096 43.70408, -79.41165 43.7039…
+#>  6 Milliken (130)    Milliken           ((-79.24308 43.81297, -79.24433 43.8127…
+#>  7 Henry Farm (53)   Henry Farm         ((-79.35966 43.76649, -79.35966 43.7665…
+#>  8 Downsview-Roding… Downsview-Roding-… ((-79.50783 43.71776, -79.50854 43.7176…
+#>  9 Kingsview Villag… Kingsview Village… ((-79.55236 43.70947, -79.55229 43.7095…
+#> 10 Kennedy Park (12… Kennedy Park       ((-79.24549 43.7306, -79.24555 43.73055…
+#> # … with 130 more rows
+```
+
+If any of the neighbourhoods can’t be cleaned, the function produces a
+warning with the mismatches, and returns all of the neighbourhoods that
+*can* be cleaned, cleaned, with the mismatches in their original form:
+
+``` r
+tibble(neighbourhood = c(
+  "Cabbagetown-South St.James Town (71)",
+  "Cabbagetown-South St. James Town (71)"
+)) %>%
+  mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
+#> Warning: Not all neighbourhoods could be cleaned to match the formats in `neighbourhoods` data.
+#> Mismatches: Cabbagetown-South St. James Town (71)
+#> # A tibble: 2 x 1
+#>   neighbourhood                        
+#>   <chr>                                
+#> 1 Cabbagetown-South St.James Town      
+#> 2 Cabbagetown-South St. James Town (71)
+```
+
+If you run into this warning, please give me a shout with the name of
+the neighbourhood you’re trying to clean! This function will be reworked
+and expanded to handle all the strange spellings we can find :)
 
 ### Data sets
 
@@ -92,7 +178,7 @@ toronto
 #>     <dbl> <chr>        <dbl>                                       <POLYGON [°]>
 #> 1   49886 Toronto   13448849 ((-79.33131 43.6258, -79.33133 43.62571, -79.33153…
 
-p <- ggplot() + 
+p <- ggplot() +
   geom_sf(data = toronto)
 
 p
@@ -177,7 +263,7 @@ apartment_building_registry
 #> #   elevator_status <chr>, emerg_power_supply_test_records <chr>,
 #> #   exterior_fire_escape <chr>, facilities_available <chr>, …
 
-p + 
+p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 

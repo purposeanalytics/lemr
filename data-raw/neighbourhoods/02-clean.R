@@ -11,11 +11,9 @@ neighbourhoods_raw <- read_latest_file(directory = here::here("data-raw", "neigh
 neighbourhoods <- neighbourhoods_raw %>%
   select(neighbourhood = AREA_NAME, geometry)
 
-# Clean up neighbourhood names - remove any (##)
+# Clean up neighbourhood names
 neighbourhoods <- neighbourhoods %>%
-  # Splitting into two "new" columns to avoid regex, and to check against original column
-  separate(neighbourhood, into = c("neighbourhood_name", "neighbourhood_number"), sep = " \\([0-9]", remove = FALSE) %>%
-  select(neighbourhood = neighbourhood_name, geometry)
+  mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
 
 # Projection is already 4326, so good to go
 st_crs(neighbourhoods)

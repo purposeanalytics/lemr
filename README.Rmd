@@ -12,8 +12,10 @@ knitr::opts_chunk$set(
   out.width = "80%",
   dpi = 300
 )
+
 options(tibble.max_extra_cols = 20)
 ggplot2::theme_set(ggplot2::theme_minimal())
+library(dplyr)
 ```
 
 # lemur
@@ -46,6 +48,8 @@ run_app()
 
 lemur also contains a few utility functions.
 
+#### geocode_address
+
 For example, you can geocode addresses using the Bing geocoder:
 
 ```{r}
@@ -59,7 +63,38 @@ This looks up any address in Canada, so it's helpful to supply the city or posta
 geocode_address("220 Yonge St")
 ```
 
-An API token is required, and the function looks for it in the `BING_TOKEN` environment variable, buit this can be changed or supplied directly via the `token` argument.
+An API token is required, and the function looks for it in the `BING_TOKEN` environment variable, but this can be changed or supplied directly via the `token` argument.
+
+#### clean_neighbourhood_names
+
+There is also a utility function to clean City of Toronto neighbourhood names, which often come attached with their neighbourhood numbers (e.g. "Danforth (66)") or inconcistent spacing:
+
+```{r neighbourhood, cache = TRUE}
+library(opendatatoronto)
+library(dplyr)
+
+to_neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
+  get_resource()
+
+to_neighbourhoods
+
+to_neighbourhoods %>%
+  mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME)) %>%
+  select(AREA_NAME, neighbourhood)
+```
+
+If any of the neighbourhoods can't be cleaned, the function produces a warning with the mismatches, and returns all of the neighbourhoods that _can_ be cleaned, cleaned, with the mismatches in their original form:
+
+```{r}
+tibble(neighbourhood = c(
+  "Cabbagetown-South St.James Town (71)",
+  "Cabbagetown-South St. James Town (71)"
+)) %>%
+  mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
+```
+
+
+If you run into this warning, please give me a shout with the name of the neighbourhood you're trying to clean! This function will be reworked and expanded to handle all the strange spellings we can find :)
 
 ### Data sets
 
@@ -74,7 +109,7 @@ library(sf)
 library(ggplot2)
 toronto
 
-p <- ggplot() + 
+p <- ggplot() +
   geom_sf(data = toronto)
 
 p
@@ -100,7 +135,7 @@ apartment_building_registry is a geocoded version of the City of Toronto's [Apar
 ```{r map-apt}
 apartment_building_registry
 
-p + 
+p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
