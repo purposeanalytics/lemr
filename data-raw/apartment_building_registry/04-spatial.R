@@ -17,7 +17,15 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%
   st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326, remove = FALSE)
 
-# Save as data set in package
-apartment_building_registry <- apartment_building_registry_sf
+# Get neighbourhood for each building
+apartment_with_neighbourhood <- apartment_building_registry_sf %>%
+  st_intersection(neighbourhoods) %>%
+  as_tibble() %>%
+  select(id, neighbourhood)
 
+apartment_building_registry <- apartment_building_registry_sf %>%
+  left_join(apartment_with_neighbourhood, by = "id") %>%
+  select(id, starts_with("bing"), neighbourhood, everything())
+
+# Save as data set in package
 usethis::use_data(apartment_building_registry, overwrite = TRUE)
