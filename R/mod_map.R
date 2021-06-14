@@ -28,10 +28,15 @@ mod_map_server <- function(id, address, neighbourhood) {
         add_blank_neighbourhood_layer()
     })
 
-    # Update zoom of map and highlighted apartment based on address search
+    # Update zoom of map and highlighted apartment (and its neighbourhood) based on address search
     shiny::observeEvent(address(), {
+      address_neighbourhood <- lemur::apartment_building_registry %>%
+        dplyr::filter(.data$bing_address == address()) %>%
+        dplyr::pull(.data$neighbourhood)
+
       mapboxer::mapboxer_proxy(ns("map")) %>%
         zoom_map_to_address(address()) %>%
+        zoom_map_to_neighbourhood(address_neighbourhood) %>%
         mapboxer::update_mapboxer()
     })
 

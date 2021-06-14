@@ -5,13 +5,13 @@
 \alias{apartment_building_registry}
 \title{Apartment building registry}
 \format{
-An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3479 rows and 75 columns.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3479 rows and 76 columns.
 }
 \usage{
 apartment_building_registry
 }
 \description{
-Apartment building registry retrieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-registration/}{Apartment Building Registration dataset}, and geocoded using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}. Contains the address of all rental apartment buildings in the city with 3 or more storeys and 10 or more units.
+Apartment building registry retrieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-registration/}{Apartment Building Registration dataset}, and geocoded using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}. Contains the address of all rental apartment buildings in the city with 3 or more storeys and 10 or more units, the neighbourhood that each apartment is in, and many attributes about the apartment.
 }
 \examples{
 library(sf)
