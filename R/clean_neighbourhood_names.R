@@ -14,7 +14,7 @@
 #'
 #' list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
 #'   get_resource() %>%
-#'   mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
+#'   mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
 #' }
 clean_neighbourhood_names <- function(neighbourhood) {
 
@@ -31,7 +31,7 @@ clean_neighbourhood_names <- function(neighbourhood) {
     ))
 
   mismatch <- res %>%
-    dplyr::filter(!.neighbourhood_match) %>%
+    dplyr::filter(!.data$.neighbourhood_match) %>%
     dplyr::pull(.data$.neighbourhood_original) %>%
     unique()
 

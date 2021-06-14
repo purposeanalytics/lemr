@@ -22,6 +22,6 @@ library(dplyr)
 
 list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") \%>\%
   get_resource() \%>\%
-  mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
+  mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
 }
 }
