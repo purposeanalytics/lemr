@@ -79,19 +79,11 @@ names, which often come attached with their neighbourhood numbers
 ``` r
 library(opendatatoronto)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
-neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
+to_neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
   get_resource()
 
-neighbourhoods
+to_neighbourhoods
 #> Simple feature collection with 140 features and 17 fields
 #> Geometry type: POLYGON
 #> Dimension:     XY
@@ -115,7 +107,7 @@ neighbourhoods
 #> #   OBJECTID <int>, Shape__Area <dbl>, Shape__Length <dbl>,
 #> #   geometry <POLYGON [°]>, CLASSIFICATION <chr>, CLASSIFICATION_CODE <chr>
 
-neighbourhoods %>%
+to_neighbourhoods %>%
   mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME)) %>%
   select(AREA_NAME, neighbourhood)
 #> Simple feature collection with 140 features and 2 fields
@@ -203,28 +195,25 @@ are released by the City of Toronto, this data set will be updated.
 
 ``` r
 neighbourhoods
-#> Simple feature collection with 140 features and 17 fields
+#> Simple feature collection with 140 features and 1 field
 #> Geometry type: POLYGON
 #> Dimension:     XY
 #> Bounding box:  xmin: -79.63926 ymin: 43.581 xmax: -79.11527 ymax: 43.85546
 #> Geodetic CRS:  WGS 84
-#> # A tibble: 140 x 18
-#>    `_id` AREA_ID AREA_ATTR_ID PARENT_AREA_ID AREA_SHORT_CODE AREA_LONG_CODE
-#>    <int>   <int>        <int> <lgl>          <chr>           <chr>         
-#>  1 11481 2480141     26005521 NA             096             096           
-#>  2 11482 2480140     26005520 NA             095             095           
-#>  3 11483 2480139     26005519 NA             109             109           
-#>  4 11484 2480064     26005444 NA             064             064           
-#>  5 11485 2480063     26005443 NA             103             103           
-#>  6 11486 2480062     26005442 NA             130             130           
-#>  7 11487 2480138     26005518 NA             053             053           
-#>  8 11488 2480137     26005517 NA             026             026           
-#>  9 11489 2480136     26005516 NA             006             006           
-#> 10 11490 2480135     26005515 NA             124             124           
-#> # … with 130 more rows, and 12 more variables: AREA_NAME <chr>,
-#> #   AREA_DESC <chr>, X <lgl>, Y <lgl>, LONGITUDE <lgl>, LATITUDE <lgl>,
-#> #   OBJECTID <int>, Shape__Area <dbl>, Shape__Length <dbl>,
-#> #   geometry <POLYGON [°]>, CLASSIFICATION <chr>, CLASSIFICATION_CODE <chr>
+#> # A tibble: 140 x 2
+#>    neighbourhood                                                        geometry
+#>    <chr>                                                           <POLYGON [°]>
+#>  1 Casa Loma              ((-79.41469 43.67391, -79.41485 43.67434, -79.41553 4…
+#>  2 Annex                  ((-79.39414 43.66872, -79.39588 43.66833, -79.39738 4…
+#>  3 Caledonia-Fairbank     ((-79.46021 43.68156, -79.46044 43.6819, -79.46075 43…
+#>  4 Woodbine Corridor      ((-79.31485 43.66674, -79.3166 43.66636, -79.31692 43…
+#>  5 Lawrence Park South    ((-79.41096 43.70408, -79.41165 43.70394, -79.41208 4…
+#>  6 Milliken               ((-79.24308 43.81297, -79.24433 43.81271, -79.24514 4…
+#>  7 Henry Farm             ((-79.35966 43.76649, -79.35966 43.76655, -79.35967 4…
+#>  8 Downsview-Roding-CFB   ((-79.50783 43.71776, -79.50854 43.71767, -79.51265 4…
+#>  9 Kingsview Village-The… ((-79.55236 43.70947, -79.55229 43.7095, -79.55219 43…
+#> 10 Kennedy Park           ((-79.24549 43.7306, -79.24555 43.73055, -79.24563 43…
+#> # … with 130 more rows
 
 p <- p +
   geom_sf(data = neighbourhoods)

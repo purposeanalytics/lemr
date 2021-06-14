@@ -73,12 +73,12 @@ There is also a utility function to clean City of Toronto neighbourhood names, w
 library(opendatatoronto)
 library(dplyr)
 
-neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
+to_neighbourhoods <- list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
   get_resource()
 
-neighbourhoods
+to_neighbourhoods
 
-neighbourhoods %>%
+to_neighbourhoods %>%
   mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME)) %>%
   select(AREA_NAME, neighbourhood)
 ```
