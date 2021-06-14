@@ -15,10 +15,6 @@ zoom_map_to_address <- function(map, address) {
   searched_address <- lemur::apartment_building_registry %>%
     dplyr::filter(.data$bing_address == address)
 
-  if (nrow(searched_address) == 0) {
-    stop("Address not found in `apartment_building_registry`", call. = FALSE)
-  }
-
   map %>%
     # Filter the "apartment_building_searched" layer to be for this address, so that that point is highlighted in red
     mapboxer::set_filter(layer_id = "apartment_building_searched", list("==", "bing_address", address)) %>%
