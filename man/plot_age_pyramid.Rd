@@ -7,7 +7,7 @@
 plot_age_pyramid(data, horizontal = FALSE)
 }
 \arguments{
-\item{data}{Input age pyramid data, with columns \code{sex}, \code{metric}, \code{age_group}, \code{value}.}
+\item{data}{Input age pyramid data for a neighbourhood, from \link{neighbourhood_profiles}.}
 
 \item{horizontal}{Whether the plot should be horizontal (with age groups on the x-axis and proportions on the y-axis). Defaults to \code{FALSE} (age groups on the y-axis and proportions on the x-axis).}
 }

@@ -40,10 +40,6 @@ population_density <- neighbourhood_profile[["population_density"]] %>%
 
 #### Age Pyramid
 
-```{r plot-age-pyramid-function}
-
-```
-
 ```{r age-pyramid}
 neighbourhood_profile[["age_pyramid"]] %>%
   plot_age_pyramid()
@@ -51,27 +47,10 @@ neighbourhood_profile[["age_pyramid"]] %>%
 
 #### Household size
 
-```{r plot-household-size-function}
-plot_household_size <- function(data) {
-  data_labels <- data %>%
-    dplyr::mutate(
-      prop_label = scales::percent(prop),
-      label_placement = prop + 0.015
-    )
-
-  ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$dimension)) +
-    ggplot2::geom_col() +
-    ggplot2::geom_text(data = data_labels, mapping = ggplot2::aes(x = .data$label_placement, label = .data$prop_label), size = 3) +
-    ggplot2::scale_x_continuous(labels = scales::percent) +
-    ggplot2::labs(x = NULL, y = NULL)
-}
-```
-
 ```{r household-size}
 neighbourhood_profile[["household_size"]] %>%
   plot_household_size()
 ```
-
 
 #### Household Tenure
 
