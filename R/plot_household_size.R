@@ -19,5 +19,6 @@ plot_household_size <- function(data) {
     ggplot2::geom_col() +
     ggplot2::geom_text(data = data_labels, mapping = ggplot2::aes(x = .data$label_placement, label = .data$prop_label), size = 3) +
     ggplot2::scale_x_continuous(labels = scales::percent) +
-    ggplot2::labs(x = NULL, y = NULL)
+    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::theme_minimal()
 }

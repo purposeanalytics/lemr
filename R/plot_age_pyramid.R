@@ -6,8 +6,8 @@
 #' @export
 #'
 #' @examples {
-#' neighbourhood_profiles[["Danforth"]][["age_pyramid"]] %>%
-#'   plot_age_pyramid()
+#'   neighbourhood_profiles[["Danforth"]][["age_pyramid"]] %>%
+#'     plot_age_pyramid()
 #' }
 plot_age_pyramid <- function(data, horizontal = FALSE) {
   prop_data <- data %>%
@@ -28,7 +28,8 @@ plot_age_pyramid <- function(data, horizontal = FALSE) {
     )
 
   percent_max <- prop_data %>%
-    dplyr::pull(.data$label_placement) %>%
+    dplyr::pull(.data$value) %>%
+    # dplyr::pull(.data$label_placement) %>%
     abs() %>%
     max()
 
@@ -39,20 +40,28 @@ plot_age_pyramid <- function(data, horizontal = FALSE) {
     scales::percent()
 
   p <- ggplot2::ggplot(prop_data, ggplot2::aes(y = age_group, x = value, fill = sex)) +
-    ggplot2::geom_col() +
-    ggplot2::geom_text(ggplot2::aes(label = value_label, x = label_placement), size = 3) +
+    ggplot2::geom_col(show.legend = FALSE) +
+    # ggplot2::geom_text(ggplot2::aes(label = value_label, x = label_placement), size = 3) +
     ggplot2::scale_x_continuous(
       limits = percent_range,
       breaks = percent_range_breaks,
       labels = percent_range_labels
     ) +
-    ggplot2::scale_fill_discrete(guide = ggplot2::guide_legend(reverse = TRUE)) +
     ggplot2::labs(x = NULL, y = NULL) +
-    ggplot2::theme(axis.ticks.y = ggplot2::element_blank())
+    lemur::theme_lemur()
 
   if (horizontal) {
     p <- p +
       ggplot2::coord_flip()
+  } else {
+    x_height <- length(levels(data[["age_group"]])) + 1
+    p <- p +
+      ggplot2::annotate("text",
+        x = percent_range / 2,
+        y = x_height,
+        label = c("Male", "Female")
+      ) +
+      ggplot2::coord_cartesian(clip = "off", ylim = c(1, x_height))
   }
 
   p

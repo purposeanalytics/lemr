@@ -68,7 +68,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       output$age_pyramid <- shiny::renderPlot({
         neighbourhood_profile[["age_pyramid"]] %>%
           plot_age_pyramid()
-      })
+      }, bg = "transparent", res = 96, height = 300)
 
       output$household_size <- shiny::renderPlot({
         neighbourhood_profile[["household_size"]] %>%
