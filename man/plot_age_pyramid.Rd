@@ -16,7 +16,7 @@ Plot age pyramid
 }
 \examples{
 {
-neighbourhood_profiles[["Danforth"]][["age_pyramid"]] \%>\%
-  plot_age_pyramid()
+  neighbourhood_profiles[["Danforth"]][["age_pyramid"]] \%>\%
+    plot_age_pyramid()
 }
 }

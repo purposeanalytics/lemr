@@ -1,4 +1,7 @@
-theme_lemur <- function(...) {
+#' LEMUR ggplot2 theme
+#'
+#' @export
+theme_lemur <- function() {
   ggplot2::theme_minimal() +
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
