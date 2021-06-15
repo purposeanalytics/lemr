@@ -1,0 +1,78 @@
+---
+output: html_document
+params:
+  neighbourhood: Danforth
+---
+
+---
+title: `r params$neighbourhood`
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(lemur)
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+theme_set(theme_minimal())
+```
+
+```{r data}
+neighbourhood_profile <- neighbourhood_profiles[[params$neighbourhood]]
+```
+
+```{r population_and_density}
+population <- neighbourhood_profile[["population"]] %>%
+  pull(value) %>%
+  comma()
+
+population_density <- neighbourhood_profile[["population_density"]] %>%
+  pull(value) %>%
+  round() %>%
+  comma()
+```
+
+## Population: `r population`
+
+### Population Density: `r population_density` people per square km
+
+#### Age Pyramid
+
+```{r plot-age-pyramid-function}
+
+```
+
+```{r age-pyramid}
+neighbourhood_profile[["age_pyramid"]] %>%
+  plot_age_pyramid()
+```
+
+#### Household size
+
+```{r plot-household-size-function}
+plot_household_size <- function(data) {
+  data_labels <- data %>%
+    dplyr::mutate(
+      prop_label = scales::percent(prop),
+      label_placement = prop + 0.015
+    )
+
+  ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$dimension)) +
+    ggplot2::geom_col() +
+    ggplot2::geom_text(data = data_labels, mapping = ggplot2::aes(x = .data$label_placement, label = .data$prop_label), size = 3) +
+    ggplot2::scale_x_continuous(labels = scales::percent) +
+    ggplot2::labs(x = NULL, y = NULL)
+}
+```
+
+```{r household-size}
+neighbourhood_profile[["household_size"]] %>%
+  plot_household_size()
+```
+
+
+#### Household Tenure
+
+#### Visible Minority
