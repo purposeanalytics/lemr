@@ -10,7 +10,11 @@
 mod_sidebar_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    shiny::uiOutput(ns("header"))
+    shiny::uiOutput(ns("header")),
+    shiny::uiOutput(ns("population")),
+    shiny::uiOutput(ns("population_density")),
+    shiny::plotOutput(ns("age_pyramid")),
+    shiny::plotOutput(ns("household_size"))
   )
 }
 
@@ -22,7 +26,10 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
     ns <- session$ns
 
     header <- shiny::eventReactive(
-      search_method(),
+      {
+        address$address()
+        neighbourhood()
+      },
       {
         if (search_method() == "neighbourhood") {
           shiny::h1(neighbourhood())
@@ -36,6 +43,38 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
     )
 
     output$header <- shiny::renderUI(header())
+
+    shiny::observeEvent(neighbourhood(), {
+
+      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood()]]
+
+      output$population <- shiny::renderUI({
+        population <- neighbourhood_profile[["population"]] %>%
+          dplyr::pull(value) %>%
+          scales::comma()
+
+        shiny::h2(glue::glue("Population: {population}"))
+      })
+
+      output$population_density <- shiny::renderUI({
+        population_density <- neighbourhood_profile[["population_density"]] %>%
+          dplyr::pull(value) %>%
+          round() %>%
+          scales::comma()
+
+        shiny::h3(glue::glue("Population density: {population_density}"))
+      })
+
+      output$age_pyramid <- shiny::renderPlot({
+        neighbourhood_profile[["age_pyramid"]] %>%
+          plot_age_pyramid()
+      })
+
+      output$household_size <- shiny::renderPlot({
+        neighbourhood_profile[["household_size"]] %>%
+          plot_household_size()
+      })
+    })
   })
 }
 
