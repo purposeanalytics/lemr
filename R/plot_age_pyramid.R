@@ -1,0 +1,57 @@
+#' Plot age pyramid
+#'
+#' @param data Input age pyramid data, with columns \code{sex}, \code{metric}, \code{age_group}, \code{value}.
+#' @param horizontal Whether the plot should be horizontal (with age groups on the x-axis and proportions on the y-axis). Defaults to \code{FALSE} (age groups on the y-axis and proportions on the x-axis).
+#'
+#' @examples {
+#' neighbourhood_profiles[["Danforth"]][["age_pyramid"]] %>%
+#'   plot_age_pyramid()
+#' }
+plot_age_pyramid <- function(data, horizontal = FALSE) {
+  prop_data <- data %>%
+    dplyr::filter(
+      .data$sex %in% c("female", "male"),
+      .data$metric == "proportion"
+    ) %>%
+    dplyr::mutate(
+      value_label = scales::percent(.data$value, accuracy = 0.1),
+      value = dplyr::case_when(
+        sex == "male" ~ -.data$value,
+        sex == "female" ~ .data$value
+      ),
+      label_placement = dplyr::case_when(
+        sex == "male" ~ .data$value - 0.005,
+        sex == "female" ~ .data$value + 0.005
+      )
+    )
+
+  percent_max <- prop_data %>%
+    dplyr::pull(.data$label_placement) %>%
+    abs() %>%
+    max()
+
+  percent_range <- c(-percent_max, percent_max)
+  percent_range_breaks <- pretty(percent_range)
+  percent_range_labels <- percent_range_breaks %>%
+    abs() %>%
+    scales::percent()
+
+  p <- ggplot2::ggplot(prop_data, ggplot2::aes(y = age_group, x = value, fill = sex)) +
+    ggplot2::geom_col() +
+    ggplot2::geom_text(ggplot2::aes(label = value_label, x = label_placement), size = 3) +
+    ggplot2::scale_x_continuous(
+      limits = percent_range,
+      breaks = percent_range_breaks,
+      labels = percent_range_labels
+    ) +
+    ggplot2::scale_fill_discrete(guide = ggplot2::guide_legend(reverse = TRUE)) +
+    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::theme(axis.ticks.y = ggplot2::element_blank())
+
+  if (horizontal) {
+    p <- p +
+      ggplot2::coord_flip()
+  }
+
+  p
+}
