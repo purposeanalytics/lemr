@@ -31,6 +31,8 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         neighbourhood()
       },
       {
+        # TODO: seems like this runs the first time before search_method() has a value
+        # Maybe initialize it with something? Or take an action if it's NULL based on which of address / neighbourhood is not null
         if (search_method() == "neighbourhood") {
           shiny::h1(neighbourhood())
         } else if (search_method() == "address") {
