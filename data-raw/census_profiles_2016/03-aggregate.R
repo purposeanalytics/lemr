@@ -258,11 +258,8 @@ places <- append(places, list(renter_owner = household_tenure_by_neighbourhood))
 ### Combine data sets ----
 # I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
 
-# TODO:
-
-neighbourhood_profiles <- list(people = people,
-                               places = places) %>%
-  map_depth(.depth = 2, ~ split(.x, .x$neighbourhood)) %>%
+neighbourhood_profiles <- append(people, places) %>%
+  map( ~ split(.x, .x$neighbourhood)) %>%
   # Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
   transpose()
 

@@ -20,3 +20,10 @@
 #' library(sf)
 #' neighbourhoods
 "neighbourhoods"
+
+#' City of Toronto Neighbourhood Profiles
+#'
+#' Variables describing profiles of neighbourhoods in Toronto. The data set is a list, with one element for each neighbourhood, then within each neighbourhood one element for each variable.
+#' @examples
+#' neighbourhood_profiles[["Danforth"]]
+"neighbourhood_profiles"
