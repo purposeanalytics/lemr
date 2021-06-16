@@ -13,7 +13,6 @@ mod_sidebar_ui <- function(id) {
     shiny::uiOutput(ns("header")),
     shiny::uiOutput(ns("population")),
     shiny::uiOutput(ns("population_density")),
-    shiny::plotOutput(ns("age_pyramid")),
     shiny::plotOutput(ns("household_size"))
   )
 }
@@ -66,11 +65,6 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
         shiny::h3(glue::glue("Population density: {population_density}"))
       })
-
-      output$age_pyramid <- shiny::renderPlot({
-        neighbourhood_profile[["age_pyramid"]] %>%
-          plot_age_pyramid()
-      }, bg = "transparent", res = 96, height = 300)
 
       output$household_size <- shiny::renderPlot({
         neighbourhood_profile[["household_size"]] %>%
