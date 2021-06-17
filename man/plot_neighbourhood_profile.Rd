@@ -4,12 +4,24 @@
 \alias{plot_neighbourhood_profile}
 \title{Plot a neighbourhood profile variable}
 \usage{
-plot_neighbourhood_profile(data, variable)
+plot_neighbourhood_profile(
+  data,
+  variable,
+  compare = TRUE,
+  width = 20,
+  dollar = FALSE
+)
 }
 \arguments{
 \item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.}
 
-\item{variablle}{Variable to visualize.}
+\item{variable}{Variable to visualize.}
+
+\item{compare}{Whether to compare to City of Toronto values. Defaults to TRUE.}
+
+\item{width}{Passed along to str_wrap for wrapping y-axis labels. Defaults to a width of 20.}
+
+\item{dollar}{Whether the variable shown is in dollars. Defaults to FALSE.}
 }
 \description{
 Plot a neighbourhood profile variable

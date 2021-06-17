@@ -11,6 +11,7 @@ License: What license is it under?
 Imports: 
     config (>= 0.3.1),
     dplyr,
+    forcats,
     fs,
     ggplot2,
     glue,
