@@ -200,7 +200,6 @@ census_col_names <- read_csv(census_path, n_max = 1, trim_ws = FALSE)
 
 names(toronto_cts) <- names(census_col_names)
 
-
 # ### Add hierarchy to census tracts ----
 
 toronto_cts <- hierarchy %>%

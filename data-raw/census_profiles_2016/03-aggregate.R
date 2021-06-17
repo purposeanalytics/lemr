@@ -1,23 +1,25 @@
 # Aggregate census tracts to neighbourhoods, for variables of interest
+# Some of the dimensions we will be showing need comparisons to the city
+# Either a city average / # or a distribution of all of the neighbourhoods
 
 # # People
 #
-# Population DONE
-# Number of households DONE
-# Population change DONE
-# Population density DONE
-# Household size DONE
-# One person and 2+ people incomes DONE
-# Unaffordable housing % DONE but not 100%
-# Total people under poverty measure TODO ***********
-# Visible minority population DONE
+# Population - NO COMPARISON
+# Number of households - NO COMPARISON
+# Population change - MAYBE COMPARISON? DISTRIBUTION?
+# Population density - DISTRIBUTION
+# Household size - COMPARISON
+# One person and 2+ people incomes - COMPARISON
+# Unaffordable housing % - COMPARISON
+# Total people under poverty measure - COMPARISON - TODO
+# Visible minority population - COMPARISON
 
 # # Places
 #
-# Private dwellings by structure (collapse single- and semi-detached) DONE
-# Number of bedrooms DONE
-# Renter versus Owner DONE
-# Shelter Cost DONE
+# Private dwellings by structure (collapse single- and semi-detached) - COMPARISON
+# Number of bedrooms - COMPARISON
+# Renter versus Owner - COMPARISON and DISTRIBUTION
+# Shelter Cost - COMPARISON and DISTRIBUTION
 
 library(dplyr)
 library(tidyr)
@@ -28,6 +30,16 @@ library(forcats)
 
 #### Read data ----
 census_profiles_toronto_cts <- readRDS(here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
+
+# Split off Toronto from CTs
+census_profiles_toronto <- census_profiles_toronto_cts %>%
+  filter(geo_code == "535")
+
+census_profiles_toronto_cts <- census_profiles_toronto_cts %>%
+  filter(geo_code != "535")
+
+neighbourhood <- list()
+city <- list()
 
 #### Function for keeping more detailed dimension dimensions -----
 
@@ -54,6 +66,11 @@ keep_most_detailed_dimension <- function(df, dimension_full_start) {
 }
 
 ## Functions for getting total and prop -----
+
+aggregate_total_city <- function(df) {
+  df %>%
+    summarise(value = sum(total, na.rm = TRUE))
+}
 
 aggregate_total_by_neighbourhood <- function(df) {
   df %>%
@@ -83,9 +100,25 @@ aggregate_prop_by_neighbourhood <- function(df, dimension_full_start) {
     select(neighbourhood, group, value, prop)
 }
 
-## People ---------------------------------------------------------------- -----
+aggregate_prop_city <- function(df, dimension_full_start) {
+  df_children <- df %>%
+    keep_most_detailed_dimension(dimension_full_start) %>%
+    select(group = dimension, value = total) %>%
+    # Aggregate in cases where there was combination of some dimensions
+    group_by(group) %>%
+    summarise(value = sum(value, na.rm = TRUE))
 
-people <- list()
+  df_parent <- df %>%
+    filter(dimension == dimension_full_start) %>%
+    select(total)
+
+  df_children %>%
+    bind_cols(df_parent) %>%
+    mutate(prop = value / total) %>%
+    select(group, value, prop)
+}
+
+## People ---------------------------------------------------------------- -----
 
 ### Population -----
 # Dimension: "Population, 2016"
@@ -94,7 +127,9 @@ population_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "Population, 2016") %>%
   aggregate_total_by_neighbourhood()
 
-people <- append(people, list(population = population_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(population = population_by_neighbourhood))
+
+# No city comparison
 
 ### Households -----
 
@@ -102,7 +137,9 @@ households_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "Total - Private households by household size - 100% data") %>%
   aggregate_total_by_neighbourhood()
 
-people <- append(people, list(households = households_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(households = households_by_neighbourhood))
+
+# No city comparison
 
 ### Population change ----
 # Use "Population, 2011" and compare to 2016
@@ -121,7 +158,22 @@ population_change_by_neighbourhood <- population_by_neighbourhood %>%
 
 rm(population_2011)
 
-people <- append(people, list(population_change = population_change_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(population_change = population_change_by_neighbourhood))
+
+# Compare to city with value and distribution
+
+population_change_city <- census_profiles_toronto %>%
+  filter(dimension %in% c("Population, 2011", "Population, 2016")) %>%
+  select(dimension, total) %>%
+  pivot_wider(names_from = dimension, values_from = total)
+population_change_city <- (population_change_city[["Population, 2016"]] - population_change_city[["Population, 2011"]]) / (population_change_city[["Population, 2011"]])
+
+population_change_city_distribution <- population_change_by_neighbourhood["value"]
+
+city <- append(city, list(population_change = list(
+  value = population_change_city,
+  distribution = population_change_city_distribution
+)))
 
 ### Population density -----
 
@@ -138,7 +190,11 @@ population_density_by_neighbourhood <- census_profiles_toronto_cts %>%
   mutate(population_density = population / area) %>%
   select(neighbourhood, value = population_density)
 
-people <- append(people, list(population_density = population_density_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(population_density = population_density_by_neighbourhood))
+
+# Compare to city with distribution
+population_density_city_distribution  <- population_density_by_neighbourhood["value"]
+city <- append(city, list(population_density = list(distribution = population_density_city_distribution)))
 
 ### Household size ----
 # Variable: "Total - Private households by household size - 100% data"
@@ -165,7 +221,14 @@ household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
     group = fct_rev(group)
   )
 
-people <- append(people, list(household_size = household_size_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(household_size = household_size_by_neighbourhood))
+
+# Compare to city with breakdown
+
+household_size_city <- census_profiles_toronto %>%
+  aggregate_prop_city("Total - Private households by household size - 100% data")
+
+city <- append(city, list(household_size = household_size_city))
 
 ### Average one and two+ person incomes ----
 # Variable "Total - Income statistics in 2015 for private households by household size - 25% sample data"
@@ -217,7 +280,21 @@ average_total_income_by_neighbourhood %>%
   filter(neighbourhood == "Danforth")
 # Versus 43648 and 135290 here
 
-people <- append(people, list(average_total_income = average_total_income_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(average_total_income = average_total_income_by_neighbourhood))
+
+# Compare to city with breakdown
+
+average_total_income_city <- census_profiles_toronto %>%
+  keep_most_detailed_dimension("Total - Income statistics in 2015 for private households by household size - 25% sample data") %>%
+  filter(dimension %in% c("Average total income of one-person households in 2015 ($)", "Average total income of two-or-more-person households in 2015 ($)")) %>%
+  select(dimension, value = total) %>%
+  mutate(group = case_when(
+    str_detect(dimension, "one-person") ~ "One person households",
+    str_detect(dimension, "two-or-more-person") ~ "Two or more person households"
+  )) %>%
+  select(group, value)
+
+city <- append(city, list(average_total_income = average_total_income_city))
 
 ### Unaffordable housing ----
 # Variable: "Total - Tenant households in non-farm, non-reserve private dwellings - 25% sample data"
@@ -248,7 +325,16 @@ unaffordable_housing_by_neighbourhood %>%
   filter(neighbourhood == "Danforth")
 # This gives 49.9
 
-people <- append(people, list(unaffordable_housing = unaffordable_housing_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(unaffordable_housing = unaffordable_housing_by_neighbourhood))
+
+# Compare to city with value and distribution
+unaffordable_housing_city <- census_profiles_toronto %>%
+  filter(dimension == "% of tenant households spending 30% or more of its income on shelter costs") %>%
+  pull(total)
+
+unaffordable_housing_city_distribution <- unaffordable_housing_by_neighbourhood["value"]
+
+city <- append(city, list(unaffordable_housing = list(value = unaffordable_housing_city, distribution = unaffordable_housing_city_distribution)))
 
 ### Total people under poverty measure ----
 # Using market basket measure
@@ -271,11 +357,21 @@ visible_minority_by_neighbourhood <- census_profiles_toronto_cts %>%
   aggregate_prop_by_neighbourhood("Total - Visible minority for the population in private households - 25% sample data") %>%
   filter(prop != 0)
 
-people <- append(people, list(visible_minority = visible_minority_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(visible_minority = visible_minority_by_neighbourhood))
+
+# Compare to city with breakdown
+
+visible_minority_city <- census_profiles_toronto %>%
+  mutate(dimension = case_when(
+    dimension %in% c("Chinese", "Japanese", "Korean") ~ "East Asian",
+    dimension == "Filipino" ~ "Southeast Asian",
+    TRUE ~ dimension
+  )) %>%
+  aggregate_prop_city("Total - Visible minority for the population in private households - 25% sample data")
+
+city <- append(city, list(visible_minority = visible_minority_city))
 
 ### Places ------- ----
-
-places <- list()
 
 ### Private dwellings by structure -----
 
@@ -297,7 +393,17 @@ structure_type_by_neighbourhood <- census_profiles_toronto_cts %>%
   aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
   filter(prop != 0)
 
-places <- append(places, list(structure_type = structure_type_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(structure_type = structure_type_by_neighbourhood))
+
+# Compare to city with breakdown
+
+structure_type_city <- census_profiles_toronto %>%
+  left_join(structure_type_clean, by = c("dimension" = "original")) %>%
+  mutate(dimension = coalesce(clean, dimension)) %>%
+  aggregate_prop_city("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
+  filter(prop != 0)
+
+city <- append(city, list(structure_type = structure_type_city))
 
 ### Number of bedrooms ----
 
@@ -314,7 +420,24 @@ bedrooms_by_neighbourhood <- census_profiles_toronto_cts %>%
   ) %>%
   select(-size)
 
-places <- append(places, list(bedrooms = bedrooms_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(bedrooms = bedrooms_by_neighbourhood))
+
+# Compare to city with breakdown
+
+bedrooms_city <- census_profiles_toronto %>%
+  mutate(dimension = case_when(
+    dimension == "No bedrooms" ~ "0 bedrooms",
+    dimension == "4 or more bedrooms" ~ "4+ bedrooms",
+    TRUE ~ dimension
+  )) %>%
+  aggregate_prop_city("Total - Occupied private dwellings by number of bedrooms - 25% sample data") %>%
+  mutate(
+    size = parse_number(group),
+    group = fct_reorder(group, size)
+  ) %>%
+  select(-size)
+
+city <- append(city, list(bedrooms = bedrooms_city))
 
 ### Renter / owner split -----
 # Variable: "Total - Private households by tenure - 25% sample data"
@@ -325,7 +448,15 @@ household_tenure_by_neighbourhood <- census_profiles_toronto_cts %>%
   aggregate_prop_by_neighbourhood("Total - Private households by tenure - 25% sample data") %>%
   filter(group %in% c("Owner", "Renter"))
 
-places <- append(places, list(renter_owner = household_tenure_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(renter_owner = household_tenure_by_neighbourhood))
+
+# Compare to city by breakdown
+
+household_tenure_city <- census_profiles_toronto %>%
+  aggregate_prop_city("Total - Private households by tenure - 25% sample data") %>%
+  filter(group %in% c("Owner", "Renter"))
+
+city <- append(city, list(renter_owner = household_tenure_city))
 
 ### Shelter cost -----
 
@@ -339,16 +470,31 @@ renter_shelter_cost_by_neighbourhood <- average_renter_shelter_cost_by_ct %>%
   group_by(neighbourhood) %>%
   summarise(value = sum(total_shelter_cost, na.rm = TRUE) / sum(renter, na.rm = TRUE))
 
-places <- append(places, list(average_renter_shelter_cost = renter_shelter_cost_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(average_renter_shelter_cost = renter_shelter_cost_by_neighbourhood))
 
-### Combine data sets ----
+# Compare to city by value and distribution
+
+average_renter_shelter_cost <- census_profiles_toronto %>%
+  filter(dimension == "Average monthly shelter costs for rented dwellings ($)") %>%
+  pull(total)
+
+average_renter_shelter_cost_distribution <- renter_shelter_cost_by_neighbourhood["value"]
+
+city <- append(city, list(average_renter_shelter_cost = list(
+  value = average_renter_shelter_cost,
+  distribution = average_renter_shelter_cost_distribution
+)))
+
+### Restructure data sets ----
 # I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
 
-neighbourhood_profiles <- append(people, places) %>%
+neighbourhood_profiles <- neighbourhood %>%
   map(~ split(.x, .x$neighbourhood))
 
 # Some of these are just a single value, so they don't need to be in a data frame
 neighbourhood_profiles[["population"]] <- neighbourhood_profiles[["population"]] %>%
+  map("value")
+neighbourhood_profiles[["households"]] <- neighbourhood_profiles[["households"]] %>%
   map("value")
 neighbourhood_profiles[["population_change"]] <- neighbourhood_profiles[["population_change"]] %>%
   map("value")
@@ -364,3 +510,6 @@ neighbourhood_profiles <- neighbourhood_profiles %>%
   transpose()
 
 usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+
+city_profile <- city
+usethis::use_data(city_profile, overwrite = TRUE)
