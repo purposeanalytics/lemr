@@ -259,8 +259,20 @@ places <- append(places, list(renter_owner = household_tenure_by_neighbourhood))
 # I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
 
 neighbourhood_profiles <- append(people, places) %>%
-  map( ~ split(.x, .x$neighbourhood)) %>%
-  # Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
+  map( ~ split(.x, .x$neighbourhood))
+
+# Some of these are just a single value, so they don't need to be in a data frame
+neighbourhood_profiles[["population"]] <- neighbourhood_profiles[["population"]] %>%
+  map("value")
+neighbourhood_profiles[["population_change"]] <- neighbourhood_profiles[["population_change"]] %>%
+  map("value")
+neighbourhood_profiles[["population_density"]] <- neighbourhood_profiles[["population_density"]] %>%
+  map("value")
+neighbourhood_profiles[["unaffordable_housing"]] <- neighbourhood_profiles[["unaffordable_housing"]] %>%
+  map("value")
+
+# Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
+neighbourhood_profiles <- neighbourhood_profiles %>%
   transpose()
 
 usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
