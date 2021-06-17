@@ -1,7 +1,9 @@
 ---
-output: github_document
+output: html_document
 params:
   neighbourhood: Danforth
+editor_options: 
+  chunk_output_type: console
 ---
 
 ---
@@ -9,60 +11,135 @@ title: `r params$neighbourhood`
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300)
 
 library(lemur)
 library(dplyr)
 library(ggplot2)
 library(scales)
+library(forcats)
 ```
 
 ```{r data}
 neighbourhood_profile <- neighbourhood_profiles[[params$neighbourhood]]
 ```
 
-<!-- # People  -->
+### Population: `r comma(neighbourhood_profile[["population"]])` (`r comma(neighbourhood_profile[["households"]])` households)
 
-# Population: `r comma(neighbourhood_profile[["population"]])` (TODO households)
+<div style = "display: flex;">
 
-## Population density: `r comma(round(neighbourhood_profile[["population_density"]]))` people per square km
+<div style = "width: 30%;">
 
-## Household size
+#### Population density
+##### `r comma(round(neighbourhood_profile[["population_density"]]))` people per square km
+</div>
 
-```{r household-size}
+<div style = "width: 70%;">
+```{r density-comparison, fig.height = 2}
+ggplot() +
+  geom_density(data = city_profile[["population_density"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
+  geom_vline(aes(xintercept = neighbourhood_profile[["population_density"]]), color = "darkgreen") +
+  theme_lemur() +
+  scale_x_continuous(labels = comma) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank()
+  )
+```
+</div>
+</div>
+
+<div style = "display: flex;">
+
+<div style = "width: 50%;">
+#### Household size
+
+```{r household-size, fig.height = 5}
 neighbourhood_profile %>%
-  plot_neighbourhood_profile("household_size")
+  plot_neighbourhood_profile("household_size", width = 10)
+```
+</div>
+
+<div style = "width: 50%;">
+
+##### Mean total income
+
+```{r mean-total-income, fig.height = 2}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("average_total_income", dollar = TRUE)
 ```
 
-## Mean total income
+##### Unaffordable housing
 
-```{r mean-total-income}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("average_total_income") + 
-  scale_x_continuous(labels = dollar)
+<div style = "display: flex;">
+
+<div style = "width: 30%;">
+`r percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)`
+
+(City: `r city_profile[["unaffordable_housing"]][["value"]]`%)
+</div>
+
+<div style = "width: 70%;">
+```{r unaffordable-comparison, fig.height = 2}
+ggplot() +
+  geom_density(data = city_profile[["unaffordable_housing"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
+  geom_vline(aes(xintercept = neighbourhood_profile[["unaffordable_housing"]]), color = "darkgreen") +
+  scale_x_continuous(labels = percent) +
+  theme_lemur() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank()
+  )
 ```
+</div>
+</div>
 
-# Unaffordable housing: `r percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)`
+#### Total people under poverty measure
+</div>
 
-## Total people under poverty measure
+</div>
 
-## Visible minority population
+<div style = "display: flex;">
+
+<div style = "width: 50%;">
+#### Visible minority population
 
 ```{r total-visible-minority}
 total_visible_minority <- neighbourhood_profile[["visible_minority"]] %>%
   filter(group != "Not a visible minority") %>%
   pull(prop) %>%
-  sum()
+  sum() %>%
+  percent(accuracy = 0.1)
+
+total_visible_minority_city <- city_profile[["visible_minority"]] %>%
+  filter(group != "Not a visible minority") %>%
+  pull(prop) %>%
+  sum() %>%
+  percent(accuracy = 0.1)
 ```
 
-Total visible minority population: `r percent(total_visible_minority, accuracy = 0.1)`
 
-```{r visible-minority}
+<div style = "display: flex;">
+
+<div style = "width: 50%;">
+Total visible minority population
+</div>
+
+<div style = "width: 50%;">
+`r total_visible_minority`
+
+(City: `r total_visible_minority_city`)
+</div>
+</div>
+
+```{r visible-minority, fig.height = 7}
 neighbourhood_profile %>%
-  plot_neighbourhood_profile("visible_minority")
+  plot_neighbourhood_profile("visible_minority", width = 10)
 ```
+</div>
+</div>
 
-<!-- # Places -->
+# Places
 
 ## Private dwellings by structure
 
@@ -85,4 +162,16 @@ neighbourhood_profile %>%
   plot_neighbourhood_profile("renter_owner")
 ```
 
-## Shelter Cost
+## Shelter Cost for renters (`r dollar(neighbourhood_profile[["average_renter_shelter_cost"]], accuracy = 1)` (City: `r dollar(city_profile[["average_renter_shelter_cost"]][["value"]], accuracy = 1)`)
+
+```{r shelter-cost-comparison}
+ggplot() +
+  geom_density(data = city_profile[["average_renter_shelter_cost"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
+  geom_vline(aes(xintercept = neighbourhood_profile[["average_renter_shelter_cost"]]), color = "darkgreen") +
+  scale_x_continuous(labels = dollar) +
+  theme_lemur() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank()
+  )
+```
