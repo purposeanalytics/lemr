@@ -14,9 +14,11 @@ app_ui <- function(request) {
         "Map",
         sidebarLayout(
           mainPanel(
+            width = 7,
             mod_map_ui("map")
           ),
           sidebarPanel(
+            width = 5,
             shiny::h3("Select an address or neighbourhood"),
             mod_address_search_ui("address"),
             mod_neighbourhood_search_ui("neighbourhood"),
