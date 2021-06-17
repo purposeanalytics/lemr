@@ -9,12 +9,7 @@
 #' @importFrom shiny NS tagList
 mod_sidebar_ui <- function(id) {
   ns <- NS(id)
-  tagList(
-    shiny::uiOutput(ns("header")),
-    shiny::uiOutput(ns("population")),
-    shiny::uiOutput(ns("population_density")),
-    # shiny::plotOutput(ns("household_size"))
-  )
+  shiny::uiOutput(ns("sidebar_ui"))
 }
 
 #' Sidebar Server Functions
@@ -42,15 +37,79 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       }
     )
 
-    output$header <- shiny::renderUI(shiny::h1(display_neighbourhood()))
-
     shiny::observeEvent(display_neighbourhood(), {
       neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood()]]
 
-      output$population <- shiny::renderUI({
-        shiny::h1(
-          glue::glue('Population: {scales::comma(neighbourhood_profile[["population"]])} ({scales::comma(neighbourhood_profile[["households"]])} households)')
+      # UI ----
+
+      # Do the whole thing as one UI rendered in so it all loads at once - better than having headers / plots / etc appear at different times!
+      # Then all of the layout can be updated in one place too :)
+
+      output$sidebar_ui <- shiny::renderUI({
+        shiny::tagList(
+          shiny::h1(shiny::uiOutput(ns("header"))),
+          shiny::h2(shiny::uiOutput(ns("population"))),
+          shiny::fluidRow(
+            shiny::column(
+              width = 3,
+              align = "center",
+              shiny::h3("Population density"),
+              shiny::h4(shiny::uiOutput(ns("population_density_number")))
+            ),
+            shiny::column(
+              width = 9,
+              shiny::plotOutput(ns("population_density_plot"), height = "200px")
+            )
+          ),
+          shiny::fluidRow(
+            shiny::column(
+              width = 6,
+              shiny::h4("Household size"),
+              shiny::plotOutput(ns("household_size"), height = "300px")
+            ),
+            shiny::column(
+              width = 6,
+              shiny::h4("Mean total household income"),
+              shiny::plotOutput(ns("average_total_income"), height = "150px"),
+              shiny::fluidRow(
+                shiny::column(
+                  width = 4,
+                  align = "center",
+                  shiny::h4("Unaffordable housing"),
+                  shiny::h5(shiny::uiOutput(ns("unaffordable_housing"))),
+                  shiny::h5(shiny::uiOutput(ns("unaffordable_housing_city"))),
+                ),
+                shiny::column(
+                  width = 8,
+                  shiny::plotOutput(ns("unaffordable_housing_plot"), height = "150px")
+                )
+              )
+            )
+          ),
+          shiny::fluidRow(
+            shiny::column(
+              width = 6,
+              shiny::h4("Visible minority"),
+              shiny::plotOutput(ns("visible_minority_plot"))
+            )
+          )
         )
+      })
+
+      # Neighbourhood ----
+
+      output$header <- shiny::renderUI(display_neighbourhood())
+
+      # Population -----
+
+      output$population <- shiny::renderUI({
+        glue::glue('Population: {scales::comma(neighbourhood_profile[["population"]])} ({scales::comma(neighbourhood_profile[["households"]])} households)')
+      })
+
+      # Population density -----
+
+      output$population_density_number <- shiny::renderUI({
+        glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))}  people per square km')
       })
 
       output$population_density_plot <- shiny::renderPlot(
@@ -69,20 +128,66 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         bg = "transparent"
       )
 
-      output$population_density <- shiny::renderUI({
-        shiny::fluidRow(
-          shiny::column(
-            width = 3,
-            align = "center",
-            shiny::h3("Population density"),
-            shiny::h4(glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))}  people per square km'))
-          ),
-          shiny::column(
-            width = 9,
-            shiny::plotOutput(ns("population_density_plot"), height = "200px")
-          )
-        )
+      # Household size -----
+
+      output$household_size <- shiny::renderPlot(
+        {
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile("household_size", width = 10)
+        },
+        res = 96,
+        bg = "transparent"
+      )
+
+      # Income and poverty ------
+
+      ## Mean total household income ------
+
+      output$average_total_income <- shiny::renderPlot(
+        {
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE)
+        },
+        res = 96,
+        bg = "transparent"
+      )
+
+      ## Unaffordable housing -----
+
+      output$unaffordable_housing <- shiny::renderUI({
+        scales::percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)
       })
+
+      output$unaffordable_housing_city <- shiny::renderUI({
+        glue::glue('(City: {city_profile[["unaffordable_housing"]][["value"]]}%)')
+      })
+
+      output$unaffordable_housing_plot <- shiny::renderPlot(
+        {
+          ggplot2::ggplot() +
+            ggplot2::geom_density(data = city_profile[["unaffordable_housing"]][["distribution"]], ggplot2::aes(x = value), fill = "grey", color = "grey") +
+            ggplot2::geom_vline(ggplot2::aes(xintercept = neighbourhood_profile[["unaffordable_housing"]]), color = "darkgreen") +
+            theme_lemur() +
+            ggplot2::scale_x_continuous(labels = scales::percent) +
+            ggplot2::theme(
+              axis.title = ggplot2::element_blank(),
+              axis.text.y = ggplot2::element_blank()
+            )
+        },
+        res = 96,
+        bg = "transparent"
+      )
+
+      # Visible minority population -----
+
+      output$visible_minority_plot <- shiny::renderPlot(
+        {
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile("visible_minority", width = 10)
+        },
+        res = 96,
+        bg = "transparent"
+      )
     })
   })
 }
