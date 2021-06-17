@@ -28,7 +28,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         # TODO: seems like this runs the first time before search_method() has a value
         # Maybe initialize it with something? Or take an action if it's NULL based on which of address / neighbourhood is not null
         # search_method_neighbourhood <- search_method() == "neighbourhood" | (!is.null(neighbourhood()) & is.null(address$neighbourhood()))
-        search_method_neighbourhood <- search_method() == "neighbourhood" | !is.null(neighbourhood())
+        search_method_neighbourhood <- !is.null(neighbourhood())
         if (search_method_neighbourhood) {
           neighbourhood()
         } else {
@@ -90,7 +90,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
             shiny::column(
               width = 6,
               shiny::h4("Visible minority"),
-              shiny::plotOutput(ns("visible_minority_plot"))
+              shiny::plotOutput(ns("visible_minority_plot"), height = "550px")
             )
           )
         )
@@ -183,7 +183,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       output$visible_minority_plot <- shiny::renderPlot(
         {
           neighbourhood_profile %>%
-            plot_neighbourhood_profile("visible_minority", width = 10)
+            plot_neighbourhood_profile("visible_minority", width = 15)
         },
         res = 96,
         bg = "transparent"

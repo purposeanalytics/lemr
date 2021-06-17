@@ -23,5 +23,5 @@ zoom_map_to_neighbourhood <- function(map, neighbourhood) {
     mapboxer::set_filter(layer_id = "neighbourhood_line", list("==", "neighbourhood", neighbourhood)) %>%
     mapboxer::set_filter(layer_id = "neighbourhood_fill", list("==", "neighbourhood", neighbourhood)) %>%
     # Zoom to the neighbourhood
-    mapboxer::fit_bounds(sf::st_bbox(searched_neighbourhood), maxZoom = 15, pitch = 0, bearing = -15)
+    mapboxer::fit_bounds(sf::st_bbox(searched_neighbourhood), maxZoom = 14, pitch = 0, bearing = -15)
 }
