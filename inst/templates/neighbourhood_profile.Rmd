@@ -1,5 +1,5 @@
 ---
-output: html_document
+output: github_document
 params:
   neighbourhood: Danforth
 ---
@@ -15,43 +15,74 @@ library(lemur)
 library(dplyr)
 library(ggplot2)
 library(scales)
-
-theme_set(theme_minimal())
 ```
 
 ```{r data}
 neighbourhood_profile <- neighbourhood_profiles[[params$neighbourhood]]
 ```
 
-```{r population_and_density}
-population <- neighbourhood_profile[["population"]] %>%
-  pull(value) %>%
-  comma()
+<!-- # People  -->
 
-population_density <- neighbourhood_profile[["population_density"]] %>%
-  pull(value) %>%
-  round() %>%
-  comma()
-```
+# Population: `r comma(neighbourhood_profile[["population"]])` (TODO households)
 
-## Population: `r population`
+## Population density: `r comma(round(neighbourhood_profile[["population_density"]]))` people per square km
 
-### Population Density: `r population_density` people per square km
-
-#### Age Pyramid
-
-```{r age-pyramid}
-neighbourhood_profile[["age_pyramid"]] %>%
-  plot_age_pyramid()
-```
-
-#### Household size
+## Household size
 
 ```{r household-size}
-neighbourhood_profile[["household_size"]] %>%
-  plot_household_size()
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("household_size")
 ```
 
-#### Household Tenure
+## Mean total income
 
-#### Visible Minority
+```{r mean-total-income}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("average_total_income") + 
+  scale_x_continuous(labels = dollar)
+```
+
+# Unaffordable housing: `r percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)`
+
+## Total people under poverty measure
+
+## Visible minority population
+
+```{r total-visible-minority}
+total_visible_minority <- neighbourhood_profile[["visible_minority"]] %>%
+  filter(group != "Not a visible minority") %>%
+  pull(prop) %>%
+  sum()
+```
+
+Total visible minority population: `r percent(total_visible_minority, accuracy = 0.1)`
+
+```{r visible-minority}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("visible_minority")
+```
+
+<!-- # Places -->
+
+## Private dwellings by structure
+
+```{r structure-type}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("structure_type")
+```
+
+## Number of bedrooms
+
+```{r bedrooms}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("bedrooms")
+```
+
+## Renter versus Owner
+
+```{r renter-owner}
+neighbourhood_profile %>%
+  plot_neighbourhood_profile("renter_owner")
+```
+
+## Shelter Cost
