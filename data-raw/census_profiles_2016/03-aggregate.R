@@ -55,22 +55,31 @@ keep_most_detailed_dimension <- function(df, dimension_full_start) {
 
 ## Functions for getting total and prop -----
 
-aggregate_total_by_neighbourhood <- function(data) {
-  data %>%
+aggregate_total_by_neighbourhood <- function(df) {
+  df %>%
     group_by(neighbourhood) %>%
     summarise(value = sum(total, na.rm = TRUE))
 }
 
-aggregate_prop_by_neighbourhood <- function(data) {
-  data %>%
-    select(geo_code, neighbourhood, dimension, total) %>%
+# When we calculate proportion we can't just sum the totals - we need to use the parent dimension because of rounding / non-response
+aggregate_prop_by_neighbourhood <- function(df, dimension_full_start) {
+  df_children <- df %>%
+    keep_most_detailed_dimension(dimension_full_start)
+
+  df_children_summary <- df_children %>%
     group_by(neighbourhood, group = dimension) %>%
-    summarise(value = sum(total, na.rm = TRUE), .groups = "drop_last") %>%
-    mutate(
-      total = sum(value),
-      prop = value / total
-    ) %>%
-    ungroup() %>%
+    summarise(value = sum(total, na.rm = TRUE), .groups = "drop")
+
+  df_parent <- df %>%
+    filter(dimension == dimension_full_start)
+
+  df_parent_summary <- df_parent %>%
+    aggregate_total_by_neighbourhood() %>%
+    rename(total = value)
+
+  df_children_summary %>%
+    left_join(df_parent_summary, by = "neighbourhood") %>%
+    mutate(prop = value / total) %>%
     select(neighbourhood, group, value, prop)
 }
 
@@ -135,8 +144,7 @@ people <- append(people, list(population_density = population_density_by_neighbo
 # Variable: "Total - Private households by household size - 100% data"
 
 household_size_by_neighbourhood <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Private households by household size - 100% data") %>%
-  aggregate_prop_by_neighbourhood()
+  aggregate_prop_by_neighbourhood("Total - Private households by household size - 100% data")
 
 # TODO: These are a bit off compared to the Toronto profiles, but... I think theirs are wrong? e.g.
 
@@ -255,13 +263,12 @@ people <- append(people, list(unaffordable_housing = unaffordable_housing_by_nei
 
 # These numbers seem a tiny bit off compared to the City's, even before collapsing - e.g. they have 60 for Korean vs 65 here
 visible_minority_by_neighbourhood <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Visible minority for the population in private households - 25% sample") %>%
   mutate(dimension = case_when(
     dimension %in% c("Chinese", "Japanese", "Korean") ~ "East Asian",
     dimension == "Filipino" ~ "Southeast Asian",
     TRUE ~ dimension
   )) %>%
-  aggregate_prop_by_neighbourhood() %>%
+  aggregate_prop_by_neighbourhood("Total - Visible minority for the population in private households - 25% sample data") %>%
   filter(prop != 0)
 
 people <- append(people, list(visible_minority = visible_minority_by_neighbourhood))
@@ -285,11 +292,9 @@ structure_type_clean <- tribble(
 )
 
 structure_type_by_neighbourhood <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
   left_join(structure_type_clean, by = c("dimension" = "original")) %>%
-  select(-dimension) %>%
-  rename(dimension = clean) %>%
-  aggregate_prop_by_neighbourhood() %>%
+  mutate(dimension = coalesce(clean, dimension)) %>%
+  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
   filter(prop != 0)
 
 places <- append(places, list(structure_type = structure_type_by_neighbourhood))
@@ -297,13 +302,12 @@ places <- append(places, list(structure_type = structure_type_by_neighbourhood))
 ### Number of bedrooms ----
 
 bedrooms_by_neighbourhood <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Occupied private dwellings by number of bedrooms - 25% sample data") %>%
   mutate(dimension = case_when(
     dimension == "No bedrooms" ~ "0 bedrooms",
     dimension == "4 or more bedrooms" ~ "4+ bedrooms",
     TRUE ~ dimension
   )) %>%
-  aggregate_prop_by_neighbourhood() %>%
+  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by number of bedrooms - 25% sample data") %>%
   mutate(
     size = parse_number(group),
     group = fct_reorder(group, size)
@@ -317,8 +321,9 @@ places <- append(places, list(bedrooms = bedrooms_by_neighbourhood))
 # "Band housing" (relevant when the housing is on a First Nations reserve or settlement) is not present in Toronto.
 # So limit to Owner and Renter.
 
-household_tenure_by_neighbourhood <- household_tenure_by_ct %>%
-  aggregate_prop_by_neighbourhood()
+household_tenure_by_neighbourhood <- census_profiles_toronto_cts %>%
+  aggregate_prop_by_neighbourhood("Total - Private households by tenure - 25% sample data") %>%
+  filter(group %in% c("Owner", "Renter"))
 
 places <- append(places, list(renter_owner = household_tenure_by_neighbourhood))
 
