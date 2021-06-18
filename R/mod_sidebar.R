@@ -91,15 +91,10 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
               shiny::h3("Visible Minority Population"),
               shiny::fluidRow(
                 shiny::column(
-                  width = 6,
-                  align = "center",
-                  shiny::h4("Total Visible Minority Population")
-                ),
-                shiny::column(
-                  width = 6,
+                  width = 12,
                   align = "center",
                   shiny::h3(shiny::uiOutput(ns("visible_minority"))),
-                  shiny::h3(shiny::uiOutput(ns("visible_minority_city")))
+                  shiny::h4(shiny::uiOutput(ns("visible_minority_city")))
                 )
               ),
               shiny::plotOutput(ns("visible_minority_plot"), height = "550px")
@@ -121,7 +116,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       # Population density -----
 
       output$population_density_number <- shiny::renderUI({
-        glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))} people\nper square km')
+        shiny::HTML(glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))} people<br>per square km'))
       })
 
       output$population_density_plot <- shiny::renderPlot(
@@ -193,11 +188,13 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       # Visible minority population -----
 
       output$visible_minority <- shiny::renderUI({
-        neighbourhood_profile[["visible_minority"]] %>%
+        prop <- neighbourhood_profile[["visible_minority"]] %>%
           dplyr::filter(.data$group != "Not a visible minority") %>%
           dplyr::pull(.data$prop) %>%
           sum() %>%
           scales::percent()
+
+        glue::glue("Total Visible Minority Population: {prop}")
       })
 
       output$visible_minority_city <- shiny::renderUI({

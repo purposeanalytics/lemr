@@ -18,10 +18,17 @@ app_ui <- function(request) {
             mod_map_ui("map")
           ),
           sidebarPanel(
+            style = "background-color: white; min-height: calc(100vh - 80px);",
             width = 5,
-            shiny::h3("Select an address or neighbourhood"),
-            mod_address_search_ui("address"),
-            mod_neighbourhood_search_ui("neighbourhood"),
+            # shiny::h3("Select an address or neighbourhood"),
+            shiny::column(
+              width = 6,
+              mod_address_search_ui("address")
+            ),
+            shiny::column(
+              width = 6,
+              mod_neighbourhood_search_ui("neighbourhood")
+            ),
             mod_sidebar_ui("sidebar")
           )
         ),

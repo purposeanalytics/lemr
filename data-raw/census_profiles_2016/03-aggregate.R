@@ -217,6 +217,7 @@ census_profiles_toronto_cts %>%
 # Ensure ordering of dimensions
 household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
   mutate(
+    group = ifelse(group == "5 or more persons", "5+ persons", group),
     dimension_num = parse_number(group),
     group = fct_reorder(group, dimension_num)
   )
@@ -226,7 +227,10 @@ neighbourhood <- append(neighbourhood, list(household_size = household_size_by_n
 # Compare to city with breakdown
 
 household_size_city <- census_profiles_toronto %>%
-  aggregate_prop_city("Total - Private households by household size - 100% data")
+  aggregate_prop_city("Total - Private households by household size - 100% data") %>%
+mutate(
+  group = ifelse(group == "5 or more persons", "5+ persons", group)
+)
 
 city <- append(city, list(household_size = household_size_city))
 
@@ -267,8 +271,8 @@ average_total_income_by_neighbourhood <- total_income_by_household_size_by_ct %>
   ) %>%
   mutate(
     group = case_when(
-      size == 1 ~ "One person households",
-      size == 2 ~ "Two or more person households"
+      size == 1 ~ "1 person households",
+      size == 2 ~ "2+ person households"
     ),
     group = fct_reorder(group, size)
   ) %>%
@@ -289,8 +293,8 @@ average_total_income_city <- census_profiles_toronto %>%
   filter(dimension %in% c("Average total income of one-person households in 2015 ($)", "Average total income of two-or-more-person households in 2015 ($)")) %>%
   select(dimension, value = total) %>%
   mutate(group = case_when(
-    str_detect(dimension, "one-person") ~ "One person households",
-    str_detect(dimension, "two-or-more-person") ~ "Two or more person households"
+    str_detect(dimension, "one-person") ~ "1 person households",
+    str_detect(dimension, "two-or-more-person") ~ "2+ person households"
   )) %>%
   select(group, value)
 

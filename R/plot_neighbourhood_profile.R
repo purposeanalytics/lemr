@@ -45,17 +45,17 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
   if (prop_variable) {
     p <- p +
       ggplot2::geom_col(ggplot2::aes(x = .data$prop), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-      ggplot2::geom_text(ggplot2::aes(x = .data$prop, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 4)
+      ggplot2::geom_text(ggplot2::aes(x = .data$prop, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
   } else {
     p <- p +
       ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1))
 
     if (dollar) {
       p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 4)
+        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
     } else {
       p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 4)
+        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
     }
   }
 
@@ -63,7 +63,7 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
     ggplot2::labs(x = NULL, y = NULL) +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
     ggplot2::scale_fill_manual(values = c("grey", "darkgreen")) +
-    theme_lemur() +
+    theme_lemur(base_size = 12) +
     ggplot2::theme(legend.position = "none",
                    axis.text.x = ggplot2::element_blank())
 }
