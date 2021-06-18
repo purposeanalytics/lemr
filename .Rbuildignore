@@ -8,3 +8,5 @@ dev_history.R
 $run_dev.*
 ^README\.Rmd$
 ^scratch$
+^app\.R$
+^rsconnect$
