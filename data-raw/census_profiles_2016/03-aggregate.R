@@ -218,8 +218,7 @@ census_profiles_toronto_cts %>%
 household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
   mutate(
     dimension_num = parse_number(group),
-    group = fct_reorder(group, dimension_num),
-    group = fct_rev(group)
+    group = fct_reorder(group, dimension_num)
   )
 
 neighbourhood <- append(neighbourhood, list(household_size = household_size_by_neighbourhood))

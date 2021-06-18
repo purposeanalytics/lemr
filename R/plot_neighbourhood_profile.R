@@ -16,7 +16,10 @@
 #'   plot_neighbourhood_profile("average_total_income")
 #' }
 plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
-  data <- data[[variable]]
+
+  data <- data[[variable]] %>%
+    dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
+
   city_data <- city_profile[[variable]] %>%
     dplyr::mutate(group = forcats::fct_relevel(group, levels(data[["group"]])))
 
