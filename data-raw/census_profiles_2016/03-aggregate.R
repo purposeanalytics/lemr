@@ -97,7 +97,8 @@ aggregate_prop_by_neighbourhood <- function(df, dimension_full_start) {
   df_children_summary %>%
     left_join(df_parent_summary, by = "neighbourhood") %>%
     mutate(prop = value / total) %>%
-    select(neighbourhood, group, value, prop)
+    select(neighbourhood, group, value, prop) %>%
+    complete(neighbourhood, group, fill = list(value = 0, prop = 0))
 }
 
 aggregate_prop_city <- function(df, dimension_full_start) {
@@ -193,7 +194,7 @@ population_density_by_neighbourhood <- census_profiles_toronto_cts %>%
 neighbourhood <- append(neighbourhood, list(population_density = population_density_by_neighbourhood))
 
 # Compare to city with distribution
-population_density_city_distribution  <- population_density_by_neighbourhood["value"]
+population_density_city_distribution <- population_density_by_neighbourhood["value"]
 city <- append(city, list(population_density = list(distribution = population_density_city_distribution)))
 
 ### Household size ----
@@ -354,8 +355,7 @@ visible_minority_by_neighbourhood <- census_profiles_toronto_cts %>%
     dimension == "Filipino" ~ "Southeast Asian",
     TRUE ~ dimension
   )) %>%
-  aggregate_prop_by_neighbourhood("Total - Visible minority for the population in private households - 25% sample data") %>%
-  filter(prop != 0)
+  aggregate_prop_by_neighbourhood("Total - Visible minority for the population in private households - 25% sample data")
 
 neighbourhood <- append(neighbourhood, list(visible_minority = visible_minority_by_neighbourhood))
 
@@ -504,6 +504,17 @@ neighbourhood_profiles[["unaffordable_housing"]] <- neighbourhood_profiles[["una
   map("value")
 neighbourhood_profiles[["average_renter_shelter_cost"]] <- neighbourhood_profiles[["average_renter_shelter_cost"]] %>%
   map("value")
+
+# Set factor levels separately for visible minority for *each* neighbourhood, so that it goes in descending order, with visible minority n.i.e., multiple visible minorities, and not a visible minority at the end
+
+neighbourhood_profiles[["visible_minority"]] <- neighbourhood_profiles[["visible_minority"]] %>%
+  map(function(x) {
+    x %>%
+      mutate(
+        group = fct_reorder(group, prop, .desc = TRUE),
+        group = fct_relevel(group, "Visible minority, n.i.e.", "Multiple visible minorities", "Not a visible minority", after = Inf)
+      )
+  })
 
 # Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
 neighbourhood_profiles <- neighbourhood_profiles %>%
