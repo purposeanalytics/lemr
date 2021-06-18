@@ -51,26 +51,28 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
           shiny::h2(shiny::uiOutput(ns("population"))),
           shiny::fluidRow(
             shiny::column(
-              width = 4,
-              align = "center",
-              shiny::h3("Population density"),
-              shiny::h3(shiny::uiOutput(ns("population_density_number")))
+              width = 6,
+              shiny::h3("Population Change"),
+              shiny::h3(shiny::uiOutput(ns("population_change_number"))),
+              shiny::plotOutput(ns("population_change_plot"), height = "100px")
             ),
             shiny::column(
-              width = 8,
-              shiny::plotOutput(ns("population_density_plot"), height = "200px")
+              width = 6,
+              shiny::h3("Population Density"),
+              shiny::h3(shiny::uiOutput(ns("population_density_number"))),
+              shiny::plotOutput(ns("population_density_plot"), height = "100px")
             )
           ),
           shiny::fluidRow(
             shiny::column(
               width = 6,
               shiny::h3("Household size"),
-              shiny::plotOutput(ns("household_size"), height = "300px")
+              shiny::plotOutput(ns("household_size"), height = "200px")
             ),
             shiny::column(
               width = 6,
               shiny::h3("Mean total household income"),
-              shiny::plotOutput(ns("average_total_income"), height = "150px"),
+              shiny::plotOutput(ns("average_total_income"), height = "100px"),
               shiny::fluidRow(
                 shiny::column(
                   width = 6,
@@ -80,7 +82,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
                 ),
                 shiny::column(
                   width = 6,
-                  shiny::plotOutput(ns("unaffordable_housing_plot"), height = "150px")
+                  shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
                 )
               )
             )
@@ -88,18 +90,10 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
           shiny::fluidRow(
             shiny::column(
               width = 6,
-              shiny::h3("Visible Minority Population"),
-              shiny::fluidRow(
-                shiny::column(
-                  width = 12,
-                  align = "center",
                   shiny::h3(shiny::uiOutput(ns("visible_minority"))),
-                  shiny::h4(shiny::uiOutput(ns("visible_minority_city")))
-                )
-              ),
-              shiny::plotOutput(ns("visible_minority_plot"), height = "550px")
+              shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
             )
-          )
+        )
         )
       })
 
@@ -113,10 +107,40 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         glue::glue('Population: {scales::comma(neighbourhood_profile[["population"]])} ({scales::comma(neighbourhood_profile[["households"]])} households)')
       })
 
+      # Population change -----
+
+      output$population_change_number <- shiny::renderUI({
+        pop_change <- neighbourhood_profile[["population_change"]]
+
+        pop_change_percent <- pop_change %>%
+          abs() %>%
+          scales::percent(accuracy = 0.1)
+
+        sign <- ifelse(pop_change > 0, "+", "-")
+
+        glue::glue("2011 to 2016: {sign}{pop_change_percent}")
+      })
+
+      output$population_change_plot <- shiny::renderPlot(
+          {
+            ggplot2::ggplot() +
+              ggplot2::geom_density(data = city_profile[["population_change"]][["distribution"]], ggplot2::aes(x = value), fill = "grey", color = "grey") +
+              ggplot2::geom_vline(ggplot2::aes(xintercept = neighbourhood_profile[["population_change"]]), color = "darkgreen") +
+              theme_lemur() +
+              ggplot2::scale_x_continuous(labels = scales::percent) +
+              ggplot2::theme(
+                axis.title = ggplot2::element_blank(),
+                axis.text.y = ggplot2::element_blank()
+              )
+          },
+          res = 96,
+          bg = "transparent"
+        )
+
       # Population density -----
 
       output$population_density_number <- shiny::renderUI({
-        shiny::HTML(glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))} people<br>per square km'))
+        glue::glue('{scales::comma(round(neighbourhood_profile[["population_density"]]))} people per square km')
       })
 
       output$population_density_plot <- shiny::renderPlot(
@@ -192,26 +216,23 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
           dplyr::filter(.data$group != "Not a visible minority") %>%
           dplyr::pull(.data$prop) %>%
           sum() %>%
-          scales::percent()
+          scales::percent(accuracy = 0.1)
 
-        glue::glue("Total Visible Minority Population: {prop}")
-      })
-
-      output$visible_minority_city <- shiny::renderUI({
-
-        prop <- city_profile[["visible_minority"]] %>%
+        city_prop <- city_profile[["visible_minority"]] %>%
           dplyr::filter(.data$group != "Not a visible minority") %>%
           dplyr::pull(.data$prop) %>%
           sum() %>%
-          scales::percent()
+          scales::percent(accuracy = 0.1)
 
-        glue::glue("(City: {prop})")
+        shiny::HTML(
+          glue::glue("Visible Minority Population: {prop}<br>(City of Toronto: {city_prop})")
+        )
       })
 
       output$visible_minority_plot <- shiny::renderPlot(
         {
           neighbourhood_profile %>%
-            plot_neighbourhood_profile("visible_minority", width = 15)
+            plot_neighbourhood_profile("visible_minority", width = 20)
         },
         res = 96,
         bg = "transparent"
