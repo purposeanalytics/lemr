@@ -4,7 +4,7 @@
 \alias{theme_lemur}
 \title{LEMUR ggplot2 theme}
 \usage{
-theme_lemur(base_size = 16)
+theme_lemur(base_size = 14)
 }
 \description{
 LEMUR ggplot2 theme

@@ -123,15 +123,9 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
       output$population_change_plot <- shiny::renderPlot(
           {
-            ggplot2::ggplot() +
-              ggplot2::geom_density(data = city_profile[["population_change"]][["distribution"]], ggplot2::aes(x = value), fill = "grey", color = "grey") +
-              ggplot2::geom_vline(ggplot2::aes(xintercept = neighbourhood_profile[["population_change"]]), color = "darkgreen") +
-              theme_lemur() +
-              ggplot2::scale_x_continuous(labels = scales::percent) +
-              ggplot2::theme(
-                axis.title = ggplot2::element_blank(),
-                axis.text.y = ggplot2::element_blank()
-              )
+            neighbourhood_profile %>%
+              plot_neighbourhood_profile_distribution("population_change") +
+              ggplot2::scale_x_continuous(labels = scales::percent)
           },
           res = 96,
           bg = "transparent"
@@ -145,15 +139,9 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
       output$population_density_plot <- shiny::renderPlot(
         {
-          ggplot2::ggplot() +
-            ggplot2::geom_density(data = city_profile[["population_density"]][["distribution"]], ggplot2::aes(x = value), fill = "grey", color = "grey") +
-            ggplot2::geom_vline(ggplot2::aes(xintercept = neighbourhood_profile[["population_density"]]), color = "darkgreen") +
-            theme_lemur() +
-            ggplot2::scale_x_continuous(labels = scales::comma) +
-            ggplot2::theme(
-              axis.title = ggplot2::element_blank(),
-              axis.text.y = ggplot2::element_blank()
-            )
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile_distribution("population_density") +
+            ggplot2::scale_x_continuous(labels = scales::comma)
         },
         res = 96,
         bg = "transparent"
@@ -195,15 +183,9 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
       output$unaffordable_housing_plot <- shiny::renderPlot(
         {
-          ggplot2::ggplot() +
-            ggplot2::geom_density(data = city_profile[["unaffordable_housing"]][["distribution"]], ggplot2::aes(x = value), fill = "grey", color = "grey") +
-            ggplot2::geom_vline(ggplot2::aes(xintercept = neighbourhood_profile[["unaffordable_housing"]]), color = "darkgreen") +
-            theme_lemur() +
-            ggplot2::scale_x_continuous(labels = scales::percent) +
-            ggplot2::theme(
-              axis.title = ggplot2::element_blank(),
-              axis.text.y = ggplot2::element_blank()
-            )
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile_distribution("unaffordable_housing") +
+            ggplot2::scale_x_continuous(labels = scales::percent)
         },
         res = 96,
         bg = "transparent"

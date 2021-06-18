@@ -77,3 +77,27 @@ str_wrap_factor <- function(x, width) {
   levels(x) <- stringr::str_wrap(levels(x), width = width)
   x
 }
+
+#' Plot the distribution of a neighbourhood profile variable
+#'
+#' Plot the distribution of a variable, across neighbourhoods, with a line showing the current neighbourhood's value
+#'
+#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.
+#' @param variable Variable to visualize
+#'
+#' @export
+#'
+#' @examples
+#' neighbourhood_profiles[["Danforth"]] %>%
+#'   plot_neighbourhood_profile_distribution("population_density")
+plot_neighbourhood_profile_distribution <- function(data, variable) {
+
+  ggplot2::ggplot() +
+    ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
+    ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
+    theme_lemur() +
+    ggplot2::theme(
+      axis.title = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank()
+    )
+}
