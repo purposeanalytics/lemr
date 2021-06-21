@@ -202,7 +202,7 @@ neighbourhoods
 #> Geodetic CRS:  WGS 84
 #> # A tibble: 140 x 2
 #>    neighbourhood                                                        geometry
-#>    <chr>                                                           <POLYGON [°]>
+#>  * <chr>                                                           <POLYGON [°]>
 #>  1 Casa Loma              ((-79.41469 43.67391, -79.41485 43.67434, -79.41553 4…
 #>  2 Annex                  ((-79.39414 43.66872, -79.39588 43.66833, -79.39738 4…
 #>  3 Caledonia-Fairbank     ((-79.46021 43.68156, -79.46044 43.6819, -79.46075 43…
@@ -232,14 +232,14 @@ with cleaned addresses and latitude and longitude:
 
 ``` r
 apartment_building_registry
-#> Simple feature collection with 3479 features and 74 fields
+#> Simple feature collection with 3479 features and 75 fields
 #> Geometry type: POINT
 #> Dimension:     XY
 #> Bounding box:  xmin: -79.61487 ymin: 43.58818 xmax: -79.14976 ymax: 43.81408
 #> Geodetic CRS:  WGS 84
-#> # A tibble: 3,479 x 75
+#> # A tibble: 3,479 x 76
 #>       id bing_address           bing_municipality bing_postal_code bing_latitude
-#>  * <dbl> <chr>                  <chr>             <chr>                    <dbl>
+#>    <dbl> <chr>                  <chr>             <chr>                    <dbl>
 #>  1 62272 3725 Dundas St W       Toronto           M6S 2T5                   43.7
 #>  2 65726 12 Thorncliffe Park Dr Toronto           M4H 1N8                   43.7
 #>  3 62273 2743 Victoria Park Ave <NA>              M1T                       43.8
@@ -250,9 +250,9 @@ apartment_building_registry
 #>  8 65728 211 Wilson Ave         Toronto           M5M 3A9                   43.7
 #>  9 65729 193 Wilson Ave         Toronto           M5M 4M8                   43.7
 #> 10 62277 33 Rosehill Ave        Toronto           M4T 1G4                   43.7
-#> # … with 3,469 more rows, and 70 more variables: bing_longitude <dbl>,
-#> #   air_conditioning_type <chr>, amenities_available <chr>,
-#> #   annual_fire_alarm_test_records <chr>,
+#> # … with 3,469 more rows, and 71 more variables: bing_longitude <dbl>,
+#> #   neighbourhood <chr>, air_conditioning_type <chr>,
+#> #   amenities_available <chr>, annual_fire_alarm_test_records <chr>,
 #> #   annual_fire_pump_flow_test_records <chr>, approved_fire_safety_plan <chr>,
 #> #   balconies <chr>, barrier_free_accessibilty_entr <chr>, bike_parking <chr>,
 #> #   confirmed_storeys <dbl>, confirmed_units <dbl>,
@@ -261,13 +261,64 @@ apartment_building_registry
 #> #   description_of_indoor_exercise_room <chr>,
 #> #   description_of_outdoor_rec_facilities <chr>, elevator_parts_replaced <chr>,
 #> #   elevator_status <chr>, emerg_power_supply_test_records <chr>,
-#> #   exterior_fire_escape <chr>, facilities_available <chr>, …
+#> #   exterior_fire_escape <chr>, …
 
 p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
 <img src="man/figures/README-map-apt-1.png" width="80%" />
+
+#### neighbourhood\_profiles and city\_profile
+
+neighbourhood\_profiles contains variables describing neighbourhoods in
+Toronto from the 2016 census. The data set is a list, with one element
+for each neighbourhood. Within each neighbourhood there is one element
+for each variable. To see a full description of the variables, see:
+`?neighbourhood_profiles`.
+
+``` r
+names(neighbourhood_profiles[["Danforth"]])
+#>  [1] "population"                  "households"                 
+#>  [3] "population_change"           "population_density"         
+#>  [5] "household_size"              "average_total_income"       
+#>  [7] "unaffordable_housing"        "lim_at"                     
+#>  [9] "visible_minority"            "structure_type"             
+#> [11] "bedrooms"                    "household_tenure"           
+#> [13] "average_renter_shelter_cost"
+```
+
+You can compare these to the city values (in `city_profile`)
+
+``` r
+names(city_profile)
+#>  [1] "population_change"           "population_density"         
+#>  [3] "household_size"              "average_total_income"       
+#>  [5] "unaffordable_housing"        "lim_at"                     
+#>  [7] "visible_minority"            "structure_type"             
+#>  [9] "bedrooms"                    "household_tenure"           
+#> [11] "average_renter_shelter_cost"
+```
+
+using `plot_neighbourhood_profile()` to compare breakdowns:
+
+``` r
+neighbourhood_profiles[["Danforth"]] %>%
+  plot_neighbourhood_profile("household_size")
+```
+
+<img src="man/figures/README-plot-household-size-1.png" width="80%" />
+
+or `plot_neighbourhood_profile_distribution()` to compare a value to the
+distribution across the city:
+
+``` r
+neighbourhood_profiles[["Danforth"]] %>%
+  plot_neighbourhood_profile_distribution("unaffordable_housing") + 
+  ggplot2::scale_x_continuous(labels = scales::percent)
+```
+
+<img src="man/figures/README-plot-unaffordable-housing-1.png" width="80%" />
 
 ## Development
 

@@ -139,6 +139,35 @@ p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
 ```
 
+#### neighbourhood_profiles and city_profile
+
+neighbourhood_profiles contains variables describing neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable. To see a full description of the variables, see: `?neighbourhood_profiles`.
+
+```{r neighbourhood-profiles}
+names(neighbourhood_profiles[["Danforth"]])
+```
+
+You can compare these to the city values (in `city_profile`)
+
+```{r city-profile}
+names(city_profile)
+```
+
+using `plot_neighbourhood_profile()` to compare breakdowns:
+
+```{r plot-household-size}
+neighbourhood_profiles[["Danforth"]] %>%
+  plot_neighbourhood_profile("household_size")
+```
+
+or `plot_neighbourhood_profile_distribution()` to compare a value to the distribution across the city:
+
+```{r plot-unaffordable-housing}
+neighbourhood_profiles[["Danforth"]] %>%
+  plot_neighbourhood_profile_distribution("unaffordable_housing") + 
+  ggplot2::scale_x_continuous(labels = scales::percent)
+```
+
 ## Development
 
 To add to lemur code or work within the package repository itself, first clone the repository and open the project in RStudio.
