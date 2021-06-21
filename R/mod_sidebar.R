@@ -58,6 +58,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
       output$tabs_people_places <- shiny::renderUI({
         shiny::tabsetPanel(
+          id = "sidebar_tab",
           shiny::tabPanel(title = "People", mod_sidebar_people_ui(ns("people"))),
           shiny::tabPanel(title = "Places", mod_sidebar_places_ui(ns("places")))
         )

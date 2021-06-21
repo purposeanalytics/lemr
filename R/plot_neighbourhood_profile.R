@@ -9,13 +9,17 @@
 #' @export
 #'
 #' @examples {
-#' neighbourhood_profiles[["Danforth"]] %>%
-#'   plot_neighbourhood_profile("household_size")
+#'   neighbourhood_profiles[["Danforth"]] %>%
+#'     plot_neighbourhood_profile("household_size")
 #'
-#' neighbourhood_profiles[["Danforth"]] %>%
-#'   plot_neighbourhood_profile("average_total_income")
+#'   neighbourhood_profiles[["Danforth"]] %>%
+#'     plot_neighbourhood_profile("average_total_income")
 #' }
 plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
+
+  if (variable == "renter_owner") {
+    return(plot_neighbourhood_household_tenure(data))
+  }
 
   data <- data[[variable]] %>%
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
@@ -64,18 +68,35 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
     ggplot2::scale_fill_manual(values = c("grey", "darkgreen")) +
     theme_lemur(base_size = 12) +
-    ggplot2::theme(legend.position = "none",
-                   axis.text.x = ggplot2::element_blank())
+    ggplot2::theme(
+      legend.position = "none",
+      axis.text.x = ggplot2::element_blank()
+    )
 }
 
 str_wrap_factor <- function(x, width) {
-
   if (!is.factor(x)) {
     x <- as.factor(x)
   }
 
   levels(x) <- stringr::str_wrap(levels(x), width = width)
   x
+}
+
+plot_neighbourhood_household_tenure <- function(data) {
+  renter_owner <- city_profile[["renter_owner"]] %>%
+    dplyr::mutate(neighbourhood = "City of Toronto") %>%
+    dplyr::bind_rows(
+      data[["renter_owner"]]
+    ) %>%
+    dplyr::mutate(neighbourhood = forcats::fct_relevel(neighbourhood, "City of Toronto", after = 0))
+
+  ggplot2::ggplot(renter_owner, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
+    ggplot2::geom_col(show.legend = FALSE) +
+    ggplot2::scale_x_continuous(labels = scales::percent) +
+    theme_lemur() +
+    ggplot2::theme(axis.title = ggplot2::element_blank())
+
 }
 
 #' Plot the distribution of a neighbourhood profile variable
@@ -91,13 +112,12 @@ str_wrap_factor <- function(x, width) {
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_density")
 plot_neighbourhood_profile_distribution <- function(data, variable) {
-
-  ggplot2::ggplot() +
-    ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
-    ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
-    theme_lemur() +
-    ggplot2::theme(
-      axis.title = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_blank()
-    )
+    ggplot2::ggplot() +
+      ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
+      ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
+      theme_lemur() +
+      ggplot2::theme(
+        axis.title = ggplot2::element_blank(),
+        axis.text.y = ggplot2::element_blank()
+      )
 }
