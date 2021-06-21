@@ -164,10 +164,8 @@ neighbourhood <- append(neighbourhood, list(population_change = population_chang
 # Compare to city with value and distribution
 
 population_change_city <- census_profiles_toronto %>%
-  filter(dimension %in% c("Population, 2011", "Population, 2016")) %>%
-  select(dimension, total) %>%
-  pivot_wider(names_from = dimension, values_from = total)
-population_change_city <- (population_change_city[["Population, 2016"]] - population_change_city[["Population, 2011"]]) / (population_change_city[["Population, 2011"]])
+  filter(dimension == "Population percentage change, 2011 to 2016") %>%
+  pull(total)
 
 population_change_city_distribution <- population_change_by_neighbourhood["value"]
 
@@ -220,7 +218,8 @@ household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
     group = ifelse(group == "5 or more persons", "5+ persons", group),
     dimension_num = parse_number(group),
     group = fct_reorder(group, dimension_num)
-  )
+  ) %>%
+  select(-dimension_num)
 
 neighbourhood <- append(neighbourhood, list(household_size = household_size_by_neighbourhood))
 
@@ -234,7 +233,7 @@ household_size_city <- census_profiles_toronto %>%
 
 city <- append(city, list(household_size = household_size_city))
 
-### Average one and two+ person incomes ----
+### Average total income ----
 # Variable "Total - Income statistics in 2015 for private households by household size - 25% sample data"
 # And narrow in on average total income for one and two+ person households
 
@@ -346,17 +345,17 @@ private_households_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "Number of persons in private households") %>%
   aggregate_total_by_neighbourhood()
 
-poverty_measure_by_neighbourhood <- census_profiles_toronto_cts %>%
+lim_at_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
   aggregate_total_by_neighbourhood() %>%
   left_join(private_households_by_neighbourhood, by = "neighbourhood", suffix = c("_poverty", "_population")) %>%
   mutate(value = value_poverty / value_population) %>%
   select(neighbourhood, value)
 
-neighbourhood <- append(neighbourhood, list(poverty = poverty_measure_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(lim_at = lim_at_by_neighbourhood))
 
 # Compare to city with value and distribution
-poverty_city <- census_profiles_toronto %>%
+lim_at_city <- census_profiles_toronto %>%
   filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
   pull(total)
 
@@ -366,7 +365,7 @@ persons_city <- census_profiles_toronto %>%
 
 poverty_city <- poverty_city / persons_city
 
-city <- append(city, list(poverty = list(value = poverty_city, distribution = poverty_measure_by_neighbourhood["value"])))
+city <- append(city, list(poverty = list(value = lim_at_city, distribution = lim_at_by_neighbourhood["value"])))
 
 ### Visible minority -----
 # Variable: "Total - Visible minority for the population in private households - 25% sample"
@@ -469,7 +468,7 @@ bedrooms_city <- census_profiles_toronto %>%
 
 city <- append(city, list(bedrooms = bedrooms_city))
 
-### Renter / owner split -----
+### Household tenure -----
 # Variable: "Total - Private households by tenure - 25% sample data"
 # "Band housing" (relevant when the housing is on a First Nations reserve or settlement) is not present in Toronto.
 # So limit to Owner and Renter.
@@ -478,7 +477,7 @@ household_tenure_by_neighbourhood <- census_profiles_toronto_cts %>%
   aggregate_prop_by_neighbourhood("Total - Private households by tenure - 25% sample data") %>%
   filter(group %in% c("Owner", "Renter"))
 
-neighbourhood <- append(neighbourhood, list(renter_owner = household_tenure_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(household_tenure = household_tenure_by_neighbourhood))
 
 # Compare to city by breakdown
 
@@ -486,7 +485,7 @@ household_tenure_city <- census_profiles_toronto %>%
   aggregate_prop_city("Total - Private households by tenure - 25% sample data") %>%
   filter(group %in% c("Owner", "Renter"))
 
-city <- append(city, list(renter_owner = household_tenure_city))
+city <- append(city, list(household_tenure = household_tenure_city))
 
 ### Shelter cost -----
 
