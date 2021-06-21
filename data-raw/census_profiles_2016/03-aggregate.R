@@ -4,22 +4,22 @@
 
 # # People
 #
-# Population - NO COMPARISON
-# Number of households - NO COMPARISON
-# Population change - MAYBE COMPARISON? DISTRIBUTION?
-# Population density - DISTRIBUTION
-# Household size - COMPARISON
-# One person and 2+ people incomes - COMPARISON
-# Unaffordable housing % - COMPARISON
-# Total people under poverty measure - COMPARISON - TODO
-# Visible minority population - COMPARISON
+# Population
+# Number of households
+# Population change
+# Population density
+# Household size
+# One person and 2+ people incomes
+# Unaffordable housing %
+# Total people under poverty measure
+# Visible minority population
 
 # # Places
 #
-# Private dwellings by structure (collapse single- and semi-detached) - COMPARISON
-# Number of bedrooms - COMPARISON
-# Renter versus Owner - COMPARISON and DISTRIBUTION
-# Shelter Cost - COMPARISON and DISTRIBUTION
+# Private dwellings by structure
+# Number of bedrooms
+# Renter versus Owner
+# Shelter Cost
 
 library(dplyr)
 library(tidyr)
@@ -341,9 +341,32 @@ unaffordable_housing_city_distribution <- unaffordable_housing_by_neighbourhood[
 city <- append(city, list(unaffordable_housing = list(value = unaffordable_housing_city, distribution = unaffordable_housing_city_distribution)))
 
 ### Total people under poverty measure ----
-# Using market basket measure
+# Low-income measure after tax (LIM-AT)
+private_households_by_neighbourhood <- census_profiles_toronto_cts %>%
+  filter(dimension == "Number of persons in private households") %>%
+  aggregate_total_by_neighbourhood()
 
-# TODO - MBM seems to be a different data source
+poverty_measure_by_neighbourhood <- census_profiles_toronto_cts %>%
+  filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
+  aggregate_total_by_neighbourhood() %>%
+  left_join(private_households_by_neighbourhood, by = "neighbourhood", suffix = c("_poverty", "_population")) %>%
+  mutate(value = value_poverty / value_population) %>%
+  select(neighbourhood, value)
+
+neighbourhood <- append(neighbourhood, list(poverty = poverty_measure_by_neighbourhood))
+
+# Compare to city with value and distribution
+poverty_city <- census_profiles_toronto %>%
+  filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
+  pull(total)
+
+persons_city <-  census_profiles_toronto %>%
+  filter(dimension == "Number of persons in private households") %>%
+  pull(total)
+
+poverty_city <- poverty_city / persons_city
+
+city <- append(city, list(poverty = list(value = poverty_city, distribution = poverty_measure_by_neighbourhood["value"])))
 
 ### Visible minority -----
 # Variable: "Total - Visible minority for the population in private households - 25% sample"
@@ -502,6 +525,8 @@ neighbourhood_profiles[["households"]] <- neighbourhood_profiles[["households"]]
 neighbourhood_profiles[["population_change"]] <- neighbourhood_profiles[["population_change"]] %>%
   map("value")
 neighbourhood_profiles[["population_density"]] <- neighbourhood_profiles[["population_density"]] %>%
+  map("value")
+neighbourhood_profiles[["poverty"]] <- neighbourhood_profiles[["poverty"]] %>%
   map("value")
 neighbourhood_profiles[["unaffordable_housing"]] <- neighbourhood_profiles[["unaffordable_housing"]] %>%
   map("value")

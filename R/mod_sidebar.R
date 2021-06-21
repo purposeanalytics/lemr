@@ -84,16 +84,28 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
                   width = 6,
                   shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
                 )
-              )
+              ),
+              shiny::fluidRow(
+                shiny::column(
+                  width = 6,
+                  align = "center",
+                  shiny::h3(shiny::uiOutput(ns("poverty"))),
+                  shiny::h3(shiny::uiOutput(ns("poverty_city"))),
+                ),
+                shiny::column(
+                  width = 6,
+                  shiny::plotOutput(ns("poverty_plot"), height = "100px")
+                )
+              ),
             )
           ),
           shiny::fluidRow(
             shiny::column(
               width = 6,
-                  shiny::h3(shiny::uiOutput(ns("visible_minority"))),
+              shiny::h3(shiny::uiOutput(ns("visible_minority"))),
               shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
             )
-        )
+          )
         )
       })
 
@@ -122,14 +134,14 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       })
 
       output$population_change_plot <- shiny::renderPlot(
-          {
-            neighbourhood_profile %>%
-              plot_neighbourhood_profile_distribution("population_change") +
-              ggplot2::scale_x_continuous(labels = scales::percent)
-          },
-          res = 96,
-          bg = "transparent"
-        )
+        {
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile_distribution("population_change") +
+            ggplot2::scale_x_continuous(labels = scales::percent)
+        },
+        res = 96,
+        bg = "transparent"
+      )
 
       # Population density -----
 
@@ -158,9 +170,7 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         bg = "transparent"
       )
 
-      # Income and poverty ------
-
-      ## Mean total household income ------
+      # Mean total household income ------
 
       output$average_total_income <- shiny::renderPlot(
         {
@@ -171,7 +181,27 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         bg = "transparent"
       )
 
-      ## Unaffordable housing -----
+      # Poverty measure -----
+
+      output$poverty <- shiny::renderUI({
+        glue::glue('Poverty (LIM-AT): {scales::percent(neighbourhood_profile[["poverty"]], accuracy = 0.1)}')
+      })
+
+      output$poverty_city <- shiny::renderUI({
+        glue::glue('(City: {scales::percent(city_profile[["poverty"]][["value"]], accuracy = 0.1)}%)')
+      })
+
+      output$poverty_plot <- shiny::renderPlot(
+        {
+          neighbourhood_profile %>%
+            plot_neighbourhood_profile_distribution("poverty") +
+            ggplot2::scale_x_continuous(labels = scales::percent)
+        },
+        res = 96,
+        bg = "transparent"
+      )
+
+      # Unaffordable housing -----
 
       output$unaffordable_housing <- shiny::renderUI({
         glue::glue('Unaffordable housing: {scales::percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)}')
