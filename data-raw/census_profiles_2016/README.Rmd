@@ -1,0 +1,12 @@
+---
+output: github_document
+---
+
+# Neighbourhood Census Profiles - 2016 census
+
+```{r, echo = FALSE, message = FALSE}
+options(knitr.kable.NA = '')
+metadata <- readr::read_csv(here::here("data-raw", "census_profiles_2016", "clean", "metadata.csv"))
+
+knitr::kable(metadata)
+```

@@ -324,6 +324,13 @@
       "Repository": "CRAN",
       "Hash": "77bd60a6157420d4ffa93b27cf6a58b8"
     },
+    "forcats": {
+      "Package": "forcats",
+      "Version": "0.5.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "81c3244cab67468aac4c60550832655d"
+    },
     "fs": {
       "Package": "fs",
       "Version": "1.5.0",
@@ -530,14 +537,8 @@
     "lemur": {
       "Package": "lemur",
       "Version": "0.0.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "lemur",
-      "RemoteUsername": "purposeanalytics",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "b3e708664128fe2513e8234feee43520c4bb2db2",
-      "Hash": "775a0d068c4b441670fb0673b01246ed"
+      "Source": "unknown",
+      "Hash": "c53b8ad9f775453ef185487f524f1dd3"
     },
     "lifecycle": {
       "Package": "lifecycle",
