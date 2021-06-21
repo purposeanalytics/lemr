@@ -421,10 +421,10 @@ structure_type_clean <- tribble(
 )
 
 structure_type_by_neighbourhood <- census_profiles_toronto_cts %>%
-  filter(!group %in% c("Moveable dwelling", "Other single-attached house")) %>%
   left_join(structure_type_clean, by = c("dimension" = "original")) %>%
   mutate(dimension = coalesce(clean, dimension)) %>%
-  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by structural type of dwelling - 100% data")
+  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
+  filter(!group %in% c("Movable dwelling", "Other single-attached house"))
 
 # Remove "moveable dwelling" because the percentage is so low in Toronto (0.03%)
 
@@ -435,11 +435,10 @@ neighbourhood <- append(neighbourhood, list(structure_type = structure_type_by_n
 # Compare to city with breakdown
 
 structure_type_city <- census_profiles_toronto %>%
-  filter(!group %in% c("Moveable dwelling", "Other single-attached house")) %>%
   left_join(structure_type_clean, by = c("dimension" = "original")) %>%
   mutate(dimension = coalesce(clean, dimension)) %>%
   aggregate_prop_city("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
-  filter(group != "Moveable dwelling")
+  filter(!group %in% c("Movable dwelling", "Other single-attached house"))
 
 city <- append(city, list(structure_type = structure_type_city))
 

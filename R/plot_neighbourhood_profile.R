@@ -23,13 +23,13 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
   data <- data[[variable]] %>%
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
 
-  city_data <- city_profile[[variable]] %>%
+  city_data <- lemur::city_profile[[variable]] %>%
     dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
 
   data_combined <- data %>%
     dplyr::bind_rows(city_data) %>%
-    dplyr::mutate(neighbourhood = dplyr::coalesce(neighbourhood, "Toronto")) %>%
-    dplyr::mutate(neighbourhood = forcats::fct_relevel(neighbourhood, "Toronto", after = 0)) %>%
+    dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "Toronto")) %>%
+    dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "Toronto", after = 0)) %>%
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   # Flag if it's a proportion variable
