@@ -12,7 +12,7 @@ mod_sidebar_ui <- function(id) {
   shiny::tagList(
     shiny::h1(shiny::uiOutput(ns("header"))),
     shiny::h2(shiny::uiOutput(ns("population"))),
-    mod_sidebar_people_ui(ns("people"))
+    shiny::uiOutput(ns("tabs_people_places"))
   )
 }
 
@@ -54,7 +54,17 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         glue::glue('Population: {scales::comma(neighbourhood_profile[["population"]])} ({scales::comma(neighbourhood_profile[["households"]])} households)')
       })
 
+      # Tabs -----
+
+      output$tabs_people_places <- shiny::renderUI({
+        shiny::tabsetPanel(
+          shiny::tabPanel(title = "People", mod_sidebar_people_ui(ns("people"))),
+          shiny::tabPanel(title = "Places", mod_sidebar_places_ui(ns("places")))
+        )
+      })
+
       mod_sidebar_people_server("people", neighbourhood)
+      mod_sidebar_places_server("places", neighbourhood)
     })
   })
 }
