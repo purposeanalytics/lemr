@@ -16,7 +16,7 @@
 #'     plot_neighbourhood_profile("average_total_income")
 #' }
 plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
-  if (variable == "renter_owner") {
+  if (variable == "household_tenure") {
     return(plot_neighbourhood_household_tenure(data))
   }
 
@@ -83,15 +83,19 @@ str_wrap_factor <- function(x, width) {
 }
 
 plot_neighbourhood_household_tenure <- function(data) {
-  renter_owner <- lemur::city_profile[["renter_owner"]] %>%
+
+  household_tenure <- lemur::city_profile[["household_tenure"]] %>%
     dplyr::mutate(neighbourhood = "City of Toronto") %>%
     dplyr::bind_rows(
-      data[["renter_owner"]]
+      data[["household_tenure"]]
     ) %>%
-    dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
+    dplyr::mutate(
+      neighbourhood_tenure = glue::glue("{.data$neighbourhood}_{.data$group}"),
+      neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
 
-  ggplot2::ggplot(renter_owner, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
+  ggplot2::ggplot(household_tenure, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
     ggplot2::geom_col(show.legend = FALSE) +
+    ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
     ggplot2::scale_x_continuous(labels = scales::percent) +
     theme_lemur() +
     ggplot2::theme(axis.title = ggplot2::element_blank())

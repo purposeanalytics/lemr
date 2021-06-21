@@ -363,9 +363,9 @@ persons_city <- census_profiles_toronto %>%
   filter(dimension == "Number of persons in private households") %>%
   pull(total)
 
-poverty_city <- poverty_city / persons_city
+lim_at_city <- lim_at_city / persons_city
 
-city <- append(city, list(poverty = list(value = lim_at_city, distribution = lim_at_by_neighbourhood["value"])))
+city <- append(city, list(lim_at = list(value = lim_at_city, distribution = lim_at_by_neighbourhood["value"])))
 
 ### Visible minority -----
 # Variable: "Total - Visible minority for the population in private households - 25% sample"
@@ -529,7 +529,7 @@ neighbourhood_profiles[["population_change"]] <- neighbourhood_profiles[["popula
   map("value")
 neighbourhood_profiles[["population_density"]] <- neighbourhood_profiles[["population_density"]] %>%
   map("value")
-neighbourhood_profiles[["poverty"]] <- neighbourhood_profiles[["poverty"]] %>%
+neighbourhood_profiles[["lim_at"]] <- neighbourhood_profiles[["lim_at"]] %>%
   map("value")
 neighbourhood_profiles[["unaffordable_housing"]] <- neighbourhood_profiles[["unaffordable_housing"]] %>%
   map("value")

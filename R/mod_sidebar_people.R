@@ -68,12 +68,12 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
                 shiny::column(
                   width = 6,
                   align = "center",
-                  shiny::h3(shiny::uiOutput(ns("poverty"))),
-                  shiny::h3(shiny::uiOutput(ns("poverty_city"))),
+                  shiny::h3(shiny::uiOutput(ns("lim_at"))),
+                  shiny::h3(shiny::uiOutput(ns("lim_at_city"))),
                 ),
                 shiny::column(
                   width = 6,
-                  shiny::plotOutput(ns("poverty_plot"), height = "100px")
+                  shiny::plotOutput(ns("lim_at_plot"), height = "100px")
                 )
               ),
             )
@@ -152,20 +152,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
         bg = "transparent"
       )
 
-      # Poverty measure -----
+      # LIM-AT -----
 
-      output$poverty <- shiny::renderUI({
-        glue::glue('Poverty (LIM-AT): {scales::percent(neighbourhood_profile[["poverty"]], accuracy = 0.1)}')
+      output$lim_at <- shiny::renderUI({
+        glue::glue('LIM-AT: {scales::percent(neighbourhood_profile[["lim_at"]], accuracy = 0.1)}')
       })
 
-      output$poverty_city <- shiny::renderUI({
-        glue::glue('(City: {scales::percent(lemur::city_profile[["poverty"]][["value"]], accuracy = 0.1)}%)')
+      output$lim_at_city <- shiny::renderUI({
+        glue::glue('(City: {scales::percent(lemur::city_profile[["lim_at"]][["value"]], accuracy = 0.1)}%)')
       })
 
-      output$poverty_plot <- shiny::renderPlot(
+      output$lim_at_plot <- shiny::renderPlot(
         {
           neighbourhood_profile %>%
-            plot_neighbourhood_profile_distribution("poverty") +
+            plot_neighbourhood_profile_distribution("lim_at") +
             ggplot2::scale_x_continuous(labels = scales::percent)
         },
         res = 96,

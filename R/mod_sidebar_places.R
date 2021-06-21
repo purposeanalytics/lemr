@@ -97,7 +97,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       output$household_tenure <- shiny::renderPlot(
         {
           neighbourhood_profile %>%
-            plot_neighbourhood_profile("renter_owner")
+            plot_neighbourhood_profile("household_tenure")
         },
         res = 96,
         bg = "transparent"
