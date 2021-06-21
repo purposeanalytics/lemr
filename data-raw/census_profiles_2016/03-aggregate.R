@@ -228,9 +228,9 @@ neighbourhood <- append(neighbourhood, list(household_size = household_size_by_n
 
 household_size_city <- census_profiles_toronto %>%
   aggregate_prop_city("Total - Private households by household size - 100% data") %>%
-mutate(
-  group = ifelse(group == "5 or more persons", "5+ persons", group)
-)
+  mutate(
+    group = ifelse(group == "5 or more persons", "5+ persons", group)
+  )
 
 city <- append(city, list(household_size = household_size_city))
 
@@ -360,7 +360,7 @@ poverty_city <- census_profiles_toronto %>%
   filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
   pull(total)
 
-persons_city <-  census_profiles_toronto %>%
+persons_city <- census_profiles_toronto %>%
   filter(dimension == "Number of persons in private households") %>%
   pull(total)
 

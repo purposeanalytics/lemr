@@ -9,15 +9,14 @@
 #' @export
 #'
 #' @examples {
-#' library(opendatatoronto)
-#' library(dplyr)
+#'   library(opendatatoronto)
+#'   library(dplyr)
 #'
-#' list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
-#'   get_resource() %>%
-#'   mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
+#'   list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") %>%
+#'     get_resource() %>%
+#'     mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
 #' }
 clean_neighbourhood_names <- function(neighbourhood) {
-
   res <- dplyr::tibble(x = neighbourhood) %>%
     # Remove neighbourhood numbers
     tidyr::separate(.data$x, into = ".neighbourhood_new", sep = " \\([0-9]", extra = "drop", remove = FALSE) %>%

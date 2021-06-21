@@ -22,7 +22,7 @@ ct_to_neighbourhood <- geo_to_neighbourhood %>%
 
 # Keep Toronto (535) because we want to compare neighbourhoods to city numbers
 toronto_census_tracts <- toronto_census_tracts %>%
-  select(-census_year, -geo_level, -geo_name, -data_quality_flag, -dim_profile_of_census_tracts_2247, -notes_profile_of_census_tracts_2247,  -geo_code_por, -member_id, -gnr, -gnr_lf) # Keep alt_geo_code instead because it'll be easier to consistently add decimals to
+  select(-census_year, -geo_level, -geo_name, -data_quality_flag, -dim_profile_of_census_tracts_2247, -notes_profile_of_census_tracts_2247, -geo_code_por, -member_id, -gnr, -gnr_lf) # Keep alt_geo_code instead because it'll be easier to consistently add decimals to
 
 # ### Convert geo code to decimal format ----
 # e.g. 535000100 -> "5350001.00", 535000701 -> "5350007.01"

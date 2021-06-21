@@ -17,11 +17,11 @@ If there are any cleaning errors and the names cannot all be matched to that for
 }
 \examples{
 {
-library(opendatatoronto)
-library(dplyr)
+  library(opendatatoronto)
+  library(dplyr)
 
-list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") \%>\%
-  get_resource() \%>\%
-  mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
+  list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") \%>\%
+    get_resource() \%>\%
+    mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
 }
 }

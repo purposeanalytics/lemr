@@ -16,7 +16,6 @@
 #'     plot_neighbourhood_profile("average_total_income")
 #' }
 plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
-
   if (variable == "renter_owner") {
     return(plot_neighbourhood_household_tenure(data))
   }
@@ -96,7 +95,6 @@ plot_neighbourhood_household_tenure <- function(data) {
     ggplot2::scale_x_continuous(labels = scales::percent) +
     theme_lemur() +
     ggplot2::theme(axis.title = ggplot2::element_blank())
-
 }
 
 #' Plot the distribution of a neighbourhood profile variable
@@ -112,12 +110,12 @@ plot_neighbourhood_household_tenure <- function(data) {
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_density")
 plot_neighbourhood_profile_distribution <- function(data, variable) {
-    ggplot2::ggplot() +
-      ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
-      theme_lemur() +
-      ggplot2::theme(
-        axis.title = ggplot2::element_blank(),
-        axis.text.y = ggplot2::element_blank()
-      )
+  ggplot2::ggplot() +
+    ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
+    ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
+    theme_lemur() +
+    ggplot2::theme(
+      axis.title = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank()
+    )
 }

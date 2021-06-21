@@ -39,7 +39,8 @@ mod_map_server <- function(id, address, neighbourhood) {
     # Update zoom of map and highlight neighbourhood based on neighbourhood search
     shiny::observeEvent(neighbourhood(), {
       mapboxer::mapboxer_proxy(ns("map")) %>%
-        zoom_map_to_address("none") %>% # Clear address
+        zoom_map_to_address("none") %>%
+        # Clear address
         zoom_map_to_neighbourhood(neighbourhood()) %>%
         mapboxer::update_mapboxer()
     })
