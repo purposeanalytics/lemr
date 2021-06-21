@@ -23,7 +23,7 @@
 
 #' City of Toronto Neighbourhood Profiles
 #'
-#' Variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable.
+#' \code{neighbourhood profiles} contains variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable. \code{city_profile} describes the city of Toronto from the 2016 census, including breakdowns for the city or the distribution across neighbourhoods, depending on the variable.
 #'
 #' The variables are:
 #'
@@ -41,31 +41,15 @@
 #' * **Household tenure**: Households by tenure provides data on the number and proportion of private households that own or rent their dwelling. A third tenure type, which is not present in the City of Toronto, is whether the dwelling is band housing (on an Indian reserve or settlement).
 #' * **Average shelter cost for rentals**: Shelter cost refers to the average monthly total of all shelter expenses paid by households that rent their dwelling. Shelter costs include, where applicable, the rent and the costs of electricity, heat, water and other municipal services. The reference period for shelter cost data is 2016, while household total income is reported for the year 2015.
 #'
+#' @rdname profiles
 #' @md
 #' @examples
 #' neighbourhood_profiles[["Danforth"]]
+#'
+#' city_profile[["average_total_income"]]
 "neighbourhood_profiles"
 
-#' City of Toronto Profile
-#'
-#' Variables describing profiles the City of Toronto Toronto from the 2016 census. Includes average values of variables for the city as well as distributions across neighbourhoods.
-#'
-#' The variables are:
-#'
-#' * **Population change** (value and distribution): Population change reflects the per cent change in the population since the last Census in 2011.
-#' * **Population density** (distribution): Number of people per square kilometer.
-#' * **Household size** (breakdown): Breakdown of number of persons in private households.
-#' * **Average total income** (breakdown): Average total income broken down by one and two-plus person households. Total income refers to the total amount of income for a household in 2015 that is of a regular and recurring nature, such as investment and pension income, employment income, and income from government sources.
-#' * **Unaffordable housing** (value and distribution): Unaffordable housing is the percentage of private households spending more than 30 per cent of their total household income on shelter costs.
-#' * **Low income (LIM-AT)** (value and distribution): Low income (LIM-AT) is the percentage of people in private households in low income status according to the Low Income Measure, After-Tax.
-#' * **Visible minority** (breakdown): Visible minority population is the percentage of people in private households who belong to a visible minority group, i.e. persons, other than Aboriginal peoples, who are non-Caucasian in race or non-white in colour.
-#' * **Private dwellings by structure type** (breakdown): Breakdown of dwellings by structure type, referring to the structural characteristics and/or configuration of the dwelling. Two categories in the Census, mobile dwellings and ""other"" single-attached house, make up a very small proportion of Toronto's occupied dwellings and so are not reported.
-#' * **Number of bedrooms** (breakdown): Breakdown of number of bedrooms.
-#' * **Household tenure** (breakdown): Households by tenure provides data on the number and proportion of private households that own or rent their dwelling. A third tenure type, which is not present in the City of Toronto, is whether the dwelling is band housing (on an Indian reserve or settlement).
-#' * **Average shelter cost for rentals** (value and distribution): Shelter cost refers to the average monthly total of all shelter expenses paid by households that rent their dwelling. Shelter costs include, where applicable, the rent and the costs of electricity, heat, water and other municipal services. The reference period for shelter cost data is 2016, while household total income is reported for the year 2015.
-#'
-#' @md
-#' @examples
-#' city_profile[["average_total_income"]]
+
+#' @rdname profiles
 "city_profile"
 

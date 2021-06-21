@@ -3,15 +3,20 @@
 \docType{data}
 \name{neighbourhood_profiles}
 \alias{neighbourhood_profiles}
+\alias{city_profile}
 \title{City of Toronto Neighbourhood Profiles}
 \format{
 An object of class \code{list} of length 140.
+
+An object of class \code{list} of length 13.
 }
 \usage{
 neighbourhood_profiles
+
+city_profile
 }
 \description{
-Variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable.
+\code{neighbourhood profiles} contains variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable. \code{city_profile} describes the city of Toronto from the 2016 census, including breakdowns for the city or the distribution across neighbourhoods, depending on the variable.
 }
 \details{
 The variables are:
@@ -33,5 +38,7 @@ The variables are:
 }
 \examples{
 neighbourhood_profiles[["Danforth"]]
+
+city_profile[["average_total_income"]]
 }
 \keyword{datasets}

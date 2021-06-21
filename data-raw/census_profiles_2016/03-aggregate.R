@@ -130,7 +130,12 @@ population_by_neighbourhood <- census_profiles_toronto_cts %>%
 
 neighbourhood <- append(neighbourhood, list(population = population_by_neighbourhood))
 
-# No city comparison
+# City
+population_city <- census_profiles_toronto %>%
+  filter(dimension == "Population, 2016") %>%
+  pull(total)
+
+city <- append(city, list(population = population_city))
 
 ### Households -----
 
@@ -140,7 +145,12 @@ households_by_neighbourhood <- census_profiles_toronto_cts %>%
 
 neighbourhood <- append(neighbourhood, list(households = households_by_neighbourhood))
 
-# No city comparison
+# City
+households_city <- census_profiles_toronto %>%
+  filter(dimension == "Total - Private households by household size - 100% data") %>%
+  pull(total)
+
+city <- append(city, list(households = population_city))
 
 ### Population change ----
 # Use "Population, 2011" and compare to 2016
