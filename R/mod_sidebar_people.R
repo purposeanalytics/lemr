@@ -159,7 +159,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       })
 
       output$poverty_city <- shiny::renderUI({
-        glue::glue('(City: {scales::percent(city_profile[["poverty"]][["value"]], accuracy = 0.1)}%)')
+        glue::glue('(City: {scales::percent(lemur::city_profile[["poverty"]][["value"]], accuracy = 0.1)}%)')
       })
 
       output$poverty_plot <- shiny::renderPlot(
@@ -179,7 +179,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       })
 
       output$unaffordable_housing_city <- shiny::renderUI({
-        glue::glue('(City: {city_profile[["unaffordable_housing"]][["value"]]}%)')
+        glue::glue('(City: {lemur::city_profile[["unaffordable_housing"]][["value"]]}%)')
       })
 
       output$unaffordable_housing_plot <- shiny::renderPlot(
@@ -201,7 +201,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           sum() %>%
           scales::percent(accuracy = 0.1)
 
-        city_prop <- city_profile[["visible_minority"]] %>%
+        city_prop <- lemur::city_profile[["visible_minority"]] %>%
           dplyr::filter(.data$group != "Not a visible minority") %>%
           dplyr::pull(.data$prop) %>%
           sum() %>%

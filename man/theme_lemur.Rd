@@ -6,6 +6,9 @@
 \usage{
 theme_lemur(base_size = 14)
 }
+\arguments{
+\item{base_size}{Base font size}
+}
 \description{
 LEMUR ggplot2 theme
 }

@@ -24,23 +24,23 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
 
   city_data <- city_profile[[variable]] %>%
-    dplyr::mutate(group = forcats::fct_relevel(group, levels(data[["group"]])))
+    dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
 
   data_combined <- data %>%
     dplyr::bind_rows(city_data) %>%
     dplyr::mutate(neighbourhood = dplyr::coalesce(neighbourhood, "Toronto")) %>%
     dplyr::mutate(neighbourhood = forcats::fct_relevel(neighbourhood, "Toronto", after = 0)) %>%
-    dplyr::mutate(group = str_wrap_factor(group, width = width))
+    dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   # Flag if it's a proportion variable
   prop_variable <- "prop" %in% names(data_combined)
 
   if (prop_variable) {
     data_combined <- data_combined %>%
-      dplyr::mutate(label = scales::percent(prop, accuracy = 0.1))
+      dplyr::mutate(label = scales::percent(.data$prop, accuracy = 0.1))
   } else {
     data_combined <- data_combined %>%
-      dplyr::mutate(label = value)
+      dplyr::mutate(label = .data$value)
   }
 
   p <- ggplot2::ggplot(data_combined, ggplot2::aes(y = .data$group, fill = .data$neighbourhood))
@@ -83,12 +83,12 @@ str_wrap_factor <- function(x, width) {
 }
 
 plot_neighbourhood_household_tenure <- function(data) {
-  renter_owner <- city_profile[["renter_owner"]] %>%
+  renter_owner <- lemur::city_profile[["renter_owner"]] %>%
     dplyr::mutate(neighbourhood = "City of Toronto") %>%
     dplyr::bind_rows(
       data[["renter_owner"]]
     ) %>%
-    dplyr::mutate(neighbourhood = forcats::fct_relevel(neighbourhood, "City of Toronto", after = 0))
+    dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
 
   ggplot2::ggplot(renter_owner, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
     ggplot2::geom_col(show.legend = FALSE) +
@@ -111,7 +111,7 @@ plot_neighbourhood_household_tenure <- function(data) {
 #'   plot_neighbourhood_profile_distribution("population_density")
 plot_neighbourhood_profile_distribution <- function(data, variable) {
   ggplot2::ggplot() +
-    ggplot2::geom_density(data = city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
+    ggplot2::geom_density(data = lemur::city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
     ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
     theme_lemur() +
     ggplot2::theme(
