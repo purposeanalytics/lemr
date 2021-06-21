@@ -19,31 +19,18 @@ mod_sidebar_ui <- function(id) {
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
+mod_sidebar_server <- function(id, address_neighbourhood) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    display_neighbourhood <- shiny::eventReactive(
-      {
-        address$address()
-        neighbourhood()
-      },
-      {
-        search_method_neighbourhood <- search_method() == "neighbourhood"
-        if (search_method_neighbourhood) {
-          neighbourhood()
-        } else {
-          address$neighbourhood()
-        }
-      }
-    )
+    shiny::observeEvent(address_neighbourhood$neighbourhood, {
+      neighbourhood <- address_neighbourhood$neighbourhood
 
-    shiny::observeEvent(display_neighbourhood(), {
-      neighbourhood_profile <- lemur::neighbourhood_profiles[[display_neighbourhood()]]
+      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood]]
 
       # Neighbourhood ----
 
-      output$header <- shiny::renderUI(display_neighbourhood())
+      output$header <- shiny::renderUI(neighbourhood)
 
       # Population -----
 
@@ -61,8 +48,8 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         )
       })
 
-      mod_sidebar_people_server("people", display_neighbourhood)
-      mod_sidebar_places_server("places", display_neighbourhood)
+      mod_sidebar_people_server("people", neighbourhood)
+      mod_sidebar_places_server("places", neighbourhood)
     })
   })
 }
