@@ -7,12 +7,12 @@
 app_server <- function(input, output, session) {
   requireNamespace("sf")
 
+  address_and_neighbourhood <- shiny::reactiveValues()
   search_method <- shiny::reactiveVal()
 
-  address <- mod_address_search_server("address", search_method)
-  neighbourhood <- mod_neighbourhood_search_server("neighbourhood", search_method)
+  mod_search_server("search", address_and_neighbourhood, search_method)
 
-  mod_map_server("map", address, neighbourhood)
+  mod_map_server("map", address_and_neighbourhood, search_method)
 
-  mod_sidebar_server("sidebar", address, neighbourhood, search_method)
+  mod_sidebar_server("sidebar", address_and_neighbourhood)
 }

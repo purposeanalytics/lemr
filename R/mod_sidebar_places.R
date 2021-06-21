@@ -19,7 +19,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    shiny::observeEvent(neighbourhood(), {
+    shiny::observeEvent(neighbourhood, {
 
       # UI ----
 
@@ -68,7 +68,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
         )
       })
 
-      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood()]]
+      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood]]
 
       # Structure type -----
 

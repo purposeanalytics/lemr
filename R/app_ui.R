@@ -20,22 +20,14 @@ app_ui <- function(request) {
           sidebarPanel(
             style = "background-color: white; min-height: calc(100vh - 80px);",
             width = 5,
-            # shiny::h3("Select an address or neighbourhood"),
-            shiny::column(
-              width = 6,
-              mod_address_search_ui("address")
-            ),
-            shiny::column(
-              width = 6,
-              mod_neighbourhood_search_ui("neighbourhood")
-            ),
+            mod_search_ui("search"),
             mod_sidebar_ui("sidebar")
           )
         ),
         tabPanel("Portal"),
         tabPanel("About")
       )
-    )
+  )
   )
 }
 

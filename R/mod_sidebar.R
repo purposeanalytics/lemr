@@ -19,34 +19,18 @@ mod_sidebar_ui <- function(id) {
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
+mod_sidebar_server <- function(id, address_neighbourhood) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    display_neighbourhood <- shiny::eventReactive(
-      {
-        # address$address()
-        neighbourhood()
-      },
-      {
-        # TODO: seems like this runs the first time before search_method() has a value
-        # Maybe initialize it with something? Or take an action if it's NULL based on which of address / neighbourhood is not null
-        # search_method_neighbourhood <- search_method() == "neighbourhood" | (!is.null(neighbourhood()) & is.null(address$neighbourhood()))
-        search_method_neighbourhood <- !is.null(neighbourhood())
-        if (search_method_neighbourhood) {
-          neighbourhood()
-        } else {
-          address$neighbourhood()
-        }
-      }
-    )
+    shiny::observeEvent(address_neighbourhood$neighbourhood, {
+      neighbourhood <- address_neighbourhood$neighbourhood
 
-    shiny::observeEvent(neighbourhood(), {
-      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood()]]
+      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood]]
 
       # Neighbourhood ----
 
-      output$header <- shiny::renderUI(display_neighbourhood())
+      output$header <- shiny::renderUI(neighbourhood)
 
       # Population -----
 
