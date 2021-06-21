@@ -25,14 +25,11 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
 
     display_neighbourhood <- shiny::eventReactive(
       {
-        # address$address()
+        address$address()
         neighbourhood()
       },
       {
-        # TODO: seems like this runs the first time before search_method() has a value
-        # Maybe initialize it with something? Or take an action if it's NULL based on which of address / neighbourhood is not null
-        # search_method_neighbourhood <- search_method() == "neighbourhood" | (!is.null(neighbourhood()) & is.null(address$neighbourhood()))
-        search_method_neighbourhood <- !is.null(neighbourhood())
+        search_method_neighbourhood <- search_method() == "neighbourhood"
         if (search_method_neighbourhood) {
           neighbourhood()
         } else {
@@ -41,8 +38,8 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
       }
     )
 
-    shiny::observeEvent(neighbourhood(), {
-      neighbourhood_profile <- lemur::neighbourhood_profiles[[neighbourhood()]]
+    shiny::observeEvent(display_neighbourhood(), {
+      neighbourhood_profile <- lemur::neighbourhood_profiles[[display_neighbourhood()]]
 
       # Neighbourhood ----
 
@@ -64,8 +61,8 @@ mod_sidebar_server <- function(id, address, neighbourhood, search_method) {
         )
       })
 
-      mod_sidebar_people_server("people", neighbourhood)
-      mod_sidebar_places_server("places", neighbourhood)
+      mod_sidebar_people_server("people", display_neighbourhood)
+      mod_sidebar_places_server("places", display_neighbourhood)
     })
   })
 }
