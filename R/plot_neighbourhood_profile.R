@@ -29,8 +29,8 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
 
     data <- data %>%
       dplyr::bind_rows(city_data) %>%
-      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "Toronto")) %>%
-      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "Toronto", after = 0)) %>%
+      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "City of Toronto")) %>%
+      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)) %>%
       dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
   }
 
@@ -51,7 +51,7 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
   if (compare) {
     p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
       ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"))
+      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"), guide = ggplot2::guide_legend(reverse = TRUE))
   } else {
     p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
       ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = "grey")
@@ -66,7 +66,7 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
   }
 
   p +
-    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
     theme_lemur(base_size = 12) +
     ggplot2::theme(

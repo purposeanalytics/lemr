@@ -63,11 +63,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::column(
             width = 6,
             shiny::h3("Household size"),
+            shiny::htmlOutput(ns("household_size_legend")),
             shiny::plotOutput(ns("household_size"), height = "200px")
           ),
           shiny::column(
             width = 6,
             shiny::h3("Mean total household income"),
+            shiny::htmlOutput(ns("average_total_income_legend")),
             shiny::plotOutput(ns("average_total_income"), height = "100px"),
             shiny::fluidRow(
               shiny::column(
@@ -99,10 +101,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::column(
             width = 6,
             shiny::h3(shiny::uiOutput(ns("visible_minority"))),
+            shiny::htmlOutput(ns("visible_minority_legend")),
             shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
           )
         )
       )
+    })
+
+    # Legend ----
+
+    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
+    plot_legend <- shiny::reactive({
+      if (sidebar_level() == "neighbourhood") {
+        create_legend(neighbourhood())
+      }
     })
 
     # Population change -----
@@ -147,6 +159,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     # Household size -----
 
+    output$household_size_legend <- shiny::renderText({
+      plot_legend()
+    })
+
     output$household_size <- shiny::renderPlot(
       {
         dataset() %>%
@@ -157,6 +173,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     )
 
     # Mean total household income ------
+
+    output$average_total_income_legend <- shiny::renderText({
+      plot_legend()
+    })
 
     output$average_total_income <- shiny::renderPlot(
       {
@@ -216,6 +236,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     )
 
     # Visible minority population -----
+
+    output$visible_minority_legend <- shiny::renderText({
+      plot_legend()
+    })
 
     output$visible_minority <- shiny::renderUI({
       prop <- dataset()[["visible_minority"]] %>%
