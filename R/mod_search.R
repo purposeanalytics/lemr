@@ -70,6 +70,20 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
       # Deselect address
       shinyWidgets::updatePickerInput(session = session, inputId = "address", selected = "")
     })
+
+    # If the address_and_neighbourhood are cleared, reset both
+    shiny::observeEvent(
+      {
+        address_and_neighbourhood$address
+        address_and_neighbourhood$neighbourhood
+      }, ignoreNULL = FALSE,
+      {
+        if (is.null(address_and_neighbourhood$address) & is.null(address_and_neighbourhood$neighbourhood)) {
+          shiny::updateSelectizeInput(session = session, inputId = "neighbourhood", selected = "")
+        shinyWidgets::updatePickerInput(session = session, inputId = "address", selected = "")
+        }
+      }
+    )
   })
 }
 

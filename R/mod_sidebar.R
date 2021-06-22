@@ -12,6 +12,7 @@ mod_sidebar_ui <- function(id) {
   shiny::tagList(
     shiny::h1(shiny::textOutput(ns("header"))),
     shiny::h2(shiny::uiOutput(ns("population"))),
+    shiny::uiOutput(ns("back_to_city")),
     shiny::uiOutput(ns("tabs_people_places"))
   )
 }
@@ -19,12 +20,12 @@ mod_sidebar_ui <- function(id) {
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_sidebar_server <- function(id, address_neighbourhood) {
+mod_sidebar_server <- function(id, address_and_neighbourhood) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     neighbourhood <- shiny::reactive({
-      address_neighbourhood$neighbourhood
+      address_and_neighbourhood$neighbourhood
     })
 
     sidebar_level <- shiny::reactive({
@@ -48,6 +49,18 @@ mod_sidebar_server <- function(id, address_neighbourhood) {
         neighbourhood = neighbourhood_profiles[[neighbourhood()]]
       )
       glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)')
+    })
+
+    output$back_to_city <- shiny::renderUI({
+      shiny::actionLink(ns("back"), label = "Back to City of Toronto view")
+    })
+
+    # Observe the back button to reset the inputs and map
+    shiny::observeEvent(input$back, {
+      address_and_neighbourhood$address <- NULL
+      address_and_neighbourhood$neighbourhood <- NULL
+
+      search_method("back")
     })
 
     output$tabs_people_places <- shiny::renderUI({

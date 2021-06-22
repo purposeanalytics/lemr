@@ -14,10 +14,6 @@ zoom_map_to_neighbourhood <- function(map, neighbourhood) {
   searched_neighbourhood <- lemur::neighbourhoods %>%
     dplyr::filter(.data$neighbourhood == !!neighbourhood)
 
-  if (nrow(searched_neighbourhood) == 0) {
-    stop("Neighbourhood not found in `neighbourhoods`", call. = FALSE)
-  }
-
   map %>%
     # Filter the "neighbourhood_line" and "neighbourhood_fill" layers to be for this neighbourhood
     mapboxer::set_filter(layer_id = "neighbourhood_line", list("==", "neighbourhood", neighbourhood)) %>%
