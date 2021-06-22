@@ -27,7 +27,7 @@ app_ui <- function(request) {
         tabPanel("Portal"),
         tabPanel("About")
       )
-  )
+    )
   )
 }
 

@@ -24,14 +24,14 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
 
   if (compare) {
-  city_data <- lemur::city_profile[[variable]] %>%
-    dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
+    city_data <- lemur::city_profile[[variable]] %>%
+      dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
 
-  data <- data %>%
-    dplyr::bind_rows(city_data) %>%
-    dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "Toronto")) %>%
-    dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "Toronto", after = 0)) %>%
-    dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
+    data <- data %>%
+      dplyr::bind_rows(city_data) %>%
+      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "Toronto")) %>%
+      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "Toronto", after = 0)) %>%
+      dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
   }
 
   # Flag if it's a proportion variable
@@ -39,7 +39,10 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
 
   if (prop_variable) {
     data <- data %>%
-      dplyr::mutate(label = scales::percent(.data$prop, accuracy = 0.1))
+      dplyr::mutate(
+        label = scales::percent(.data$prop, accuracy = 0.1),
+        value = .data$prop
+      )
   } else {
     data <- data %>%
       dplyr::mutate(label = .data$value)
@@ -47,26 +50,19 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
 
   if (compare) {
     p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
+      ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
       ggplot2::scale_fill_manual(values = c("grey", "darkgreen"))
   } else {
-    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group))
+    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
+      ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = "grey")
   }
 
-  if (prop_variable) {
+  if (dollar) {
     p <- p +
-      ggplot2::geom_col(ggplot2::aes(x = .data$prop), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-      ggplot2::geom_text(ggplot2::aes(x = .data$prop, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
+      ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
   } else {
     p <- p +
-      ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1))
-
-    if (dollar) {
-      p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
-    } else {
-      p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
-    }
+      ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
   }
 
   p +
@@ -88,23 +84,35 @@ str_wrap_factor <- function(x, width) {
   x
 }
 
-plot_neighbourhood_household_tenure <- function(data) {
-  household_tenure <- lemur::city_profile[["household_tenure"]] %>%
-    dplyr::mutate(neighbourhood = "City of Toronto") %>%
-    dplyr::bind_rows(
-      data[["household_tenure"]]
-    ) %>%
-    dplyr::mutate(
-      neighbourhood_tenure = glue::glue("{.data$neighbourhood}_{.data$group}"),
-      neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
-    )
+plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
+  if (compare) {
+    data <- lemur::city_profile[["household_tenure"]] %>%
+      dplyr::mutate(neighbourhood = "City of Toronto") %>%
+      dplyr::bind_rows(
+        data[["household_tenure"]]
+      ) %>%
+      dplyr::mutate(
+        neighbourhood_tenure = glue::glue("{.data$neighbourhood}_{.data$group}"),
+        neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
+      )
 
-  ggplot2::ggplot(household_tenure, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
-    ggplot2::geom_col(show.legend = FALSE) +
-    ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
-    ggplot2::scale_x_continuous(labels = scales::percent) +
-    theme_lemur() +
-    ggplot2::theme(axis.title = ggplot2::element_blank())
+    ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
+      ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
+      ggplot2::scale_x_continuous(labels = scales::percent) +
+      theme_lemur() +
+      ggplot2::theme(axis.title = ggplot2::element_blank())
+  } else {
+    ggplot2::ggplot(data[["household_tenure"]], ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
+      ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
+      ggplot2::scale_x_continuous(labels = scales::percent) +
+      theme_lemur() +
+      ggplot2::theme(
+        axis.title = ggplot2::element_blank(),
+        axis.text.y = ggplot2::element_blank()
+      )
+  }
 }
 
 #' Plot the distribution of a neighbourhood profile variable

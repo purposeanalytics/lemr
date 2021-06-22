@@ -406,7 +406,11 @@ visible_minority_city <- census_profiles_toronto %>%
     dimension == "Filipino" ~ "Southeast Asian",
     TRUE ~ dimension
   )) %>%
-  aggregate_prop_city("Total - Visible minority for the population in private households - 25% sample data")
+  aggregate_prop_city("Total - Visible minority for the population in private households - 25% sample data") %>%
+  mutate(
+    group = fct_reorder(group, prop, .desc = TRUE),
+    group = fct_relevel(group, "Visible minority, n.i.e.", "Multiple visible minorities", "Not a visible minority", after = Inf)
+  )
 
 city <- append(city, list(visible_minority = visible_minority_city))
 

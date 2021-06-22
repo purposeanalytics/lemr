@@ -29,26 +29,26 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     # Update zoom of map and highlighted apartment and/or neighbourhood based on search
-    shiny::observeEvent(search_method(), {
-
-      if (is.null(search_method())) {
-        return(NULL)
+    shiny::observeEvent(
+      {
+        search_method()
+        address_and_neighbourhood$neighbourhood
+      },
+      {
+        if (search_method() == "address") {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            zoom_map_to_address(address_and_neighbourhood$address) %>%
+            zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
+            mapboxer::update_mapboxer()
+        } else if (search_method() == "neighbourhood") {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            # Clear address
+            zoom_map_to_address("none") %>%
+            zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
+            mapboxer::update_mapboxer()
+        }
       }
-
-      if (search_method() == "address") {
-        mapboxer::mapboxer_proxy(ns("map")) %>%
-          zoom_map_to_address(address_and_neighbourhood$address) %>%
-          zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
-          mapboxer::update_mapboxer()
-      } else if (search_method() == "neighbourhood") {
-        mapboxer::mapboxer_proxy(ns("map")) %>%
-          # Clear address
-          zoom_map_to_address("none") %>%
-          zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
-          mapboxer::update_mapboxer()
-      }
-    })
-
+    )
   })
 }
 

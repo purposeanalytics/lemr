@@ -47,7 +47,6 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
     # If address is selected, store address and neighbourhood
     shiny::observeEvent(input$address, {
-
       address_and_neighbourhood$address <- input$address
 
       address_and_neighbourhood$neighbourhood <- lemur::apartment_building_registry %>%
