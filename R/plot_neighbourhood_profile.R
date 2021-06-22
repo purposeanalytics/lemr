@@ -96,23 +96,36 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
         neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
       )
 
-    ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
+    p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
       ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::geom_label(data = dplyr::filter(data, group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+      ggplot2::annotate("text", x = 0, y = 2.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
+      ggplot2::annotate("text", x = 1, y = 2.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
       ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
-      ggplot2::scale_x_continuous(labels = scales::percent) +
       theme_lemur() +
       ggplot2::theme(axis.title = ggplot2::element_blank())
   } else {
-    ggplot2::ggplot(data[["household_tenure"]], ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
+    data <- data[["household_tenure"]]
+
+    p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
       ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::geom_label(data = dplyr::filter(data, group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+      ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
+      ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
       ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
-      ggplot2::scale_x_continuous(labels = scales::percent) +
       theme_lemur() +
       ggplot2::theme(
         axis.title = ggplot2::element_blank(),
         axis.text.y = ggplot2::element_blank()
       )
   }
+
+  p +
+    ggplot2::scale_x_continuous(labels = scales::percent) +
+    ggplot2::coord_cartesian(clip = "off") +
+    ggplot2::theme(legend.position = "none")
 }
 
 #' Plot the distribution of a neighbourhood profile variable

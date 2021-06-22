@@ -63,7 +63,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
           shiny::column(
             width = 12,
             shiny::h3("Households by tenure"),
-            shiny::plotOutput(ns("household_tenure"), height = "100px")
+            shiny::plotOutput(ns("household_tenure"), height = "120px")
           )
         ),
         shiny::fluidRow(
