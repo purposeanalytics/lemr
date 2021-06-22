@@ -1,8 +1,8 @@
 #' Plot a neighbourhood profile variable
 #'
-#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.
+#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}, or for the city, from \link{city_profile}
 #' @param variable Variable to visualize.
-#' @param compare Whether to compare to City of Toronto values. Defaults to TRUE.
+#' @param compare Whether to compare to City of Toronto values. Defaults to TRUE. FALSE is useful when you want to plot *just* the values for as neighbourhood or *just* the values for the city.
 #' @param width Passed along to str_wrap for wrapping y-axis labels. Defaults to a width of 20.
 #' @param dollar Whether the variable shown is in dollars. Defaults to FALSE.
 #'
@@ -17,33 +17,40 @@
 #' }
 plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
   if (variable == "household_tenure") {
-    return(plot_neighbourhood_household_tenure(data))
+    return(plot_neighbourhood_household_tenure(data, compare = compare))
   }
 
   data <- data[[variable]] %>%
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
 
+  if (compare) {
   city_data <- lemur::city_profile[[variable]] %>%
     dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
 
-  data_combined <- data %>%
+  data <- data %>%
     dplyr::bind_rows(city_data) %>%
     dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "Toronto")) %>%
     dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "Toronto", after = 0)) %>%
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
+  }
 
   # Flag if it's a proportion variable
-  prop_variable <- "prop" %in% names(data_combined)
+  prop_variable <- "prop" %in% names(data)
 
   if (prop_variable) {
-    data_combined <- data_combined %>%
+    data <- data %>%
       dplyr::mutate(label = scales::percent(.data$prop, accuracy = 0.1))
   } else {
-    data_combined <- data_combined %>%
+    data <- data %>%
       dplyr::mutate(label = .data$value)
   }
 
-  p <- ggplot2::ggplot(data_combined, ggplot2::aes(y = .data$group, fill = .data$neighbourhood))
+  if (compare) {
+    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
+      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"))
+  } else {
+    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group))
+  }
 
   if (prop_variable) {
     p <- p +
@@ -65,7 +72,6 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
   p +
     ggplot2::labs(x = NULL, y = NULL) +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
-    ggplot2::scale_fill_manual(values = c("grey", "darkgreen")) +
     theme_lemur(base_size = 12) +
     ggplot2::theme(
       legend.position = "none",
@@ -83,7 +89,6 @@ str_wrap_factor <- function(x, width) {
 }
 
 plot_neighbourhood_household_tenure <- function(data) {
-
   household_tenure <- lemur::city_profile[["household_tenure"]] %>%
     dplyr::mutate(neighbourhood = "City of Toronto") %>%
     dplyr::bind_rows(
@@ -91,7 +96,8 @@ plot_neighbourhood_household_tenure <- function(data) {
     ) %>%
     dplyr::mutate(
       neighbourhood_tenure = glue::glue("{.data$neighbourhood}_{.data$group}"),
-      neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
+      neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
+    )
 
   ggplot2::ggplot(household_tenure, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
     ggplot2::geom_col(show.legend = FALSE) +
@@ -103,23 +109,30 @@ plot_neighbourhood_household_tenure <- function(data) {
 
 #' Plot the distribution of a neighbourhood profile variable
 #'
-#' Plot the distribution of a variable, across neighbourhoods, with a line showing the current neighbourhood's value
+#' Plot the distribution of a variable, across neighbourhoods, with an optional line showing the current neighbourhood's value
 #'
 #' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.
 #' @param variable Variable to visualize
+#' @param compare Whether to show a line with the current neighbourhood's value. Defaults to TRUE - FALSE is useful in the City of Toronto view.
 #'
 #' @export
 #'
 #' @examples
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_density")
-plot_neighbourhood_profile_distribution <- function(data, variable) {
-  ggplot2::ggplot() +
-    ggplot2::geom_density(data = lemur::city_profile[[variable]][["distribution"]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
-    ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen") +
+plot_neighbourhood_profile_distribution <- function(data, variable, compare = TRUE) {
+  p <- ggplot2::ggplot() +
+    ggplot2::geom_density(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
     theme_lemur() +
     ggplot2::theme(
       axis.title = ggplot2::element_blank(),
       axis.text.y = ggplot2::element_blank()
     )
+
+  if (compare) {
+    p <- p +
+      ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen")
+  }
+
+  p
 }

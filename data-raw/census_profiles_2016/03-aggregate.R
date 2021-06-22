@@ -150,7 +150,7 @@ households_city <- census_profiles_toronto %>%
   filter(dimension == "Total - Private households by household size - 100% data") %>%
   pull(total)
 
-city <- append(city, list(households = population_city))
+city <- append(city, list(households = households_city))
 
 ### Population change ----
 # Use "Population, 2011" and compare to 2016
@@ -176,13 +176,11 @@ neighbourhood <- append(neighbourhood, list(population_change = population_chang
 population_change_city <- census_profiles_toronto %>%
   filter(dimension == "Population percentage change, 2011 to 2016") %>%
   pull(total)
+population_change_city <- population_change_city / 100
 
 population_change_city_distribution <- population_change_by_neighbourhood["value"]
 
-city <- append(city, list(population_change = list(
-  value = population_change_city,
-  distribution = population_change_city_distribution
-)))
+city <- append(city, list(population_change = population_change_city, population_change_distribution = population_change_city_distribution))
 
 ### Population density -----
 
@@ -201,9 +199,14 @@ population_density_by_neighbourhood <- census_profiles_toronto_cts %>%
 
 neighbourhood <- append(neighbourhood, list(population_density = population_density_by_neighbourhood))
 
-# Compare to city with distribution
+# Compare to city with value and distribution
+population_density_city <- census_profiles_toronto %>%
+  filter(dimension == "Population density per square kilometre") %>%
+  pull(total)
+
 population_density_city_distribution <- population_density_by_neighbourhood["value"]
-city <- append(city, list(population_density = list(distribution = population_density_city_distribution)))
+
+city <- append(city, list(population_density = population_density_city, population_density_distribution = population_density_city_distribution))
 
 ### Household size ----
 # Variable: "Total - Private households by household size - 100% data"
@@ -344,10 +347,11 @@ neighbourhood <- append(neighbourhood, list(unaffordable_housing = unaffordable_
 unaffordable_housing_city <- census_profiles_toronto %>%
   filter(dimension == "% of tenant households spending 30% or more of its income on shelter costs") %>%
   pull(total)
+unaffordable_housing_city <- unaffordable_housing_city / 100
 
 unaffordable_housing_city_distribution <- unaffordable_housing_by_neighbourhood["value"]
 
-city <- append(city, list(unaffordable_housing = list(value = unaffordable_housing_city, distribution = unaffordable_housing_city_distribution)))
+city <- append(city, list(unaffordable_housing = unaffordable_housing_city, unaffordable_housing_distribution = unaffordable_housing_city_distribution))
 
 ### Total people under poverty measure ----
 # Low-income measure after tax (LIM-AT)
@@ -375,7 +379,7 @@ persons_city <- census_profiles_toronto %>%
 
 lim_at_city <- lim_at_city / persons_city
 
-city <- append(city, list(lim_at = list(value = lim_at_city, distribution = lim_at_by_neighbourhood["value"])))
+city <- append(city, list(lim_at = lim_at_city, lim_at_distribution = lim_at_by_neighbourhood["value"]))
 
 ### Visible minority -----
 # Variable: "Total - Visible minority for the population in private households - 25% sample"
@@ -511,16 +515,13 @@ neighbourhood <- append(neighbourhood, list(average_renter_shelter_cost = renter
 
 # Compare to city by value and distribution
 
-average_renter_shelter_cost <- census_profiles_toronto %>%
+average_renter_shelter_cost_city <- census_profiles_toronto %>%
   filter(dimension == "Average monthly shelter costs for rented dwellings ($)") %>%
   pull(total)
 
 average_renter_shelter_cost_distribution <- renter_shelter_cost_by_neighbourhood["value"]
 
-city <- append(city, list(average_renter_shelter_cost = list(
-  value = average_renter_shelter_cost,
-  distribution = average_renter_shelter_cost_distribution
-)))
+city <- append(city, list(average_renter_shelter_cost = average_renter_shelter_cost_city, average_renter_shelter_cost_distribution = average_renter_shelter_cost_distribution))
 
 ### Restructure data sets ----
 # I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
