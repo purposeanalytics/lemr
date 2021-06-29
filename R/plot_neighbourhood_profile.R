@@ -134,26 +134,35 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
 #'
 #' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.
 #' @param variable Variable to visualize
+#' @param binwidth Bin width for geom_histogram
 #' @param compare Whether to show a line with the current neighbourhood's value. Defaults to TRUE - FALSE is useful in the City of Toronto view.
 #'
 #' @export
 #'
 #' @examples
 #' neighbourhood_profiles[["Danforth"]] %>%
-#'   plot_neighbourhood_profile_distribution("population_density")
-plot_neighbourhood_profile_distribution <- function(data, variable, compare = TRUE) {
+#'   plot_neighbourhood_profile_distribution("population_density", binwidth = 1000)
+plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE) {
   p <- ggplot2::ggplot() +
-    ggplot2::geom_density(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = "grey", color = "grey") +
+    ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = "grey", binwidth = binwidth)
+
+  if (compare) {
+    # If we're comparing, we want to highlight the bar the neighbourhood is in
+    # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
+    plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
+      dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax) %>%
+      dplyr::mutate(neighbourhood = data[[variable]] >= xmin & data[[variable]] < xmax) %>%
+      tidyr::uncount(weights = .data$y)
+
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_histogram(data = plot_data, ggplot2::aes(x = .data$x, fill = .data$neighbourhood), binwidth = binwidth, show.legend = FALSE) +
+      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"))
+  }
+
+  p +
     theme_lemur() +
     ggplot2::theme(
       axis.title = ggplot2::element_blank(),
       axis.text.y = ggplot2::element_blank()
     )
-
-  if (compare) {
-    p <- p +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = data[[variable]]), color = "darkgreen")
-  }
-
-  p
 }
