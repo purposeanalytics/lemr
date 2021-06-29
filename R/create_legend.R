@@ -3,8 +3,8 @@ create_legend <- function(neighbourhood) {
 }
 
 color_preview <- function(color) {
-  htmltools::tagList(
-    htmltools::span(
+  shiny::tagList(
+    shiny::span(
       class = "color-preview",
       style = paste("background-color:", color),
       .noWS = "outside"

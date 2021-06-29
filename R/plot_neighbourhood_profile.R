@@ -98,8 +98,8 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
 
     p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
       ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_label(data = dplyr::filter(data, group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-      ggplot2::geom_label(data = dplyr::filter(data, group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
       ggplot2::annotate("text", x = 0, y = 2.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
       ggplot2::annotate("text", x = 1, y = 2.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
       ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
@@ -110,8 +110,8 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
 
     p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
       ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_label(data = dplyr::filter(data, group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-      ggplot2::geom_label(data = dplyr::filter(data, group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, shinygroup == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
       ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
       ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
       ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
@@ -142,6 +142,18 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
 #' @examples
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_density", binwidth = 1000)
+#'
+#' neighbourhood_profiles[["Danforth"]] %>%
+#'   plot_neighbourhood_profile_distribution("population_change", binwidth = 0.025)
+#'
+#' neighbourhood_profiles[["Danforth"]] %>%
+#'   plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.025)
+#'
+#' neighbourhood_profiles[["Danforth"]] %>%
+#'   plot_neighbourhood_profile_distribution("average_renter_shelter_cost", binwidth = 50)
+#'
+#' neighbourhood_profiles[["Danforth"]] %>%
+#'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE) {
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = "grey", binwidth = binwidth)
@@ -151,7 +163,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
     plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
       dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax) %>%
-      dplyr::mutate(neighbourhood = data[[variable]] >= xmin & data[[variable]] < xmax) %>%
+      dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
       tidyr::uncount(weights = .data$y)
 
     p <- ggplot2::ggplot() +

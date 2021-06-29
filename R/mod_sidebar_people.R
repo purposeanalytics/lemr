@@ -134,7 +134,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$population_change_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile_distribution("population_change", compare = compare()) +
+          plot_neighbourhood_profile_distribution("population_change", compare = compare(), binwidth = 0.01) +
           ggplot2::scale_x_continuous(labels = scales::percent)
       },
       res = 96,
@@ -150,7 +150,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$population_density_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile_distribution("population_density", compare = compare()) +
+          plot_neighbourhood_profile_distribution("population_density", compare = compare(), binwidth = 1000) +
           ggplot2::scale_x_continuous(labels = scales::comma)
       },
       res = 96,
@@ -204,7 +204,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$lim_at_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile_distribution("lim_at", compare = compare()) +
+          plot_neighbourhood_profile_distribution("lim_at", compare = compare(), binwidth = 0.025) +
           ggplot2::scale_x_continuous(labels = scales::percent)
       },
       res = 96,
@@ -228,7 +228,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$unaffordable_housing_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare()) +
+          plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare(), binwidth = 0.025) +
           ggplot2::scale_x_continuous(labels = scales::percent)
       },
       res = 96,

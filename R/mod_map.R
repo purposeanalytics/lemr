@@ -54,7 +54,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
             # Clear neighbourhood
             zoom_map_to_neighbourhood("none") %>%
             # Zoom back out to Toronto
-            mapboxer::fit_bounds(sf::st_bbox(toronto), maxZoom = 11, pitch = 0, bearing = -15) %>%
+            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), maxZoom = 11, pitch = 0, bearing = -15) %>%
             mapboxer::update_mapboxer()
         }
       }

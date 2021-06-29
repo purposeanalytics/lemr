@@ -153,7 +153,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$average_renter_shelter_cost_plot <- shiny::renderPlot({
       dataset() %>%
-        plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare()) +
+        plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare(), binwidth = 50) +
         ggplot2::scale_x_continuous(labels = scales::dollar)
     })
   })

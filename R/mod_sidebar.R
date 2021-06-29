@@ -45,8 +45,8 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
     output$population <- shiny::renderText({
       dataset <- switch(sidebar_level(),
-        city = city_profile,
-        neighbourhood = neighbourhood_profiles[[neighbourhood()]]
+        city = lemur::city_profile,
+        neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
       glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)')
     })
