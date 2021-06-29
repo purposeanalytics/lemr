@@ -52,4 +52,3 @@
 
 #' @rdname profiles
 "city_profile"
-

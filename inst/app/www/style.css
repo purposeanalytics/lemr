@@ -1,0 +1,7 @@
+.color-preview {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.33em;
+  vertical-align: middle;
+}

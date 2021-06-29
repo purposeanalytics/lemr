@@ -29,26 +29,36 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     # Update zoom of map and highlighted apartment and/or neighbourhood based on search
-    shiny::observeEvent(search_method(), {
+    shiny::observeEvent(
+      {
+        search_method()
+        address_and_neighbourhood$neighbourhood
+      }, ignoreNULL = FALSE, ignoreInit = TRUE,
+      {
 
-      if (is.null(search_method())) {
-        return(NULL)
+        if (search_method() == "address") {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            zoom_map_to_address(address_and_neighbourhood$address) %>%
+            zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
+            mapboxer::update_mapboxer()
+        } else if (search_method() == "neighbourhood") {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            # Clear address
+            zoom_map_to_address("none") %>%
+            zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
+            mapboxer::update_mapboxer()
+        } else if (search_method() == "back") {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            # Clear address
+            zoom_map_to_address("none") %>%
+            # Clear neighbourhood
+            zoom_map_to_neighbourhood("none") %>%
+            # Zoom back out to Toronto
+            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), maxZoom = 11, pitch = 0, bearing = -15) %>%
+            mapboxer::update_mapboxer()
+        }
       }
-
-      if (search_method() == "address") {
-        mapboxer::mapboxer_proxy(ns("map")) %>%
-          zoom_map_to_address(address_and_neighbourhood$address) %>%
-          zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
-          mapboxer::update_mapboxer()
-      } else if (search_method() == "neighbourhood") {
-        mapboxer::mapboxer_proxy(ns("map")) %>%
-          # Clear address
-          zoom_map_to_address("none") %>%
-          zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
-          mapboxer::update_mapboxer()
-      }
-    })
-
+    )
   })
 }
 

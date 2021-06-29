@@ -4,17 +4,38 @@
 \alias{plot_neighbourhood_profile_distribution}
 \title{Plot the distribution of a neighbourhood profile variable}
 \usage{
-plot_neighbourhood_profile_distribution(data, variable)
+plot_neighbourhood_profile_distribution(
+  data,
+  variable,
+  binwidth,
+  compare = TRUE
+)
 }
 \arguments{
 \item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.}
 
 \item{variable}{Variable to visualize}
+
+\item{binwidth}{Bin width for geom_histogram}
+
+\item{compare}{Whether to show a line with the current neighbourhood's value. Defaults to TRUE - FALSE is useful in the City of Toronto view.}
 }
 \description{
-Plot the distribution of a variable, across neighbourhoods, with a line showing the current neighbourhood's value
+Plot the distribution of a variable, across neighbourhoods, with an optional line showing the current neighbourhood's value
 }
 \examples{
 neighbourhood_profiles[["Danforth"]] \%>\%
-  plot_neighbourhood_profile_distribution("population_density")
+  plot_neighbourhood_profile_distribution("population_density", binwidth = 1000)
+
+neighbourhood_profiles[["Danforth"]] \%>\%
+  plot_neighbourhood_profile_distribution("population_change", binwidth = 0.025)
+
+neighbourhood_profiles[["Danforth"]] \%>\%
+  plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.025)
+
+neighbourhood_profiles[["Danforth"]] \%>\%
+  plot_neighbourhood_profile_distribution("average_renter_shelter_cost", binwidth = 50)
+
+neighbourhood_profiles[["Danforth"]] \%>\%
+  plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 }
