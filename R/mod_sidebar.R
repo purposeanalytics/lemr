@@ -52,7 +52,9 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     output$back_to_city <- shiny::renderUI({
-      shiny::actionLink(ns("back"), label = "Back to City of Toronto view")
+      if (!is.null(address_and_neighbourhood$neighbourhood)) {
+        shiny::actionLink(ns("back"), label = "Back to City of Toronto view")
+      }
     })
 
     # Observe the back button to reset the inputs and map
