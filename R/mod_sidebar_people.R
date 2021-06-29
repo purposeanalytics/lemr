@@ -135,7 +135,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       {
         dataset() %>%
           plot_neighbourhood_profile_distribution("population_change", compare = compare(), binwidth = 0.01) +
-          ggplot2::scale_x_continuous(labels = scales::percent)
+          ggplot2::scale_x_continuous(labels = scales::label_percent())
       },
       res = 96,
       bg = "transparent"
@@ -205,7 +205,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       {
         dataset() %>%
           plot_neighbourhood_profile_distribution("lim_at", compare = compare(), binwidth = 0.025) +
-          ggplot2::scale_x_continuous(labels = scales::percent)
+          ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
       },
       res = 96,
       bg = "transparent"
@@ -229,7 +229,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       {
         dataset() %>%
           plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare(), binwidth = 0.025) +
-          ggplot2::scale_x_continuous(labels = scales::percent)
+          ggplot2::scale_x_continuous(labels = scales::label_percent())
       },
       res = 96,
       bg = "transparent"

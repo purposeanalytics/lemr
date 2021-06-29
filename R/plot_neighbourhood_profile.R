@@ -111,7 +111,7 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
     p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
       ggplot2::geom_col(show.legend = FALSE) +
       ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-      ggplot2::geom_label(data = dplyr::filter(data, shinygroup == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
       ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
       ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
       ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
@@ -123,7 +123,7 @@ plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
   }
 
   p +
-    ggplot2::scale_x_continuous(labels = scales::percent) +
+    ggplot2::scale_x_continuous(labels = scales::label_percent()) +
     ggplot2::coord_cartesian(clip = "off") +
     ggplot2::theme(legend.position = "none")
 }
