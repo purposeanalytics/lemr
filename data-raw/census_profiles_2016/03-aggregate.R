@@ -30,13 +30,7 @@ library(forcats)
 
 #### Read data ----
 census_profiles_toronto_cts <- readRDS(here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
-
-# Split off Toronto from CTs
-census_profiles_toronto <- census_profiles_toronto_cts %>%
-  filter(geo_code == "535")
-
-census_profiles_toronto_cts <- census_profiles_toronto_cts %>%
-  filter(geo_code != "535")
+census_profiles_toronto <- readRDS(here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto.rds"))
 
 neighbourhood <- list()
 city <- list()

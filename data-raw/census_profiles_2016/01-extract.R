@@ -1,7 +1,8 @@
-# Read in census profiles data, only keep Toronto CTs and derive dimension hierarchy
+# Read in census profiles data, only keep Toronto and Toronto CTs and derive dimension hierarchy
 
 # Retrieved from: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/details/download-telecharger/comp/page_dl-tc.cfm?Lang=E
-# Geographic level: Census metropolitan areas (CMAs), tracted census agglomerations (CAs) and census tracts (CTs)
+# Geographic level for Toronto CTs: Census metropolitan areas (CMAs), tracted census agglomerations (CAs) and census tracts (CTs)
+# Geographic level for City of Toronto: Census divisions (CDs)
 
 library(readr)
 library(dplyr)
@@ -11,16 +12,20 @@ library(janitor)
 
 ### Set up paths for data sets ------
 
-census_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_CSV_data.csv")
+cts_census_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_CSV_data.csv")
+toronto_census_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "98-401-X2016060_English_CSV_data.csv")
+
+# Variables are the same between geographies / data sets, so we can just use/parse one
 variables_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_meta.txt")
 
 # ### Get starting and ending row of Toronto -----
 
-starting_row <- read_csv(here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "Geo_starting_row_CSV.csv"))
+cts_starting_row <- read_csv(here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "Geo_starting_row_CSV.csv"))
+toronto_starting_row <- read_csv(here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "Geo_starting_row_CSV.csv"))
 
-# The Geo Names seem to be numeric, unless they are a city  - then everything between cities is for that city. So look for Toronto, then look for the next city, and everything between is Toronto.
+# For CTs, the Geo Names seem to be numeric, unless they are a city - then everything between cities is for that city. So look for Toronto, then look for the next city, and everything between is Toronto.
 
-toronto_start_with_next_geo <- starting_row %>%
+cts_toronto_start_with_next_geo <- cts_starting_row %>%
   mutate(geo_name_as_numeric = parse_number(`Geo Name`)) %>%
   filter(is.na(geo_name_as_numeric)) %>%
   arrange(`Line Number`) %>%
@@ -32,12 +37,22 @@ toronto_start_with_next_geo <- starting_row %>%
 
 # Next geography is Hamilton (makes sense), and starts on line 7235342.
 
-toronto_start_end <- toronto_start_with_next_geo %>%
+cts_toronto_start_end <- cts_toronto_start_with_next_geo %>%
   select(
     start = `Line Number`,
     end = next_geo_line_number
   ) %>%
   mutate(end = end - 1) # Subtract 1 since Hamilton starts on 7235342.
+
+# For Toronto, just look for Toronto, then the next row, and everything between is Toronto
+
+toronto_start_end <- toronto_starting_row %>%
+  mutate(next_geo_nam = lead(`Geo Name`),
+         next_geo_line_number = lead(`Line Number`)) %>%
+  filter(`Geo Name` == "Toronto") %>%
+  select(start = `Line Number`,
+         end = next_geo_line_number) %>%
+  mutate(end = end - 1)
 
 ### Build variable hierarchy from metadata -----
 
@@ -45,9 +60,9 @@ original_variables <- read_lines(variables_path, skip = 211, n_max = 2458 - 211)
 
 variables <- tibble(x = original_variables) %>%
   # Fix some where there's " -[A-Z]" instead of " - " (missing space at end)
-  mutate(x = str_replace(original_variables, " -[A-Z]", " - ")) %>%
+  mutate(x = str_replace(x, " -[A-Z]", " - ")) %>%
   # And some where there's " -  " instead of " - " (one extra space at end)
-  mutate(x = str_replace(original_variables, " -  ", " - ")) %>%
+  mutate(x = str_replace(x, " -  ", " - ")) %>%
   mutate(
     x = str_replace(x, " \\(\\d+\\)", ""), # Remove (#) at the end of lines
     x = str_replace_all(x, " ", "@@") # Replace any spaces with @@, for easier viewing / separating
@@ -192,11 +207,11 @@ hierarchy <- variables_with_hierarchy %>%
 ### Get Toronto census tracts -----
 # Load only from the start to the end of Toronto
 
-toronto_cts <- read_csv(census_path, skip = toronto_start_end[["start"]] - 1, guess_max = 100000, n_max = toronto_start_end[["end"]] - toronto_start_end[["start"]] + 1, trim_ws = FALSE, col_names = FALSE)
+toronto_cts <- read_csv(cts_census_path, skip = cts_toronto_start_end[["start"]] - 1, guess_max = 100000, n_max = cts_toronto_start_end[["end"]] - cts_toronto_start_end[["start"]] + 1, trim_ws = FALSE, col_names = FALSE)
 
 # Get column names since we skipped those on load
 
-census_col_names <- read_csv(census_path, n_max = 1, trim_ws = FALSE)
+census_col_names <- read_csv(cts_census_path, n_max = 1, trim_ws = FALSE)
 
 names(toronto_cts) <- names(census_col_names)
 
@@ -219,3 +234,35 @@ toronto_cts <- toronto_cts %>%
 # ### Save Toronto census tracts
 
 saveRDS(toronto_cts, here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
+
+### Get Toronto CD -----
+# Load only from the start to the end of Toronto
+
+toronto_cd <- read_csv(toronto_census_path, skip = toronto_start_end[["start"]] - 1, guess_max = 100000, n_max = toronto_start_end[["end"]] - toronto_start_end[["start"]] + 1, trim_ws = FALSE, col_names = FALSE)
+
+# Get column names since we skipped those on load
+
+census_col_names <- read_csv(toronto_census_path, n_max = 1, trim_ws = FALSE)
+
+names(toronto_cd) <- names(census_col_names)
+
+# ### Add hierarchy to census tracts ----
+
+toronto_cd <- hierarchy %>%
+  inner_join(toronto_cd, by = c("member_id" = "Member ID: Profile of Census Divisions (2247)"))
+
+# ### Tidy names
+
+toronto_cd <- toronto_cd %>%
+  rename(
+    total = `Dim: Sex (3): Member ID: [1]: Total - Sex`,
+    # Some conversion of values (... to NA) needs to be done, but I'll do that in the cleaning step so that I can document the ...
+    male = `Dim: Sex (3): Member ID: [2]: Male`,
+    female = `Dim: Sex (3): Member ID: [3]: Female`
+  ) %>%
+  clean_names()
+
+# ### Save Toronto census tracts
+
+saveRDS(toronto_cd, here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_division.rds"))
+
