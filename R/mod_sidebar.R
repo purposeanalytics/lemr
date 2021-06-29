@@ -20,7 +20,7 @@ mod_sidebar_ui <- function(id) {
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_sidebar_server <- function(id, address_and_neighbourhood) {
+mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
