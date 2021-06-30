@@ -69,8 +69,7 @@
 #' }
 address_points <- function() {
   dplyr::tbl(pool::dbPool(
-  drv = RSQLite::SQLite(),
-  dbname = system.file("extdata/lemur.sqlite", package = "lemur")
-), "address_points")
+    drv = RSQLite::SQLite(),
+    dbname = system.file("extdata/lemur.sqlite", package = "lemur")
+  ), "address_points")
 }
-
