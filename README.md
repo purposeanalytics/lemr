@@ -292,12 +292,24 @@ You can compare these to the city values (in `city_profile`)
 
 ``` r
 names(city_profile)
-#>  [1] "population_change"           "population_density"         
-#>  [3] "household_size"              "average_total_income"       
-#>  [5] "unaffordable_housing"        "lim_at"                     
-#>  [7] "visible_minority"            "structure_type"             
-#>  [9] "bedrooms"                    "household_tenure"           
-#> [11] "average_renter_shelter_cost"
+#>  [1] "population"                              
+#>  [2] "households"                              
+#>  [3] "population_change"                       
+#>  [4] "population_change_distribution"          
+#>  [5] "population_density"                      
+#>  [6] "population_density_distribution"         
+#>  [7] "household_size"                          
+#>  [8] "average_total_income"                    
+#>  [9] "unaffordable_housing"                    
+#> [10] "unaffordable_housing_distribution"       
+#> [11] "lim_at"                                  
+#> [12] "lim_at_distribution"                     
+#> [13] "visible_minority"                        
+#> [14] "structure_type"                          
+#> [15] "bedrooms"                                
+#> [16] "household_tenure"                        
+#> [17] "average_renter_shelter_cost"             
+#> [18] "average_renter_shelter_cost_distribution"
 ```
 
 using `plot_neighbourhood_profile()` to compare breakdowns:
@@ -314,11 +326,51 @@ distribution across the city:
 
 ``` r
 neighbourhood_profiles[["Danforth"]] %>%
-  plot_neighbourhood_profile_distribution("unaffordable_housing") + 
+  plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.01) + 
   ggplot2::scale_x_continuous(labels = scales::percent)
 ```
 
 <img src="man/figures/README-plot-unaffordable-housing-1.png" width="80%" />
+
+### address\_points
+
+address\_points() contains the addresses and latitude / longitude for
+over 500,000 addresses in the City of Toronto. The data is in a SQLite
+database, so just calling `address_points()` returns a preview of the
+data:
+
+``` r
+address_points()
+#> # Source:   table<address_points> [?? x 4]
+#> # Database: sqlite 3.35.5 [/Users/sharla/Documents/Consulting/CMHC
+#> #   Project/lemur/renv/library/R-4.0/x86_64-apple-darwin17.0/lemur/extdata/lemur.sqlite]
+#>     geo_id address            latitude longitude
+#>      <dbl> <chr>                 <dbl>     <dbl>
+#>  1 5729533 404 Lake Promenade     43.6     -79.5
+#>  2 5729531 402 Lake Promenade     43.6     -79.5
+#>  3 5729535 407 Lake Promenade     43.6     -79.5
+#>  4 5729534 405 Lake Promenade     43.6     -79.5
+#>  5 5729532 403 Lake Promenade     43.6     -79.5
+#>  6 5729530 401 Lake Promenade     43.6     -79.5
+#>  7 7641011 31 Forty First St      43.6     -79.5
+#>  8 1002730 23 Garden Pl           43.6     -79.5
+#>  9 1002729 21 Garden Pl           43.6     -79.5
+#> 10 1002727 19 Garden Pl           43.6     -79.5
+#> # … with more rows
+```
+
+It can be filtered like a regular data frame, but results must be
+“returned” by calling `dplyr::collect()`:
+
+``` r
+address_points() %>%
+  filter(address == "100 Queen St W") %>%
+  collect()
+#> # A tibble: 1 x 4
+#>   geo_id address        latitude longitude
+#>    <dbl> <chr>             <dbl>     <dbl>
+#> 1 856375 100 Queen St W     43.7     -79.4
+```
 
 ## Development
 
