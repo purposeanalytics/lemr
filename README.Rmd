@@ -184,6 +184,8 @@ address_points() %>%
   collect()
 ```
 
+The field `geo_id` can be used to connect with some other City of Toronto data sets, in order to look up the latitude and longitude for an address.
+
 ## Development
 
 To add to lemur code or work within the package repository itself, first clone the repository and open the project in RStudio.

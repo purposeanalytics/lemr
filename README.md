@@ -372,6 +372,10 @@ address_points() %>%
 #> 1 856375 100 Queen St W     43.7     -79.4
 ```
 
+The field `geo_id` can be used to connect with some other City of
+Toronto data sets, in order to look up the latitude and longitude for an
+address.
+
 ## Development
 
 To add to lemur code or work within the package repository itself, first
