@@ -40,6 +40,8 @@ StagedInstall: no
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
+Remotes:
+    sharlagelfand/dqshiny
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
