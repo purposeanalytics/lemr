@@ -51,6 +51,7 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
       # Get neighbourhood of address
       address_point <- address_points() %>%
         dplyr::filter(.data$address == local(input$address)) %>%
+        head(1) %>%
         dplyr::collect()
 
       address_and_neighbourhood$neighbourhood <- address_point %>%
