@@ -31,13 +31,12 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
   status_code <- geocode_result[["status_code"]]
 
   # Display progress if quiet = FALSE
-  if (!quiet) {
-    cat(usethis::ui_info("Fetching {address} - Status: {status_code}"))
-  }
+  if (status_code != 200) {
+    if (!quiet) {
+      cat(usethis::ui_info("Fetching {address} - Status: {status_code}"))
+    }
+  } else if (status_code == 200) { # If successful (status code 200), extract address
 
-  # If successful (status code 200), extract address
-
-  if (status_code == 200) {
     geocode_json_tidied <- httr::content(geocode_result, "text") %>%
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::pluck("resourceSets") %>%
@@ -47,13 +46,18 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
       purrr::pluck(1) # First element
 
     # Address
-    address <- geocode_json_tidied[["address.addressLine"]]
+    geocode_address <- geocode_json_tidied[["address.addressLine"]]
 
     # If the address is NULL, return NAs for everything - there may still be results for latitude, longitude, etc, but in the case of Toronto, when it can't find it, it just returns the lat / long for city hall! Eek! Better to return NAs to make it clear that the geocoding failed.
 
     # Also change the status code to 404, "not found" - this is probably the closest option and I'd rather also flag issues this way, rather than returning 200 (= all good)
 
-    if (is.null(address)) {
+    if (is.null(geocode_address)) {
+
+      if (!quiet) {
+        cat(usethis::ui_info("Fetching {address} - Status: 404"))
+      }
+
       res <- dplyr::tibble(
         status_code = 404,
         address = NA,
@@ -70,6 +74,11 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
       Sys.sleep(0.25) # Sleep for 0.25 seconds to comply with API, which only allows for 5 calls per second
 
       return(res)
+    }
+
+    # Display progress if quiet = FALSE
+    if (!quiet) {
+      cat(usethis::ui_info("Fetching {address} - Status: 200"))
     }
 
     # Municipality
@@ -102,7 +111,7 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
 
   res <- list(
     status_code = status_code,
-    address = address,
+    address = geocode_address,
     municipality = municipality,
     postal_code = postal_code,
     method = method,
