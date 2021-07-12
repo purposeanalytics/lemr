@@ -47,11 +47,15 @@ cts_toronto_start_end <- cts_toronto_start_with_next_geo %>%
 # For Toronto, just look for Toronto, then the next row, and everything between is Toronto
 
 toronto_start_end <- toronto_starting_row %>%
-  mutate(next_geo_nam = lead(`Geo Name`),
-         next_geo_line_number = lead(`Line Number`)) %>%
+  mutate(
+    next_geo_nam = lead(`Geo Name`),
+    next_geo_line_number = lead(`Line Number`)
+  ) %>%
   filter(`Geo Name` == "Toronto") %>%
-  select(start = `Line Number`,
-         end = next_geo_line_number) %>%
+  select(
+    start = `Line Number`,
+    end = next_geo_line_number
+  ) %>%
   mutate(end = end - 1)
 
 ### Build variable hierarchy from metadata -----
@@ -265,4 +269,3 @@ toronto_cd <- toronto_cd %>%
 # ### Save Toronto census tracts
 
 saveRDS(toronto_cd, here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_division.rds"))
-

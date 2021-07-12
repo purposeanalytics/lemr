@@ -49,6 +49,32 @@
 #' city_profile[["average_total_income"]]
 "neighbourhood_profiles"
 
-
 #' @rdname profiles
 "city_profile"
+
+#' Address Points
+#'
+#' Address points for over 500,000 addresses within the City of Toronto, retrieved from \href{https://open.toronto.ca/dataset/address-points-municipal-toronto-one-address-repository/}{Address Points (Municipal) - Toronto One Address Repository}. The data is stored in a SQLite database, so it can be filtered like a regular data frame, then results must be "collected" with \link[dplyr]{collect}.
+#'
+#' @export
+#'
+#' @examples \dontrun{
+#' library(dplyr)
+#' address_points() %>%
+#'   collect()
+#'
+#' address_points() %>%
+#'   filter(address == "404 Lake Promenade") %>%
+#'   collect()
+#' }
+address_points <- function() {
+  dplyr::tbl(pool::dbPool(
+    drv = RSQLite::SQLite(),
+    dbname = system.file("extdata/lemur.sqlite", package = "lemur")
+  ), "address_points")
+}
+
+#' Address Points addresses only
+#'
+#' Addresses only from \link{address_points}
+"address_points_just_address"

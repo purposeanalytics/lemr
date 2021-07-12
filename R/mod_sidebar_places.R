@@ -111,11 +111,11 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       bg = "transparent"
     )
 
-      # Bedrooms -----
+    # Bedrooms -----
 
-      output$bedrooms_legend <- shiny::renderText({
-        plot_legend()
-      })
+    output$bedrooms_legend <- shiny::renderText({
+      plot_legend()
+    })
 
     output$bedrooms <- shiny::renderPlot(
       {

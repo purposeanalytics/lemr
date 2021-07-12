@@ -33,9 +33,10 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
       {
         search_method()
         address_and_neighbourhood$neighbourhood
-      }, ignoreNULL = FALSE, ignoreInit = TRUE,
+      },
+      ignoreNULL = FALSE,
+      ignoreInit = TRUE,
       {
-
         if (search_method() == "address") {
           mapboxer::mapboxer_proxy(ns("map")) %>%
             zoom_map_to_address(address_and_neighbourhood$address) %>%

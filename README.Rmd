@@ -164,9 +164,27 @@ or `plot_neighbourhood_profile_distribution()` to compare a value to the distrib
 
 ```{r plot-unaffordable-housing}
 neighbourhood_profiles[["Danforth"]] %>%
-  plot_neighbourhood_profile_distribution("unaffordable_housing") + 
+  plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.01) + 
   ggplot2::scale_x_continuous(labels = scales::percent)
 ```
+
+### address_points
+
+address_points() contains the addresses and latitude / longitude for over 500,000 addresses in the City of Toronto. The data is in a SQLite database, so just calling `address_points()` returns a preview of the data:
+
+```{r address-points}
+address_points()
+```
+
+It can be filtered like a regular data frame, but results must be "returned" by calling `dplyr::collect()`:
+
+```{r address-points-collect}
+address_points() %>%
+  filter(address == "100 Queen St W") %>%
+  collect()
+```
+
+The field `geo_id` can be used to connect with some other City of Toronto data sets, in order to look up the latitude and longitude for an address.
 
 ## Development
 

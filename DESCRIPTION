@@ -11,6 +11,8 @@ License: What license is it under?
 Imports: 
     config (>= 0.3.1),
     dplyr,
+    dbplyr,
+    dqshiny,
     forcats,
     fs,
     ggplot2,
@@ -21,9 +23,11 @@ Imports:
     magrittr,
     mapboxer,
     pkgload,
+    pool,
     purrr,
     readr,
     rlang,
+    RSQLite,
     scales,
     sf,
     shiny (>= 1.6.0),
@@ -33,9 +37,12 @@ Imports:
     usethis
 Encoding: UTF-8
 LazyData: true
+StagedInstall: no
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
+Remotes:
+    sharlagelfand/dqshiny
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
