@@ -16,7 +16,7 @@ mod_search_ui <- function(id) {
         id = ns("address"),
         label = "Address",
         placeholder = "Search address...",
-        options = address_points_just_address,
+        options = lemur::address_points_just_address,
         max_options = 10,
         contains = TRUE
       )
@@ -51,13 +51,13 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
       # Get neighbourhood of address
       address_point <- address_points() %>%
         dplyr::filter(.data$address == local(input$address)) %>%
-        head(1) %>%
+        utils::head(1) %>%
         dplyr::collect()
 
       address_and_neighbourhood$neighbourhood <- address_point %>%
         sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
         sf::st_intersection(lemur::neighbourhoods) %>%
-        dplyr::pull(neighbourhood)
+        dplyr::pull(.data$neighbourhood)
 
       # Update search method
       search_method("address")
