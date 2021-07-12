@@ -45,14 +45,16 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::column(
           width = 12,
+          shiny::htmlOutput(ns("legend"))
+        ),
+        shiny::column(
+          width = 12,
           shiny::h3("Structure Type"),
-          shiny::htmlOutput(ns("structure_type_legend")),
           shiny::plotOutput(ns("structure_type"), height = "200px")
         ),
         shiny::column(
           width = 12,
           shiny::h3("Number of Bedrooms"),
-          shiny::htmlOutput(ns("bedrooms_legend")),
           shiny::plotOutput(ns("bedrooms"), height = "200px")
         ),
         shiny::column(
@@ -86,11 +88,11 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       }
     })
 
-    # Structure type -----
-
-    output$structure_type_legend <- shiny::renderText({
+    output$legend <- shiny::renderText({
       plot_legend()
     })
+
+    # Structure type -----
 
     output$structure_type <- shiny::renderPlot(
       {
@@ -102,10 +104,6 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     )
 
     # Bedrooms -----
-
-    output$bedrooms_legend <- shiny::renderText({
-      plot_legend()
-    })
 
     output$bedrooms <- shiny::renderPlot(
       {

@@ -45,6 +45,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::column(
           width = 12,
+          shiny::htmlOutput(ns("legend"))
+        ),
+        shiny::column(
+          width = 12,
           shiny::h3("Population Change"),
           shiny::h3(shiny::uiOutput(ns("population_change_number"))),
           shiny::plotOutput(ns("population_change_plot"), height = "100px")
@@ -58,13 +62,11 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
         shiny::column(
           width = 12,
           shiny::h3("Household size"),
-          shiny::htmlOutput(ns("household_size_legend")),
           shiny::plotOutput(ns("household_size"), height = "200px")
         ),
         shiny::column(
           width = 12,
           shiny::h3("Mean total household income"),
-          shiny::htmlOutput(ns("average_total_income_legend")),
           shiny::plotOutput(ns("average_total_income"), height = "100px")
         ),
         shiny::column(
@@ -94,7 +96,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
         shiny::column(
           width = 12,
           shiny::h3(shiny::uiOutput(ns("visible_minority"))),
-          shiny::htmlOutput(ns("visible_minority_legend")),
           shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
         )
       )
@@ -107,6 +108,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       if (sidebar_level() == "neighbourhood") {
         create_legend(neighbourhood())
       }
+    })
+
+    output$legend <- shiny::renderText({
+      plot_legend()
     })
 
     # Population change -----
@@ -151,10 +156,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     # Household size -----
 
-    output$household_size_legend <- shiny::renderText({
-      plot_legend()
-    })
-
     output$household_size <- shiny::renderPlot(
       {
         dataset() %>%
@@ -165,10 +166,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     )
 
     # Mean total household income ------
-
-    output$average_total_income_legend <- shiny::renderText({
-      plot_legend()
-    })
 
     output$average_total_income <- shiny::renderPlot(
       {
@@ -228,10 +225,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     )
 
     # Visible minority population -----
-
-    output$visible_minority_legend <- shiny::renderText({
-      plot_legend()
-    })
 
     output$visible_minority <- shiny::renderUI({
       prop <- dataset()[["visible_minority"]] %>%
