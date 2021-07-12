@@ -73,3 +73,8 @@ address_points <- function() {
     dbname = system.file("extdata/lemur.sqlite", package = "lemur")
   ), "address_points")
 }
+
+#' Address Points addresses only
+#'
+#' Addresses only from \link{address_points}
+"address_points_just_address"
