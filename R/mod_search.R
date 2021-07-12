@@ -6,9 +6,8 @@
 #'
 #' @noRd
 #'
-#' @importFrom shiny NS tagList
 mod_search_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::tagList(
     shiny::column(
       width = 6,

@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_sidebar_places_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::uiOutput(ns("people_sidebar"))
 }
 
@@ -16,7 +14,7 @@ mod_sidebar_places_ui <- function(id) {
 #'
 #' @noRd
 mod_sidebar_places_server <- function(id, neighbourhood) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     sidebar_level <- shiny::reactive({

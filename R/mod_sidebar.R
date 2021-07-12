@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_sidebar_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::tagList(
     shiny::h1(shiny::textOutput(ns("header"))),
     shiny::h2(shiny::uiOutput(ns("population"))),
