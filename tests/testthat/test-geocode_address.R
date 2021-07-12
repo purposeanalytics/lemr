@@ -75,3 +75,15 @@ test_that("convert_street_name_to_numeric converts a street name to its numeric 
 
   expect_identical(convert_street_name_to_numeric("100 Queen St"), "100 Queen St")
 })
+
+test_that("convert_street_name_to_numeric can convert addresses with a street name over 100", {
+  expect_identical(convert_street_name_to_numeric("5405 S One Hundred Forty Fourth St"), "5405 S 144th St")
+})
+
+test_that("convert_street_name_to_numeric handles 'and'", {
+  expect_identical(convert_street_name_to_numeric("5405 S One Hundred and Forty Fourth St"), "5405 S 144th St")
+})
+
+test_that("convert_street_name_to_numeric can handle 'hundredth' without 'one'", {
+  expect_identical(convert_street_name_to_numeric("5405 S Hundredth and Forty Fourth St"), "5405 S 144th St")
+})
