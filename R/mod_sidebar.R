@@ -8,8 +8,9 @@
 mod_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h1(shiny::textOutput(ns("header"))),
-    shiny::h2(shiny::uiOutput(ns("population"))),
+    shiny::h2(shiny::textOutput(ns("header"))),
+    shiny::h3(shiny::uiOutput(ns("population"))),
+    shiny::h3(shiny::uiOutput(ns("households"))),
     shiny::uiOutput(ns("back_to_city")),
     shiny::uiOutput(ns("tabs_people_places"))
   )

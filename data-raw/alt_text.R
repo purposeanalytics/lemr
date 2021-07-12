@@ -40,7 +40,7 @@ neighbourhood_profiles_alt_text <- append(neighbourhood_profiles_alt_text, list(
 
 population_density_values <- city_profile[["population_density_distribution"]][["value"]]
 
-population_density_base <- glue::glue("Bar chart showing the distribution of population density for each of Toronto's neighbourhoods. The values range from {round(min)} to {round(max)} people per square kilometer and the distribution is heavily skewed left with most values between {round(skew_min)} and {round(skew_max)}.",
+population_density_base <- glue::glue("Histogram showing the distribution of population density for each of Toronto's neighbourhoods. The values range from {round(min)} to {round(max)} people per square kilometer and the distribution is heavily skewed left with most values between {round(skew_min)} and {round(skew_max)}.",
   min = min(population_density_values),
   max = max(population_density_values),
   skew_min = quantile(population_density_values, 0.1),
@@ -128,7 +128,7 @@ neighbourhood_profiles_alt_text <- append(neighbourhood_profiles_alt_text, list(
 
 unaffordable_housing_values <- city_profile[["unaffordable_housing_distribution"]][["value"]]
 
-unaffordable_housing_base <- glue::glue("Bar chart showing the distribution of percent of tenant households with unaffordable housing for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} of tenant households with unaffordable housing with most values between {scales::percent(skew_min)} and {scales::percent(skew_max)}.",
+unaffordable_housing_base <- glue::glue("Histogram showing the distribution of percent of tenant households with unaffordable housing for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} of tenant households with unaffordable housing with most values between {scales::percent(skew_min)} and {scales::percent(skew_max)}.",
   min = min(unaffordable_housing_values),
   max = max(unaffordable_housing_values),
   skew_min = quantile(unaffordable_housing_values, 0.1),
