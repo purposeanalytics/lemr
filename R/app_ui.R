@@ -2,30 +2,28 @@
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
-#' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  tagList(
-    shiny::tags$style(type = "text/css", "#map-map {height: calc(100vh - 80px) !important;}"),
+  shiny::tagList(
     golem_add_external_resources(),
-    navbarPage(
+    shiny::navbarPage(
       "LEMUR",
-      tabPanel(
+      shiny::tabPanel(
         "Map",
-        sidebarLayout(
-          mainPanel(
+        shiny::sidebarLayout(
+          shiny::mainPanel(
             width = 7,
             mod_map_ui("map")
           ),
-          sidebarPanel(
-            style = "background-color: white; min-height: calc(100vh - 80px);",
+          shiny::sidebarPanel(
+            style = "background-color: white; height: calc(100vh - 100px); overflow: auto;",
             width = 5,
             mod_search_ui("search"),
             mod_sidebar_ui("sidebar")
           )
         ),
-        tabPanel("Portal"),
-        tabPanel("About")
+        shiny::tabPanel("Portal"),
+        shiny::tabPanel("About")
       )
     )
   )
