@@ -49,6 +49,29 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
     # Address
     address <- geocode_json_tidied[["address.addressLine"]]
 
+    # If the address is NULL, return NAs for everything - there may still be results for latitude, longitude, etc, but in the case of Toronto, when it can't find it, it just returns the lat / long for city hall! Eek! Better to return NAs to make it clear that the geocoding failed.
+
+    # Also change the status code to 404, "not found" - this is probably the closest option and I'd rather also flag issues this way, rather than returning 200 (= all good)
+
+    if (is.null(address)) {
+      res <- dplyr::tibble(
+        status_code = 404,
+        address = NA,
+        municipality = NA,
+        postal_code = NA,
+        method = NA,
+        confidence = NA,
+        latitude = NA,
+        longitude = NA
+      )
+
+      names(res) <- glue::glue("bing_{names(res)}")
+
+      Sys.sleep(0.25) # Sleep for 0.25 seconds to comply with API, which only allows for 5 calls per second
+
+      return(res)
+    }
+
     # Municipality
     municipality <- geocode_json_tidied[["address.adminDistrict2"]]
 
