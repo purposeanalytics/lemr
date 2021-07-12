@@ -34,7 +34,9 @@ Imports:
     shinyWidgets,
     stringr,
     tidyr,
-    usethis
+    toOrdinal,
+    usethis,
+    words2number
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
@@ -45,4 +47,6 @@ Remotes:
     sharlagelfand/dqshiny
 Suggests: 
     testthat (>= 3.0.0)
+Remotes:
+    benmarwick/words2number
 Config/testthat/edition: 3

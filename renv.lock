@@ -305,15 +305,15 @@
     },
     "dqshiny": {
       "Package": "dqshiny",
-      "Version": "0.0.5",
+      "Version": "0.0.6",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "dqshiny",
-      "RemoteUsername": "daqana",
+      "RemoteUsername": "sharlagelfand",
       "RemoteRef": "HEAD",
-      "RemoteSha": "b2c60d61e4554430c0b63d311efef7e97bd45873",
-      "Hash": "13dee56efc2a0d88eceec40dbcf4a0bc"
+      "RemoteSha": "8c61580a190ba00c4bfd3152da359c292399978e",
+      "Hash": "427b8c65cee8bb68031f376302e4383a"
     },
     "e1071": {
       "Package": "e1071",
@@ -571,7 +571,7 @@
       "Package": "lemur",
       "Version": "0.0.0.9000",
       "Source": "unknown",
-      "Hash": "3b63ce7cb3a59477b4370d87c4b965c4"
+      "Hash": "e086511e73d3c9dc911d5d2e25f4d8ad"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -993,6 +993,13 @@
       "Repository": "CRAN",
       "Hash": "25b572f764f3c19fef9aac33b5724f3d"
     },
+    "toOrdinal": {
+      "Package": "toOrdinal",
+      "Version": "1.1-0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "986b3f99e96a096469dcd4e04af8d794"
+    },
     "triebeard": {
       "Package": "triebeard",
       "Version": "0.3.0",
@@ -1069,6 +1076,18 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ad03909b44677f930fa156d47d7a3aeb"
+    },
+    "words2number": {
+      "Package": "words2number",
+      "Version": "0.2.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "words2number",
+      "RemoteUsername": "benmarwick",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "e0589c5da1907e26e7a76e13fa2ee18925f1bfa2",
+      "Hash": "23b493a87489cda1a9f807cbfd8ac0a1"
     },
     "xfun": {
       "Package": "xfun",

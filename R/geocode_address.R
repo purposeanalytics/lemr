@@ -22,8 +22,11 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
   }
 
   clean_address <- address %>%
-    stringr::str_squish() %>% # Remove excess whitespace
+    stringr::str_squish() %>%
+    # Remove excess whitespace
+    convert_street_name_to_numeric() %>%
     stringr::str_replace_all("[^a-zA-Z0-9]", "%20") # Replace any spaces with %20, required for URLs
+
   call <- glue::glue("{base}{clean_address}?maxResults=1&key={token}") # Full call URL
 
   # Get geocoding
@@ -156,3 +159,38 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
     res
   }
 }
+
+convert_street_name_to_numeric <- function(address) {
+  # Split into words (with space)
+  address_split <- stringr::str_split(address, " ", simplify = TRUE) %>%
+    as.list()
+
+  # Try to convert each word to numeric, and just keep the results / successful ones
+  address_split_to_numeric <- purrr::map(address_split, try_word_to_number)
+  address_split_to_numeric <- address_split_to_numeric %>%
+    purrr::transpose() %>%
+    purrr::pluck("result")
+
+  # Keep words that have a numeric version (and aren't already numeric)
+  address_original_and_numeric <- dplyr::tibble(
+    original = unlist(address_split),
+    numeric = unlist(address_split_to_numeric)
+  ) %>%
+    dplyr::filter(.data$original != .data$numeric)
+
+  if (nrow(address_original_and_numeric) > 0) {
+    # Combine the original words TOGETHER to numeric (e.g. Forty Second -> 42, not Forty -> 40 and Second -> 2)
+    address_numeric_bits_original <- paste(address_original_and_numeric[["original"]], collapse = " ")
+    address_numeric_bits <- words2number::to_number(address_numeric_bits_original)
+    # Add ordinal parts (e.g. 42 -> 42nd)
+    address_numeric_bits <- toOrdinal::toOrdinal(address_numeric_bits)
+    address_numeric_bits <- as.character(address_numeric_bits)
+
+    # Replace the original numeric bits with actual numeric parts
+    stringr::str_replace(address, address_numeric_bits_original, address_numeric_bits)
+  } else {
+    address
+  }
+}
+
+try_word_to_number <- purrr::safely(words2number::to_number, otherwise = NA)
