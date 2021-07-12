@@ -31,9 +31,11 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     data <- data %>%
       dplyr::bind_rows(city_data) %>%
       dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "City of Toronto")) %>%
-      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)) %>%
-      dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
+      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
   }
+
+  data <- data %>%
+    dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   # Flag if it's a proportion variable
   prop_variable <- "prop" %in% names(data)
