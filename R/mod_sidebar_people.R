@@ -45,32 +45,23 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::column(
           width = 12,
-          shiny::htmlOutput(ns("legend"))
-        ),
-        shiny::column(
-          width = 12,
+          shiny::htmlOutput(ns("legend")),
+
           shiny::h3("Population Change"),
           shiny::h3(shiny::uiOutput(ns("population_change_number"))),
-          shiny::plotOutput(ns("population_change_plot"), height = "100px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("population_change_plot"), height = "100px"),
+
           shiny::h3("Population Density"),
           shiny::h3(shiny::uiOutput(ns("population_density_number"))),
-          shiny::plotOutput(ns("population_density_plot"), height = "100px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("population_density_plot"), height = "100px"),
+
           shiny::h3("Household size"),
-          shiny::plotOutput(ns("household_size"), height = "200px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("household_size"), height = "200px"),
+
           shiny::h3("Mean total household income"),
-          shiny::plotOutput(ns("average_total_income"), height = "100px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("average_total_income"), height = "100px"),
+
+          shiny::fluidRow(
           shiny::column(
             width = 6,
             shiny::h3(shiny::uiOutput(ns("unaffordable_housing"))),
@@ -80,9 +71,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
             width = 6,
             shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
           )
-        ),
-        shiny::column(
-          width = 12,
+          ),
+
+          shiny::fluidRow(
           shiny::column(
             width = 6,
             shiny::h3(shiny::uiOutput(ns("lim_at"))),
@@ -92,9 +83,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
             width = 6,
             shiny::plotOutput(ns("lim_at_plot"), height = "100px")
           )
-        ),
-        shiny::column(
-          width = 12,
+          ),
+
           shiny::h3(shiny::uiOutput(ns("visible_minority"))),
           shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
         )

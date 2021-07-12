@@ -45,25 +45,17 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::column(
           width = 12,
-          shiny::htmlOutput(ns("legend"))
-        ),
-        shiny::column(
-          width = 12,
+          shiny::htmlOutput(ns("legend")),
+
           shiny::h3("Structure Type"),
-          shiny::plotOutput(ns("structure_type"), height = "200px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("structure_type"), height = "200px"),
+
           shiny::h3("Number of Bedrooms"),
-          shiny::plotOutput(ns("bedrooms"), height = "200px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("bedrooms"), height = "200px"),
+
           shiny::h3("Households by tenure"),
-          shiny::plotOutput(ns("household_tenure"), height = "120px")
-        ),
-        shiny::column(
-          width = 12,
+          shiny::plotOutput(ns("household_tenure"), height = "120px"),
+
           shiny::h3("Average Shelter Cost for Renters"),
           shiny::column(
             width = 3,
