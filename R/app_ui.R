@@ -10,20 +10,21 @@ app_ui <- function(request) {
       "LEMUR",
       shiny::tabPanel(
         "Map",
-        shiny::sidebarLayout(
-          shiny::mainPanel(
-            width = 9,
-            mod_map_ui("map")
+        shiny::column(
+          width = 9,
+          mod_map_ui("map")
+        ),
+        shiny::column(
+          width = 3,
+          shiny::wellPanel(
+            style = "background-color: white; height: 100px;",
+            mod_search_ui("search")
           ),
-          shiny::sidebarPanel(
-            style = "background-color: white; height: calc(100vh - 100px); overflow: auto;",
-            width = 3,
-            mod_search_ui("search"),
+          shiny::wellPanel(
+            style = "background-color: white; height: calc(100vh - 225px); overflow: auto;",
             mod_sidebar_ui("sidebar")
           )
-        ),
-        shiny::tabPanel("Portal"),
-        shiny::tabPanel("About")
+        )
       )
     )
   )
