@@ -5,6 +5,7 @@
 #' @param compare Whether to compare to City of Toronto values. Defaults to TRUE. FALSE is useful when you want to plot *just* the values for as neighbourhood or *just* the values for the city.
 #' @param width Passed along to str_wrap for wrapping y-axis labels. Defaults to a width of 20.
 #' @param dollar Whether the variable shown is in dollars. Defaults to FALSE.
+#' @param type Type of display, "plot" or "table". Defaults to "plot".
 #'
 #' @export
 #'
@@ -15,9 +16,9 @@
 #'   neighbourhood_profiles[["Danforth"]] %>%
 #'     plot_neighbourhood_profile("average_total_income")
 #' }
-plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE) {
+display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
   if (variable == "household_tenure") {
-    return(plot_neighbourhood_household_tenure(data, compare = compare))
+    return(display_neighbourhood_household_tenure(data, compare = compare, type = type))
   }
 
   data <- data[[variable]] %>%
@@ -48,6 +49,8 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
       dplyr::mutate(label = .data$value)
   }
 
+  if (type == "plot") {
+
   if (compare) {
     p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
       ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
@@ -73,6 +76,17 @@ plot_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 2
       legend.position = "none",
       axis.text.x = ggplot2::element_blank()
     )
+  } else if (type == "table") {
+
+    if (compare) {
+      res <- data %>%
+        dplyr::select(.data$group, .data$neighbourhood, .data$label) %>%
+        tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$label)
+    } else {
+      res <- data %>%
+        dplyr::select(.data$group, .data$label)
+    }
+  }
 }
 
 str_wrap_factor <- function(x, width) {
@@ -84,7 +98,7 @@ str_wrap_factor <- function(x, width) {
   x
 }
 
-plot_neighbourhood_household_tenure <- function(data, compare = TRUE) {
+display_neighbourhood_household_tenure <- function(data, compare = TRUE, type = "plot") {
   if (compare) {
     data <- lemur::city_profile[["household_tenure"]] %>%
       dplyr::mutate(neighbourhood = "City of Toronto") %>%

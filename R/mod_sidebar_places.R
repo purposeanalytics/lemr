@@ -89,7 +89,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     output$structure_type <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("structure_type", compare = compare())
+          display_neighbourhood_profile("structure_type", compare = compare())
       },
       res = 96,
       bg = "transparent"
@@ -100,7 +100,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     output$bedrooms <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("bedrooms", compare = compare())
+          display_neighbourhood_profile("bedrooms", compare = compare())
       },
       res = 96,
       bg = "transparent"
@@ -111,7 +111,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     output$household_tenure <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("household_tenure", compare = compare())
+          display_neighbourhood_profile("household_tenure", compare = compare())
       },
       res = 96,
       bg = "transparent"
