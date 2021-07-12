@@ -19,7 +19,7 @@ mod_sidebar_ui <- function(id) {
 #'
 #' @noRd
 mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     neighbourhood <- shiny::reactive({

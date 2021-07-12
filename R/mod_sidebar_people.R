@@ -14,7 +14,7 @@ mod_sidebar_people_ui <- function(id) {
 #'
 #' @noRd
 mod_sidebar_people_server <- function(id, neighbourhood) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     sidebar_level <- shiny::reactive({
@@ -43,65 +43,59 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
-        shiny::fluidRow(
+        shiny::column(
+          width = 12,
+          shiny::h3("Population Change"),
+          shiny::h3(shiny::uiOutput(ns("population_change_number"))),
+          shiny::plotOutput(ns("population_change_plot"), height = "100px")
+        ),
+        shiny::column(
+          width = 12,
+          shiny::h3("Population Density"),
+          shiny::h3(shiny::uiOutput(ns("population_density_number"))),
+          shiny::plotOutput(ns("population_density_plot"), height = "100px")
+        ),
+        shiny::column(
+          width = 12,
+          shiny::h3("Household size"),
+          shiny::htmlOutput(ns("household_size_legend")),
+          shiny::plotOutput(ns("household_size"), height = "200px")
+        ),
+        shiny::column(
+          width = 12,
+          shiny::h3("Mean total household income"),
+          shiny::htmlOutput(ns("average_total_income_legend")),
+          shiny::plotOutput(ns("average_total_income"), height = "100px")
+        ),
+        shiny::column(
+          width = 12,
           shiny::column(
             width = 6,
-            shiny::h3("Population Change"),
-            shiny::h3(shiny::uiOutput(ns("population_change_number"))),
-            shiny::plotOutput(ns("population_change_plot"), height = "100px")
+            shiny::h3(shiny::uiOutput(ns("unaffordable_housing"))),
+            shiny::h3(shiny::uiOutput(ns("unaffordable_housing_city"))),
           ),
           shiny::column(
             width = 6,
-            shiny::h3("Population Density"),
-            shiny::h3(shiny::uiOutput(ns("population_density_number"))),
-            shiny::plotOutput(ns("population_density_plot"), height = "100px")
+            shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
           )
         ),
-        shiny::fluidRow(
+        shiny::column(
+          width = 12,
           shiny::column(
             width = 6,
-            shiny::h3("Household size"),
-            shiny::htmlOutput(ns("household_size_legend")),
-            shiny::plotOutput(ns("household_size"), height = "200px")
+            shiny::h3(shiny::uiOutput(ns("lim_at"))),
+            shiny::h3(shiny::uiOutput(ns("lim_at_city"))),
           ),
           shiny::column(
             width = 6,
-            shiny::h3("Mean total household income"),
-            shiny::htmlOutput(ns("average_total_income_legend")),
-            shiny::plotOutput(ns("average_total_income"), height = "100px"),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                align = "center",
-                shiny::h3(shiny::uiOutput(ns("unaffordable_housing"))),
-                shiny::h3(shiny::uiOutput(ns("unaffordable_housing_city"))),
-              ),
-              shiny::column(
-                width = 6,
-                shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
-              )
-            ),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                align = "center",
-                shiny::h3(shiny::uiOutput(ns("lim_at"))),
-                shiny::h3(shiny::uiOutput(ns("lim_at_city"))),
-              ),
-              shiny::column(
-                width = 6,
-                shiny::plotOutput(ns("lim_at_plot"), height = "100px")
-              )
-            ),
+            shiny::plotOutput(ns("lim_at_plot"), height = "100px")
           )
         ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 6,
-            shiny::h3(shiny::uiOutput(ns("visible_minority"))),
-            shiny::htmlOutput(ns("visible_minority_legend")),
-            shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
-          )
+        shiny::column(
+          width = 12,
+          shiny::h3(shiny::uiOutput(ns("visible_minority"))),
+          shiny::htmlOutput(ns("visible_minority_legend")),
+          shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
         )
       )
     })

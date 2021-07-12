@@ -38,7 +38,7 @@ mod_search_ui <- function(id) {
 #'
 #' @noRd
 mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_method) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # If address is selected, store address and neighbourhood

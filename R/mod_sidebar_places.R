@@ -43,34 +43,26 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
-        shiny::fluidRow(
-          shiny::column(
-            width = 6,
-            shiny::h3("Structure Type"),
-            shiny::htmlOutput(ns("structure_type_legend")),
-            shiny::plotOutput(ns("structure_type"), height = "200px")
-          ),
-          shiny::column(
-            width = 6,
-            shiny::h3("Number of Bedrooms"),
-            shiny::htmlOutput(ns("bedrooms_legend")),
-            shiny::plotOutput(ns("bedrooms"), height = "200px")
-          )
+        shiny::column(
+          width = 12,
+          shiny::h3("Structure Type"),
+          shiny::htmlOutput(ns("structure_type_legend")),
+          shiny::plotOutput(ns("structure_type"), height = "200px")
         ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 12,
-            shiny::h3("Households by tenure"),
-            shiny::plotOutput(ns("household_tenure"), height = "120px")
-          )
+        shiny::column(
+          width = 12,
+          shiny::h3("Number of Bedrooms"),
+          shiny::htmlOutput(ns("bedrooms_legend")),
+          shiny::plotOutput(ns("bedrooms"), height = "200px")
         ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 12,
-            shiny::h3("Average Shelter Cost for Renters")
-          )
+        shiny::column(
+          width = 12,
+          shiny::h3("Households by tenure"),
+          shiny::plotOutput(ns("household_tenure"), height = "120px")
         ),
-        shiny::fluidRow(
+        shiny::column(
+          width = 12,
+          shiny::h3("Average Shelter Cost for Renters"),
           shiny::column(
             width = 3,
             align = "center",

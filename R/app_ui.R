@@ -12,12 +12,12 @@ app_ui <- function(request) {
         "Map",
         shiny::sidebarLayout(
           shiny::mainPanel(
-            width = 7,
+            width = 9,
             mod_map_ui("map")
           ),
           shiny::sidebarPanel(
             style = "background-color: white; height: calc(100vh - 100px); overflow: auto;",
-            width = 5,
+            width = 3,
             mod_search_ui("search"),
             mod_sidebar_ui("sidebar")
           )
