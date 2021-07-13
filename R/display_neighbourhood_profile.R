@@ -80,6 +80,9 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     )
   } else if (type == "table") {
 
+    data <- data %>%
+      dplyr::arrange(desc(.data$group))
+
     if (compare) {
       res <- data %>%
         dplyr::select(.data$group, .data$neighbourhood, .data$label) %>%
