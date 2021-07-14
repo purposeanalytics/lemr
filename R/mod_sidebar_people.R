@@ -414,7 +414,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       alt_text
     })
 
-
     output$lim_at_plot <- shiny::renderPlot(
       {
         dataset() %>%

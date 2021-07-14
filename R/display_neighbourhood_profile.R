@@ -18,7 +18,7 @@
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
   if (variable == "household_tenure") {
-    return(display_neighbourhood_household_tenure(data, compare = compare, type = type))
+    return(display_neighbourhood_household_tenure(data, compare = compare, width = width, type = type))
   }
 
   data <- data[[variable]] %>%
@@ -52,34 +52,32 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
   }
 
   if (type == "plot") {
+    if (compare) {
+      p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
+        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
+        ggplot2::scale_fill_manual(values = c("grey", "darkgreen"), guide = ggplot2::guide_legend(reverse = TRUE))
+    } else {
+      p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
+        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = "grey")
+    }
 
-  if (compare) {
-    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
-      ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"), guide = ggplot2::guide_legend(reverse = TRUE))
-  } else {
-    p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
-      ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = "grey")
-  }
+    if (dollar) {
+      p <- p +
+        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
+    } else {
+      p <- p +
+        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
+    }
 
-  if (dollar) {
-    p <- p +
-      ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
-  } else {
-    p <- p +
-      ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
-  }
-
-  p +
-    ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
-    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
-    theme_lemur(base_size = 12) +
-    ggplot2::theme(
-      legend.position = "none",
-      axis.text.x = ggplot2::element_blank()
-    )
+    p +
+      ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
+      ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
+      theme_lemur(base_size = 12) +
+      ggplot2::theme(
+        legend.position = "none",
+        axis.text.x = ggplot2::element_blank()
+      )
   } else if (type == "table") {
-
     data <- data %>%
       dplyr::arrange(desc(.data$group))
 
@@ -103,7 +101,7 @@ str_wrap_factor <- function(x, width) {
   x
 }
 
-display_neighbourhood_household_tenure <- function(data, compare = TRUE, type = "plot") {
+display_neighbourhood_household_tenure <- function(data, compare = TRUE, width = width, type = "plot") {
   if (compare) {
     data <- lemur::city_profile[["household_tenure"]] %>%
       dplyr::mutate(neighbourhood = "City of Toronto") %>%
@@ -115,36 +113,63 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, type = 
         neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
       )
 
-    p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
-      ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
-      ggplot2::annotate("text", x = 0, y = 2.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
-      ggplot2::annotate("text", x = 1, y = 2.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
-      ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
-      theme_lemur() +
-      ggplot2::theme(axis.title = ggplot2::element_blank())
-  } else {
+    if (type == "table") {
+      res <- data %>%
+        dplyr::select(.data$group, .data$prop, .data$neighbourhood) %>%
+        dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1)) %>%
+        tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$prop) %>%
+        dplyr::arrange(desc(.data$group)) %>%
+        dplyr::relocate(`City of Toronto`, .after = dplyr::last_col())
+
+      return(res)
+
+    } else if (type == "plot") {
+
+      data <- data %>%
+        dplyr::mutate(neighbourhood = str_wrap_factor(.data$neighbourhood, width = width))
+
+      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
+        ggplot2::geom_col(show.legend = FALSE) +
+        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+        ggplot2::annotate("text", x = 0, y = 2.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
+        ggplot2::annotate("text", x = 1, y = 2.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
+        ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
+        theme_lemur() +
+        ggplot2::theme(axis.title = ggplot2::element_blank())
+    }
+  } else if (!compare) {
     data <- data[["household_tenure"]]
 
-    p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
-      ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-      ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
-      ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
-      ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
-      ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
-      theme_lemur() +
-      ggplot2::theme(
-        axis.title = ggplot2::element_blank(),
-        axis.text.y = ggplot2::element_blank()
-      )
+    if (type == "table") {
+      res <- data %>%
+        dplyr::arrange(desc(.data$group)) %>%
+        dplyr::select(.data$group, .data$prop) %>%
+        dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1))
+
+      return(res)
+    } else if (type == "plot") {
+      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
+        ggplot2::geom_col(show.legend = FALSE) +
+        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
+        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
+        ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
+        ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
+        ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
+        theme_lemur() +
+        ggplot2::theme(
+          axis.title = ggplot2::element_blank(),
+          axis.text.y = ggplot2::element_blank()
+        )
+    }
   }
 
-  p +
-    ggplot2::scale_x_continuous(labels = scales::label_percent()) +
-    ggplot2::coord_cartesian(clip = "off") +
-    ggplot2::theme(legend.position = "none")
+  if (type == "plot") {
+    p +
+      ggplot2::scale_x_continuous(labels = scales::label_percent()) +
+      ggplot2::coord_cartesian(clip = "off") +
+      ggplot2::theme(legend.position = "none")
+  }
 }
 
 #' Plot the distribution of a neighbourhood profile variable

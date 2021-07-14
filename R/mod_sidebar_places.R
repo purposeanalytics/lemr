@@ -46,27 +46,23 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
         shiny::column(
           width = 12,
           shiny::htmlOutput(ns("legend")),
-
-          shiny::h3("Structure Type"),
-          shiny::plotOutput(ns("structure_type"), height = "200px"),
-
-          shiny::h3("Number of Bedrooms"),
-          shiny::plotOutput(ns("bedrooms"), height = "200px"),
-
+          shiny::h3("Housing structure type"),
+          shiny::textOutput(ns("structure_type_description")),
+          shiny::plotOutput(ns("structure_type_plot"), height = "200px"),
+          shiny::htmlOutput(ns("structure_type_table")),
+          shiny::h3("Number of bedrooms"),
+          shiny::textOutput(ns("bedrooms_description")),
+          shiny::plotOutput(ns("bedrooms_plot"), height = "200px"),
+          shiny::htmlOutput(ns("bedrooms_table")),
           shiny::h3("Households by tenure"),
-          shiny::plotOutput(ns("household_tenure"), height = "120px"),
-
-          shiny::h3("Average Shelter Cost for Renters"),
-          shiny::column(
-            width = 3,
-            align = "center",
-            shiny::h4(shiny::uiOutput(ns("shelter_cost"))),
-            shiny::h4(shiny::uiOutput(ns("shelter_cost_city")))
-          ),
-          shiny::column(
-            width = 9,
-            shiny::plotOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
-          )
+          shiny::textOutput(ns("household_tenure_description")),
+          shiny::plotOutput(ns("household_tenure_plot"), height = "120px"),
+          shiny::htmlOutput(ns("household_tenure_table")),
+          shiny::h3("Average shelter cost for renters"),
+          shiny::h4(shiny::uiOutput(ns("shelter_cost"))),
+          shiny::h4(shiny::uiOutput(ns("shelter_cost_city"))),
+          shiny::textOutput(ns("average_renter_shelter_cost_description")),
+          shiny::plotOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
         )
       )
     })
@@ -86,56 +82,171 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     # Structure type -----
 
-    output$structure_type <- shiny::renderPlot(
+    output$structure_type_description <- shiny::renderText({
+      generate_bar_chart_description(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "structure type")
+    })
+
+    structure_type_plot_alt_text <- shiny::reactive({
+      generate_bar_chart_alt_text(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "housing structure type")
+    })
+
+    output$structure_type_plot <- shiny::renderPlot(
       {
         dataset() %>%
           display_neighbourhood_profile("structure_type", compare = compare())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = structure_type_plot_alt_text
     )
+
+    output$structure_type_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("structure_type", compare = compare(), type = "table")
+
+      if (!compare()) {
+        names(res) <- c("Housing Structure Type", "Percent")
+      } else {
+        names(res)[[1]] <- "Housing Structure Type"
+      }
+
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling()
+    })
 
     # Bedrooms -----
 
-    output$bedrooms <- shiny::renderPlot(
+    output$bedrooms_description <- shiny::renderText({
+      generate_bar_chart_description(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "number of bedrooms")
+    })
+
+    bedrooms_plot_alt_text <- shiny::reactive({
+      generate_bar_chart_alt_text(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "number of bedrooms")
+    })
+
+    output$bedrooms_plot <- shiny::renderPlot(
       {
         dataset() %>%
           display_neighbourhood_profile("bedrooms", compare = compare())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = bedrooms_plot_alt_text
     )
+
+    output$bedrooms_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("bedrooms", compare = compare(), type = "table")
+
+      if (!compare()) {
+        names(res) <- c("Number of bedrooms", "Percent")
+      } else {
+        names(res)[[1]] <- "Number of bedrooms"
+      }
+
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling()
+    })
 
     # Household tenure ----
 
-    output$household_tenure <- shiny::renderPlot(
+    output$household_tenure_description <- shiny::renderText({
+      generate_bar_chart_description(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "household tenure (renter versus owner)")
+    })
+
+    household_tenure_plot_alt_text <- shiny::reactive({
+      generate_bar_chart_alt_text(sidebar_level = sidebar_level(), neighbourhood = neighbourhood(), text = "household tenure (renter versus owner)")
+    })
+
+    output$household_tenure_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          display_neighbourhood_profile("household_tenure", compare = compare())
+          display_neighbourhood_profile("household_tenure", compare = compare(), width = 10)
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = household_tenure_plot_alt_text
     )
+
+    output$household_tenure_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("household_tenure", compare = compare(), type = "table")
+
+      if (!compare()) {
+        names(res) <- c("Household tenure", "Percent")
+      } else {
+        names(res)[[1]] <- "Household tenure"
+      }
+
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling()
+    })
 
     # Shelter cost ----
 
+    shelter_cost <- shiny::reactive({
+      dataset()[["average_renter_shelter_cost"]]
+    })
+
+    shelter_cost_formatted <- shiny::reactive({
+      scales::dollar(shelter_cost(), accuracy = 1)
+    })
+
     output$shelter_cost <- shiny::renderUI({
-      glue::glue('{scales::dollar(dataset()[["average_renter_shelter_cost"]], accuracy = 1)}')
+      glue::glue("Average monthly rent: {shelter_cost_formatted()}")
     })
 
     output$shelter_cost_city <- shiny::renderUI({
       if (sidebar_level() == "neighbourhood") {
-        glue::glue('(City: {scales::dollar(city_profile[["average_renter_shelter_cost"]], accuracy = 1)})')
+        glue::glue('(City of Toronto: {scales::dollar(city_profile[["average_renter_shelter_cost"]], accuracy = 1)})')
       } else {
         NULL
       }
     })
 
-    output$average_renter_shelter_cost_plot <- shiny::renderPlot({
-      dataset() %>%
-        plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare(), binwidth = 50) +
-        ggplot2::scale_x_continuous(labels = scales::dollar)
+    output$average_renter_shelter_cost_description <- shiny::renderText({
+      if (sidebar_level() == "neighbourhood") {
+        value_distribution <- ecdf(city_profile[["average_renter_shelter_cost_distribution"]][["value"]])
+        value_percentile <- value_distribution(shelter_cost())
+      }
+
+      switch(sidebar_level(),
+        "city" = "Distribution of average renter shelter cost for each of the City of Toronto neighbourhoods.",
+        "neighbourhood" = glue::glue("Distribution of average renter shelter cost for each of the City of Toronto neighbourhoods. The value for {neighbourhood()}, {shelter_cost_formatted()} per month, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods' average rent.")
+      )
     })
+
+    average_renter_shelter_cost_plot_alt_text <- shiny::reactive({
+      values <- city_profile[["average_renter_shelter_cost_distribution"]][["value"]]
+
+      alt_text <- glue::glue("Histogram showing the distribution of average renter shelter cost for each of Toronto's neighbourhoods. The values range from {scales::dollar(min, accuracy = 1)} to {scales::dollar(max, accuracy = 1)} with most values between {scales::dollar(skew_min, accuracy = 1)} and {scales::dollar(skew_max, accuracy = 1)}.",
+        min = min(values),
+        max = max(values),
+        skew_min = quantile(values, 0.1),
+        skew_max = quantile(values, 0.9)
+      )
+
+      if (sidebar_level() == "neighbourhood") {
+        neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood()}'s average monthly rent is highlighted.")
+        alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+      }
+
+      alt_text
+    })
+
+    output$average_renter_shelter_cost_plot <- shiny::renderPlot(
+      {
+        dataset() %>%
+          plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare(), binwidth = 50) +
+          ggplot2::scale_x_continuous(labels = scales::dollar)
+      },
+      res = 96,
+      bg = "transparent",
+      alt = average_renter_shelter_cost_plot_alt_text
+    )
   })
 }
 
