@@ -6,9 +6,8 @@
 #'
 #' @noRd
 #'
-#' @importFrom shiny NS tagList
 mod_search_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::tagList(
     shiny::column(
       width = 6,
@@ -16,7 +15,7 @@ mod_search_ui <- function(id) {
         id = ns("address"),
         label = "Address",
         placeholder = "Search address...",
-        options = lemur::address_points_just_address,
+        options = utils::head(lemur::address_points_just_address),
         max_options = 10,
         contains = TRUE
       )
@@ -39,7 +38,7 @@ mod_search_ui <- function(id) {
 #'
 #' @noRd
 mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_method) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # If address is selected, store address and neighbourhood

@@ -5,13 +5,12 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_sidebar_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h1(shiny::textOutput(ns("header"))),
-    shiny::h2(shiny::uiOutput(ns("population"))),
+    shiny::h2(shiny::textOutput(ns("header"))),
+    shiny::h3(shiny::uiOutput(ns("population"))),
+    shiny::h3(shiny::uiOutput(ns("households"))),
     shiny::uiOutput(ns("back_to_city")),
     shiny::uiOutput(ns("tabs_people_places"))
   )
@@ -21,7 +20,7 @@ mod_sidebar_ui <- function(id) {
 #'
 #' @noRd
 mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     neighbourhood <- shiny::reactive({

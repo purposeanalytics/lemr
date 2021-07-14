@@ -5,3 +5,7 @@
   margin: 0 0.33em;
   vertical-align: middle;
 }
+
+#map-map {
+  height: calc(100vh - 100px) !important;
+}

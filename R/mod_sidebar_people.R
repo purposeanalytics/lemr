@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_sidebar_people_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::uiOutput(ns("people_sidebar"))
 }
 
@@ -16,7 +14,7 @@ mod_sidebar_people_ui <- function(id) {
 #'
 #' @noRd
 mod_sidebar_people_server <- function(id, neighbourhood) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     sidebar_level <- shiny::reactive({
@@ -45,65 +43,46 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
-        shiny::fluidRow(
-          shiny::column(
-            width = 6,
-            shiny::h3("Population Change"),
-            shiny::h3(shiny::uiOutput(ns("population_change_number"))),
-            shiny::plotOutput(ns("population_change_plot"), height = "100px")
-          ),
-          shiny::column(
-            width = 6,
-            shiny::h3("Population Density"),
-            shiny::h3(shiny::uiOutput(ns("population_density_number"))),
-            shiny::plotOutput(ns("population_density_plot"), height = "100px")
-          )
-        ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 6,
-            shiny::h3("Household size"),
-            shiny::htmlOutput(ns("household_size_legend")),
-            shiny::plotOutput(ns("household_size"), height = "200px")
-          ),
-          shiny::column(
-            width = 6,
-            shiny::h3("Mean total household income"),
-            shiny::htmlOutput(ns("average_total_income_legend")),
-            shiny::plotOutput(ns("average_total_income"), height = "100px"),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                align = "center",
-                shiny::h3(shiny::uiOutput(ns("unaffordable_housing"))),
-                shiny::h3(shiny::uiOutput(ns("unaffordable_housing_city"))),
-              ),
-              shiny::column(
-                width = 6,
-                shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px")
-              )
-            ),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                align = "center",
-                shiny::h3(shiny::uiOutput(ns("lim_at"))),
-                shiny::h3(shiny::uiOutput(ns("lim_at_city"))),
-              ),
-              shiny::column(
-                width = 6,
-                shiny::plotOutput(ns("lim_at_plot"), height = "100px")
-              )
-            ),
-          )
-        ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 6,
-            shiny::h3(shiny::uiOutput(ns("visible_minority"))),
-            shiny::htmlOutput(ns("visible_minority_legend")),
-            shiny::plotOutput(ns("visible_minority_plot"), height = "400px")
-          )
+        shiny::column(
+          width = 12,
+          shiny::br(),
+          shiny::htmlOutput(ns("legend")),
+          shiny::h3("Population change"),
+          shiny::h4(shiny::uiOutput(ns("population_change_number"))),
+          shiny::textOutput(ns("population_change_description")),
+          shiny::plotOutput(ns("population_change_plot"), height = "100px"),
+          shiny::hr(),
+          shiny::h3("Population density"),
+          shiny::h4(shiny::uiOutput(ns("population_density_number"))),
+          shiny::textOutput(ns("population_density_description")),
+          shiny::plotOutput(ns("population_density_plot"), height = "100px"),
+          shiny::hr(),
+          shiny::h3("Household size"),
+          shiny::textOutput(ns("household_size_description")),
+          shiny::plotOutput(ns("household_size_plot"), height = "200px"),
+          shiny::htmlOutput(ns("household_size_table")),
+          shiny::hr(),
+          shiny::h3("Average total household income"),
+          shiny::textOutput(ns("average_total_income_description")),
+          shiny::plotOutput(ns("average_total_income_plot"), height = "100px"),
+          shiny::htmlOutput(ns("average_total_income_table")),
+          shiny::hr(),
+          shiny::h3("Unaffordable housing"),
+          shiny::h4(shiny::uiOutput(ns("unaffordable_housing"))),
+          shiny::h4(shiny::uiOutput(ns("unaffordable_housing_city"))),
+          shiny::textOutput(ns("unaffordable_housing_description")),
+          shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px"),
+          shiny::hr(),
+          shiny::h3("Low-income measure after tax"),
+          shiny::h4(shiny::uiOutput(ns("lim_at"))),
+          shiny::h4(shiny::uiOutput(ns("lim_at_city"))),
+          shiny::textOutput(ns("lim_at_description")),
+          shiny::plotOutput(ns("lim_at_plot"), height = "100px"),
+          shiny::hr(),
+          shiny::h3(shiny::uiOutput(ns("visible_minority"))),
+          shiny::textOutput(ns("visible_minority_description")),
+          shiny::plotOutput(ns("visible_minority_plot"), height = "400px"),
+          shiny::htmlOutput(ns("visible_minority_table"))
         )
       )
     })
@@ -117,18 +96,58 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       }
     })
 
+    output$legend <- shiny::renderText({
+      plot_legend()
+    })
+
     # Population change -----
 
-    output$population_change_number <- shiny::renderUI({
+    population_change <- shiny::reactive({
       pop_change <- dataset()[["population_change"]]
+    })
 
-      pop_change_percent <- pop_change %>%
+    population_change_formatted <- shiny::reactive({
+      pop_change_percent <- population_change() %>%
         abs() %>%
         scales::percent(accuracy = 0.1)
 
-      sign <- ifelse(pop_change > 0, "+", "-")
+      sign <- ifelse(population_change() > 0, "+", "-")
 
-      glue::glue("2011 to 2016: {sign}{pop_change_percent}")
+      glue::glue("{sign}{pop_change_percent}")
+    })
+
+    output$population_change_number <- shiny::renderUI({
+      glue::glue("2011 to 2016: {population_change_formatted()}")
+    })
+
+    output$population_change_description <- shiny::renderText({
+      if (sidebar_level() == "neighbourhood") {
+        value_distribution <- stats::ecdf(lemur::city_profile[["population_change_distribution"]][["value"]])
+        value_percentile <- value_distribution(population_change())
+      }
+
+      switch(sidebar_level(),
+        "city" = "Distribution of population change from 2011 to 2016 for each of the City of Toronto neighbourhoods.",
+        "neighbourhood" = glue::glue("Distribution of population change from 2011 to 2016 for each of the City of Toronto neighbourhoods. The value for {neighbourhood()}, {population_change_formatted()}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods' population change.")
+      )
+    })
+
+    population_change_plot_alt_text <- shiny::reactive({
+      values <- lemur::city_profile[["population_change_distribution"]][["value"]]
+
+      alt_text <- glue::glue("Histogram showing the distribution of population change from 2011 to 2016 for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} population change and the distribution is heavily skewed left with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+        min = min(values),
+        max = max(values),
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
+      )
+
+      if (sidebar_level() == "neighbourhood") {
+        neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood()}'s population change is highlighted.")
+        alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+      }
+
+      alt_text
     })
 
     output$population_change_plot <- shiny::renderPlot(
@@ -138,13 +157,52 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           ggplot2::scale_x_continuous(labels = scales::label_percent())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = population_change_plot_alt_text
     )
 
     # Population density -----
 
+    population_density <- shiny::reactive({
+      dataset()[["population_density"]]
+    })
+
+    population_density_formatted <- shiny::reactive({
+      scales::comma(round(population_density()))
+    })
+
     output$population_density_number <- shiny::renderUI({
-      glue::glue('{scales::comma(round(dataset()[["population_density"]]))} people per square km')
+      glue::glue("{population_density_formatted()} people per square kilometre")
+    })
+
+    output$population_density_description <- shiny::renderText({
+      if (sidebar_level() == "neighbourhood") {
+        value_distribution <- stats::ecdf(lemur::city_profile[["population_density_distribution"]][["value"]])
+        value_percentile <- value_distribution(population_density())
+      }
+
+      switch(sidebar_level(),
+        "city" = "Distribution of population density for each of the City of Toronto neighbourhoods.",
+        "neighbourhood" = glue::glue("Distribution of population density for each of the City of Toronto neighbourhoods. The value for {neighbourhood()}, {population_density_formatted()} people per square kilometre, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods' population density.")
+      )
+    })
+
+    population_density_plot_alt_text <- shiny::reactive({
+      values <- lemur::city_profile[["population_density_distribution"]][["value"]]
+
+      alt_text <- glue::glue("Histogram showing the distribution of population density for each of Toronto's neighbourhoods. The values range from {round(min)} to {round(max)} people per square kilometer and the distribution is heavily skewed left with most values between {round(skew_min)} and {round(skew_max)}.",
+        min = min(values),
+        max = max(values),
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
+      )
+
+      if (sidebar_level() == "neighbourhood") {
+        neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood()}'s population density is highlighted.")
+        alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+      }
+
+      alt_text
     })
 
     output$population_density_plot <- shiny::renderPlot(
@@ -154,75 +212,143 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           ggplot2::scale_x_continuous(labels = scales::comma)
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = population_density_plot_alt_text
     )
 
     # Household size -----
 
-    output$household_size_legend <- shiny::renderText({
-      plot_legend()
+    output$household_size_description <- shiny::renderText({
+      switch(sidebar_level(),
+        "city" = "Distribution of household sizes for all households in the City of Toronto.",
+        "neighbourhood" = glue::glue("Comparison of household sizes for households in {neighbourhood()} versus all households in the City of Toronto.")
+      )
     })
 
-    output$household_size <- shiny::renderPlot(
+    household_size_plot_alt_text <- shiny::reactive({
+      switch(sidebar_level(),
+        "city" = "Bar chart showing distribution of household sizes for all households in the City of Toronto. The data is in the table that follows.",
+        "neighbourhood" = glue::glue("Bar chart comparing household sizes for households in {neighbourhood()} versus all households in the City of Toronto. The data is in the table that follows.")
+      )
+    })
+
+    output$household_size_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("household_size", width = 10, compare = compare())
+          display_neighbourhood_profile("household_size", width = 10, compare = compare())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = household_size_plot_alt_text
     )
+
+    output$household_size_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("household_size", compare = compare(), type = "table")
+
+      if (!compare()) {
+        names(res) <- c("Household Size", "Percent")
+      } else {
+        names(res)[[1]] <- "Household Size"
+      }
+
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling()
+    })
 
     # Mean total household income ------
 
-    output$average_total_income_legend <- shiny::renderText({
-      plot_legend()
+    output$average_total_income_description <- shiny::renderText({
+      switch(sidebar_level(),
+        "city" = "Average total income for 1 person versus 2+ person households in the City of Toronto.",
+        "neighbourhood" = glue::glue("Comparison of average total income for 1 person versus 2+ person households in {neighbourhood()} versus in the City of Toronto.")
+      )
     })
 
-    output$average_total_income <- shiny::renderPlot(
+    household_size_plot_alt_text <- shiny::reactive({
+      switch(sidebar_level(),
+        "city" = "Bar chart comparing average total income for 1 person versus 2+ person households in the City of Toronto. The data is in the table that follows.",
+        "neighbourhood" = glue::glue("Bar chart comparing average total income for 1 person versus 2+ person households in {neighbourhood()} versus in the City of Toronto. The data is in the table that follows.")
+      )
+    })
+
+    output$average_total_income_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare())
+          display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = household_size_plot_alt_text
     )
 
-    # LIM-AT -----
+    output$average_total_income_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("average_total_income", compare = compare(), type = "table") %>%
+        dplyr::mutate_at(dplyr::vars(-.data$group), ~ scales::dollar(.x))
 
-    output$lim_at <- shiny::renderUI({
-      glue::glue('LIM-AT: {scales::percent(dataset()[["lim_at"]], accuracy = 0.1)}')
-    })
-
-    output$lim_at_city <- shiny::renderUI({
-      if (sidebar_level() == "neighbourhood") {
-        glue::glue('(City: {scales::percent(lemur::city_profile[["lim_at"]], accuracy = 0.1)}%)')
+      if (!compare()) {
+        names(res) <- c("Household Size", "Average Total Household Income")
       } else {
-        NULL
+        names(res)[[1]] <- "Household Size"
       }
-    })
 
-    output$lim_at_plot <- shiny::renderPlot(
-      {
-        dataset() %>%
-          plot_neighbourhood_profile_distribution("lim_at", compare = compare(), binwidth = 0.025) +
-          ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
-      },
-      res = 96,
-      bg = "transparent"
-    )
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling()
+    })
 
     # Unaffordable housing -----
 
+    unaffordable_housing <- shiny::reactive({
+      dataset()[["unaffordable_housing"]]
+    })
+
+    unaffordable_housing_formatted <- shiny::reactive({
+      scales::percent(unaffordable_housing(), accuracy = 0.1)
+    })
+
     output$unaffordable_housing <- shiny::renderUI({
-      glue::glue('Unaffordable housing: {scales::percent(dataset()[["unaffordable_housing"]], accuracy = 0.1)}')
+      glue::glue("Percent of tenants with unaffordable housing: {unaffordable_housing_formatted()}")
     })
 
     output$unaffordable_housing_city <- shiny::renderUI({
       if (sidebar_level() == "neighbourhood") {
-        glue::glue('(City: {scales::percent(lemur::city_profile[["unaffordable_housing"]], accuracy = 0.1)})')
+        glue::glue('(City of Toronto: {scales::percent(lemur::city_profile[["unaffordable_housing"]], accuracy = 0.1)})')
       } else {
         NULL
       }
+    })
+
+    output$unaffordable_housing_description <- shiny::renderText({
+      if (sidebar_level() == "neighbourhood") {
+        value_distribution <- stats::ecdf(lemur::city_profile[["unaffordable_housing_distribution"]][["value"]])
+        value_percentile <- value_distribution(unaffordable_housing())
+      }
+
+      switch(sidebar_level(),
+        "city" = "Distribution of percent of tenants with unaffordable housing for each of the City of Toronto neighbourhoods.",
+        "neighbourhood" = glue::glue("Distribution of percent of tenants with unaffordable housing for each of the City of Toronto neighbourhoods. The value for {neighbourhood()}, {unaffordable_housing_formatted()}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods' percent of tenants with unaffordable housing.")
+      )
+    })
+
+    unaffordable_housing_alt_text <- shiny::reactive({
+      values <- lemur::city_profile[["unaffordable_housing_distribution"]][["value"]]
+
+      alt_text <- glue::glue("Histogram showing the distribution of percent of tenants with unaffordable housing for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} of tenants with unaffordable housing with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+        min = min(values),
+        max = max(values),
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
+      )
+
+      if (sidebar_level() == "neighbourhood") {
+        neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood()}'s percent of tenants with unaffordable housing is highlighted.")
+        alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+      }
+
+      alt_text
     })
 
     output$unaffordable_housing_plot <- shiny::renderPlot(
@@ -232,14 +358,75 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           ggplot2::scale_x_continuous(labels = scales::label_percent())
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = unaffordable_housing_alt_text
     )
 
-    # Visible minority population -----
+    # LIM-AT -----
 
-    output$visible_minority_legend <- shiny::renderText({
-      plot_legend()
+    lim_at <- shiny::reactive({
+      dataset()[["lim_at"]]
     })
+
+    lim_at_formatted <- shiny::reactive({
+      scales::percent(lim_at(), accuracy = 0.1)
+    })
+
+    output$lim_at <- shiny::renderUI({
+      glue::glue('Percent of people under LIM-AT: {lim_at_formatted()}')
+    })
+
+    output$lim_at_city <- shiny::renderUI({
+      if (sidebar_level() == "neighbourhood") {
+        glue::glue('(City of Toronto: {scales::percent(lemur::city_profile[["lim_at"]], accuracy = 0.1)}%)')
+      } else {
+        NULL
+      }
+    })
+
+    output$lim_at_description <- shiny::renderText({
+      if (sidebar_level() == "neighbourhood") {
+        value_distribution <- stats::ecdf(lemur::city_profile[["lim_at_distribution"]][["value"]])
+        value_percentile <- value_distribution(lim_at())
+      }
+
+      switch(sidebar_level(),
+        "city" = "Distribution of percent of people considered low income based on the low-income measure after tax (LIM-AT) for each of the City of Toronto neighbourhoods.",
+        "neighbourhood" = glue::glue("Distribution of percent of people considered low income based on the low-income measure after tax (LIM-AT) for each of the City of Toronto neighbourhoods. The value for {neighbourhood()}, {lim_at_formatted()}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+      )
+    })
+
+    lim_at_alt_text <- shiny::reactive({
+      values <- lemur::city_profile[["lim_at_distribution"]][["value"]]
+
+      alt_text <- glue::glue("Histogram showing the distribution of percent of people considered low income based on the low-income measure after tax (LIM-AT) for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+        min = min(values),
+        max = max(values),
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
+      )
+
+      if (sidebar_level() == "neighbourhood") {
+        neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood()}'s value is highlighted.")
+        alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+      }
+
+      alt_text
+    })
+
+    output$lim_at_plot <- shiny::renderPlot(
+      {
+        dataset() %>%
+          plot_neighbourhood_profile_distribution("lim_at", compare = compare(), binwidth = 0.025) +
+          ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+      },
+      res = 96,
+      bg = "transparent",
+      alt = lim_at_alt_text
+    )
+
+
+    # Visible minority population -----
 
     output$visible_minority <- shiny::renderUI({
       prop <- dataset()[["visible_minority"]] %>%
@@ -255,18 +442,50 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
         scales::percent(accuracy = 0.1)
 
       shiny::HTML(
-        glue::glue("Visible Minority Population: {prop}<br>(City of Toronto: {city_prop})")
+        glue::glue("Visible Minority Population: {prop}<br>(Toronto: {city_prop})")
+      )
+    })
+
+    output$visible_minority_description <- shiny::renderText({
+      switch(sidebar_level(),
+        "city" = "Breakdown of visible minority groups in the City of Toronto.",
+        "neighbourhood" = glue::glue("Comparison of visible minority groups in {neighbourhood()} versus in the City of Toronto.")
+      )
+    })
+
+    visible_minority_alt_text <- shiny::reactive({
+      switch(sidebar_level(),
+        "city" = "Bar chart showing the breakdown of visible minority groups in the City of Toronto. The data is in the table that follows.",
+        "neighbourhood" = glue::glue("Bar chart comparing the breakdown of visible minority groups in {neighbourhood()} versus in the City of Toronto. The data is in the table that follows.")
       )
     })
 
     output$visible_minority_plot <- shiny::renderPlot(
       {
         dataset() %>%
-          plot_neighbourhood_profile("visible_minority", width = 20, compare = compare())
+          display_neighbourhood_profile("visible_minority", width = 20, compare = compare()) +
+          ggplot2::labs(caption = 'Note: "n.i.e." = not included elsewhere')
       },
       res = 96,
-      bg = "transparent"
+      bg = "transparent",
+      alt = visible_minority_alt_text
     )
+
+    output$visible_minority_table <- shiny::renderText({
+      res <- dataset() %>%
+        display_neighbourhood_profile("visible_minority", compare = compare(), type = "table")
+
+      if (!compare()) {
+        names(res) <- c("Visibile Minority Group", "Percent")
+      } else {
+        names(res)[[1]] <- "Visibile Minority Group"
+      }
+
+      res %>%
+        kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
+        kableExtra::kable_styling() %>%
+        kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
+    })
   })
 }
 

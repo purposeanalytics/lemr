@@ -2,30 +2,29 @@
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
-#' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  tagList(
-    shiny::tags$style(type = "text/css", "#map-map {height: calc(100vh - 80px) !important;}"),
+  shiny::tagList(
     golem_add_external_resources(),
-    navbarPage(
+    shiny::navbarPage(
       "LEMUR",
-      tabPanel(
+      shiny::tabPanel(
         "Map",
-        sidebarLayout(
-          mainPanel(
-            width = 7,
-            mod_map_ui("map")
+        shiny::column(
+          width = 9,
+          mod_map_ui("map")
+        ),
+        shiny::column(
+          width = 3,
+          shiny::wellPanel(
+            style = "background-color: white; height: 100px;",
+            mod_search_ui("search")
           ),
-          sidebarPanel(
-            style = "background-color: white; min-height: calc(100vh - 80px);",
-            width = 5,
-            mod_search_ui("search"),
+          shiny::wellPanel(
+            style = "background-color: white; height: calc(100vh - 225px); overflow: auto;",
             mod_sidebar_ui("sidebar")
           )
-        ),
-        tabPanel("Portal"),
-        tabPanel("About")
+        )
       )
     )
   )
@@ -35,18 +34,15 @@ app_ui <- function(request) {
 #'
 #' This function is internally used to add external
 #' resources inside the Shiny application.
-#'
-#' @import shiny
-#' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
 golem_add_external_resources <- function() {
-  add_resource_path(
+  golem::add_resource_path(
     "www", app_sys("app/www")
   )
 
-  tags$head(
-    favicon(),
-    bundle_resources(
+  shiny::tags$head(
+    golem::favicon(),
+    golem::bundle_resources(
       path = app_sys("app/www"),
       app_title = "lemur"
     )

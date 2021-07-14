@@ -5,11 +5,9 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_map_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
+  ns <- shiny::NS(id)
+  shiny::tagList(
     mapboxer::mapboxerOutput(ns("map"))
   )
 }
@@ -18,7 +16,7 @@ mod_map_ui <- function(id) {
 #'
 #' @noRd
 mod_map_server <- function(id, address_and_neighbourhood, search_method) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Initial map

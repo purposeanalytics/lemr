@@ -116,9 +116,9 @@ plot_age_pyramid <- function(data, horizontal = FALSE) {
     x_height <- length(levels(data[["age_group"]])) + 1
     p <- p +
       ggplot2::annotate("text",
-                        x = percent_range / 2,
-                        y = x_height,
-                        label = c("Male", "Female")
+        x = percent_range / 2,
+        y = x_height,
+        label = c("Male", "Female")
       ) +
       ggplot2::coord_cartesian(clip = "off", ylim = c(1, x_height))
   }
@@ -130,7 +130,12 @@ plot_age_pyramid <- function(data, horizontal = FALSE) {
 
 shiny::plotOutput(ns("age_pyramid"))
 
-output$age_pyramid <- shiny::renderPlot({
-  neighbourhood_profile[["age_pyramid"]] %>%
-    plot_age_pyramid()
-}, bg = "transparent", res = 96, height = 300)
+output$age_pyramid <- shiny::renderPlot(
+  {
+    neighbourhood_profile[["age_pyramid"]] %>%
+      plot_age_pyramid()
+  },
+  bg = "transparent",
+  res = 96,
+  height = 300
+)
