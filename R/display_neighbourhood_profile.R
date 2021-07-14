@@ -11,10 +11,10 @@
 #'
 #' @examples {
 #'   neighbourhood_profiles[["Danforth"]] %>%
-#'     plot_neighbourhood_profile("household_size")
+#'     display_neighbourhood_profile("household_size")
 #'
 #'   neighbourhood_profiles[["Danforth"]] %>%
-#'     plot_neighbourhood_profile("average_total_income")
+#'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
   if (variable == "household_tenure") {
@@ -79,7 +79,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
       )
   } else if (type == "table") {
     data <- data %>%
-      dplyr::arrange(desc(.data$group))
+      dplyr::arrange(dplyr::desc(.data$group))
 
     if (compare) {
       res <- data %>%
@@ -118,8 +118,8 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
         dplyr::select(.data$group, .data$prop, .data$neighbourhood) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1)) %>%
         tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$prop) %>%
-        dplyr::arrange(desc(.data$group)) %>%
-        dplyr::relocate(`City of Toronto`, .after = dplyr::last_col())
+        dplyr::arrange(dplyr::desc(.data$group)) %>%
+        dplyr::relocate(.data$`City of Toronto`, .after = dplyr::last_col())
 
       return(res)
 
@@ -143,7 +143,7 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
 
     if (type == "table") {
       res <- data %>%
-        dplyr::arrange(desc(.data$group)) %>%
+        dplyr::arrange(dplyr::desc(.data$group)) %>%
         dplyr::select(.data$group, .data$prop) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1))
 

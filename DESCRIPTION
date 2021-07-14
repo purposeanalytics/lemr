@@ -36,7 +36,10 @@ Imports:
     tidyr,
     toOrdinal,
     usethis,
-    words2number
+    words2number,
+    reactable,
+    kableExtra
+>>>>>>> R cmd check fixes
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no

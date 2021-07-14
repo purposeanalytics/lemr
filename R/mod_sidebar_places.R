@@ -209,7 +209,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$average_renter_shelter_cost_description <- shiny::renderText({
       if (sidebar_level() == "neighbourhood") {
-        value_distribution <- ecdf(city_profile[["average_renter_shelter_cost_distribution"]][["value"]])
+        value_distribution <- stats::ecdf(lemur::city_profile[["average_renter_shelter_cost_distribution"]][["value"]])
         value_percentile <- value_distribution(shelter_cost())
       }
 
@@ -220,13 +220,13 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     })
 
     average_renter_shelter_cost_plot_alt_text <- shiny::reactive({
-      values <- city_profile[["average_renter_shelter_cost_distribution"]][["value"]]
+      values <- lemur::city_profile[["average_renter_shelter_cost_distribution"]][["value"]]
 
       alt_text <- glue::glue("Histogram showing the distribution of average renter shelter cost for each of Toronto's neighbourhoods. The values range from {scales::dollar(min, accuracy = 1)} to {scales::dollar(max, accuracy = 1)} with most values between {scales::dollar(skew_min, accuracy = 1)} and {scales::dollar(skew_max, accuracy = 1)}.",
         min = min(values),
         max = max(values),
-        skew_min = quantile(values, 0.1),
-        skew_max = quantile(values, 0.9)
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
       )
 
       if (sidebar_level() == "neighbourhood") {

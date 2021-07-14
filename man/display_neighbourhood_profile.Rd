@@ -32,9 +32,9 @@ Plot a neighbourhood profile variable
 \examples{
 {
   neighbourhood_profiles[["Danforth"]] \%>\%
-    plot_neighbourhood_profile("household_size")
+    display_neighbourhood_profile("household_size")
 
   neighbourhood_profiles[["Danforth"]] \%>\%
-    plot_neighbourhood_profile("average_total_income")
+    display_neighbourhood_profile("average_total_income")
 }
 }

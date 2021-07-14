@@ -122,7 +122,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$population_change_description <- shiny::renderText({
       if (sidebar_level() == "neighbourhood") {
-        value_distribution <- ecdf(city_profile[["population_change_distribution"]][["value"]])
+        value_distribution <- stats::ecdf(lemur::city_profile[["population_change_distribution"]][["value"]])
         value_percentile <- value_distribution(population_change())
       }
 
@@ -133,13 +133,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     })
 
     population_change_plot_alt_text <- shiny::reactive({
-      values <- city_profile[["population_change_distribution"]][["value"]]
+      values <- lemur::city_profile[["population_change_distribution"]][["value"]]
 
       alt_text <- glue::glue("Histogram showing the distribution of population change from 2011 to 2016 for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} population change and the distribution is heavily skewed left with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
         min = min(values),
         max = max(values),
-        skew_min = quantile(values, 0.1),
-        skew_max = quantile(values, 0.9)
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
       )
 
       if (sidebar_level() == "neighbourhood") {
@@ -177,7 +177,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$population_density_description <- shiny::renderText({
       if (sidebar_level() == "neighbourhood") {
-        value_distribution <- ecdf(city_profile[["population_density_distribution"]][["value"]])
+        value_distribution <- stats::ecdf(lemur::city_profile[["population_density_distribution"]][["value"]])
         value_percentile <- value_distribution(population_density())
       }
 
@@ -188,13 +188,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     })
 
     population_density_plot_alt_text <- shiny::reactive({
-      values <- city_profile[["population_density_distribution"]][["value"]]
+      values <- lemur::city_profile[["population_density_distribution"]][["value"]]
 
       alt_text <- glue::glue("Histogram showing the distribution of population density for each of Toronto's neighbourhoods. The values range from {round(min)} to {round(max)} people per square kilometer and the distribution is heavily skewed left with most values between {round(skew_min)} and {round(skew_max)}.",
         min = min(values),
         max = max(values),
-        skew_min = quantile(values, 0.1),
-        skew_max = quantile(values, 0.9)
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
       )
 
       if (sidebar_level() == "neighbourhood") {
@@ -286,7 +286,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$average_total_income_table <- shiny::renderText({
       res <- dataset() %>%
         display_neighbourhood_profile("average_total_income", compare = compare(), type = "table") %>%
-        dplyr::mutate_at(dplyr::vars(-group), ~ scales::dollar(.x))
+        dplyr::mutate_at(dplyr::vars(-.data$group), ~ scales::dollar(.x))
 
       if (!compare()) {
         names(res) <- c("Household Size", "Average Total Household Income")
@@ -323,7 +323,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$unaffordable_housing_description <- shiny::renderText({
       if (sidebar_level() == "neighbourhood") {
-        value_distribution <- ecdf(city_profile[["unaffordable_housing_distribution"]][["value"]])
+        value_distribution <- stats::ecdf(lemur::city_profile[["unaffordable_housing_distribution"]][["value"]])
         value_percentile <- value_distribution(unaffordable_housing())
       }
 
@@ -334,13 +334,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     })
 
     unaffordable_housing_alt_text <- shiny::reactive({
-      values <- city_profile[["unaffordable_housing_distribution"]][["value"]]
+      values <- lemur::city_profile[["unaffordable_housing_distribution"]][["value"]]
 
       alt_text <- glue::glue("Histogram showing the distribution of percent of tenants with unaffordable housing for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} of tenants with unaffordable housing with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
         min = min(values),
         max = max(values),
-        skew_min = quantile(values, 0.1),
-        skew_max = quantile(values, 0.9)
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
       )
 
       if (sidebar_level() == "neighbourhood") {
@@ -386,7 +386,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$lim_at_description <- shiny::renderText({
       if (sidebar_level() == "neighbourhood") {
-        value_distribution <- ecdf(city_profile[["lim_at_distribution"]][["value"]])
+        value_distribution <- stats::ecdf(lemur::city_profile[["lim_at_distribution"]][["value"]])
         value_percentile <- value_distribution(lim_at())
       }
 
@@ -397,13 +397,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     })
 
     lim_at_alt_text <- shiny::reactive({
-      values <- city_profile[["lim_at_distribution"]][["value"]]
+      values <- lemur::city_profile[["lim_at_distribution"]][["value"]]
 
       alt_text <- glue::glue("Histogram showing the distribution of percent of people considered low income based on the low-income measure after tax (LIM-AT) for each of Toronto's neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
         min = min(values),
         max = max(values),
-        skew_min = quantile(values, 0.1),
-        skew_max = quantile(values, 0.9)
+        skew_min = stats::quantile(values, 0.1),
+        skew_max = stats::quantile(values, 0.9)
       )
 
       if (sidebar_level() == "neighbourhood") {

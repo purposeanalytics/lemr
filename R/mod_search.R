@@ -15,7 +15,7 @@ mod_search_ui <- function(id) {
         id = ns("address"),
         label = "Address",
         placeholder = "Search address...",
-        options = head(lemur::address_points_just_address),
+        options = utils::head(lemur::address_points_just_address),
         max_options = 10,
         contains = TRUE
       )
