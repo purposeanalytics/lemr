@@ -27,5 +27,7 @@ A tibble containing status code, address, municipality, postal code, method used
 Geocode an address using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}, to get a cleaned address, municipality, postal code, latitude, and longitude. This function adds an additional 0.25 seconds at the end of the call to comply with the \href{http://mapsforenterprise.binginternal.com/en-us/maps/product}{Bing API license}, which only allows 5 calls per second.
 }
 \examples{
-geocode_address("235 Bloor St E")
+geocode_address("235 Bloor St E Toronto ON")
+
+geocode_address("25 Grandstand Toronto ON")
 }
