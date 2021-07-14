@@ -39,7 +39,6 @@ Imports:
     words2number,
     reactable,
     kableExtra
->>>>>>> R cmd check fixes
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
