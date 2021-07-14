@@ -37,7 +37,6 @@ Imports:
     toOrdinal,
     usethis,
     words2number,
-    reactable,
     kableExtra
 Encoding: UTF-8
 LazyData: true
