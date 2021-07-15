@@ -25,6 +25,10 @@ app_ui <- function(request) {
             mod_sidebar_ui("sidebar")
           )
         )
+      ),
+      shiny::tabPanel(
+        "Data and Definitions",
+        mod_data_and_definitions_ui("data_and_definitions")
       )
     )
   )
