@@ -2,6 +2,7 @@
 
 library(sf)
 library(janitor)
+library(stringr)
 library(dplyr)
 devtools::load_all()
 
@@ -10,8 +11,15 @@ apartment_building_registry_geocoded <- read_latest_file(directory = here::here(
 # Move address fields to start, clean up column names
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   clean_names() %>%
-  select(id, starts_with("bing"), everything()) %>%
-  select(-bing_status_code, -bing_method, -bing_confidence, -site_address, -address_geocode_error, -address_for_geocoding)
+  select(id, site_address, starts_with("bing"), everything()) %>%
+  select(-bing_status_code, -bing_method, -bing_confidence, -address_geocode_error, -address_for_geocoding)
+
+# Clean up original address
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  mutate(
+    site_address = str_squish(site_address),
+    site_address = str_to_title(site_address)
+  )
 
 # Convert to SF
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%
@@ -25,7 +33,7 @@ apartment_with_neighbourhood <- apartment_building_registry_sf %>%
 
 apartment_building_registry <- apartment_building_registry_sf %>%
   left_join(apartment_with_neighbourhood, by = "id") %>%
-  select(id, starts_with("bing"), neighbourhood, everything())
+  select(id, site_address, starts_with("bing"), neighbourhood, everything())
 
 # Save as data set in package
 usethis::use_data(apartment_building_registry, overwrite = TRUE)

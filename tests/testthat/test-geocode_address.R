@@ -87,3 +87,29 @@ test_that("convert_street_name_to_numeric handles 'and'", {
 test_that("convert_street_name_to_numeric can handle 'hundredth' without 'one'", {
   expect_identical(convert_street_name_to_numeric("5405 S Hundredth and Forty Fourth St"), "5405 S 144th St")
 })
+
+test_that("convert_range_to_single_address takes the first address from a range", {
+  expect_identical(convert_range_to_single_address("1187-1189  QUEEN ST E"), "1187  QUEEN ST E")
+})
+
+test_that("convert_street_name_to_numeric leaves address ranges intact", {
+  expect_identical(convert_street_name_to_numeric("1187-1189  QUEEN ST E"), "1187-1189 QUEEN ST E")
+})
+
+test_that("convert_range_to_single_address leaves an address without a range intact", {
+  address <- "1187 Queen St E"
+  expect_identical(convert_range_to_single_address(address), address)
+})
+
+test_that("geocode_address geocodes a range of addresses properly, by converting to a single address", {
+  res <- geocode_address("1187-1189  QUEEN ST E Toronto ON")
+  expect_identical(res, structure(list(
+    bing_status_code = 200L, bing_address = "1187 Queen St E",
+    bing_municipality = "Toronto", bing_postal_code = "M4M 1L6",
+    bing_method = "Rooftop", bing_confidence = "High", bing_latitude = 43.6627063,
+    bing_longitude = -79.3316341
+  ), row.names = c(NA, -1L), class = c(
+    "tbl_df",
+    "tbl", "data.frame"
+  )))
+})
