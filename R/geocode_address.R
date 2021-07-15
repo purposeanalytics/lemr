@@ -14,6 +14,9 @@
 #' geocode_address("235 Bloor St E Toronto ON")
 #'
 #' geocode_address("25 Grandstand Toronto ON")
+#'
+#' # Ranges of addresses are geocoded to the first address:
+#' geocode_address("1187-1189  QUEEN ST E Toronto ON")
 geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1/Locations/CA/", token = Sys.getenv("BING_TOKEN"), quiet = FALSE) {
 
   # Error if no token
@@ -24,6 +27,7 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
   clean_address <- address %>%
     stringr::str_squish() %>%
     # Remove excess whitespace
+    convert_range_to_single_address() %>%
     convert_street_name_to_numeric() %>%
     stringr::str_replace_all("[^a-zA-Z0-9]", "%20") # Replace any spaces with %20, required for URLs
 
@@ -161,6 +165,8 @@ geocode_address <- function(address, base = "http://dev.virtualearth.net/REST/v1
 }
 
 convert_street_name_to_numeric <- function(address) {
+  address <- stringr::str_squish(address)
+
   # Split into words (with space)
   address_split <- stringr::str_split(address, " ", simplify = TRUE) %>%
     as.list()
@@ -176,7 +182,9 @@ convert_street_name_to_numeric <- function(address) {
     original = unlist(address_split),
     numeric = unlist(address_split_to_numeric)
   ) %>%
-    dplyr::filter(.data$original != .data$numeric)
+    dplyr::filter(.data$original != .data$numeric) %>%
+    # Don't count cases where e.g. 1187-1189 is getting recoded as "11871189"
+    dplyr::filter(stringr::str_remove(.data$original, "-") != as.character(.data$numeric))
 
   if (nrow(address_original_and_numeric) > 0) {
     # Combine the original words TOGETHER to numeric (e.g. Forty Second -> 42, not Forty -> 40 and Second -> 2)
@@ -194,3 +202,14 @@ convert_street_name_to_numeric <- function(address) {
 }
 
 try_word_to_number <- purrr::safely(words2number::to_number, otherwise = NA)
+
+convert_range_to_single_address <- function(address) {
+  address_range <- stringr::str_extract(address, "[0-9]+-[0-9]+")
+
+  if (is.na(address_range)) {
+    return(address)
+  }
+
+  address_first <- stringr::str_split(address_range, "-")[[1]][[1]]
+  stringr::str_replace(address, address_range, address_first)
+}

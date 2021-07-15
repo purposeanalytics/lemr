@@ -30,4 +30,7 @@ Geocode an address using the \href{https://docs.microsoft.com/en-us/bingmaps/res
 geocode_address("235 Bloor St E Toronto ON")
 
 geocode_address("25 Grandstand Toronto ON")
+
+# Ranges of addresses are geocoded to the first address:
+geocode_address("1187-1189  QUEEN ST E Toronto ON")
 }
