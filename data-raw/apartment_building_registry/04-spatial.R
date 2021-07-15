@@ -2,6 +2,7 @@
 
 library(sf)
 library(janitor)
+library(stringr)
 library(dplyr)
 devtools::load_all()
 
@@ -12,6 +13,13 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
   clean_names() %>%
   select(id, site_address, starts_with("bing"), everything()) %>%
   select(-bing_status_code, -bing_method, -bing_confidence, -address_geocode_error, -address_for_geocoding)
+
+# Clean up original address
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  mutate(
+    site_address = str_squish(site_address),
+    site_address = str_to_title(site_address)
+  )
 
 # Convert to SF
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%

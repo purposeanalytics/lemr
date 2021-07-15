@@ -240,16 +240,16 @@ apartment_building_registry
 #> # A tibble: 3,480 x 77
 #>       id site_address        bing_address      bing_municipali… bing_postal_code
 #>    <dbl> <chr>               <chr>             <chr>            <chr>           
-#>  1 72706 135  ISABELLA ST    135 Isabella St   Toronto          M4Y             
-#>  2 69231 80  BLAKE ST        80 Blake St       Toronto          M4J             
-#>  3 69232 40  PARKCREST DR    40 Parkcrest Dr   Toronto          M1M 2Z2         
-#>  4 69233 3111  EGLINTON AVE… 3111 Eglinton Av… Toronto          M1J 2G4         
-#>  5 69234 450 B  SCARBOROUGH… 450 Scarborough … Toronto          M1G             
-#>  6 69235 2788  KEELE ST      2788 Keele St     Toronto          M3M 2G2         
-#>  7 69236 2850  KEELE ST      2850 Keele St     Toronto          M3M 2G8         
-#>  8 69237 1300  YORK MILLS RD 1300 York Mills … Toronto          M3A 1Z3         
-#>  9 69238 1531  BATHURST ST   1531 Bathurst St  Toronto          M5P 3H5         
-#> 10 72707 612  DAWES RD       612 Dawes Rd      Toronto          M4B 2G8         
+#>  1 72706 135 Isabella St     135 Isabella St   Toronto          M4Y             
+#>  2 69231 80 Blake St         80 Blake St       Toronto          M4J             
+#>  3 69232 40 Parkcrest Dr     40 Parkcrest Dr   Toronto          M1M 2Z2         
+#>  4 69233 3111 Eglinton Ave E 3111 Eglinton Av… Toronto          M1J 2G4         
+#>  5 69234 450 B Scarborough … 450 Scarborough … Toronto          M1G             
+#>  6 69235 2788 Keele St       2788 Keele St     Toronto          M3M 2G2         
+#>  7 69236 2850 Keele St       2850 Keele St     Toronto          M3M 2G8         
+#>  8 69237 1300 York Mills Rd  1300 York Mills … Toronto          M3A 1Z3         
+#>  9 69238 1531 Bathurst St    1531 Bathurst St  Toronto          M5P 3H5         
+#> 10 72707 612 Dawes Rd        612 Dawes Rd      Toronto          M4B 2G8         
 #> # … with 3,470 more rows, and 72 more variables: bing_latitude <dbl>,
 #> #   bing_longitude <dbl>, neighbourhood <chr>, air_conditioning_type <chr>,
 #> #   amenities_available <chr>, annual_fire_alarm_test_records <chr>,
