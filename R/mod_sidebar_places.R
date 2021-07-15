@@ -201,7 +201,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$shelter_cost_city <- shiny::renderUI({
       if (sidebar_level() == "neighbourhood") {
-        glue::glue('(City of Toronto: {scales::dollar(city_profile[["average_renter_shelter_cost"]], accuracy = 1)})')
+        glue::glue('(City of Toronto: {scales::dollar(lemur::city_profile[["average_renter_shelter_cost"]], accuracy = 1)})')
       } else {
         NULL
       }
