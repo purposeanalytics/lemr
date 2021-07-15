@@ -130,7 +130,7 @@ p
  
 #### apartment_building_registry
 
-apartment_building_registry is a geocoded version of the City of Toronto's [Apartment Building Registration Dataset](https://open.toronto.ca/dataset/apartment-building-registration/), with cleaned addresses and latitude and longitude:
+apartment_building_registry is a geocoded version of the City of Toronto's [Apartment Building Registration Dataset](https://open.toronto.ca/dataset/apartment-building-registration/), with cleaned addresses, neighbourhoods, and latitude and longitude:
 
 ```{r map-apt}
 apartment_building_registry
@@ -153,11 +153,19 @@ You can compare these to the city values (in `city_profile`)
 names(city_profile)
 ```
 
-using `plot_neighbourhood_profile()` to compare breakdowns:
+using `display_neighbourhood_profile()` to compare breakdowns, either in a plot:
 
 ```{r plot-household-size}
 neighbourhood_profiles[["Danforth"]] %>%
-  plot_neighbourhood_profile("household_size")
+  display_neighbourhood_profile("household_size", type = "plot")
+```
+
+or a table:
+
+```{r table-household-size}
+neighbourhood_profiles[["Danforth"]] %>%
+  display_neighbourhood_profile("household_size", type = "table") %>%
+  knitr::kable()
 ```
 
 or `plot_neighbourhood_profile_distribution()` to compare a value to the distribution across the city:

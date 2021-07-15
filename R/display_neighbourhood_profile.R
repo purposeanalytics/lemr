@@ -89,6 +89,8 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
       res <- data %>%
         dplyr::select(.data$group, .data$label)
     }
+
+    return(res)
   }
 }
 

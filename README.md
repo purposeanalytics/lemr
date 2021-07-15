@@ -228,30 +228,30 @@ p
 apartment\_building\_registry is a geocoded version of the City of
 Toronto’s [Apartment Building Registration
 Dataset](https://open.toronto.ca/dataset/apartment-building-registration/),
-with cleaned addresses and latitude and longitude:
+with cleaned addresses, neighbourhoods, and latitude and longitude:
 
 ``` r
 apartment_building_registry
-#> Simple feature collection with 3479 features and 75 fields
+#> Simple feature collection with 3480 features and 76 fields
 #> Geometry type: POINT
 #> Dimension:     XY
-#> Bounding box:  xmin: -79.61487 ymin: 43.58818 xmax: -79.14976 ymax: 43.81408
+#> Bounding box:  xmin: -79.61487 ymin: 43.58828 xmax: -79.14976 ymax: 43.81408
 #> Geodetic CRS:  WGS 84
-#> # A tibble: 3,479 x 76
-#>       id bing_address           bing_municipality bing_postal_code bing_latitude
-#>    <dbl> <chr>                  <chr>             <chr>                    <dbl>
-#>  1 62272 3725 Dundas St W       Toronto           M6S 2T5                   43.7
-#>  2 65726 12 Thorncliffe Park Dr Toronto           M4H 1N8                   43.7
-#>  3 62273 2743 Victoria Park Ave <NA>              M1T                       43.8
-#>  4 62274 5 Stag Hill Dr         Toronto           M4B 1K7                   43.7
-#>  5 62275 1085 Steeles Ave W     <NA>              M2R 2T1                   43.8
-#>  6 62276 15 Forty Third St      <NA>              M8W 3P7                   43.6
-#>  7 65727 595 Brookdale Ave      Toronto           M5M 1S5                   43.7
-#>  8 65728 211 Wilson Ave         Toronto           M5M 3A9                   43.7
-#>  9 65729 193 Wilson Ave         Toronto           M5M 4M8                   43.7
-#> 10 62277 33 Rosehill Ave        Toronto           M4T 1G4                   43.7
-#> # … with 3,469 more rows, and 71 more variables: bing_longitude <dbl>,
-#> #   neighbourhood <chr>, air_conditioning_type <chr>,
+#> # A tibble: 3,480 x 77
+#>       id site_address        bing_address      bing_municipali… bing_postal_code
+#>    <dbl> <chr>               <chr>             <chr>            <chr>           
+#>  1 72706 135  ISABELLA ST    135 Isabella St   Toronto          M4Y             
+#>  2 69231 80  BLAKE ST        80 Blake St       Toronto          M4J             
+#>  3 69232 40  PARKCREST DR    40 Parkcrest Dr   Toronto          M1M 2Z2         
+#>  4 69233 3111  EGLINTON AVE… 3111 Eglinton Av… Toronto          M1J 2G4         
+#>  5 69234 450 B  SCARBOROUGH… 450 Scarborough … Toronto          M1G             
+#>  6 69235 2788  KEELE ST      2788 Keele St     Toronto          M3M 2G2         
+#>  7 69236 2850  KEELE ST      2850 Keele St     Toronto          M3M 2G8         
+#>  8 69237 1300  YORK MILLS RD 1300 York Mills … Toronto          M3A 1Z3         
+#>  9 69238 1531  BATHURST ST   1531 Bathurst St  Toronto          M5P 3H5         
+#> 10 72707 612  DAWES RD       612 Dawes Rd      Toronto          M4B 2G8         
+#> # … with 3,470 more rows, and 72 more variables: bing_latitude <dbl>,
+#> #   bing_longitude <dbl>, neighbourhood <chr>, air_conditioning_type <chr>,
 #> #   amenities_available <chr>, annual_fire_alarm_test_records <chr>,
 #> #   annual_fire_pump_flow_test_records <chr>, approved_fire_safety_plan <chr>,
 #> #   balconies <chr>, barrier_free_accessibilty_entr <chr>, bike_parking <chr>,
@@ -260,8 +260,7 @@ apartment_building_registry
 #> #   description_of_child_play_area <chr>,
 #> #   description_of_indoor_exercise_room <chr>,
 #> #   description_of_outdoor_rec_facilities <chr>, elevator_parts_replaced <chr>,
-#> #   elevator_status <chr>, emerg_power_supply_test_records <chr>,
-#> #   exterior_fire_escape <chr>, …
+#> #   elevator_status <chr>, emerg_power_supply_test_records <chr>, …
 
 p +
   geom_point(data = apartment_building_registry, aes(x = bing_longitude, y = bing_latitude))
@@ -312,14 +311,31 @@ names(city_profile)
 #> [18] "average_renter_shelter_cost_distribution"
 ```
 
-using `plot_neighbourhood_profile()` to compare breakdowns:
+using `display_neighbourhood_profile()` to compare breakdowns, either in
+a plot:
 
 ``` r
 neighbourhood_profiles[["Danforth"]] %>%
-  plot_neighbourhood_profile("household_size")
+  display_neighbourhood_profile("household_size", type = "plot")
 ```
 
 <img src="man/figures/README-plot-household-size-1.png" width="80%" />
+
+or a table:
+
+``` r
+neighbourhood_profiles[["Danforth"]] %>%
+  display_neighbourhood_profile("household_size", type = "table") %>%
+  knitr::kable()
+```
+
+| group      | Danforth | City of Toronto |
+|:-----------|:---------|:----------------|
+| 1 person   | 30.4%    | 32.3%           |
+| 2 persons  | 28.0%    | 30.0%           |
+| 3 persons  | 18.3%    | 15.8%           |
+| 4 persons  | 16.3%    | 13.2%           |
+| 5+ persons | 6.8%     | 8.7%            |
 
 or `plot_neighbourhood_profile_distribution()` to compare a value to the
 distribution across the city:
