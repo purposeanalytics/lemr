@@ -6,6 +6,21 @@
 app_ui <- function(request) {
   shiny::tagList(
     golem_add_external_resources(),
+    tags$script(HTML(
+      # Or should it be map.on("zoom")? That's how it seems here https://docs.mapbox.com/mapbox-gl-js/example/updating-choropleth/
+      # But I think actually creating the map then adding an event, vs getting the element, is different
+      "
+      $(document).ready(function(){
+var map = document.getElementById('map-map');
+console.log(map);
+map.addEventListener('zoom', function() {
+
+var map_zoom = map.getZoom();
+console.log(map_zoom);
+})
+})
+"
+    )),
     shiny::navbarPage(
       "LEMUR",
       shiny::tabPanel(
