@@ -115,3 +115,46 @@ lemur:::visible_minority_plot(dataset, compare)
 lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
   kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
 ```
+
+# Structure type
+
+```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood)}
+lemur:::structure_type_description(level, neighbourhood)
+
+lemur:::structure_type_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent")
+```
+
+# Bedrooms
+
+```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood)}
+lemur:::bedrooms_description(level, neighbourhood)
+
+lemur:::bedrooms_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent")
+```
+
+# Household Tenure
+
+```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood)}
+lemur:::household_tenure_description(level, neighbourhood)
+
+lemur:::household_tenure_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
+```
+
+# Shelter Cost
+
+```{r shelter-cost, fig.alt = lemur:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood)}
+shelter_cost <- lemur:::get_measure(dataset, "average_renter_shelter_cost")
+shelter_cost_formatted <- lemur:::format_measure(shelter_cost, "average_renter_shelter_cost")
+
+h2(lemur:::shelter_cost_number(shelter_cost_formatted))
+
+lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted)
+
+lemur:::average_renter_shelter_cost_plot(dataset, compare)
+```

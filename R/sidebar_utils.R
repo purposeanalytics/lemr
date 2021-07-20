@@ -22,6 +22,8 @@ format_measure <- function(data, measure) {
     scales::comma(round(data))
   } else if (measure %in% c("unaffordable_housing", "lim_at")) {
     scales::percent(data, accuracy = 0.1)
+  } else if (measure == "average_renter_shelter_cost") {
+    scales::dollar(data, accuracy = 1)
   }
 }
 
@@ -45,7 +47,7 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
 
   if (format == "dollar") {
     res <- res %>%
-      dplyr::mutate_at(dplyr::vars(-.data$group), ~ scales::dollar(.x))
+      dplyr::mutate_at(dplyr::vars(-.data$group), ~ scales::dollar(.x, accuracy = 1))
   }
 
   if (!compare) {
@@ -324,4 +326,99 @@ visible_minority_plot <- function(data, compare) {
   data %>%
     display_neighbourhood_profile("visible_minority", width = 20, compare = compare) +
     ggplot2::labs(caption = 'Note: "n.i.e." = not included elsewhere')
+}
+
+# Structure type ----
+
+structure_type_description <- function(level, neighbourhood) {
+  generate_bar_chart_description(level = level, neighbourhood = neighbourhood, text = "structure type")
+}
+
+structure_type_plot_alt_text <- function(level, neighbourhood) {
+  generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "housing structure type")
+}
+
+structure_type_plot <- function(data, compare) {
+  data %>%
+    display_neighbourhood_profile("structure_type", compare = compare)
+}
+
+# Bedrooms ----
+
+bedrooms_description <- function(level, neighbourhood) {
+  generate_bar_chart_description(level = level, neighbourhood = neighbourhood, text = "number of bedrooms")
+}
+
+bedrooms_plot_alt_text <- function(level, neighbourhood) {
+  generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "number of bedrooms")
+}
+
+bedrooms_plot <- function(data, compare) {
+  data %>%
+    display_neighbourhood_profile("bedrooms", compare = compare)
+}
+
+# Household tenure -----
+
+household_tenure_description <- function(level, neighbourhood) {
+  generate_bar_chart_description(level = level, neighbourhood = neighbourhood, text = "household tenure (renter versus owner)")
+}
+
+household_tenure_plot_alt_text <- function(level, neighbourhood) {
+  generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "household tenure (renter versus owner)")
+}
+
+household_tenure_plot <- function(data, compare) {
+  data %>%
+    display_neighbourhood_profile("household_tenure", compare = compare, width = 10)
+}
+
+# Shelter cost -----
+
+shelter_cost_number <- function(shelter_cost_formatted) {
+  glue::glue("Average monthly rent: {shelter_cost_formatted}")
+}
+
+shelter_cost_city <- function(level) {
+  if (level == "neighbourhood") {
+    glue::glue('(City of Toronto: {scales::dollar(lemur::city_profile[["average_renter_shelter_cost"]], accuracy = 1)})')
+  } else {
+    NULL
+  }
+}
+
+average_renter_shelter_cost_description <- function(level, neighbourhood, shelter_cost, shelter_cost_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_profile[["average_renter_shelter_cost_distribution"]][["value"]])
+    value_percentile <- value_distribution(shelter_cost)
+  }
+
+  switch(level,
+    "city" = "Distribution of average renter shelter cost for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of average renter shelter cost for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {shelter_cost_formatted} per month, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods' average rent.")
+  )
+}
+
+average_renter_shelter_cost_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_profile[["average_renter_shelter_cost_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of average renter shelter cost for each of Toronto's neighbourhoods. The values range from {scales::dollar(min, accuracy = 1)} to {scales::dollar(max, accuracy = 1)} with most values between {scales::dollar(skew_min, accuracy = 1)} and {scales::dollar(skew_max, accuracy = 1)}.",
+    min = min(values),
+    max = max(values),
+    skew_min = stats::quantile(values, 0.1),
+    skew_max = stats::quantile(values, 0.9)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood}'s average monthly rent is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+average_renter_shelter_cost_plot <- function(data, compare) {
+  data %>%
+    plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50) +
+    ggplot2::scale_x_continuous(labels = scales::dollar)
 }
