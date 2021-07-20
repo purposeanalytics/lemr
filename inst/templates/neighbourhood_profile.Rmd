@@ -1,177 +1,65 @@
 ---
 output: html_document
 params:
+  level: neighbourhood
   neighbourhood: Danforth
-editor_options: 
-  chunk_output_type: console
----
-
----
-title: `r params$neighbourhood`
+  compare: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, results = "asis")
 
 library(lemur)
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(forcats)
+library(htmltools)
+
+level <- params$level
+neighbourhood <- params$neighbourhood
+compare <- params$compare
+
+title <- switch(level,
+  "neighbourhood" = neighbourhood,
+  "city" = "City of Toronto"
+)
+
+dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 ```
 
-```{r data}
-neighbourhood_profile <- neighbourhood_profiles[[params$neighbourhood]]
+---
+title: `r title`
+---
+
+# Population change
+
+```{r population-change, fig.alt = lemur:::population_change_plot_alt_text(level, neighbourhood)}
+population_change <- lemur:::get_measure(dataset, "population_change")
+population_change_formatted <- lemur:::format_measure(population_change, "population_change")
+
+h2(lemur:::population_change_number(population_change_formatted))
+
+lemur:::population_change_description(level, neighbourhood, population_change, population_change_formatted)
+
+lemur:::population_change_plot(dataset, compare)
 ```
 
-### Population: `r comma(neighbourhood_profile[["population"]])` (`r comma(neighbourhood_profile[["households"]])` households)
+# Population density
 
-<div style = "display: flex;">
+```{r population-density, fig.alt = lemur:::population_density_plot_alt_text(level, neighbourhood)}
+population_density <- lemur:::get_measure(dataset, "population_density")
+population_density_formatted <- lemur:::format_measure(population_density, "population_density")
 
-<div style = "width: 30%;">
+h2(lemur:::population_density_number(population_density_formatted))
 
-#### Population density
-##### `r comma(round(neighbourhood_profile[["population_density"]]))` people per square km
-</div>
+lemur:::population_density_description(level, neighbourhood, population_density, population_density_formatted)
 
-<div style = "width: 70%;">
-```{r density-comparison, fig.height = 2}
-ggplot() +
-  geom_density(data = city_profile[["population_density"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["population_density"]]), color = "darkgreen") +
-  theme_lemur() +
-  scale_x_continuous(labels = comma) +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
-```
-</div>
-</div>
-
-<div style = "display: flex;">
-
-<div style = "width: 50%;">
-#### Household size
-
-```{r household-size, fig.height = 5}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("household_size", width = 10)
-```
-</div>
-
-<div style = "width: 50%;">
-
-##### Mean total income
-
-```{r mean-total-income, fig.height = 2}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("average_total_income", dollar = TRUE)
+lemur:::population_density_plot(dataset, compare)
 ```
 
-##### Unaffordable housing
+# Household size 
 
-<div style = "display: flex;">
+```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood)}
+lemur:::household_size_description(level, neighbourhood)
 
-<div style = "width: 30%;">
-`r percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)`
+lemur:::household_size_plot(dataset, compare)
 
-(City: `r city_profile[["unaffordable_housing"]][["value"]]`%)
-</div>
-
-<div style = "width: 70%;">
-```{r unaffordable-comparison, fig.height = 2}
-ggplot() +
-  geom_density(data = city_profile[["unaffordable_housing"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["unaffordable_housing"]]), color = "darkgreen") +
-  scale_x_continuous(labels = percent) +
-  theme_lemur() +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
-```
-</div>
-</div>
-
-#### Total people under poverty measure
-</div>
-
-</div>
-
-<div style = "display: flex;">
-
-<div style = "width: 50%;">
-#### Visible minority population
-
-```{r total-visible-minority}
-total_visible_minority <- neighbourhood_profile[["visible_minority"]] %>%
-  filter(group != "Not a visible minority") %>%
-  pull(prop) %>%
-  sum() %>%
-  percent(accuracy = 0.1)
-
-total_visible_minority_city <- city_profile[["visible_minority"]] %>%
-  filter(group != "Not a visible minority") %>%
-  pull(prop) %>%
-  sum() %>%
-  percent(accuracy = 0.1)
-```
-
-
-<div style = "display: flex;">
-
-<div style = "width: 50%;">
-Total visible minority population
-</div>
-
-<div style = "width: 50%;">
-`r total_visible_minority`
-
-(City: `r total_visible_minority_city`)
-</div>
-</div>
-
-```{r visible-minority, fig.height = 7}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("visible_minority", width = 10)
-```
-</div>
-</div>
-
-# Places
-
-## Private dwellings by structure
-
-```{r structure-type}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("structure_type")
-```
-
-## Number of bedrooms
-
-```{r bedrooms}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("bedrooms")
-```
-
-## Renter versus Owner
-
-```{r renter-owner}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("renter_owner")
-```
-
-## Shelter Cost for renters (`r dollar(neighbourhood_profile[["average_renter_shelter_cost"]], accuracy = 1)` (City: `r dollar(city_profile[["average_renter_shelter_cost"]][["value"]], accuracy = 1)`)
-
-```{r shelter-cost-comparison}
-ggplot() +
-  geom_density(data = city_profile[["average_renter_shelter_cost"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["average_renter_shelter_cost"]]), color = "darkgreen") +
-  scale_x_continuous(labels = dollar) +
-  theme_lemur() +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
+lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
 ```
