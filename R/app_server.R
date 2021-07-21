@@ -19,4 +19,14 @@ app_server <- function(input, output, session) {
   mod_map_server("map", address_and_neighbourhood, search_method)
 
   mod_sidebar_server("sidebar", address_and_neighbourhood, search_method)
+
+  shiny::observeEvent(input$mapZoom, {
+    cat(input$mapZoom, "\n")
+    if (input$mapZoom > 12) {
+      cat("zoomin back out \n")
+      search_method("back")
+      address_and_neighbourhood$address <- NULL
+      address_and_neighbourhood$neighbourhood <- NULL
+    }
+  })
 }
