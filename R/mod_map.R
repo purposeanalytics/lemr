@@ -23,8 +23,26 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
         add_blank_apartment_layer() %>%
-        add_blank_neighbourhood_layer()
+        add_blank_neighbourhood_layer() %>%
+        htmlwidgets::onRender("function() {
+      var map = mapboxer._widget['map-map'].map;
+      map.on('zoomend', function () {
+      var mapZoom = map.getZoom();
+      Shiny.onInputChange('mapZoom', mapZoom);
+      });
+        }")
     })
+
+    # Observe clicking on map
+    # Note that there is not actually an input called "map_onclick" - it comes built in with renderMapboxer
+    shiny::observeEvent(
+      input$map_onclick,
+      {
+        # Update search method and neighbourhood, let the next observe handle actually updating the map :)
+        search_method("neighbourhood")
+        address_and_neighbourhood$neighbourhood <- input$map_onclick$props$neighbourhood
+      }
+    )
 
     # Update zoom of map and highlighted apartment and/or neighbourhood based on search
     shiny::observeEvent(
