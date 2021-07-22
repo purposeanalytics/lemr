@@ -1,29 +1,41 @@
 ---
-output:
-  pdf_document: default
-  html_document: default
 params:
   level: neighbourhood
   neighbourhood: Danforth
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+library(lemur)
+library(htmltools)
+library(knitr)
+
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, results = "asis", out.width = "100%")
 
 knitr::opts_template$set(distribution = list(
-  fig.height = 3
+  fig.height = 1
 ))
 
-format_paragraph <- function(x) {
-  if (knitr::is_html_output()) {
-    format_paragraph(x)
-  } else {
+html_output <- is_html_output()
+output <- ifelse(html_output, "html", "pdf")
+
+if (html_output) {
+  output <- "html"
+  format_paragraph <- p()
+  h1 <- htmltools::h1
+  h2 <- htmltools::h2
+} else {
+  output <- "pdf"
+  format_paragraph <- function(x) {
     cat(x, "\n")
   }
+  h1 <- function(x) {
+    cat("#", x, "\n")
+  }
+  h2 <- function(x) {
+    cat("##", x, "\n")
+  }
 }
-
-library(lemur)
-library(htmltools)
 
 level <- params$level
 neighbourhood <- params$neighbourhood
@@ -71,7 +83,7 @@ lemur:::population_density_plot(dataset, compare)
 
 # Household size 
 
-```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood)}
+```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::household_size_description(level, neighbourhood) %>%
   format_paragraph()
 
@@ -82,13 +94,13 @@ lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Pe
 
 # Average Total Household Income 
 
-```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood)}
+```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1}
 lemur:::average_total_household_income_description(level, neighbourhood) %>%
   format_paragraph()
 
 lemur:::average_total_household_income_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar")
+lemur:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar", output = output)
 ```
 
 # Unaffordable housing
@@ -123,7 +135,7 @@ lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
 lemur:::lim_at_plot(dataset, compare)
 ```
 
-```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood)}
+```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
 h1(lemur:::visible_minority_number(dataset))
 
 h2(lemur:::visible_minority_city(level))
@@ -133,41 +145,41 @@ lemur:::visible_minority_description(level, neighbourhood) %>%
 
 lemur:::visible_minority_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
+lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent", output = output) %>%
   kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
 ```
 
 # Structure type
 
-```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood)}
+```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::structure_type_description(level, neighbourhood) %>%
   format_paragraph()
 
 lemur:::structure_type_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent")
+lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
 # Bedrooms
 
-```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood)}
+```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::bedrooms_description(level, neighbourhood) %>%
   format_paragraph()
 
 lemur:::bedrooms_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent")
+lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
 # Household Tenure
 
-```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood)}
+```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1}
 lemur:::household_tenure_description(level, neighbourhood) %>%
   format_paragraph()
 
 lemur:::household_tenure_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
+lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
 # Shelter Cost

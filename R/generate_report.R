@@ -17,6 +17,7 @@ generate_report <- function(level, neighbourhood = NULL, format) {
       level = level,
       neighbourhood = neighbourhood
     ),
-    output_format = glue::glue("{format}_document")
+    output_format = glue::glue("{format}_document"),
+    envir = new.env()
   )
 }

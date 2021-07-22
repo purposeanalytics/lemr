@@ -41,7 +41,7 @@ generate_bar_chart_alt_text <- function(level, neighbourhood, text) {
   )
 }
 
-generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none") {
+generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none", output = "pdf") {
   res <- data %>%
     display_neighbourhood_profile(measure, compare = compare, type = "table")
 
@@ -56,9 +56,15 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
     names(res)[[1]] <- first_column_name
   }
 
-  res %>%
-    kableExtra::kable(align = c("l", rep("r", ncol(res) - 1))) %>%
-    kableExtra::kable_styling()
+  if (output == "pdf") {
+    res %>%
+      kableExtra::kable(format = "latex", align = c("l", rep("r", ncol(res) - 1))) %>%
+      kableExtra::kable_styling()
+  } else {
+    res %>%
+      kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
+      kableExtra::kable_styling()
+  }
 }
 
 
