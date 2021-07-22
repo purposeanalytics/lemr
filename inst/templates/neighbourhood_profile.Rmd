@@ -21,7 +21,7 @@ output <- ifelse(html_output, "html", "pdf")
 
 if (html_output) {
   output <- "html"
-  format_paragraph <- p()
+  format_paragraph <- htmltools::p
   h1 <- htmltools::h1
   h2 <- htmltools::h2
 } else {

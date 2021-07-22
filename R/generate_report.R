@@ -1,4 +1,4 @@
-generate_report <- function(level, neighbourhood = NULL, format) {
+generate_report <- function(level, neighbourhood = NULL, format, filename = "report") {
   level <- match.arg(level, c("city", "neighbourhood"))
   format <- match.arg(format, c("pdf", "html"))
 
@@ -17,6 +17,7 @@ generate_report <- function(level, neighbourhood = NULL, format) {
       level = level,
       neighbourhood = neighbourhood
     ),
+    output_file = glue::glue("{filename}.{format}"),
     output_format = glue::glue("{format}_document"),
     envir = new.env()
   )

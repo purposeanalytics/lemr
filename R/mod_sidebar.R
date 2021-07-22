@@ -11,6 +11,8 @@ mod_sidebar_ui <- function(id) {
     shiny::h2(shiny::textOutput(ns("header"))),
     shiny::h3(shiny::uiOutput(ns("population"))),
     shiny::h3(shiny::uiOutput(ns("households"))),
+    download_report(ns("download")),
+    shiny::br(),
     shiny::uiOutput(ns("back_to_city")),
     shiny::uiOutput(ns("tabs_people_places"))
   )
@@ -27,7 +29,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
       address_and_neighbourhood$neighbourhood
     })
 
-    sidebar_level <- shiny::reactive({
+    level <- shiny::reactive({
       if (is.null(neighbourhood())) {
         "city"
       } else {
@@ -36,14 +38,14 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     output$header <- shiny::renderText({
-      switch(sidebar_level(),
+      switch(level(),
         city = "Toronto",
         neighbourhood = neighbourhood()
       )
     })
 
     output$population <- shiny::renderText({
-      dataset <- switch(sidebar_level(),
+      dataset <- switch(level(),
         city = lemur::city_profile,
         neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
@@ -74,6 +76,34 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
     mod_sidebar_people_server("people", neighbourhood)
     mod_sidebar_places_server("places", neighbourhood)
+
+    download_filename <- shiny::reactive({
+      if (is.null(neighbourhood())) {
+        file_start <- "City of Toronto"
+      } else {
+        file_start <- neighbourhood()
+      }
+
+      glue::glue("{file_start} 2016 Census Profile")
+    })
+
+    output$`download-HTML` <- shiny::downloadHandler(
+      filename = function() {
+        glue::glue("{download_filename()}.html")
+      },
+      content = function(file) {
+        generate_report(level(), neighbourhood(), format = "html", filename = file)
+      }
+    )
+
+    output$`download-PDF` <- shiny::downloadHandler(
+      filename = function() {
+        glue::glue("{download_filename()}.pdf")
+      },
+      content = function(file) {
+        write.csv(data, file)
+      }
+    )
   })
 }
 
