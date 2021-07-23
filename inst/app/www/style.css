@@ -1,3 +1,58 @@
+/* MODEL-AD Explorer Styles */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+  --font: "Open Sans", Sans-Serif;
+  --base-size: 16px;
+  --regular-weight: 400;
+  --bold-weight: 700;
+}
+
+/* ------  Header and font styles ------ */
+
+body {
+   font-family: var(--font);
+   font-size: var(--base-size);
+   font-weight: var(--regular-weight);
+}
+
+h1, h2, h3, h4, h5, h6 {
+   line-height: 1em;
+   padding-top: 10px;
+   margin-top: 0;
+   margin-bottom: 15px;
+}
+
+h1 {
+   font-size: 2.25em;
+   font-weight: var(--bold-weight);
+}
+
+h2 {
+   font-size: 1.75em;
+}
+
+h3 {
+   font-size: 1.5em;
+}
+
+.normal {
+  font-size: 1em;
+}
+
+.bigger {
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.biggest {
+  font-size: 1.5em;
+}
+
+.nav-tabs {
+  border-bottom: 0;
+}
+
 .color-preview {
   display: inline-block;
   width: 1em;

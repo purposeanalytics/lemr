@@ -17,7 +17,7 @@ generate_report <- function(level, neighbourhood = NULL, format, filename = "rep
       level = level,
       neighbourhood = neighbourhood
     ),
-    output_file = glue::glue("{filename}.{format}"),
+    output_file = filename,
     output_format = glue::glue("{format}_document"),
     envir = new.env()
   )

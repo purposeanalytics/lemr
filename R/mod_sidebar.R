@@ -8,10 +8,14 @@
 mod_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h2(shiny::textOutput(ns("header"))),
-    shiny::h3(shiny::uiOutput(ns("population"))),
-    shiny::h3(shiny::uiOutput(ns("households"))),
-    download_report(ns("download")),
+    shiny::h1(shiny::textOutput(ns("header"))),
+    shiny::uiOutput(ns("population")),
+    # shinyWidgets::dropdownButton(
+    #   circle = FALSE,
+    #   label = "Download report",
+    #   shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
+    #   shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
+    # ),
     shiny::br(),
     shiny::uiOutput(ns("back_to_city")),
     shiny::uiOutput(ns("tabs_people_places"))
@@ -87,21 +91,23 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
       glue::glue("{file_start} 2016 Census Profile")
     })
 
-    output$`download-HTML` <- shiny::downloadHandler(
+    output$download_html <- shiny::downloadHandler(
       filename = function() {
         glue::glue("{download_filename()}.html")
       },
       content = function(file) {
+        browser()
         generate_report(level(), neighbourhood(), format = "html", filename = file)
       }
     )
 
-    output$`download-PDF` <- shiny::downloadHandler(
+    output$download_pdf <- shiny::downloadHandler(
       filename = function() {
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
-        write.csv(data, file)
+        browser()
+        generate_report(level(), neighbourhood(), format = "pdf", filename = file)
       }
     )
   })

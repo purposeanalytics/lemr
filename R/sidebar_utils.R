@@ -41,7 +41,7 @@ generate_bar_chart_alt_text <- function(level, neighbourhood, text) {
   )
 }
 
-generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none", output = "pdf") {
+generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none", output = "html") {
   res <- data %>%
     display_neighbourhood_profile(measure, compare = compare, type = "table")
 
