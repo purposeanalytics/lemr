@@ -43,21 +43,21 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
         shiny::column(
           width = 12,
           shiny::htmlOutput(ns("legend")),
-          shiny::h3("Housing structure type"),
+          shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),
           shiny::plotOutput(ns("structure_type_plot"), height = "200px"),
           shiny::htmlOutput(ns("structure_type_table")),
-          shiny::h3("Number of bedrooms"),
+          shiny::h2("Number of bedrooms"),
           shiny::textOutput(ns("bedrooms_description")),
           shiny::plotOutput(ns("bedrooms_plot"), height = "200px"),
           shiny::htmlOutput(ns("bedrooms_table")),
-          shiny::h3("Households by tenure"),
+          shiny::h2("Households by tenure"),
           shiny::textOutput(ns("household_tenure_description")),
           shiny::plotOutput(ns("household_tenure_plot"), height = "120px"),
           shiny::htmlOutput(ns("household_tenure_table")),
-          shiny::h3("Average shelter cost for renters"),
-          shiny::h4(shiny::uiOutput(ns("shelter_cost"))),
-          shiny::h4(shiny::uiOutput(ns("shelter_cost_city"))),
+          shiny::h2("Average shelter cost for renters"),
+          bigger_padded(shiny::textOutput(ns("shelter_cost"))),
+          bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
           shiny::textOutput(ns("average_renter_shelter_cost_description")),
           shiny::plotOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
         )
@@ -149,18 +149,18 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     # Shelter cost ----
 
     shelter_cost <- shiny::reactive({
-      get_measure(dataset(), "shelter_cost")
+      get_measure(dataset(), "average_renter_shelter_cost")
     })
 
     shelter_cost_formatted <- shiny::reactive({
-      format_measure(shelter_cost(), "shelter_cost")
+      format_measure(shelter_cost(), "average_renter_shelter_cost")
     })
 
-    output$shelter_cost <- shiny::renderUI({
+    output$shelter_cost <- shiny::renderText({
       shelter_cost_number(shelter_cost_formatted())
     })
 
-    output$shelter_cost_city <- shiny::renderUI({
+    output$shelter_cost_city <- shiny::renderText({
       shelter_cost_city(level())
     })
 

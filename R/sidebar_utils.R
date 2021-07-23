@@ -297,7 +297,7 @@ visible_minority_number <- function(data) {
     sum() %>%
     scales::percent(accuracy = 0.1)
 
-  glue::glue("Visible Minority Population: {prop}")
+  glue::glue("Visible minority population: {prop}")
 }
 
 visible_minority_city <- function(level) {

@@ -45,12 +45,12 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::br(),
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Population change"),
-          bigger(shiny::textOutput(ns("population_change_number"))),
+          bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
           shiny::plotOutput(ns("population_change_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Population density"),
-          bigger(shiny::uiOutput(ns("population_density_number"))),
+          bigger_padded(shiny::textOutput(ns("population_density_number"))),
           shiny::textOutput(ns("population_density_description")),
           shiny::plotOutput(ns("population_density_plot"), height = "100px"),
           shiny::hr(),
@@ -65,19 +65,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::htmlOutput(ns("average_total_household_income_table")),
           shiny::hr(),
           shiny::h2("Unaffordable housing"),
-          shiny::h4(shiny::uiOutput(ns("unaffordable_housing"))),
-          shiny::h4(shiny::uiOutput(ns("unaffordable_housing_city"))),
+          bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
+          bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
           shiny::textOutput(ns("unaffordable_housing_description")),
           shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Low-income measure after tax"),
-          shiny::h4(shiny::uiOutput(ns("lim_at"))),
-          shiny::h4(shiny::uiOutput(ns("lim_at_city"))),
+          bigger_padded(shiny::textOutput(ns("lim_at"))),
+          bigger_padded(shiny::textOutput(ns("lim_at_city"))),
           shiny::textOutput(ns("lim_at_description")),
           shiny::plotOutput(ns("lim_at_plot"), height = "100px"),
           shiny::hr(),
-          shiny::h2(shiny::uiOutput(ns("visible_minority"))),
-          shiny::h4(shiny::uiOutput(ns("visible_minority_city"))),
+          shiny::h2("Visible minority population"),
+          bigger_padded(shiny::textOutput(ns("visible_minority"))),
+          bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
           shiny::textOutput(ns("visible_minority_description")),
           shiny::plotOutput(ns("visible_minority_plot"), height = "400px"),
           shiny::htmlOutput(ns("visible_minority_table"))
@@ -140,7 +141,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       format_measure(population_density(), "population_density")
     })
 
-    output$population_density_number <- shiny::renderUI({
+    output$population_density_number <- shiny::renderText({
       population_density_number(population_density_formatted())
     })
 
@@ -217,11 +218,11 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       format_measure(unaffordable_housing(), "unaffordable_housing")
     })
 
-    output$unaffordable_housing <- shiny::renderUI({
+    output$unaffordable_housing <- shiny::renderText({
       unaffordable_housing_number(unaffordable_housing_formatted())
     })
 
-    output$unaffordable_housing_city <- shiny::renderUI({
+    output$unaffordable_housing_city <- shiny::renderText({
       unaffordable_housing_city(level())
     })
 
@@ -252,11 +253,11 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       format_measure(lim_at(), "lim_at")
     })
 
-    output$lim_at <- shiny::renderUI({
+    output$lim_at <- shiny::renderText({
       lim_at_number(lim_at_formatted())
     })
 
-    output$lim_at_city <- shiny::renderUI({
+    output$lim_at_city <- shiny::renderText({
       lim_at_city(level())
     })
 
@@ -280,11 +281,11 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     # Visible minority population -----
 
-    output$visible_minority <- shiny::renderUI({
+    output$visible_minority <- shiny::renderText({
       visible_minority_number(dataset())
     })
 
-    output$visible_minority_city <- shiny::renderUI({
+    output$visible_minority_city <- shiny::renderText({
       visible_minority_city(level())
     })
 
