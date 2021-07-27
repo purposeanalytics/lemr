@@ -8,10 +8,16 @@
 mod_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h2(shiny::textOutput(ns("header"))),
-    shiny::h3(shiny::uiOutput(ns("population"))),
-    shiny::h3(shiny::uiOutput(ns("households"))),
-    shiny::uiOutput(ns("back_to_city")),
+    shiny::h1(shiny::textOutput(ns("header"))),
+    shiny::uiOutput(ns("population"), class = "padded"),
+    shinyWidgets::dropdownButton(
+      inputId = "download-button",
+      circle = FALSE,
+      label = "Download report",
+      shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
+      shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
+    ),
+    shiny::uiOutput(ns("back_to_city"), class = "padded"),
     shiny::uiOutput(ns("tabs_people_places"))
   )
 }
@@ -27,7 +33,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
       address_and_neighbourhood$neighbourhood
     })
 
-    sidebar_level <- shiny::reactive({
+    level <- shiny::reactive({
       if (is.null(neighbourhood())) {
         "city"
       } else {
@@ -36,14 +42,14 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     output$header <- shiny::renderText({
-      switch(sidebar_level(),
+      switch(level(),
         city = "Toronto",
         neighbourhood = neighbourhood()
       )
     })
 
     output$population <- shiny::renderText({
-      dataset <- switch(sidebar_level(),
+      dataset <- switch(level(),
         city = lemur::city_profile,
         neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
@@ -52,7 +58,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
     output$back_to_city <- shiny::renderUI({
       if (!is.null(address_and_neighbourhood$neighbourhood)) {
-        shiny::actionLink(ns("back"), label = "Back to City of Toronto view")
+        shiny::actionLink(ns("back"), label = "Back to City of Toronto view", class = "padded")
       }
     })
 
@@ -74,6 +80,50 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
     mod_sidebar_people_server("people", neighbourhood)
     mod_sidebar_places_server("places", neighbourhood)
+
+    download_filename <- shiny::reactive({
+      if (is.null(neighbourhood())) {
+        file_start <- "City of Toronto"
+      } else {
+        file_start <- neighbourhood()
+      }
+
+      glue::glue("{file_start} 2016 Census Profile")
+    })
+
+    output$download_html <- shiny::downloadHandler(
+      filename = function() {
+        glue::glue("{download_filename()}.html")
+      },
+      content = function(file) {
+
+        id <- shiny::showNotification(
+          "Generating report...",
+          duration = NULL,
+          closeButton = FALSE
+        )
+        on.exit(shiny::removeNotification(id), add = TRUE)
+
+        generate_report(level(), neighbourhood(), format = "html", filename = file)
+      }
+    )
+
+    output$download_pdf <- shiny::downloadHandler(
+      filename = function() {
+        glue::glue("{download_filename()}.pdf")
+      },
+      content = function(file) {
+
+        id <- shiny::showNotification(
+          "Generating report...",
+          duration = NULL,
+          closeButton = FALSE
+        )
+        on.exit(shiny::removeNotification(id), add = TRUE)
+
+        generate_report(level(), neighbourhood(), format = "pdf", filename = file)
+      }
+    )
   })
 }
 

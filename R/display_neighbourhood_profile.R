@@ -55,10 +55,10 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     if (compare) {
       p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
         ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-        ggplot2::scale_fill_manual(values = c("grey", "darkgreen"), guide = ggplot2::guide_legend(reverse = TRUE))
+        ggplot2::scale_fill_manual(values = c(grey_colour, main_colour), guide = ggplot2::guide_legend(reverse = TRUE))
     } else {
       p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
-        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = "grey")
+        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = grey_colour)
     }
 
     if (dollar) {
@@ -202,7 +202,7 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE) {
   p <- ggplot2::ggplot() +
-    ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = "grey", binwidth = binwidth)
+    ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
   if (compare) {
     # If we're comparing, we want to highlight the bar the neighbourhood is in
@@ -214,7 +214,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
 
     p <- ggplot2::ggplot() +
       ggplot2::geom_histogram(data = plot_data, ggplot2::aes(x = .data$x, fill = .data$neighbourhood), binwidth = binwidth, show.legend = FALSE) +
-      ggplot2::scale_fill_manual(values = c("grey", "darkgreen"))
+      ggplot2::scale_fill_manual(values = c(grey_colour, main_colour))
   }
 
   p +

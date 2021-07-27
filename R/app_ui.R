@@ -17,11 +17,11 @@ app_ui <- function(request) {
         shiny::column(
           width = 3,
           shiny::wellPanel(
-            style = "background-color: white; height: 100px;",
+            style = "height: 100px;",
             mod_search_ui("search")
           ),
           shiny::wellPanel(
-            style = "background-color: white; height: calc(100vh - 225px); overflow: auto;",
+            style = "height: calc(100vh - 225px); overflow: auto;",
             mod_sidebar_ui("sidebar")
           )
         )
