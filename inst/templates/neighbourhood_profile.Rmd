@@ -89,7 +89,7 @@ lemur:::household_size_description(level, neighbourhood) %>%
 
 lemur:::household_size_plot(dataset, compare)
 
-lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
+lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent", output = output)
 ```
 
 # Average Total Household Income 

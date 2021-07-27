@@ -10,12 +10,13 @@ mod_sidebar_ui <- function(id) {
   shiny::tagList(
     shiny::h1(shiny::textOutput(ns("header"))),
     shiny::uiOutput(ns("population"), class = "padded"),
-    # shinyWidgets::dropdownButton(
-    #   circle = FALSE,
-    #   label = "Download report",
-    #   shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
-    #   shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
-    # ),
+    shinyWidgets::dropdownButton(
+      inputId = "download-button",
+      circle = FALSE,
+      label = "Download report",
+      shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
+      shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
+    ),
     shiny::uiOutput(ns("back_to_city"), class = "padded"),
     shiny::uiOutput(ns("tabs_people_places"))
   )
@@ -95,7 +96,14 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         glue::glue("{download_filename()}.html")
       },
       content = function(file) {
-        browser()
+
+        id <- shiny::showNotification(
+          "Generating report...",
+          duration = NULL,
+          closeButton = FALSE
+        )
+        on.exit(shiny::removeNotification(id), add = TRUE)
+
         generate_report(level(), neighbourhood(), format = "html", filename = file)
       }
     )
@@ -105,7 +113,14 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
-        browser()
+
+        id <- shiny::showNotification(
+          "Generating report...",
+          duration = NULL,
+          closeButton = FALSE
+        )
+        on.exit(shiny::removeNotification(id), add = TRUE)
+
         generate_report(level(), neighbourhood(), format = "pdf", filename = file)
       }
     )
