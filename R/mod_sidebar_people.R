@@ -40,9 +40,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
-        shiny::column(
-          width = 12,
-          shiny::br(),
+        shiny::div(
+          shiny::hr(),
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),

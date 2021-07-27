@@ -4,6 +4,8 @@
 :root {
   --font: "Open Sans", Sans-Serif;
   --base-size: 16px;
+  --bigger-size: 1.25em;
+  --biggest-size: 1.5em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -47,16 +49,22 @@ h3 {
 }
 
 .bigger {
-  font-size: 1.25em;
+  font-size: var(--bigger-size);
 }
 
 .biggest {
-  font-size: 1.5em;
+  font-size: var(--biggest-size);
 }
 
 .nav-tabs {
   border-bottom: 0;
 }
+
+.autocomplete-items div:hover {
+  background-color: var(--accent-color);
+}
+
+/* ------ Legend ------ */
 
 .color-preview {
   display: inline-block;
@@ -66,15 +74,20 @@ h3 {
   vertical-align: middle;
 }
 
+/* ------ Map sizes ------ */
+
 #map-map {
   height: calc(100vh - 100px) !important;
 }
+
+/* ------ Tabs ------ */
 
 .nav-tabs {
   border-bottom: 0;
 }
 
 .nav-tabs > li > a {
+  font-size: var(--bigger-size);
   margin-right: 0.75em;
   border: 1px solid black !important;
   border-radius: 0;
@@ -92,4 +105,11 @@ h3 {
 
 .nav-tabs > li > a:hover {
   text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+}
+
+/* ------ Well panel ------ */
+
+.well {
+  background-color: white;
+  border-radius: 0;
 }

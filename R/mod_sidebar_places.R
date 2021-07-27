@@ -40,8 +40,8 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
-        shiny::column(
-          width = 12,
+        shiny::div(
+          shiny::hr(),
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),

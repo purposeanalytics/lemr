@@ -9,15 +9,14 @@ mod_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::h1(shiny::textOutput(ns("header"))),
-    shiny::uiOutput(ns("population")),
+    shiny::uiOutput(ns("population"), class = "padded"),
     # shinyWidgets::dropdownButton(
     #   circle = FALSE,
     #   label = "Download report",
     #   shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
     #   shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
     # ),
-    shiny::br(),
-    shiny::uiOutput(ns("back_to_city")),
+    shiny::uiOutput(ns("back_to_city"), class = "padded"),
     shiny::uiOutput(ns("tabs_people_places"))
   )
 }
@@ -58,7 +57,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
     output$back_to_city <- shiny::renderUI({
       if (!is.null(address_and_neighbourhood$neighbourhood)) {
-        shiny::actionLink(ns("back"), label = "Back to City of Toronto view")
+        shiny::actionLink(ns("back"), label = "Back to City of Toronto view", class = "padded")
       }
     })
 
