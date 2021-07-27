@@ -1,6 +1,6 @@
 Package: lemur
 Title: An Amazing Shiny App
-Version: 0.0.0.9002
+Version: 0.0.0.9003
 Authors@R: 
     person(given = "firstname",
            family = "lastname",
@@ -37,7 +37,11 @@ Imports:
     toOrdinal,
     usethis,
     words2number,
-    kableExtra
+    kableExtra,
+    htmltools,
+    htmlwidgets,
+    rmarkdown,
+    shinyBS
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
