@@ -75,13 +75,15 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     output$legend <- shiny::renderText({
       plot_legend()
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Structure type -----
 
     output$structure_type_description <- shiny::renderText({
       structure_type_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     structure_type_alt_text <- shiny::reactive({
       structure_type_plot_alt_text(level(), neighbourhood())
@@ -94,17 +96,20 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = structure_type_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$structure_type_table <- shiny::renderText({
       generate_table(dataset(), "structure_type", compare(), "Housing Structure Type", "Percent")
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Bedrooms -----
 
     output$bedrooms_description <- shiny::renderText({
       bedrooms_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     bedrooms_alt_text <- shiny::reactive({
       bedrooms_plot_alt_text(level(), neighbourhood())
@@ -117,17 +122,20 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = bedrooms_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$bedrooms_table <- shiny::renderText({
       generate_table(dataset(), "bedrooms", compare(), "Number of bedrooms", "Percent")
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Household tenure ----
 
     output$household_tenure_description <- shiny::renderText({
       household_tenure_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     household_tenure_alt_text <- shiny::reactive({
       household_tenure_plot_alt_text(level(), neighbourhood())
@@ -140,11 +148,13 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = household_tenure_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$household_tenure_table <- shiny::renderText({
       generate_table(dataset(), "household_tenure", compare(), "Household tenure", "Percent")
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Shelter cost ----
 
@@ -154,23 +164,28 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     shelter_cost_formatted <- shiny::reactive({
       format_measure(shelter_cost(), "average_renter_shelter_cost")
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$shelter_cost <- shiny::renderText({
       shelter_cost_number(shelter_cost_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$shelter_cost_city <- shiny::renderText({
       shelter_cost_city(level())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$average_renter_shelter_cost_description <- shiny::renderText({
       average_renter_shelter_cost_description(level(), neighbourhood(), shelter_cost(), shelter_cost_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     average_renter_shelter_cost_alt_text <- shiny::reactive({
       average_renter_shelter_cost_plot_alt_text(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$average_renter_shelter_cost_plot <- shiny::renderPlot(
       {
@@ -179,7 +194,8 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = average_renter_shelter_cost_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
   })
 }
 
