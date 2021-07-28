@@ -10,6 +10,8 @@
   --bold-weight: 700;
   --main-color: #08569A;
   --accent-color: #FFC20A;
+  --accent-color-rgba: rgba(255, 194, 10, 1);
+  --accent-color-lighter-rgba: rgba(255, 194, 10, 0.50);
   --grey-color: #B8B8B8;
 }
 
@@ -95,6 +97,30 @@ h3 {
 
 /* ------ Tabs ------ */
 
+
+.nav-tabs {
+  border-bottom: 1px solid black;
+}
+
+.nav-tabs > li > a {
+  margin-right: 0.75em;
+  border: 1px solid black !important;
+  border-radius: 10;
+  background-color: var(--accent-color-lighter-rgba) !important;
+  color: black !important;
+}
+
+.nav-tabs > li.active > a {
+  background-color: var(--accent-color-rgba) !important;
+}
+
+.nav-tabs > li.active > a:hover {
+  text-shadow: 0;
+}
+
+.nav-tabs > li > a:hover {
+  background-color: var(--accent-color-rgba) !important;
+}
 
 /* ------ Well panel ------ */
 
