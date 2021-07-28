@@ -69,6 +69,14 @@ h3 {
   background-color: var(--accent-color);
 }
 
+/* Dropdown */
+
+.bootstrap-select .dropdown-menu {
+  max-width: 100%;
+  overflow-wrap: hyphenate-word;
+  hyphens: overflow;
+}
+
 /* ------ Legend ------ */
 
 .color-preview {

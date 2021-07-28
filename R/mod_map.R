@@ -38,6 +38,11 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method) {
     shiny::observeEvent(
       input$map_onclick,
       {
+        # Clear inputs
+        # TODO - not working yet to actually trigger resetting of searches in  mod_search
+        address_and_neighbourhood$address <- NULL
+        address_and_neighbourhood$neighbourhood <- NULL
+
         # Update search method and neighbourhood, let the next observe handle actually updating the map :)
         search_method("neighbourhood")
         address_and_neighbourhood$neighbourhood <- input$map_onclick$props$neighbourhood
