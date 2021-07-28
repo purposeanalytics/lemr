@@ -45,12 +45,12 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
-          shiny::plotOutput(ns("population_change_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("population_change_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Population density"),
           bigger_padded(shiny::textOutput(ns("population_density_number"))),
           shiny::textOutput(ns("population_density_description")),
-          shiny::plotOutput(ns("population_density_plot"), height = "100px"),
+          # echarts4r::echarts4rOutput(ns("population_density_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
@@ -66,13 +66,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
           shiny::textOutput(ns("unaffordable_housing_description")),
-          shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px"),
+          # echarts4r::echarts4rOutput(ns("unaffordable_housing_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Low-income measure after tax"),
           bigger_padded(shiny::textOutput(ns("lim_at"))),
           bigger_padded(shiny::textOutput(ns("lim_at_city"))),
           shiny::textOutput(ns("lim_at_description")),
-          shiny::plotOutput(ns("lim_at_plot"), height = "100px"),
+          # echarts4r::echarts4rOutput(ns("lim_at_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Visible minority population"),
           bigger_padded(shiny::textOutput(ns("visible_minority"))),
@@ -122,13 +122,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_change_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_change_plot <- shiny::renderPlot(
+    output$population_change_plot <- echarts4r::renderEcharts4r(
       {
         population_change_plot(dataset(), compare())
       },
-      res = 96,
-      bg = "transparent",
-      alt = population_change_alt_text
+      # res = 96,
+      # bg = "transparent",
+      # alt = population_change_alt_text
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 

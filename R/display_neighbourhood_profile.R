@@ -215,24 +215,38 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
+  plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
+    dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax)
+
   if (compare) {
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
-    plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
-      dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax) %>%
+    plot_data <- plot_data %>%
       dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
-      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, FALSE)) %>%
-      tidyr::uncount(weights = .data$y)
-
-    p <- ggplot2::ggplot() +
-      ggplot2::geom_histogram(data = plot_data, ggplot2::aes(x = .data$x, fill = .data$neighbourhood), binwidth = binwidth, show.legend = FALSE) +
-      ggplot2::scale_fill_manual(values = c(grey_colour, main_colour))
+      dplyr::mutate(
+        neighbourhood_y = ifelse(.data$neighbourhood, y, NA_real_),
+        y = ifelse(.data$neighbourhood, NA_real_, y)
+      )
   }
 
-  p +
-    theme_lemur() +
-    ggplot2::theme(
-      axis.title = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_blank()
-    )
+  p <- plot_data %>%
+    echarts4r::e_chart(x = x, dispose = FALSE) %>%
+    echarts4r::e_bar(serie = y, stack = "grp") %>%
+    echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
+    echarts4r::e_x_axis(
+      axisLine = list(show = FALSE),
+      axisTick = list(show = FALSE),
+      splitLine = list(show = FALSE)
+    ) %>%
+    echarts4r::e_y_axis(
+      show = FALSE
+    ) %>%
+    echarts4r::e_legend(show = FALSE)
+
+  if (compare) {
+    p <- p %>%
+      echarts4r::e_bar(serie = neighbourhood_y, stack = "grp")
+  }
+
+  p
 }

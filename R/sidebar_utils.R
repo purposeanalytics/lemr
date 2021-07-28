@@ -61,7 +61,7 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
   if (output == "pdf") {
     res %>%
       kableExtra::kable(format = "latex", align = c("l", rep("r", ncol(res) - 1))) %>%
-      kableExtra::kable_styling()
+      kableExtra::kable_styling(latex_options = "HOLD_position")
   } else {
     res %>%
       kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
@@ -272,8 +272,8 @@ population_change_plot_alt_text <- function(level, neighbourhood) {
 
 population_change_plot <- function(data, compare) {
   data %>%
-    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01) +
-    ggplot2::scale_x_continuous(labels = scales::label_percent())
+    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01) %>%
+    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter("percent"))
 }
 
 # Population density ----
