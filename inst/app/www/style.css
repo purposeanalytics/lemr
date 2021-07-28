@@ -87,30 +87,6 @@ h3 {
 
 /* ------ Tabs ------ */
 
-.nav-tabs {
-  border-bottom: 0;
-}
-
-.nav-tabs > li > a {
-  font-size: var(--bigger-size);
-  margin-right: 0.75em;
-  border: 1px solid black !important;
-  border-radius: 0;
-  background-color: var(--accent-color) !important;
-  color: black !important;
-}
-
-.nav-tabs > li.active > a {
-  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
-}
-
-.nav-tabs > li.active > a:hover {
-  text-shadow: 0;
-}
-
-.nav-tabs > li > a:hover {
-  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
-}
 
 /* ------ Well panel ------ */
 
