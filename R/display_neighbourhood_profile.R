@@ -17,9 +17,9 @@
 #'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
-  if (variable == "household_tenure") {
-    return(display_neighbourhood_household_tenure(data, compare = compare, width = width, type = type))
-  }
+  # if (variable == "household_tenure") {
+  #   return(display_neighbourhood_household_tenure(data, compare = compare, width = width, type = type))
+  # }
 
   data <- data[[variable]] %>%
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom

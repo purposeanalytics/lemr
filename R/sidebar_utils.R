@@ -375,8 +375,11 @@ household_tenure_plot_alt_text <- function(level, neighbourhood) {
 }
 
 household_tenure_plot <- function(data, compare) {
-  data %>%
+  p <- data %>%
     display_neighbourhood_profile("household_tenure", compare = compare, width = 10)
+
+  p +
+    ggplot2::scale_x_continuous(limits = c(0, 1))
 }
 
 # Shelter cost -----
