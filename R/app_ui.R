@@ -21,6 +21,9 @@ app_ui <- function(request) {
             mod_search_ui("search")
           ),
           shiny::wellPanel(
+            mod_layers_ui("layers")
+          ),
+          shiny::wellPanel(
             style = "height: calc(100vh - 225px); overflow: auto;",
             mod_sidebar_ui("sidebar")
           )
