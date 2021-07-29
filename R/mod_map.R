@@ -86,7 +86,9 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
 
     ## Apartment buildings
     shiny::observeEvent(
-      layer_apartment_building(), ignoreInit = TRUE, {
+      layer_apartment_building(),
+      ignoreInit = TRUE,
+      {
         if (layer_apartment_building()) {
           mapboxer::mapboxer_proxy(ns("map")) %>%
             toggle_layer_visible(id = "apartment_buildings") %>%

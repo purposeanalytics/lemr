@@ -1,5 +1,5 @@
 create_legend <- function(neighbourhood) {
-  glue::glue('{color_preview(main_colour)} {neighbourhood} {color_preview(grey_colour)} City of Toronto')
+  glue::glue("{color_preview(main_colour)} {neighbourhood} {color_preview(grey_colour)} City of Toronto")
 }
 
 color_preview <- function(color) {

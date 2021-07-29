@@ -10,7 +10,6 @@
 mod_data_and_definitions_ui <- function(id) {
   ns <- NS(id)
   shiny::includeMarkdown(system.file("app", "data_and_definitions.md", package = "lemur"))
-
 }
 
 #' data_and_definitions Server Functions

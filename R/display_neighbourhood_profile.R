@@ -124,9 +124,7 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
         dplyr::relocate(.data$`City of Toronto`, .after = dplyr::last_col())
 
       return(res)
-
     } else if (type == "plot") {
-
       data <- data %>%
         dplyr::mutate(neighbourhood = str_wrap_factor(.data$neighbourhood, width = width))
 

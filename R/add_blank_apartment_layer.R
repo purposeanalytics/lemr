@@ -16,7 +16,7 @@ add_blank_apartment_layer <- function(map) {
     # Add the layer
     mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(lemur::apartment_building_registry %>% dplyr::select(.data$bing_address, .data$geometry, .data$confirmed_units)), circle_color = "red", id = "apartment_buildings") %>%
     # Set the visibility to "none", so it's not shown
-  mapboxer::set_layout_property(layer_id = "apartment_buildings", "visibility", "none") %>%
+    mapboxer::set_layout_property(layer_id = "apartment_buildings", "visibility", "none") %>%
     # Add tooltips with address and units
     mapboxer::add_tooltips(layer_id = "apartment_buildings", "{{site_address}}<br>Units: {{confirmed_units}}")
 }
