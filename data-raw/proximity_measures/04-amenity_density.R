@@ -7,6 +7,11 @@ library(tidyr)
 amenity_density <- proximity_measures %>%
   select(dbuid, population, amenity_dense, neighbourhood)
 
+# Remove DBs that have suppressed amenity density
+amenity_density <- amenity_density %>%
+  filter(!is.na(amenity_dense))
+
+# Aggregate by neighbourhood
 amenity_density_by_neighbourhood <- amenity_density %>%
   group_by(neighbourhood, amenity_dense) %>%
   summarise(population = sum(population), .groups = "drop_last") %>%
