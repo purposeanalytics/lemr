@@ -41,7 +41,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
-          shiny::hr(),
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
@@ -96,7 +95,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$legend <- shiny::renderText({
       plot_legend()
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Population change -----
 
@@ -110,12 +110,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$population_change_number <- shiny::renderText({
       population_change_number(population_change_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$population_change_description <- shiny::renderText({
       population_change
       population_change_description(level(), neighbourhood(), population_change(), population_change_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     population_change_alt_text <- shiny::reactive({
       population_change_plot_alt_text(level(), neighbourhood())
@@ -128,7 +130,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = population_change_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Population density -----
 
@@ -142,11 +145,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$population_density_number <- shiny::renderText({
       population_density_number(population_density_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$population_density_description <- shiny::renderText({
       population_density_description(level(), neighbourhood(), population_density(), population_density_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     population_density_alt_text <- shiny::reactive({
       population_density_plot_alt_text(level(), neighbourhood())
@@ -159,13 +164,15 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = population_density_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Household size -----
 
     output$household_size_description <- shiny::renderText({
       household_size_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     household_size_alt_text <- shiny::reactive({
       household_size_plot_alt_text(level(), neighbourhood())
@@ -178,17 +185,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = household_size_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$household_size_table <- shiny::renderText({
       generate_table(dataset(), "household_size", compare(), "Household Size", "Percent")
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Mean total household income ------
 
     output$average_total_household_income_description <- shiny::renderText({
       average_total_household_income_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     average_total_household_income_alt_text <- shiny::reactive({
       average_total_household_income_plot_alt_text(level(), neighbourhood())
@@ -201,7 +211,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = average_total_household_income_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$average_total_household_income_table <- shiny::renderText({
       generate_table(dataset(), "average_total_income", compare(), "Household Size", "Average Total Household", format = "dollar")
@@ -219,15 +230,18 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$unaffordable_housing <- shiny::renderText({
       unaffordable_housing_number(unaffordable_housing_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$unaffordable_housing_city <- shiny::renderText({
       unaffordable_housing_city(level())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$unaffordable_housing_description <- shiny::renderText({
       unaffordable_housing_description(level(), neighbourhood(), unaffordable_housing(), unaffordable_housing_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     unaffordable_housing_alt_text <- shiny::reactive({
       unaffordable_housing_plot_alt_text(level(), neighbourhood())
@@ -240,7 +254,8 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = unaffordable_housing_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # LIM-AT -----
 
@@ -254,15 +269,18 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$lim_at <- shiny::renderText({
       lim_at_number(lim_at_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$lim_at_city <- shiny::renderText({
       lim_at_city(level())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$lim_at_description <- shiny::renderText({
       lim_at_description(level(), neighbourhood(), lim_at(), lim_at_formatted())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     lim_at_alt_text <- shiny::reactive({
       lim_at_plot_alt_text(level(), neighbourhood())
@@ -275,22 +293,26 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = lim_at_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
 
     # Visible minority population -----
 
     output$visible_minority <- shiny::renderText({
       visible_minority_number(dataset())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$visible_minority_city <- shiny::renderText({
       visible_minority_city(level())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$visible_minority_description <- shiny::renderText({
       visible_minority_description(level(), neighbourhood())
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     visible_minority_alt_text <- shiny::reactive({
       visible_minority_plot_alt_text(level(), neighbourhood())
@@ -303,12 +325,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       res = 96,
       bg = "transparent",
       alt = visible_minority_alt_text
-    )
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     output$visible_minority_table <- shiny::renderText({
       generate_table(dataset(), "visible_minority", compare(), "Visible Minority Group", "Percent") %>%
         kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
-    })
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
   })
 }
 

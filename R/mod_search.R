@@ -22,13 +22,16 @@ mod_search_ui <- function(id) {
     ),
     shiny::column(
       width = 6,
-      dqshiny::autocomplete_input(
-        id = ns("neighbourhood"),
-        label = "Neighbourhood",
-        placeholder = "Search neighbourhood...",
-        options = sort(lemur::neighbourhoods[["neighbourhood"]]),
-        max_options = 10,
-        contains = TRUE
+      shinyWidgets::pickerInput(
+        ns("neighbourhood"),
+        "Neighbourhood",
+        choices = sort(lemur::neighbourhoods[["neighbourhood"]]),
+        multiple = TRUE,
+        options = shinyWidgets::pickerOptions(
+          liveSearch = TRUE, size = 10,
+          maxOptions = 1,
+          noneSelectedText = "Search neighbourhood..."
+        )
       )
     )
   )
@@ -62,7 +65,7 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
       search_method("address")
 
       # Deselect neighbourhood
-      dqshiny::update_autocomplete_input(session = session, id = "neighbourhood", value = "")
+      shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
     })
 
     # If neighbourhood is selected, store neighbourhood
@@ -88,7 +91,7 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
       ignoreInit = TRUE,
       {
         if (is.null(address_and_neighbourhood$address) & is.null(address_and_neighbourhood$neighbourhood)) {
-          dqshiny::update_autocomplete_input(session = session, id = "neighbourhood", value = "")
+          shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
           dqshiny::update_autocomplete_input(session = session, id = "address", value = "")
         }
       }

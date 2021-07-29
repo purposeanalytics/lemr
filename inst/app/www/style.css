@@ -10,6 +10,8 @@
   --bold-weight: 700;
   --main-color: #08569A;
   --accent-color: #FFC20A;
+  --accent-color-rgba: rgba(255, 194, 10, 1);
+  --accent-color-lighter-rgba: rgba(255, 194, 10, 0.50);
   --grey-color: #B8B8B8;
 }
 
@@ -69,6 +71,14 @@ h3 {
   background-color: var(--accent-color);
 }
 
+/* Dropdown */
+
+.bootstrap-select .dropdown-menu {
+  max-width: 100%;
+  overflow-wrap: hyphenate-word;
+  hyphens: overflow;
+}
+
 /* ------ Legend ------ */
 
 .color-preview {
@@ -87,21 +97,21 @@ h3 {
 
 /* ------ Tabs ------ */
 
+
 .nav-tabs {
-  border-bottom: 0;
+  border-bottom: 1px solid black;
 }
 
 .nav-tabs > li > a {
-  font-size: var(--bigger-size);
   margin-right: 0.75em;
   border: 1px solid black !important;
-  border-radius: 0;
-  background-color: var(--accent-color) !important;
+  border-radius: 10;
+  background-color: var(--accent-color-lighter-rgba) !important;
   color: black !important;
 }
 
 .nav-tabs > li.active > a {
-  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+  background-color: var(--accent-color-rgba) !important;
 }
 
 .nav-tabs > li.active > a:hover {
@@ -109,7 +119,7 @@ h3 {
 }
 
 .nav-tabs > li > a:hover {
-  text-shadow: -0.06ex 0 black, 0.06ex 0 black;
+  background-color: var(--accent-color-rgba) !important;
 }
 
 /* ------ Well panel ------ */
