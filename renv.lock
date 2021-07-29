@@ -9,6 +9,13 @@
     ]
   },
   "Packages": {
+    "AsioHeaders": {
+      "Package": "AsioHeaders",
+      "Version": "1.16.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9305444d113b052089eba3694047d42d"
+    },
     "BH": {
       "Package": "BH",
       "Version": "1.75.0-0",
@@ -120,6 +127,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "9addc7e2c5954eca5719928131fed98c"
+    },
+    "bookdown": {
+      "Package": "bookdown",
+      "Version": "0.22",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8fb0b67dfdf9d751fc93cb0036def3cc"
     },
     "brew": {
       "Package": "brew",
@@ -576,16 +590,10 @@
     },
     "lemur": {
       "Package": "lemur",
-      "Version": "0.0.0.9000",
-      "Source": "GitHub",
+      "Version": "0.0.0.9003",
+      "Source": "unknown",
       "Remotes": "benmarwick/words2number, sharlagelfand/dqshiny",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "lemur",
-      "RemoteUsername": "purposeanalytics",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "25c75d36eb3fe71c883015c927a9d3ef6b805aa5",
-      "Hash": "d5da8886fd6884da68786e1ee4a105d6"
+      "Hash": "259c84fd0c4f96789684b8f9ed8a2782"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -677,6 +685,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "0d6cc4c357e7602bb3eee299f4cfc2a5"
+    },
+    "pagedown": {
+      "Package": "pagedown",
+      "Version": "0.15",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "705a85bb415655b45a9b5c5b1b7773f8"
     },
     "pillar": {
       "Package": "pillar",
@@ -916,6 +931,13 @@
       "Repository": "CRAN",
       "Hash": "3838071b66e0c566d55cc26bd6e27bf4"
     },
+    "servr": {
+      "Package": "servr",
+      "Version": "0.22",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8cfe5c1d3a8c8304496ba3034e080405"
+    },
     "sessioninfo": {
       "Package": "sessioninfo",
       "Version": "1.1.1",
@@ -944,12 +966,26 @@
       "Repository": "CRAN",
       "Hash": "6e3b6ae7fe02b5859e4bb277f218b8ae"
     },
+    "shinyBS": {
+      "Package": "shinyBS",
+      "Version": "0.61",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f895dafd39733c4a70d425f605a832e7"
+    },
     "shinyWidgets": {
       "Package": "shinyWidgets",
       "Version": "0.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "7dd5f3ee96c64a47fdbc6e437ff1c7e1"
+    },
+    "shinybusy": {
+      "Package": "shinybusy",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c38fc071d4def5e642c8dc34c3a082e4"
     },
     "snakecase": {
       "Package": "snakecase",
@@ -1111,6 +1147,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "e99d80ad34457a4853674e89d5e806de"
+    },
+    "websocket": {
+      "Package": "websocket",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "39668631bda1dd7f693fdbb7b4c9fed8"
     },
     "whisker": {
       "Package": "whisker",

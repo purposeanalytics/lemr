@@ -17,10 +17,11 @@ app_server <- function(input, output, session) {
   mod_search_server("search", lemur_pool, address_and_neighbourhood, search_method)
 
   layer_apartment_building <- shiny::reactiveVal()
+  layer_amenity_density <- shiny::reactiveVal()
 
-  mod_layers_server("layers", layer_apartment_building)
+  mod_layers_server("layers", layer_apartment_building, layer_amenity_density)
 
-  mod_map_server("map", address_and_neighbourhood, search_method, layer_apartment_building)
+  mod_map_server("map", address_and_neighbourhood, search_method, layer_apartment_building, layer_amenity_density)
 
   mod_sidebar_server("sidebar", address_and_neighbourhood, search_method)
 
