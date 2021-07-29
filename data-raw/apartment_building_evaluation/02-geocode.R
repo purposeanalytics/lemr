@@ -10,9 +10,10 @@ apartment_building_evaluation <- read_latest_file(directory = here::here("data-r
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   left_join(apartment_building_registry %>%
-              select(rsn, starts_with("bing"), neighbourhood, geometry),
-            by = "rsn") %>%
-  st_sf()
+    as_tibble() %>%
+    select(rsn, starts_with("bing"), neighbourhood),
+  by = "rsn"
+  )
 
 # Check that all apartments have geocoding
 apartments_need_geocoding <- apartment_building_evaluation %>%
@@ -26,3 +27,4 @@ if (apartments_need_geocoding == 0) {
 }
 
 # Save geocoded
+saveRDS(apartment_building_evaluation, here::here("data-raw", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
