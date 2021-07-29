@@ -144,6 +144,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 #' @param default_args Arguments to be used in any circumstances.
 #'
 #' @return A character vector with CLI arguments to be passed to Chrome.
+#' @noRd
 chrome_extra_args <- function(default_args = c("--disable-gpu")) {
   args <- default_args
   # Test whether we are in a shinyapps container
