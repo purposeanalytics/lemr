@@ -6,6 +6,11 @@
 #' apartment_building_registry
 "apartment_building_registry"
 
+#' Apartment building evaluation
+#'
+#' Apartment building evaluation scores, retreieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-evaluation/}{Apartmenr Building Evaluation dataset}. This data set contains the results from \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/}{RentSafeTO: Apartment Building Standards}, a bylaw enforcement program established to ensure owners and operators of apartment buildings comply with building maintenance standards. This data set contains the building evaluation scores for buildings registered with RentSafeTO, which require evaluation at least once every three years. \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-building-owners/rentsafeto-building-evaluations-and-audits/}{Various items} are inspected and assigned a score from 1 to 5, which is then aggregated for the building. If a building scores less than 50 per cent, the building must undergo an audit. Otherwise, the score determines whether another evaluation needs to take place in one, two, or three years.
+"apartment_building_evaluation"
+
 #' City of Toronto boundaries
 #'
 #' City of Toronto boundaries, retrieved from the \href{https://open.toronto.ca/dataset/regional-municipal-boundary/}{Regional Municipal Boundary dataset}
