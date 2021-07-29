@@ -9,21 +9,23 @@
 #' library(sf)
 #'
 #' map_toronto() %>%
-#'   add_blank_apartment_layer() %>%
+#'   add_blank_address_layer() %>%
 #'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
-  browser()
-  searched_address <- lemur::apartment_building_registry %>%
-    dplyr::filter(.data$bing_address == address)
+
+  if (!inherits(address, "sf")) {
+    address <- address_points() %>%
+      dplyr::filter(.data$address == !!address) %>%
+      utils::head(1) %>%
+      dplyr::collect() %>%
+      sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+  }
 
   map %>%
-    # UPDATE: for now, don't highlight address - just zoom to it. I want to decouple the address search from the apartment layer.
-
-    # Update the data in the "apartment_buildings" layer to be for this address, so that that point is highlighted in red
-    # mapboxer::set_filter(layer_id = "apartment_buildings", list("==", "bing_address", address)) %>%
-    # mapboxer::set_data(data = searched_address, source_id = "apartment_buildings") %>%
+    # Update the data in the "address_points" layer to be for this address, so that that point shows
+    mapboxer::set_data(data = address, source_id = "address_points") %>%
     # Set the visibility to visible
-    # mapboxer::set_layout_property(layer_id = "apartment_buildings", "visibility", "visible") %>%
+    toggle_layer_visible(id = "address_points") %>%
     # Zoom to the address
-    mapboxer::fit_bounds(sf::st_bbox(searched_address), maxZoom = 15, pitch = 0, bearing = -15)
+    mapboxer::fit_bounds(sf::st_bbox(address), maxZoom = 15, pitch = 0, bearing = -15)
 }

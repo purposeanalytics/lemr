@@ -23,6 +23,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
         add_blank_apartment_layer() %>%
+        add_blank_address_layer() %>%
         add_blank_neighbourhood_layer() %>%
         htmlwidgets::onRender("function() {
       var map = mapboxer._widget['map-map'].map;
@@ -60,19 +61,19 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
       {
         if (search_method() == "address") {
           mapboxer::mapboxer_proxy(ns("map")) %>%
-            # zoom_map_to_address(address_and_neighbourhood$address) %>%
+            zoom_map_to_address(address_and_neighbourhood$address_sf) %>%
             zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
             mapboxer::update_mapboxer()
         } else if (search_method() == "neighbourhood") {
           mapboxer::mapboxer_proxy(ns("map")) %>%
             # Clear address
-            # zoom_map_to_address("none") %>%
+            toggle_layer_invisible("address_points") %>%
             zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
             mapboxer::update_mapboxer()
         } else if (search_method() == "back") {
           mapboxer::mapboxer_proxy(ns("map")) %>%
             # Clear address
-            # zoom_map_to_address("none") %>%
+            toggle_layer_invisible("address_points") %>%
             # Clear neighbourhood
             zoom_map_to_neighbourhood("none") %>%
             # Zoom back out to Toronto

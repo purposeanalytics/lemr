@@ -56,8 +56,10 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
         utils::head(1) %>%
         dplyr::collect()
 
-      address_and_neighbourhood$neighbourhood <- address_point %>%
-        sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
+      address_and_neighbourhood$address_sf <- address_point %>%
+        sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+      address_and_neighbourhood$neighbourhood <- address_and_neighbourhood$address_sf %>%
         sf::st_intersection(lemur::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
