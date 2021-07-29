@@ -18,6 +18,6 @@ Zoom map of Toronto to address
 library(sf)
 
 map_toronto() \%>\%
-  add_blank_apartment_layer() \%>\%
+  add_blank_address_layer() \%>\%
   zoom_map_to_address("378 Markham St")
 }
