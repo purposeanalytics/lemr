@@ -9,7 +9,7 @@ zoom_map_to_address(map, address)
 \arguments{
 \item{map}{Map created by \link{map_toronto}}
 
-\item{address}{Address from \link{apartment_building_registry}}
+\item{address}{Address from \link{address_points()}}
 }
 \description{
 Zoom map of Toronto to address
