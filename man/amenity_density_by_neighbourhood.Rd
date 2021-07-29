@@ -5,7 +5,7 @@
 \alias{amenity_density_by_neighbourhood}
 \title{Amenity density by neighbourhood}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 420 rows and 3 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 560 rows and 3 columns.
 }
 \usage{
 amenity_density_by_neighbourhood

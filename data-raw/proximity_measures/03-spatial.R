@@ -15,9 +15,9 @@ dissemination_block_geo <- st_read(here::here("data-raw", "proximity_measures", 
 dissemination_block_geo_toronto <- dissemination_block_geo %>%
   clean_names() %>%
   semi_join(proximity_measures_toronto %>%
-              distinct(dbuid), by = "dbuid") %>%
+    distinct(dbuid), by = "dbuid") %>%
   select(dbuid, ctuid) %>%
-  st_transform(crs = 4)
+  st_transform(crs = 4326)
 
 ct_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg")) %>%
   as_tibble() %>%
@@ -44,3 +44,13 @@ proximity_measures <- proximity_measures %>%
 # Save -----
 
 usethis::use_data(proximity_measures, overwrite = TRUE)
+
+# Amenity density only -----
+
+amenity_density <- proximity_measures_toronto %>%
+  distinct(dbuid, amenity_dense) %>%
+  left_join(dissemination_block_geo_toronto, by = "dbuid") %>%
+  select(dbuid, amenity_dense, geometry) %>%
+  st_sf()
+
+usethis::use_data(amenity_density, overwrite = TRUE)

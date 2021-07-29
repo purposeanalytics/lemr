@@ -57,7 +57,8 @@ proximity_measures_toronto <- proximity_measures_toronto %>%
   mutate(amenity_dense = case_when(
     amenity_dense == 0 ~ "Low",
     amenity_dense == 1 ~ "Medium",
-    amenity_dense == 2 ~ "High"
+    amenity_dense == 2 ~ "High",
+    TRUE ~ "Unknown"
   ))
 
 # Rearrange columns ----

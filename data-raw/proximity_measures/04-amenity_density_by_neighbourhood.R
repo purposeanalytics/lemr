@@ -1,15 +1,14 @@
-# Amenity density only - breakdown by neighbourhood
+# Amenity density only - by neighbourhood
 
 library(dplyr)
 library(lemur)
 library(tidyr)
 
-amenity_density <- proximity_measures %>%
-  select(dbuid, population, amenity_dense, neighbourhood)
+proximity_measures <- readRDS(here::here("data-raw", "proximity_measures", "final", "proximity_measures.rds"))
 
-# Remove DBs that have suppressed amenity density
-amenity_density <- amenity_density %>%
-  filter(!is.na(amenity_dense))
+amenity_density <- proximity_measures %>%
+  as_tibble() %>%
+  distinct(dbuid, population, amenity_dense, neighbourhood)
 
 # Aggregate by neighbourhood
 amenity_density_by_neighbourhood <- amenity_density %>%
