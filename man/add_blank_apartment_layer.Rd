@@ -10,12 +10,12 @@ add_blank_apartment_layer(map)
 \item{map}{Map created via \link{map_toronto}}
 }
 \description{
-Add a blank layer of \link{apartment_building_registry} to a map (created via \link{map_toronto}). The purpose of this function is to allow for zooming and highlighting to an address from the data, via \link{zoom_map_to_address}.
+Add an invisible layer of \link{apartment_building_registry} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the apartment building layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
 }
 \examples{
 library(sf)
 
 map_toronto() \%>\%
   add_blank_apartment_layer() \%>\%
-  zoom_map_to_address("378 Markham St")
+  toggle_layer_visible("apartment_buildings")
 }

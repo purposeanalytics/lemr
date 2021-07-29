@@ -121,7 +121,6 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         )$finally(
           shinybusy::remove_modal_spinner
         )
-
       }
     )
   })
