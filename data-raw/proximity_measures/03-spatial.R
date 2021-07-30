@@ -4,6 +4,7 @@ library(dplyr)
 library(sf)
 library(janitor)
 library(lemur)
+library(rmapshaper)
 
 # Read / clean data and geos ----
 
@@ -52,5 +53,9 @@ amenity_density <- proximity_measures_toronto %>%
   left_join(dissemination_block_geo_toronto, by = "dbuid") %>%
   select(dbuid, amenity_dense, geometry) %>%
   st_sf()
+
+# Simplify geography
+amenity_density <- amenity_density %>%
+  ms_simplify(keep = 0.2, keep_shapes = TRUE)
 
 usethis::use_data(amenity_density, overwrite = TRUE)
