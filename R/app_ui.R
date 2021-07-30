@@ -21,11 +21,11 @@ app_ui <- function(request) {
             mod_search_ui("search")
           ),
           shiny::wellPanel(
-            style = "height: 125px;",
+            style = "height: 175px;",
             mod_layers_ui("layers")
           ),
           shiny::wellPanel(
-            style = "height: calc(100vh - 375px); overflow: auto;",
+            style = "height: calc(100vh - 325px); overflow: auto;",
             mod_sidebar_ui("sidebar")
           )
         )

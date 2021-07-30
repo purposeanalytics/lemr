@@ -15,7 +15,7 @@ mod_map_ui <- function(id) {
 #' Map Server Functions
 #'
 #' @noRd
-mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_apartment_building, layer_amenity_density) {
+mod_map_server <- function(id, address_and_neighbourhood, search_method, point_layers, aggregate_layers) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -86,37 +86,57 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
 
     # Update layers -----
 
-    ## Apartment buildings
+    ## Point layers
     shiny::observeEvent(
-      layer_apartment_building(),
+      point_layers(),
       ignoreInit = TRUE,
+      ignoreNULL = FALSE,
       {
-        if (layer_apartment_building()) {
-          mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_visible(id = "apartment_buildings") %>%
-            mapboxer::update_mapboxer()
-        } else if (!layer_apartment_building()) {
-          mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_invisible(id = "apartment_buildings") %>%
-            mapboxer::update_mapboxer()
+        map <- mapboxer::mapboxer_proxy(ns("map"))
+
+        # Turn selected layers on
+        for(l in point_layers()) {
+          map <- map %>%
+            toggle_layer_visible(l)
         }
+
+        # Turn not-selected layers off
+        diff_layers <- setdiff(point_layers_choices, point_layers())
+
+        for(l in diff_layers) {
+          map <- map %>%
+            toggle_layer_invisible(l)
+        }
+
+        map %>%
+          mapboxer::update_mapboxer()
       }
     )
 
-    ## Amenity density
+    ## Aggregate layers
     shiny::observeEvent(
-      layer_amenity_density(),
+      aggregate_layers(),
       ignoreInit = TRUE,
+      ignoreNULL = FALSE,
       {
-        if (layer_amenity_density()) {
-          mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_visible(id = "amenity_density") %>%
-            mapboxer::update_mapboxer()
-        } else if (!layer_amenity_density()) {
-          mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_invisible(id = "amenity_density") %>%
-            mapboxer::update_mapboxer()
+        map <- mapboxer::mapboxer_proxy(ns("map"))
+
+        # Turn selected layers on
+        for(l in aggregate_layers()) {
+          map <- map %>%
+            toggle_layer_visible(l)
         }
+
+        # Turn not-selected layers off
+        diff_layers <- setdiff(aggregate_layers_choices, aggregate_layers())
+
+        for(l in diff_layers) {
+          map <- map %>%
+            toggle_layer_invisible(l)
+        }
+
+        map %>%
+          mapboxer::update_mapboxer()
       }
     )
   })
