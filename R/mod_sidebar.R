@@ -18,7 +18,7 @@ mod_sidebar_ui <- function(id) {
       shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
     ),
     shiny::uiOutput(ns("back_to_city"), class = "padded"),
-    shiny::uiOutput(ns("tabs_people_places"))
+    shiny::uiOutput(ns("tabs_sidebar"))
   )
 }
 
@@ -70,14 +70,16 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
       search_method("back")
     })
 
-    output$tabs_people_places <- shiny::renderUI({
+    output$tabs_sidebar <- shiny::renderUI({
       shiny::tabsetPanel(
         id = "sidebar_tab",
+        shiny::tabPanel(title = "Summary", mod_sidebar_summary_ui(ns("summary"))),
         shiny::tabPanel(title = "People", mod_sidebar_people_ui(ns("people"))),
         shiny::tabPanel(title = "Places", mod_sidebar_places_ui(ns("places")))
       )
     })
 
+    mod_sidebar_summary_server("summary", neighbourhood)
     mod_sidebar_people_server("people", neighbourhood)
     mod_sidebar_places_server("places", neighbourhood)
 
