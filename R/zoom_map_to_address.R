@@ -1,7 +1,7 @@
 #' Zoom map of Toronto to address
 #'
 #' @param map Map created by \link{map_toronto}
-#' @param address Address from \link{address_points()}
+#' @param address Address from \link{address_points}
 #'
 #' @export
 #'

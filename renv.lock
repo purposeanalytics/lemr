@@ -79,6 +79,13 @@
       "Repository": "CRAN",
       "Hash": "dbb5e436998a7eba5a9d682060533338"
     },
+    "V8": {
+      "Package": "V8",
+      "Version": "3.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b181d4eb2904da0897a742a559964173"
+    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -378,6 +385,13 @@
       "Repository": "CRAN",
       "Hash": "81c3244cab67468aac4c60550832655d"
     },
+    "foreign": {
+      "Package": "foreign",
+      "Version": "0.8-81",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "74628ea7a3be5ee8a7b5bb0a8e84882e"
+    },
     "fs": {
       "Package": "fs",
       "Version": "1.5.0",
@@ -391,6 +405,27 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "4d243a9c10b00589889fe32314ffd902"
+    },
+    "geojson": {
+      "Package": "geojson",
+      "Version": "0.3.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8d2107f1ebe9a75339e9fd130c07c1f6"
+    },
+    "geojsonio": {
+      "Package": "geojsonio",
+      "Version": "0.9.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "dd28191bf66c323c60d2c5352a0ca3ad"
+    },
+    "geojsonlint": {
+      "Package": "geojsonlint",
+      "Version": "0.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "60c515ce70b7db3a86e94ad9eed3ea8a"
     },
     "geojsonsf": {
       "Package": "geojsonsf",
@@ -532,6 +567,13 @@
       "Repository": "CRAN",
       "Hash": "6de84a8c67fb247e721166049c84695f"
     },
+    "jqr": {
+      "Package": "jqr",
+      "Version": "1.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b8a2e63d67833aa65c6592cfc0fa8f65"
+    },
     "jquerylib": {
       "Package": "jquerylib",
       "Version": "0.1.4",
@@ -552,6 +594,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "98138e0994d41508c7a6b84a0600cfcb"
+    },
+    "jsonvalidate": {
+      "Package": "jsonvalidate",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "81054bf17db72db68871baefcfd209cf"
     },
     "kableExtra": {
       "Package": "kableExtra",
@@ -588,6 +637,13 @@
       "Repository": "CRAN",
       "Hash": "fbd9285028b0263d76d18c95ae51a53d"
     },
+    "lazyeval": {
+      "Package": "lazyeval",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "d908914ae53b04d4c0c0fd72ecc35370"
+    },
     "lemur": {
       "Package": "lemur",
       "Version": "0.0.0.9003",
@@ -622,6 +678,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "d3724836470c725270fa5822306c96be"
+    },
+    "maptools": {
+      "Package": "maptools",
+      "Version": "1.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "beef5712326b384b1e87ba10c01e18f5"
     },
     "markdown": {
       "Package": "markdown",
@@ -770,6 +833,13 @@
       "Repository": "CRAN",
       "Hash": "4ab2c43adb4d4699cf3690acd378d75d"
     },
+    "protolite": {
+      "Package": "protolite",
+      "Version": "2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c05e98fd430da3ec9255cd15b617469a"
+    },
     "proxy": {
       "Package": "proxy",
       "Version": "0.4-25",
@@ -854,12 +924,26 @@
       "Repository": "CRAN",
       "Hash": "079cb1f03ff972b30401ed05623cbe92"
     },
+    "rgeos": {
+      "Package": "rgeos",
+      "Version": "0.5-5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "94a44c3f0d49ceb80c385610696873ca"
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "0.4.10",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "599df23c40a4fce9c7b4764f28c37857"
+    },
+    "rmapshaper": {
+      "Package": "rmapshaper",
+      "Version": "0.4.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e9b5ef157705c60c0fdb683570c082dd"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -1000,6 +1084,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "947e4e02a79effa5d512473e10f41797"
+    },
+    "sp": {
+      "Package": "sp",
+      "Version": "1.4-5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "dfd843ee98246cf932823acf613b05dd"
     },
     "stringi": {
       "Package": "stringi",

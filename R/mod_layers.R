@@ -30,15 +30,15 @@ mod_layers_ui <- function(id) {
 #'
 #' @noRd
 mod_layers_server <- function(id, layer_apartment_building, layer_amenity_density) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    observeEvent(input$apartment_buildings, ignoreInit = TRUE, {
+    shiny::observeEvent(input$apartment_buildings, ignoreInit = TRUE, {
       # Update reactive with value from input
       layer_apartment_building(input$apartment_buildings)
     })
 
-    observeEvent(input$amenity_density, ignoreInit = TRUE, {
+    shiny::observeEvent(input$amenity_density, ignoreInit = TRUE, {
       # Update reactive with value from input
       layer_amenity_density(input$amenity_density)
     })

@@ -56,6 +56,6 @@ amenity_density <- proximity_measures_toronto %>%
 
 # Simplify geography
 amenity_density <- amenity_density %>%
-  ms_simplify(keep = 0.2, keep_shapes = TRUE)
+  ms_simplify(keep = 0.1, keep_shapes = TRUE)
 
 usethis::use_data(amenity_density, overwrite = TRUE)

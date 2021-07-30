@@ -42,7 +42,9 @@ Imports:
     htmlwidgets,
     rmarkdown,
     shinyBS,
-    shinybusy
+    shinybusy,
+    pagedown,
+    tibble
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
