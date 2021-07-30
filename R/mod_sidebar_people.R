@@ -249,7 +249,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     output$unaffordable_housing_plot <- shiny::renderPlot(
       {
-        lemur:::unaffordable_housing_plot(dataset(), compare())
+        unaffordable_housing_plot(dataset(), compare())
       },
       res = 96,
       bg = "transparent",

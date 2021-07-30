@@ -15,13 +15,14 @@ mod_map_ui <- function(id) {
 #' Map Server Functions
 #'
 #' @noRd
-mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_apartment_building) {
+mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_apartment_building, layer_amenity_density) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
+        add_blank_amenity_density_layer() %>%
         add_blank_apartment_layer() %>%
         add_blank_address_layer() %>%
         add_blank_neighbourhood_layer() %>%
@@ -97,6 +98,23 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
         } else if (!layer_apartment_building()) {
           mapboxer::mapboxer_proxy(ns("map")) %>%
             toggle_layer_invisible(id = "apartment_buildings") %>%
+            mapboxer::update_mapboxer()
+        }
+      }
+    )
+
+    ## Amenity density
+    shiny::observeEvent(
+      layer_amenity_density(),
+      ignoreInit = TRUE,
+      {
+        if (layer_amenity_density()) {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            toggle_layer_visible(id = "amenity_density") %>%
+            mapboxer::update_mapboxer()
+        } else if (!layer_amenity_density()) {
+          mapboxer::mapboxer_proxy(ns("map")) %>%
+            toggle_layer_invisible(id = "amenity_density") %>%
             mapboxer::update_mapboxer()
         }
       }

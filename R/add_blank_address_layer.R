@@ -1,6 +1,6 @@
 #' Add a blank address layer
 #'
-#' Add an empty layer of \link{address_points()} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
+#' Add an empty layer of \link{address_points} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
 #'
 #' @param map Map created via \link{map_toronto}
 #'

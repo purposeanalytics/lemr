@@ -83,3 +83,13 @@ address_points <- function() {
 #'
 #' Addresses only from \link{address_points}
 "address_points_just_address"
+
+#' Proximity Measures
+#'
+#' Proximity Measures from \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}{Statistics Canada}, showing proximity to the following ten services and amenities: employment, pharmacies, child care, health care, grocery stores, primary education, secondary education, libraries, neighbourhood parks, and public transit; as well as a measure of "amenity density": high, medium, or low. The data is at the dissemination block level, and only contains dissemination blocks within Toronto proper.
+"proximity_measures"
+
+#' Amenity density by neighbourhood
+#'
+#' An aggregation of amenity density from \link{proximity_measures}, showing what proportion of a neighbourhood's population lives in high, medium, or low amenity dense areas.
+"amenity_density_by_neighbourhood"

@@ -9,7 +9,7 @@ zoom_map_to_address(map, address)
 \arguments{
 \item{map}{Map created by \link{map_toronto}}
 
-\item{address}{Address from \link{address_points()}}
+\item{address}{Address from \link{address_points}}
 }
 \description{
 Zoom map of Toronto to address
@@ -18,6 +18,6 @@ Zoom map of Toronto to address
 library(sf)
 
 map_toronto() \%>\%
-  add_blank_apartment_layer() \%>\%
+  add_blank_address_layer() \%>\%
   zoom_map_to_address("378 Markham St")
 }

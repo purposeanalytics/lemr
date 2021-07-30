@@ -11,8 +11,17 @@ mod_layers_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::h1("Data"),
-    shinyWidgets::prettyCheckbox(
-      inputId = ns("apartment_buildings"), label = "Apartment buildings", icon = shiny::icon("check")
+    shiny::column(
+      width = 6,
+      shinyWidgets::prettyCheckbox(
+        inputId = ns("apartment_buildings"), label = "Apartment buildings", icon = shiny::icon("check")
+      )
+    ),
+    shiny::column(
+      width = 6,
+      shinyWidgets::prettyCheckbox(
+        inputId = ns("amenity_density"), label = "Amenity density", icon = shiny::icon("check")
+      )
     )
   )
 }
@@ -20,13 +29,18 @@ mod_layers_ui <- function(id) {
 #' layers Server Functions
 #'
 #' @noRd
-mod_layers_server <- function(id, layer_apartment_building) {
-  moduleServer(id, function(input, output, session) {
+mod_layers_server <- function(id, layer_apartment_building, layer_amenity_density) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    observeEvent(input$apartment_buildings, ignoreInit = TRUE, {
+    shiny::observeEvent(input$apartment_buildings, ignoreInit = TRUE, {
       # Update reactive with value from input
       layer_apartment_building(input$apartment_buildings)
+    })
+
+    shiny::observeEvent(input$amenity_density, ignoreInit = TRUE, {
+      # Update reactive with value from input
+      layer_amenity_density(input$amenity_density)
     })
   })
 }
