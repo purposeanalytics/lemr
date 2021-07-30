@@ -22,9 +22,9 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
+        add_blank_amenity_density_layer() %>%
         add_blank_apartment_layer() %>%
         add_blank_address_layer() %>%
-        add_blank_amenity_density_layer() %>%
         add_blank_neighbourhood_layer() %>%
         htmlwidgets::onRender("function() {
       var map = mapboxer._widget['map-map'].map;
