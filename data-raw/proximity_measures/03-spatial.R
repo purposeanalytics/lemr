@@ -49,9 +49,9 @@ usethis::use_data(proximity_measures, overwrite = TRUE)
 # Amenity density only -----
 
 amenity_density <- proximity_measures_toronto %>%
-  distinct(dbuid, amenity_dense) %>%
+  distinct(dbuid, population, amenity_dense) %>%
   left_join(dissemination_block_geo_toronto, by = "dbuid") %>%
-  select(dbuid, amenity_dense, geometry) %>%
+  select(dbuid, population, amenity_dense, geometry) %>%
   st_sf()
 
 # Simplify geography

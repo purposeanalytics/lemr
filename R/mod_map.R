@@ -110,13 +110,11 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, layer_a
       {
         if (layer_amenity_density()) {
           mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_visible(id = "amenity_density_fill") %>%
-            toggle_layer_visible(id = "amenity_density_outline") %>%
+            toggle_layer_visible(id = "amenity_density") %>%
             mapboxer::update_mapboxer()
         } else if (!layer_amenity_density()) {
           mapboxer::mapboxer_proxy(ns("map")) %>%
-            toggle_layer_invisible(id = "amenity_density_fill") %>%
-            toggle_layer_invisible(id = "amenity_density_outline") %>%
+            toggle_layer_invisible(id = "amenity_density") %>%
             mapboxer::update_mapboxer()
         }
       }
