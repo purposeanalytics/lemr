@@ -91,7 +91,7 @@ h3 {
 
 /* ------ Map sizes ------ */
 
-#map-map {
+#map-map, #sidebar {
   height: calc(100vh - 100px) !important;
 }
 
@@ -127,5 +127,4 @@ h3 {
 .well {
   background-color: white;
   border-radius: 0;
-  overflow: auto;
 }

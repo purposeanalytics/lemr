@@ -5,11 +5,10 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_layers_ui <- function(id) {
   ns <- NS(id)
-  tagList(
+  shiny::column(
+    width = 12,
     shiny::h1("Data"),
     shiny::column(
       width = 6,

@@ -17,13 +17,10 @@ app_ui <- function(request) {
         shiny::column(
           width = 3,
           shiny::wellPanel(
-            mod_search_ui("search")
-          ),
-          shiny::wellPanel(
-            mod_layers_ui("layers")
-          ),
-          shiny::wellPanel(
-            style = "height: calc(100vh - 325px); overflow: auto;",
+            id = "sidebar",
+            style = "overflow: auto;",
+            mod_search_ui("search"),
+            mod_layers_ui("layers"),
             mod_sidebar_ui("sidebar")
           )
         )

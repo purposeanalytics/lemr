@@ -223,3 +223,35 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
       axis.text.y = ggplot2::element_blank()
     )
 }
+
+plot_amenity_density_neighbourhood <- function(data) {
+  data <- data %>%
+    dplyr::mutate(
+      amenity_dense = forcats::fct_relevel(amenity_dense, "High", "Medium", "Low", "Unknown"),
+      amenity_dense = forcats::fct_rev(amenity_dense)) %>%
+    dplyr::arrange(amenity_dense)
+
+  unknown_value <- data %>%
+    filter(amenity_dense == "Unknown") %>%
+    pull(proportion)
+
+  if (unknown_value == 0) {
+    data <- data %>%
+      dplyr::filter(amenity_dense != "Unknown") %>%
+      dplyr::mutate(amenity_dense = forcats::fct_drop(amenity_dense, "Unknown"))
+
+    colors <- rev(c(high_colour, mid_colour, low_colour))
+  } else {
+    colors <- rev(c(high_colour, mid_colour, low_colour, grey_colour))
+  }
+
+  data %>%
+    ggplot(aes(x = proportion, y = neighbourhood, fill = amenity_dense)) +
+    geom_col() +
+    scale_x_continuous(labels = scales::percent) +
+    scale_fill_manual(values = colors) +
+    ggplot2::guides(fill = guide_legend(reverse = TRUE)) +
+    labs(x = NULL, y = NULL, fill = NULL) +
+    theme_lemur() +
+    theme(axis.text.y = element_blank(), legend.position = "top")
+}
