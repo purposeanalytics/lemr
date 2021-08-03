@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Danforth
+  neighbourhood: Bridle Path-Sunnybrook-York Mills
 output:
   html_document:
     df_print: paged
@@ -79,6 +79,22 @@ lemur:::number_of_units_description(level, neighbourhood, number_of_units, numbe
   lemur:::bigger_padded()
 
 lemur:::number_of_units_plot(dataset, compare)
+```
+
+## RentSafeTO evaluation scores
+
+```{r apartment-building-evaluation, opts.label = "distribution", fig.alt = lemur:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
+apartment_building_evaluation <- lemur:::get_measure(dataset, "apartment_building_evaluation")
+apartment_building_evaluation_formatted <- lemur:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
+
+lemur:::apartment_building_evaluation_number(apartment_building_evaluation_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::apartment_building_evaluation_plot(dataset, compare)
 ```
 
 ## Population change

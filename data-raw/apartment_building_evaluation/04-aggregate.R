@@ -25,7 +25,8 @@ median_score_city <- apartment_building_evaluation %>%
 city_profile[["apartment_building_evaluation"]] <- median_score_city
 
 apartment_building_evaluation_distribution <- median_score_by_neighbourhood %>%
-  select(value)
+  select(value) %>%
+  filter(!is.na(value))
 
 city_profile[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution
 
@@ -43,3 +44,4 @@ for(i in seq_along(neighbourhood_profiles)){
 }
 
 usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+

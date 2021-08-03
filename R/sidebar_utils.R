@@ -81,9 +81,15 @@ number_of_apartments_description <- function(level, neighbourhood, number_of_apa
     value_percentile <- value_distribution(number_of_apartments)
   }
 
+  # Change the level to change the description if there are 0 apartments - doesn't make sense to report a percentile.
+  if (number_of_apartments == 0) {
+    level <- "neighbourhood_zero"
+  }
+
   switch(level,
     "city" = "Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods.",
-    "neighbourhood" = glue::glue("Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {number_of_apartments_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "neighbourhood" = glue::glue("Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {number_of_apartments_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'."),
+    "neighbourhood_zero" = glue::glue("Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods. There are zero apartment buildings in {neighbourhood}.")
   )
 }
 
@@ -116,9 +122,15 @@ number_of_units_description <- function(level, neighbourhood, number_of_units, n
     value_percentile <- value_distribution(number_of_units)
   }
 
+  # Change the level to change the description if there are 0 apartments - doesn't make sense to report a percentile.
+  if (number_of_units == 0) {
+    level <- "neighbourhood_zero"
+  }
+
   switch(level,
     "city" = "Distribution of number of units in apartment buildings for each of the City of Toronto neighbourhoods.",
-    "neighbourhood" = glue::glue("Distribution of number of units in apartment buildings for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {number_of_units_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "neighbourhood" = glue::glue("Distribution of number of units in apartment buildings for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {number_of_units_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'."),
+    "neighbourhood_zero" = glue::glue("Distribution of number of units in apartment buildings for each of the City of Toronto neighbourhoods. There are zero apartment building units in {neighbourhood}.")
   )
 }
 
@@ -149,6 +161,9 @@ number_of_units_plot <- function(data, compare) {
 # Apartment building evaluation (RentSafeTO) ----
 
 apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
+  if (is.na(apartment_building_evaluation_formatted)) {
+    return("There are no apartment buildings in this neighbourhood, so no RentSafeTO scores to report.")
+  }
   glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted}")
 }
 
@@ -158,21 +173,33 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
     value_percentile <- value_distribution(apartment_building_evaluation)
   }
 
+  # Switch level to "city" if there are no buildings (therefore no scores) in the neighbourhood.
+  if (is.na(apartment_building_evaluation)) {
+    level <- "city"
+  }
+
   switch(level,
-    "city" = "Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods.",
-    "neighbourhood" = glue::glue("Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "city" = "Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings.",
+    "neighbourhood" = glue::glue("Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
   )
 }
 
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemur::city_profile[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods. The values range from {min} to {max} apartment buildings and the distribution is normally distributed with most values between {skew_min} and {skew_max}.",
+  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The values range from {min} to {max} apartment buildings and the distribution is normally distributed with most values between {skew_min} and {skew_max}.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
     skew_max = stats::quantile(values, 0.9, na.rm = TRUE)
   )
+
+  # Switch level to "city" if there are no buildings (therefore no scores) in the neighbourhood.
+  if (level == "neighbourhood") {
+    if (is.na(lemur::neighbourhood_profiles[[neighbourhood]][["apartment_building_evaluation"]])) {
+      level <- "city"
+    }
+  }
 
   if (level == "neighbourhood") {
     neighbourhood_alt_text <- glue::glue("The bar containing the median RentSafeTO score in {neighbourhood} is highlighted.")

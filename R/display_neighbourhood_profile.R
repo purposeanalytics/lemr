@@ -208,6 +208,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
       dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax) %>%
       dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
+      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, FALSE)) %>%
       tidyr::uncount(weights = .data$y)
 
     p <- ggplot2::ggplot() +
