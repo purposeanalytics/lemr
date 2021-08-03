@@ -17,11 +17,9 @@ app_ui <- function(request) {
         shiny::column(
           width = 3,
           shiny::wellPanel(
-            style = "height: 100px;",
             mod_search_ui("search")
           ),
           shiny::wellPanel(
-            style = "height: 175px;",
             mod_layers_ui("layers")
           ),
           shiny::wellPanel(

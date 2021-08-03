@@ -127,4 +127,5 @@ h3 {
 .well {
   background-color: white;
   border-radius: 0;
+  overflow: auto;
 }
