@@ -215,6 +215,25 @@ apartment_building_evaluation_plot <- function(data, compare) {
     ggplot2::scale_x_continuous(limits = c(0, 100))
 }
 
+# Amenity density -----
+
+amenity_density_description <- function(level, neighbourhood) {
+  switch(level,
+    "city" = glue::glue("Breakdown of population living in high, medium, and low amenity density areas in the City of Toronto."),
+    "neighbourhood" = glue::glue("Comparison of population living in high, medium, and low amenity density areas in {neighbourhood} versus in the City of Toronto.")
+  )
+}
+
+amenity_density_plot_alt_text <- function(level, neighbourhood) {
+  generate_bar_chart_alt_text(level, neighbourhood, "amenity density by population")
+}
+
+amenity_density_plot <- function(data, compare) {
+  data %>%
+    display_neighbourhood_profile("amenity_density", compare = compare, width = 25)
+}
+
+
 # Population change ----
 
 population_change_number <- function(population_change_formatted) {
@@ -522,11 +541,8 @@ household_tenure_plot_alt_text <- function(level, neighbourhood) {
 }
 
 household_tenure_plot <- function(data, compare) {
-  p <- data %>%
-    display_neighbourhood_profile("household_tenure", compare = compare, width = 10)
-
-  p +
-    ggplot2::scale_x_continuous(limits = c(0, 1))
+  data %>%
+    display_neighbourhood_profile("household_tenure", compare = compare, width = 25)
 }
 
 # Shelter cost -----

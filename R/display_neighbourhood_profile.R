@@ -17,9 +17,9 @@
 #'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
-  # if (variable == "household_tenure") {
-  #   return(display_neighbourhood_household_tenure(data, compare = compare, width = width, type = type))
-  # }
+  if (variable %in% c("household_tenure", "amenity_density")) {
+    return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type))
+  }
 
   data <- data[[variable]] %>%
     dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
@@ -103,17 +103,32 @@ str_wrap_factor <- function(x, width) {
   x
 }
 
-display_neighbourhood_household_tenure <- function(data, compare = TRUE, width = width, type = "plot") {
+display_neighbourhood_profile_horizontal <- function(data, variable, compare = TRUE, width = 20, type = "plot") {
+  data <- data[[variable]]
+
+  if (variable == "amenity_density") {
+      data <- data %>%
+        dplyr::filter(.data$group != "Unknown") %>%
+        dplyr::mutate(group = forcats::fct_drop(.data$group, "Unknown"))
+  }
+
   if (compare) {
-    data <- lemur::city_profile[["household_tenure"]] %>%
+    city_data <- lemur::city_profile[[variable]]
+
+    if (variable == "amenity_density") {
+      city_data <- city_data %>%
+        dplyr::filter(group != "Unknown")
+    }
+
+    data <- city_data %>%
       dplyr::mutate(neighbourhood = "City of Toronto") %>%
       dplyr::bind_rows(
-        data[["household_tenure"]]
+        data
       ) %>%
       dplyr::mutate(
-        neighbourhood_tenure = glue::glue("{.data$neighbourhood}_{.data$group}"),
         neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0)
-      )
+      ) %>%
+      dplyr::arrange(.data$group)
 
     if (type == "table") {
       res <- data %>%
@@ -128,19 +143,15 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
       data <- data %>%
         dplyr::mutate(neighbourhood = str_wrap_factor(.data$neighbourhood, width = width))
 
-      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$neighbourhood_tenure)) +
-        ggplot2::geom_col(show.legend = FALSE) +
-        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = .data$neighbourhood, label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
-        ggplot2::annotate("text", x = 0, y = 2.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
-        ggplot2::annotate("text", x = 1, y = 2.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
-        ggplot2::scale_fill_manual(values = c("#4c924c", "darkgreen", "lightgrey", "grey")) +
+      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
+        ggplot2::geom_col() +
         theme_lemur() +
-        ggplot2::theme(axis.title = ggplot2::element_blank())
+        ggplot2::theme(
+          axis.title = ggplot2::element_blank(),
+          legend.position = "top"
+        )
     }
   } else if (!compare) {
-    data <- data[["household_tenure"]]
-
     if (type == "table") {
       res <- data %>%
         dplyr::arrange(dplyr::desc(.data$group)) %>%
@@ -150,12 +161,7 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
       return(res)
     } else if (type == "plot") {
       p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
-        ggplot2::geom_col(show.legend = FALSE) +
-        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Renter"), ggplot2::aes(x = 0, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = -0.25, size = 4, fill = "white") +
-        ggplot2::geom_label(data = dplyr::filter(data, .data$group == "Owner"), ggplot2::aes(x = 1, y = "1", label = scales::percent(.data$prop, accuracy = 0.1)), hjust = 1.25, size = 4, fill = "white") +
-        ggplot2::annotate("text", x = 0, y = 1.5, label = "Renter", hjust = 0, vjust = 0, size = 5) +
-        ggplot2::annotate("text", x = 1, y = 1.5, label = "Owner", hjust = 1, vjust = 0, size = 5) +
-        ggplot2::scale_fill_manual(values = c("lightgrey", "grey")) +
+        ggplot2::geom_col() +
         theme_lemur() +
         ggplot2::theme(
           axis.title = ggplot2::element_blank(),
@@ -165,10 +171,17 @@ display_neighbourhood_household_tenure <- function(data, compare = TRUE, width =
   }
 
   if (type == "plot") {
+    plot_colours <- switch(variable,
+      "household_tenure" = c(mid_colour, high_colour),
+      "amenity_density" = rev(c(high_colour, mid_colour, low_colour))
+    )
+
     p +
-      ggplot2::scale_x_continuous(labels = scales::label_percent()) +
-      ggplot2::coord_cartesian(clip = "off") +
-      ggplot2::theme(legend.position = "none")
+      ggplot2::scale_fill_manual(values = plot_colours, drop = TRUE) +
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) +
+      ggplot2::scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
+      ggplot2::labs(fill = NULL) +
+      ggplot2::theme(legend.position = "top")
   }
 }
 
@@ -222,36 +235,4 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
       axis.title = ggplot2::element_blank(),
       axis.text.y = ggplot2::element_blank()
     )
-}
-
-plot_amenity_density_neighbourhood <- function(data) {
-  data <- data %>%
-    dplyr::mutate(
-      amenity_dense = forcats::fct_relevel(amenity_dense, "High", "Medium", "Low", "Unknown"),
-      amenity_dense = forcats::fct_rev(amenity_dense)) %>%
-    dplyr::arrange(amenity_dense)
-
-  unknown_value <- data %>%
-    filter(amenity_dense == "Unknown") %>%
-    pull(proportion)
-
-  if (unknown_value == 0) {
-    data <- data %>%
-      dplyr::filter(amenity_dense != "Unknown") %>%
-      dplyr::mutate(amenity_dense = forcats::fct_drop(amenity_dense, "Unknown"))
-
-    colors <- rev(c(high_colour, mid_colour, low_colour))
-  } else {
-    colors <- rev(c(high_colour, mid_colour, low_colour, grey_colour))
-  }
-
-  data %>%
-    ggplot(aes(x = proportion, y = neighbourhood, fill = amenity_dense)) +
-    geom_col() +
-    scale_x_continuous(labels = scales::percent) +
-    scale_fill_manual(values = colors) +
-    ggplot2::guides(fill = guide_legend(reverse = TRUE)) +
-    labs(x = NULL, y = NULL, fill = NULL) +
-    theme_lemur() +
-    theme(axis.text.y = element_blank(), legend.position = "top")
 }

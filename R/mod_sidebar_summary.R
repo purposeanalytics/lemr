@@ -50,7 +50,11 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::h2("RentSafeTO evaluation scores"),
           bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
           shiny::textOutput(ns("apartment_building_evaluation_description")),
-          shiny::plotOutput(ns("apartment_building_evaluation_plot"), height = "100px")
+          shiny::plotOutput(ns("apartment_building_evaluation_plot"), height = "100px"),
+          shiny::h2("Amenity density"),
+          shiny::textOutput(ns("amenity_density_description")),
+          shiny::plotOutput(ns("amenity_density_plot"), height = "150px"),
+          shiny::htmlOutput(ns("amenity_density_table"))
         )
       )
     })
@@ -126,14 +130,6 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       format_measure(apartment_building_evaluation(), "apartment_building_evaluation")
     })
 
-    number_of_units <- shiny::reactive({
-      get_measure(dataset(), "number_of_units")
-    })
-
-    number_of_units_formatted <- shiny::reactive({
-      format_measure(number_of_units(), "number_of_units")
-    })
-
     output$apartment_building_evaluation_number <- shiny::renderText({
       apartment_building_evaluation_number(apartment_building_evaluation_formatted())
     }) %>%
@@ -156,6 +152,33 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       bg = "transparent",
       alt = apartment_building_evaluation_alt_text
     ) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    # Amenity density ------
+
+    output$amenity_density_description <- shiny::renderText({
+      amenity_density_description(level(), neighbourhood())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    amenity_density_alt_text <- shiny::reactive({
+      amenity_density_plot_alt_text(level(), neighbourhood())
+    })
+
+    output$amenity_density_plot <- shiny::renderPlot(
+      {
+        amenity_density_plot(dataset(), compare())
+      },
+      res = 96,
+      bg = "transparent",
+      alt = amenity_density_alt_text
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    output$amenity_density_table <- shiny::renderText({
+      generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%
+        kableExtra::footnote(general = 'A very small number of areas have unknown amenity density, so values may not add up to 100%.')
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
   })

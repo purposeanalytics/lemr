@@ -5,13 +5,17 @@ library(dplyr)
 library(lemur)
 library(tidyr)
 library(purrr)
+library(forcats)
 library(sf)
 
 proximity_measures <- readRDS(here::here("data-raw", "proximity_measures", "final", "proximity_measures.rds"))
 
 amenity_density <- proximity_measures %>%
   as_tibble() %>%
-  distinct(dbuid, population, amenity_dense, neighbourhood)
+  distinct(dbuid, population, amenity_dense, neighbourhood) %>%
+  mutate(amenity_dense = fct_relevel(amenity_dense, "High", "Medium", "Low", "Unknown"),
+         amenity_dense = fct_rev(amenity_dense)) %>%
+  arrange(amenity_dense)
 
 # Aggregate by neighbourhood
 amenity_density_by_neighbourhood <- amenity_density %>%
@@ -24,7 +28,7 @@ amenity_density_by_neighbourhood <- amenity_density %>%
   arrange(neighbourhood) %>%
   split(.$neighbourhood)
 
-for(i in seq_along(neighbourhood_profiles)){
+for (i in seq_along(neighbourhood_profiles)) {
   neighbourhood_profiles[[i]][["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
 }
 
