@@ -27,6 +27,18 @@ units_by_neighbourhood <- units_by_neighbourhood %>%
 
 # Add to city profile
 
+number_of_apartments_city <- apartments_by_neighbourhood %>%
+  pull(value) %>%
+  sum()
+
+number_of_units_city <- units_by_neighbourhood %>%
+  pull(value) %>%
+  sum()
+
+city_profile[["number_of_apartments"]] <- number_of_apartments_city
+
+city_profile[["number_of_units"]] <- number_of_units_city
+
 number_of_apartments_distribution <- apartments_by_neighbourhood %>%
   select(value)
 

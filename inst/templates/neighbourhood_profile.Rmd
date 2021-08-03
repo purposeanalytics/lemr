@@ -55,11 +55,14 @@ glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma
 
 ## Apartment buildings
 
-```{r population-change, opts.label = "distribution", fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+```{r apartment-buildings, opts.label = "distribution", fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
 number_of_apartments <- lemur:::get_measure(dataset, "number_of_apartments")
 number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_apartments")
 
-lemur:::number_of_apartments_number(number_of_apartments_formatted) %>%
+number_of_units <- lemur:::get_measure(dataset, "number_of_units")
+number_of_units_formatted <- lemur:::format_measure(number_of_units, "number_of_units")
+
+lemur:::number_of_apartments_number(number_of_apartments_formatted, number_of_units_formatted) %>%
   lemur:::bigger_padded()
 
 lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
@@ -67,6 +70,15 @@ lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartme
   lemur:::bigger_padded()
 
 lemur:::number_of_apartments_plot(dataset, compare)
+```
+
+```{r apartment-building-units, opts.label = "distribution", fig.alt = lemur:::number_of_units_plot_alt_text(level, neighbourhood)}
+
+lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_units_plot(dataset, compare)
 ```
 
 ## Population change
