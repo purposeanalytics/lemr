@@ -24,6 +24,8 @@ format_measure <- function(data, measure) {
     scales::percent(data, accuracy = 0.1)
   } else if (measure == "average_renter_shelter_cost") {
     scales::dollar(data, accuracy = 1)
+  } else if (measure == "apartment_building_evaluation") {
+    data
   }
 }
 
@@ -142,6 +144,48 @@ number_of_units_plot <- function(data, compare) {
   data %>%
     plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250) +
     ggplot2::scale_x_continuous(labels = scales::comma)
+}
+
+# Apartment building evaluation (RentSafeTO) ----
+
+apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
+  glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted}")
+}
+
+apartment_building_evaluation_description <- function(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_profile[["apartment_building_evaluation_distribution"]][["value"]])
+    value_percentile <- value_distribution(apartment_building_evaluation)
+  }
+
+  switch(level,
+    "city" = "Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+  )
+}
+
+apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_profile[["apartment_building_evaluation_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods. The values range from {min} to {max} apartment buildings and the distribution is normally distributed with most values between {skew_min} and {skew_max}.",
+    min = min(values, na.rm = TRUE),
+    max = max(values, na.rm = TRUE),
+    skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
+    skew_max = stats::quantile(values, 0.9, na.rm = TRUE)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing the median RentSafeTO score in {neighbourhood} is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+apartment_building_evaluation_plot <- function(data, compare) {
+  data %>%
+    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2) +
+    ggplot2::scale_x_continuous(limits = c(0, 100))
 }
 
 # Population change ----

@@ -48,7 +48,9 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::textOutput(ns("number_of_units_description")),
           shiny::plotOutput(ns("number_of_units_plot"), height = "100px"),
           shiny::h2("RentSafeTO evaluation scores"),
-          bigger_padded(shiny::textOutput(ns("apartment_building_evaluation")))
+          bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
+          shiny::textOutput(ns("apartment_building_evaluation_description")),
+          shiny::plotOutput(ns("apartment_building_evaluation_plot"), height = "100px")
         )
       )
     })
@@ -116,16 +118,46 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
 
     # Apartment building evaluation scores (RentSafeTO) ----
 
-    output$apartment_building_evaluation <- shiny::renderText({
-      if(level() == "neighbourhood") {
-        data <- lemur::apartment_building_evaluation %>%
-          dplyr::filter(.data$neighbourhood == neighbourhood())
-      } else {
-        data <- lemur::apartment_building_evaluation
-      }
-
-      glue::glue("Median score: {median(data[['score']], na.rm = TRUE)}/100")
+    apartment_building_evaluation <- shiny::reactive({
+      get_measure(dataset(), "apartment_building_evaluation")
     })
+
+    apartment_building_evaluation_formatted <- shiny::reactive({
+      format_measure(apartment_building_evaluation(), "apartment_building_evaluation")
+    })
+
+    number_of_units <- shiny::reactive({
+      get_measure(dataset(), "number_of_units")
+    })
+
+    number_of_units_formatted <- shiny::reactive({
+      format_measure(number_of_units(), "number_of_units")
+    })
+
+    output$apartment_building_evaluation_number <- shiny::renderText({
+      apartment_building_evaluation_number(apartment_building_evaluation_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    output$apartment_building_evaluation_description <- shiny::renderText({
+      apartment_building_evaluation_description(level(), neighbourhood(), apartment_building_evaluation(), apartment_building_evaluation_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    apartment_building_evaluation_alt_text <- shiny::reactive({
+      apartment_building_evaluation_plot_alt_text(level(), neighbourhood())
+    })
+
+    output$apartment_building_evaluation_plot <- shiny::renderPlot(
+      {
+        apartment_building_evaluation_plot(dataset(), compare())
+      },
+      res = 96,
+      bg = "transparent",
+      alt = apartment_building_evaluation_alt_text
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
+
   })
 }
 
