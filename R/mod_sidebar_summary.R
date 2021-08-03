@@ -42,23 +42,49 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::div(
           shiny::h2("Apartment buildings"),
-          bigger_padded(shiny::textOutput(ns("apartment_buildings"))),
+          bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
+          shiny::textOutput(ns("number_of_apartments_number_description")),
+          shiny::plotOutput(ns("number_of_apartments_number_plot"), height = "100px"),
           shiny::h2("RentSafeTO evaluation scores"),
           bigger_padded(shiny::textOutput(ns("apartment_building_evaluation")))
         )
       )
     })
 
-    output$apartment_buildings <- shiny::renderText({
-      if(level() == "neighbourhood") {
-        data <- lemur::apartment_building_registry %>%
-          dplyr::filter(.data$neighbourhood == neighbourhood())
-      } else {
-        data <- lemur::apartment_building_registry
-      }
+    # Number of apartments -----
 
-      glue::glue("{scales::comma(nrow(data))} apartment buildings")
+    number_of_apartments <- shiny::reactive({
+      get_measure(dataset(), "number_of_apartments")
     })
+
+    number_of_apartments_formatted <- shiny::reactive({
+      format_measure(number_of_apartments(), "number_of_apartments")
+    })
+
+    output$number_of_apartments_number <- shiny::renderText({
+      number_of_apartments_number(number_of_apartments_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    output$number_of_apartments_description <- shiny::renderText({
+      number_of_apartments_description(level(), neighbourhood(), number_of_apartments(), number_of_apartments_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    number_of_apartments_alt_text <- shiny::reactive({
+      number_of_apartments_plot_alt_text(level(), neighbourhood())
+    })
+
+    output$number_of_apartments_plot <- shiny::renderPlot(
+      {
+        number_of_apartments_plot(dataset(), compare())
+      },
+      res = 96,
+      bg = "transparent",
+      alt = number_of_apartments_alt_text
+    ) %>%
+      shiny::bindCache(level(), neighbourhood())
+
 
     output$apartment_building_evaluation <- shiny::renderText({
       if(level() == "neighbourhood") {

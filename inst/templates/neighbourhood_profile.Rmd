@@ -53,6 +53,22 @@ glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma
   lemur:::bigger_padded()
 ```
 
+## Apartment buildings
+
+```{r population-change, opts.label = "distribution", fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+number_of_apartments <- lemur:::get_measure(dataset, "number_of_apartments")
+number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_apartments")
+
+lemur:::number_of_apartments_number(number_of_apartments_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_apartments_plot(dataset, compare)
+```
+
 ## Population change
 
 ```{r population-change, opts.label = "distribution", fig.alt = lemur:::population_change_plot_alt_text(level, neighbourhood)}

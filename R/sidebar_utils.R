@@ -24,6 +24,8 @@ format_measure <- function(data, measure) {
     scales::percent(data, accuracy = 0.1)
   } else if (measure == "average_renter_shelter_cost") {
     scales::dollar(data, accuracy = 1)
+  } else if (measure == "number_of_apartments") {
+    data
   }
 }
 
@@ -67,6 +69,46 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
   }
 }
 
+# Number of apartments ----
+
+number_of_apartments_number <- function(number_of_apartments_formatted) {
+  glue::glue("Apartment buildings: {number_of_apartments_formatted}")
+}
+
+number_of_apartments_description <- function(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_profile[["number_of_apartments_distribution"]][["value"]])
+    value_percentile <- value_distribution(number_of_apartments)
+  }
+
+  switch(level,
+    "city" = "Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of number of apartment buildings for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {number_of_apartments_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+  )
+}
+
+number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_profile[["number_of_apartments_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of number of apartment buildings for each of Toronto's neighbourhoods. The values range from {min} to {max} apartment buuildings and the distribution is heavily skewed left with most values between {skew_min} and {skew_max}.",
+    min = min(values),
+    max = max(values),
+    skew_min = stats::quantile(values, 0.1),
+    skew_max = stats::quantile(values, 0.9)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing the number of apartment buildings in {neighbourhood}'s is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+number_of_apartments_plot <- function(data, compare) {
+  data %>%
+    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 0.01)
+}
 
 # Population change ----
 

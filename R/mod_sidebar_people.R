@@ -114,7 +114,6 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       shiny::bindCache(level(), neighbourhood())
 
     output$population_change_description <- shiny::renderText({
-      population_change
       population_change_description(level(), neighbourhood(), population_change(), population_change_formatted())
     }) %>%
       shiny::bindCache(level(), neighbourhood())
