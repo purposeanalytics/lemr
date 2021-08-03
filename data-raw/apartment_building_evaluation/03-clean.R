@@ -31,5 +31,19 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
     property_type = ifelse(property_type == "Tchc", "TCHC", property_type)
   )
 
+# Check data - 1s all across the board will lead to a very low score, and may be incorrect data
+apartment_building_evaluation_outlier <- apartment_building_evaluation %>%
+  filter(if_all(.cols = balcony_guards:water_pen_ext_bldg_elements, .fns = ~ .x == 1))
+
+if (nrow(apartment_building_evaluation_outlier) > 0 ) {
+  usethis::ui_todo("{nrow(apartment_building_evaluation_outlier)} examples of all 1s in score:")
+  apartment_building_evaluation_outlier
+}
+
+# 2 Main St is a known issue - any others?
+
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  anti_join(apartment_building_evaluation_outlier)
+
 # Save final dataset
 usethis::use_data(apartment_building_evaluation, overwrite = TRUE)

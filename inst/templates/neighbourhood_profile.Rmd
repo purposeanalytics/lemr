@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Danforth
+  neighbourhood: Bridle Path-Sunnybrook-York Mills
 output:
   html_document:
     df_print: paged
@@ -51,6 +51,50 @@ title: `r title`
 ```{r population}
 glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)') %>%
   lemur:::bigger_padded()
+```
+
+## Apartment buildings
+
+```{r apartment-buildings, opts.label = "distribution", fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+number_of_apartments <- lemur:::get_measure(dataset, "number_of_apartments")
+number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_apartments")
+
+number_of_units <- lemur:::get_measure(dataset, "number_of_units")
+number_of_units_formatted <- lemur:::format_measure(number_of_units, "number_of_units")
+
+lemur:::number_of_apartments_number(number_of_apartments_formatted, number_of_units_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_apartments_plot(dataset, compare)
+```
+
+```{r apartment-building-units, opts.label = "distribution", fig.alt = lemur:::number_of_units_plot_alt_text(level, neighbourhood)}
+
+lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::number_of_units_plot(dataset, compare)
+```
+
+## RentSafeTO evaluation scores
+
+```{r apartment-building-evaluation, opts.label = "distribution", fig.alt = lemur:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
+apartment_building_evaluation <- lemur:::get_measure(dataset, "apartment_building_evaluation")
+apartment_building_evaluation_formatted <- lemur:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
+
+lemur:::apartment_building_evaluation_number(apartment_building_evaluation_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::apartment_building_evaluation_plot(dataset, compare)
 ```
 
 ## Population change

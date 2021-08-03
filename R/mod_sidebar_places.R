@@ -52,7 +52,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
           shiny::htmlOutput(ns("bedrooms_table")),
           shiny::h2("Households by tenure"),
           shiny::textOutput(ns("household_tenure_description")),
-          shiny::plotOutput(ns("household_tenure_plot"), height = "120px"),
+          shiny::plotOutput(ns("household_tenure_plot"), height = "150px"),
           shiny::htmlOutput(ns("household_tenure_table")),
           shiny::h2("Average shelter cost for renters"),
           bigger_padded(shiny::textOutput(ns("shelter_cost"))),
