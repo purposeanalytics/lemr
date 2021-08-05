@@ -54,7 +54,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
-          shiny::plotOutput(ns("household_size_plot"), height = "200px"),
+          plotly::plotlyOutput(ns("household_size_plot"), height = "200px"),
           shiny::htmlOutput(ns("household_size_table")),
           shiny::hr(),
           shiny::h2("Average total household income"),
@@ -177,13 +177,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       household_size_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_size_plot <- shiny::renderPlot(
+    output$household_size_plot <- plotly::renderPlotly(
       {
-        household_size_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = household_size_alt_text
+        household_size_plot(dataset(), compare()) %>%
+          plotly::ggplotly()
+      } #,
+      # res = 96,
+      # bg = "transparent",
+      # alt = household_size_alt_text
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
