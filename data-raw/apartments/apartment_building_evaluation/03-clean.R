@@ -12,7 +12,7 @@ apartment_building_evaluation <- readRDS(here::here("data-raw", "apartments", "a
 temp <- tempfile(fileext = ".csv")
 write_csv(apartment_building_evaluation, temp)
 
-apartment_building_evaluation <- read_csv(temp, na = c("", "NA", "N/A"), guess_max = 10000)
+apartment_building_evaluation <- read_csv(temp, na = c("", "NA", "N/A"), guess_max = 100)
 
 # Keep the LATEST evaluation for each address only!
 
@@ -52,6 +52,24 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   select(id, rsn, site_address, bing_address, property_type, neighbourhood, year_built, year_registered, evaluation_completed_on, score, results_of_score)
+
+# Colour points
+
+# Set colours
+n <- 8
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  dplyr::mutate(score_bucket = cut(score, breaks = seq(20, 100, length.out = n)))
+
+score_bucket_colors <- dplyr::tibble(
+  score_bucket = levels(apartment_building_evaluation[["score_bucket"]]),
+  color = c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
+)
+
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  dplyr::left_join(score_bucket_colors, by = "score_bucket")
+
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  select(-score_bucket)
 
 # Save final dataset
 usethis::use_data(apartment_building_evaluation, overwrite = TRUE)

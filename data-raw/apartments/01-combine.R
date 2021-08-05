@@ -12,6 +12,6 @@ apartment_buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built.y),
     neighbourhood = coalesce(neighbourhood, neighbourhood.y)
   ) %>%
-  select(rsn, site_address, bing_address, neighbourhood, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, evaluation_completed_on, score, results_of_score)
+  select(rsn, site_address, bing_address, neighbourhood, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, evaluation_completed_on, score, results_of_score, score_colour = color)
 
 usethis::use_data(apartment_buildings, overwrite = TRUE)

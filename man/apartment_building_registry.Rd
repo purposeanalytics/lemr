@@ -5,7 +5,7 @@
 \alias{apartment_building_registry}
 \title{Apartment building registry}
 \format{
-An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3480 rows and 77 columns.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3480 rows and 9 columns.
 }
 \usage{
 apartment_building_registry
