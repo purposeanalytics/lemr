@@ -70,8 +70,8 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         echarts4r::e_color(color = c(main_colour, grey_colour))
     } else {
       p <- data %>%
-        echarts4r::e_chart(x = group, emphasis = list(itemStyle = list(color = grey_colour))) %>%
-        echarts4r::e_bar(prop) %>%
+        echarts4r::e_chart(x = group) %>%
+        echarts4r::e_bar(prop, emphasis = list(itemStyle = list(color = grey_colour)), legend = FALSE) %>%
         echarts4r::e_flip_coords() %>%
         echarts4r::e_color(color = grey_colour)
     }
@@ -94,7 +94,8 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         axisLine = list(show = FALSE),
         axisTick = list(show = FALSE)
       ) %>%
-      echarts4r::e_animation(show = FALSE)
+      echarts4r::e_animation(show = FALSE) %>%
+      echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "75px", right = "15px", bottom = "25px")
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -270,7 +271,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   }
 
   p <- plot_data %>%
-    echarts4r::e_chart(x = x, height = height, dispose = FALSE, renderer = ) %>%
+    echarts4r::e_chart(x = x, height = height, dispose = FALSE) %>%
     echarts4r::e_bar(serie = y, stack = "grp", emphasis = list(itemStyle = list(color = grey_colour))) %>%
     echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
     echarts4r::e_x_axis(
@@ -307,5 +308,5 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   p %>%
     echarts4r::e_animation(show = FALSE) %>%
     echarts4r::e_x_axis(max = x_max) %>%
-    echarts4r::e_grid(top = "10px", left = "10px", right = "10px", bottom = "25px")
+    echarts4r::e_grid(top = "10px", left = "15px", right = "15px", bottom = "25px")
 }

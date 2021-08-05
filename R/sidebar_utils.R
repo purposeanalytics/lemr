@@ -494,7 +494,8 @@ visible_minority_plot_alt_text <- function(level, neighbourhood) {
 
 visible_minority_plot <- function(data, compare) {
   data %>%
-    display_neighbourhood_profile("visible_minority", width = 20, compare = compare)
+    display_neighbourhood_profile("visible_minority", width = 20, compare = compare) %>%
+    echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "125px", right = "15px", bottom = "25px")
 }
 
 # Structure type ----

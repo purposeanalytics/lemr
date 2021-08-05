@@ -47,13 +47,13 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::h2("Apartment buildings"),
           bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
           shiny::textOutput(ns("number_of_apartments_description")),
-          shiny::plotOutput(ns("number_of_apartments_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("number_of_apartments_plot"), height = "100px"),
           shiny::textOutput(ns("number_of_units_description")),
-          shiny::plotOutput(ns("number_of_units_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("number_of_units_plot"), height = "100px"),
           shiny::h2("RentSafeTO evaluation scores"),
           bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
           shiny::textOutput(ns("apartment_building_evaluation_description")),
-          shiny::plotOutput(ns("apartment_building_evaluation_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("apartment_building_evaluation_plot"), height = "100px"),
           shiny::h2("Amenity density"),
           shiny::textOutput(ns("amenity_density_description")),
           shiny::plotOutput(ns("amenity_density_plot"), height = "150px"),
@@ -116,13 +116,10 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       number_of_apartments_plot_alt_text(level(), neighbourhood())
     })
 
-    output$number_of_apartments_plot <- shiny::renderPlot(
+    output$number_of_apartments_plot <- echarts4r::renderEcharts4r(
       {
         number_of_apartments_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = number_of_apartments_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -135,13 +132,10 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       number_of_units_plot_alt_text(level(), neighbourhood())
     })
 
-    output$number_of_units_plot <- shiny::renderPlot(
+    output$number_of_units_plot <- echarts4r::renderEcharts4r(
       {
         number_of_units_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = number_of_units_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -169,13 +163,10 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       apartment_building_evaluation_plot_alt_text(level(), neighbourhood())
     })
 
-    output$apartment_building_evaluation_plot <- shiny::renderPlot(
+    output$apartment_building_evaluation_plot <- echarts4r::renderEcharts4r(
       {
         apartment_building_evaluation_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = apartment_building_evaluation_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
