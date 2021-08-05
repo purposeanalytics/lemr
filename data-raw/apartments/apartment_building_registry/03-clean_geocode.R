@@ -7,9 +7,9 @@ library(tidyr)
 library(usethis)
 devtools::load_all() # Load package itself to get read_latest_file
 
-apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
+apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
 
-apartment_building_registry <- read_latest_file(directory = here::here("data-raw", "apartment_building_registry", "extract"), suffix = "-apartment_building_registry.csv", fileext = "csv")
+apartment_building_registry <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_registry", "extract"), suffix = "-apartment_building_registry.csv", fileext = "csv")
 
 # Check if any records were duplicated
 no_duplicated_records <- nrow(apartment_building_registry) == nrow(apartment_building_registry_geocoded)
@@ -97,4 +97,4 @@ apartment_building_registry_geocode_with_corrections <- apartment_building_regis
   rows_update(corrections_data, by = c("_id", "SITE_ADDRESS"))
 
 # Write data
-saveRDS(apartment_building_registry_geocode_with_corrections, here::here("data-raw", "apartment_building_registry", "geocode_clean", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded_clean.rds")))
+saveRDS(apartment_building_registry_geocode_with_corrections, here::here("data-raw", "apartments", "apartment_building_registry", "geocode_clean", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded_clean.rds")))

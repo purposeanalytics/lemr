@@ -44,4 +44,3 @@ for(i in seq_along(neighbourhood_profiles)){
 }
 
 usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
-

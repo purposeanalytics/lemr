@@ -5,7 +5,7 @@ library(lubridate)
 library(readr)
 library(stringr)
 
-apartment_building_evaluation <- readRDS(here::here("data-raw", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
+apartment_building_evaluation <- readRDS(here::here("data-raw", "apartments", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
 
 # Use readr to fix column types, and convert "N/A" to NA
 
@@ -14,9 +14,12 @@ write_csv(apartment_building_evaluation, temp)
 
 apartment_building_evaluation <- read_csv(temp, na = c("", "NA", "N/A"), guess_max = 10000)
 
-# Fix date column type
+# Keep the LATEST evaluation for each address only!
+
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  mutate(evaluation_completed_on = mdy(evaluation_completed_on))
+  group_by(rsn) %>%
+  filter(evaluation_completed_on == max(evaluation_completed_on)) %>%
+  ungroup()
 
 # Reorder columns
 apartment_building_evaluation <- apartment_building_evaluation %>%
@@ -44,6 +47,11 @@ if (nrow(apartment_building_evaluation_outlier) > 0 ) {
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   anti_join(apartment_building_evaluation_outlier)
+
+# Select relevant columns
+
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  select(id, rsn, site_address, bing_address, property_type, neighbourhood, year_built, year_registered, evaluation_completed_on, score, results_of_score)
 
 # Save final dataset
 usethis::use_data(apartment_building_evaluation, overwrite = TRUE)
