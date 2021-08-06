@@ -271,6 +271,8 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   }
 
   p <- plot_data %>%
+    # Set as factor to not double axis - but makes labels ugly! ugh.
+    dplyr::mutate(x = as.factor(x)) %>%
     echarts4r::e_chart(x = x, height = height, dispose = FALSE) %>%
     echarts4r::e_bar(serie = y, stack = "grp", emphasis = list(itemStyle = list(color = grey_colour))) %>%
     echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
@@ -289,24 +291,8 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
       echarts4r::e_bar(serie = neighbourhood_y, stack = "grp", emphasis = list(itemStyle = list(color = main_colour)))
   }
 
-  x_min <- plot_data %>%
-    dplyr::pull(.data$x) %>%
-    min()
-
-  # x_steps <- plot_data %>%
-  #   dplyr::mutate(diff = .data$x - dplyr::lag(.data$x)) %>%
-  #   dplyr::filter(!is.na(.data$diff)) %>%
-  #   dplyr::pull(.data$diff) %>%
-  #   unique()
-
-  x_max <- plot_data %>%
-    dplyr::pull(.data$x) %>%
-    max()
-
-  # x_max <- x_max + x_steps
 
   p %>%
     echarts4r::e_animation(show = FALSE) %>%
-    echarts4r::e_x_axis(max = x_max) %>%
     echarts4r::e_grid(top = "10px", left = "15px", right = "15px", bottom = "25px")
 }
