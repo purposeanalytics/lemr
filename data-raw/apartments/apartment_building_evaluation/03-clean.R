@@ -38,7 +38,7 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 apartment_building_evaluation_outlier <- apartment_building_evaluation %>%
   filter(if_all(.cols = balcony_guards:water_pen_ext_bldg_elements, .fns = ~ .x == 1))
 
-if (nrow(apartment_building_evaluation_outlier) > 0 ) {
+if (nrow(apartment_building_evaluation_outlier) > 0) {
   usethis::ui_todo("{nrow(apartment_building_evaluation_outlier)} examples of all 1s in score:")
   apartment_building_evaluation_outlier
 }
@@ -52,6 +52,13 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   select(id, rsn, site_address, bing_address, property_type, neighbourhood, year_built, year_registered, evaluation_completed_on, score, results_of_score)
+
+# Generate score as percent for display
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  mutate(score_percent = case_when(
+    is.na(score) ~ NA_character_,
+    TRUE ~ paste0(score, "%")
+  ))
 
 # Colour points
 

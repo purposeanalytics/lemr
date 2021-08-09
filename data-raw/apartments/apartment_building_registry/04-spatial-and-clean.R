@@ -21,6 +21,75 @@ apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
     site_address = str_to_title(site_address)
   )
 
+# Clean up property management, retain "original" version
+property_mgmt <- apartment_building_registry_geocoded %>%
+  distinct(prop_management_company_name) %>%
+  mutate(
+    property_management = str_to_title(prop_management_company_name),
+    property_management_clean = property_management %>%
+      str_remove_all("\\.|\\,") %>%
+      str_remove_all("Limited|Incorporated|Corporation|Inc|Ltd|Corp|Lp") %>%
+      str_replace_all("Communites", "Communities") %>%
+      str_replace_all("Mangement|Managemet|Mangaement|Managment|Mng|Managent", "Management") %>%
+      str_replace_all("Partenership", "Partnership") %>%
+      str_replace_all("Proeprties", "Properties") %>%
+      str_replace_all(" & ", "&") %>%
+      str_replace_all("Canda", "Canada") %>%
+      str_squish()
+  )
+
+mgmt_fixes <- tribble(
+  ~wrong, ~correct,
+  "Wj Propertiesca", "Wj Properties",
+  "Preston Group - Toronto On", "Preston Group",
+  "Penwoth Holdings", "Penworth Holdings",
+  "Morguar", "Morguard",
+  "Linfred Investment", "Linfred Investments",
+  "King's College Management", "Kings College Management",
+  "Akeliuscanadaltd", "Akelius Canada",
+  "Orchard Apartments (Bloor)", "Orchard Apartments",
+  "Orchard Apartments (307)", "Orchard Apartments",
+  "Orchard Apartments (2328)", "Orchard Apartments",
+  "Aiderbook Management", "Aiderbrook Management",
+  "Amk2000 Holdings", "Amk 2000 Holdings",
+  "Bentall Kennedy Canadace", "Bentall Kennedy (Canada)",
+  "Bentallgreenoak (Canada)", "Bentallgreenoak",
+  "Cromewll Management", "Cromwell Management",
+  "Kpm Property Management", "Kpm",
+  "Megapro X Properties", "Megapro Properties",
+  "Royallepage", "Royal Lepage Signature Realty"
+)
+
+property_mgmt <- property_mgmt %>%
+  left_join(mgmt_fixes, by = c("property_management" = "wrong")) %>%
+  mutate(
+    property_management_clean = coalesce(correct, property_management_clean),
+    property_management_clean = case_when(
+      property_management %in% c("Not Applicable", "None", "N/A") ~ NA_character_,
+      str_starts(property_management_clean, "Metcap") ~ "Metcap",
+      str_starts(property_management_clean, "Aykler") ~ "Aykler",
+      str_starts(property_management_clean, "Cogir") ~ "Cogir",
+      str_starts(property_management_clean, "Greenwin") ~ "Greenwin",
+      str_starts(property_management_clean, "Morguard") ~ "Morguard",
+      TRUE ~ property_management_clean
+    )
+  ) %>%
+  select(-correct)
+
+property_mgmt <- property_mgmt %>%
+  mutate(across(
+    c(property_management, property_management_clean),
+    function(x) {
+      x %>%
+        str_replace("^Tch$", "TCH") %>%
+        coalesce("Unknown")
+    }
+  ))
+
+apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
+  left_join(property_mgmt, by = "prop_management_company_name") %>%
+  select(-prop_management_company_name)
+
 # Convert to SF
 apartment_building_registry_sf <- apartment_building_registry_geocoded %>%
   st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326, remove = FALSE)
@@ -38,7 +107,7 @@ apartment_building_registry <- apartment_building_registry_sf %>%
 # Keep relevant columns
 
 apartment_building_registry <- apartment_building_registry %>%
-  select(id, rsn, site_address, bing_address, neighbourhood, confirmed_units, confirmed_storeys, year_built, geometry)
+  select(id, rsn, site_address, bing_address, neighbourhood, confirmed_units, confirmed_storeys, year_built, property_management, property_management_clean, geometry)
 
 # Check values
 apartment_building_registry %>%
