@@ -14,4 +14,4 @@ apartment_building_registry <- list_package_resources("https://open.toronto.ca/d
   get_resource()
 
 # Save resource with date extracted
-write_csv(apartment_building_registry, here::here("data-raw", "apartment_building_registry", "extract", glue::glue("{Sys.Date()}-apartment_building_registry.csv")))
+write_csv(apartment_building_registry, here::here("data-raw", "apartments", "apartment_building_registry", "extract", glue::glue("{Sys.Date()}-apartment_building_registry.csv")))
