@@ -73,6 +73,10 @@ h3 {
 
 /* Navbar */
 
+.navbar {
+  margin-bottom: 0;
+}
+
 .navbar-default {
   border-bottom-width: 4px;
   border-bottom-color: var(--main-color);
@@ -80,7 +84,7 @@ h3 {
 }
 
 .navbar-header {
-  height: 200px;
+  height: 100px;
 }
 
 .navbar-brand {
@@ -110,6 +114,23 @@ h3 {
   color: black;
   font-size: var(--bigger-size);
   font-weight: var(--bold-weight);
+}
+
+/* Layout */
+
+.map-col {
+  width: 75%;
+  float: left;
+}
+
+.sidebar-col {
+  width: 25%;
+  float: left;
+}
+
+body > .container-fluid {
+  padding-right: 0;
+  padding-left: 0;
 }
 
 /* Dropdown */
@@ -194,7 +215,7 @@ h3 {
 /* ------ Map sizes ------ */
 
 #map-map, #sidebar {
-  height: calc(100vh - 100px) !important;
+  height: calc(100vh - 120px) !important;
 }
 
 /* ------ Tabs ------ */
@@ -229,4 +250,5 @@ h3 {
 .well {
   background-color: white;
   border-radius: 0;
+  margin-bottom: 0;
 }

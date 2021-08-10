@@ -17,14 +17,12 @@ app_ui <- function(request) {
       ),
       shiny::tabPanel(
         "Map",
-        shiny::column(
-          width = 9,
-          style = "padding-right: 0;",
+        shiny::div(
+          class = "map-col",
           mod_map_ui("map")
         ),
-        shiny::column(
-          width = 3,
-          style = "padding-left: 0;",
+        shiny::div(
+          class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
             style = "overflow: auto;",
