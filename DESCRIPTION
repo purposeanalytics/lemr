@@ -44,7 +44,8 @@ Imports:
     shinyBS,
     shinybusy,
     pagedown,
-    tibble
+    tibble,
+    waiter
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no

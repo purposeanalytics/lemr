@@ -71,6 +71,47 @@ h3 {
   background-color: var(--accent-color);
 }
 
+/* Navbar */
+
+.navbar-default {
+  border-bottom-width: 4px;
+  border-bottom-color: var(--main-color);
+  background: white;
+}
+
+.navbar-header {
+  height: 200px;
+}
+
+.navbar-brand {
+  height: 100%;
+}
+
+.navbar-img {
+  height: 100%;
+}
+
+.navbar-nav {
+  float: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.navbar-default .navbar-nav > a:hover {
+  color: white;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  background-color: inherit;
+  color: var(--accent-color);
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: black;
+  font-size: var(--bigger-size);
+  font-weight: var(--bold-weight);
+}
+
 /* Dropdown */
 
 .bootstrap-select .dropdown-menu {
