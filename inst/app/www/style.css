@@ -89,6 +89,67 @@ h3 {
   vertical-align: middle;
 }
 
+/* Layers legend */
+
+.checkboxGroupButtons {
+  overflow: hidden;
+}
+
+.checkboxGroupButtons .btn {
+  border: 2px solid var(--grey-color);
+  border-radius: 0;
+}
+
+.checkboxGroupButtons .btn.active {
+  border-color: var(--main-color);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.checkboxGroupButtons .btn:hover {
+  border-color: var(--accent-color);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.legend {
+  width: 90%;
+  margin: auto;
+}
+
+.legend ul {
+  list-style: none;
+  padding: 0;
+}
+
+.legend li.min {
+  float: left
+}
+
+.legend li.max {
+  float: right
+}
+
+/* TODO, need to fix CSS to work on all browsers */
+.legend li.legend-colors {
+  clear: both;
+  overflow: hidden;
+  display: table;
+  width: 100%;
+  height: 10px;
+  border-radius: 0;
+  background-clip: padding;
+  border: 1px solid black
+}
+
+.legend li.legend-colors .colors {
+  display: table-row;
+}
+
+.legend li.legend-colors .legend-element {
+  display: table-cell;
+}
+
 /* ------ Map sizes ------ */
 
 #map-map, #sidebar {

@@ -23,7 +23,8 @@ mod_layers_ui <- function(id) {
         inputId = ns("apartment_evaluation"),
         choices = list("RentSafeTO Evaluation Scores" = "apartment_evaluation"),
         justified = TRUE
-      )
+      ),
+      generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "Low", "100%")
     ),
     shiny::column(
       width = 6,
@@ -33,7 +34,8 @@ mod_layers_ui <- function(id) {
         inputId = ns("amenity_density"),
         choices = "Amenity Density",
         justified = TRUE
-      )
+      ),
+      generate_layers_legend(c(low_colour, mid_colour, high_colour), "Low", "High")
     )
   )
 }
@@ -73,6 +75,27 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
 point_layers_choices <- list("Apartment buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation")
 
 aggregate_layers_choices <- list("Amenity density" = "amenity_density")
+
+generate_layers_legend <- function(colors, min_text, max_text) {
+  colors <- purrr::map(colors, function(x) {
+    shiny::div(class = "legend-element", style = glue::glue("background-color: {x};"))
+  })
+
+  shiny::div(
+    class = "legend",
+    shiny::tags$ul(
+      shiny::tags$li(class = "min", min_text),
+      shiny::tags$li(class = "max", max_text),
+      shiny::tags$li(
+        class = "legend-colors",
+        shiny::div(
+          class = "colors",
+          colors
+        )
+      )
+    )
+  )
+}
 
 ## To be copied in the UI
 # mod_layers_ui("layers_ui_1")
