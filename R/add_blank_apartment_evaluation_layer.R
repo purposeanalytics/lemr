@@ -19,5 +19,5 @@ add_blank_apartment_evaluation_layer <- function(map) {
     # Set the visibility to "none", so it's not shown
     mapboxer::set_layout_property(layer_id = "apartment_evaluation", "visibility", "none") %>%
   # Add tooltips
-  mapboxer::add_tooltips(layer_id = "apartment_buildings", "{{{tooltip}}}")
+  mapboxer::add_tooltips(layer_id = "apartment_evaluation", "{{{tooltip}}}")
 }
