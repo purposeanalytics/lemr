@@ -16,6 +16,6 @@ add_blank_neighbourhood_layer <- function(map) {
     mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), line_color = main_colour, line_width = 2, id = "neighbourhood_line") %>%
     # Add a "blank" layer for clicking on, that contains all neighbourhoods
     mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), fill_color = main_colour, fill_opacity = 0, id = "neighbourhood_click") %>%
-    # Add an actual layer for neighbourhoods that will be coloured
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), fill_color = main_colour, fill_opacity = 0.25, id = "neighbourhood_fill", filter = list("==", "neighbourhood", "none"))
+    # Add an actual layer for neighbourhoods that will be thickened
+    mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), line_color = main_colour, line_width = 10, id = "neighbourhood_click_line", filter = list("==", "neighbourhood", "none"))
 }
