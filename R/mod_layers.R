@@ -9,10 +9,11 @@ mod_layers_ui <- function(id) {
   ns <- NS(id)
   shiny::column(
     width = 12,
-    shiny::h1("Data"),
+    shiny::hr(),
+    bigger_padded("Display additional layers"),
     shiny::column(
       width = 6,
-      bigger_padded("Point data"),
+      # bigger_padded("Point data"),
       style = "padding-left: 0px;",
       shinyWidgets::checkboxGroupButtons(
         inputId = ns("apartment_buildings"),
@@ -28,11 +29,11 @@ mod_layers_ui <- function(id) {
     ),
     shiny::column(
       width = 6,
-      bigger_padded("Aggregated data"),
+      # bigger_padded("Aggregated data"),
       style = "padding-right: 0px;",
       shinyWidgets::checkboxGroupButtons(
         inputId = ns("amenity_density"),
-        choices = "Amenity Density",
+        choices = list("Amenity Density" = "amenity_density"),
         justified = TRUE
       ),
       generate_layers_legend(c(low_colour, mid_colour, high_colour), "Low", "High")
@@ -61,12 +62,17 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
       }
     )
 
-    shiny::observeEvent(input$aggregate_layers,
+    shiny::observeEvent(
+      {
+        input$amenity_density
+      },
       ignoreInit = TRUE,
       ignoreNULL = FALSE,
       {
+        active_layers <- c(input$amenity_density)
+
         # Update reactive with value from input
-        aggregate_layers(input$aggregate_layers)
+        aggregate_layers(active_layers)
       }
     )
   })

@@ -119,12 +119,12 @@ h3 {
 /* Layout */
 
 .map-col {
-  width: 75%;
+  width: 65%;
   float: left;
 }
 
 .sidebar-col {
-  width: 25%;
+  width: 35%;
   float: left;
 }
 
@@ -139,6 +139,23 @@ body > .container-fluid {
   max-width: 100%;
   overflow-wrap: hyphenate-word;
   hyphens: overflow;
+}
+
+/* Inputs */
+
+.form-control, .btn, .dropdown-menu {
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-default:hover {
+  border-color: var(--accent-color);
+  background-color: inherit;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+  background-color: var(--main-color);
 }
 
 /* ------ Legend ------ */
@@ -166,12 +183,18 @@ body > .container-fluid {
   border-color: var(--main-color);
   -webkit-box-shadow: none;
   box-shadow: none;
+  background-color: transparent;
+}
+
+.checkboxGroupButtons .btn.active:hover {
+  border-color: var(--main-color);
 }
 
 .checkboxGroupButtons .btn:hover {
   border-color: var(--accent-color);
   -webkit-box-shadow: none;
   box-shadow: none;
+  background-color: transparent;
 }
 
 .legend {
@@ -228,7 +251,7 @@ body > .container-fluid {
 .nav-tabs > li > a {
   margin-right: 0.75em;
   border: 1px solid black !important;
-  border-radius: 10;
+  border-radius: 0;
   background-color: var(--accent-color-lighter-rgba) !important;
   color: black !important;
 }

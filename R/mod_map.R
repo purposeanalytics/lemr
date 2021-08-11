@@ -27,6 +27,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         add_blank_address_layer() %>%
         add_blank_apartment_evaluation_layer() %>%
         add_blank_neighbourhood_layer() %>%
+        # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
       var map = mapboxer._widget['map-map'].map;
       map.on('zoomend', function () {
@@ -79,7 +80,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
             # Clear neighbourhood
             zoom_map_to_neighbourhood("none") %>%
             # Zoom back out to Toronto
-            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), maxZoom = 11, pitch = 0, bearing = -15) %>%
+            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = -15) %>%
             mapboxer::update_mapboxer()
         }
       }

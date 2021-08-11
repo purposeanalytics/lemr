@@ -9,6 +9,7 @@ mod_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::column(
     width = 12,
+    shiny::hr(),
     shiny::h1(shiny::textOutput(ns("header"))),
     shiny::uiOutput(ns("population"), class = "padded"),
     shinyWidgets::dropdownButton(
