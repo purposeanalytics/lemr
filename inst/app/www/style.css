@@ -141,6 +141,12 @@ body > .container-fluid {
   hyphens: overflow;
 }
 
+/* Download modal box */
+
+.modal-content {
+  border-radius: 0;
+}
+
 /* Inputs */
 
 .form-control, .btn, .dropdown-menu {
@@ -224,7 +230,7 @@ body > .container-fluid {
   height: 10px;
   border-radius: 0;
   background-clip: padding;
-  border: 1px solid black
+  border: 1px solid var(--grey-color);
 }
 
 .legend li.legend-colors .colors {
@@ -233,6 +239,15 @@ body > .container-fluid {
 
 .legend li.legend-colors .legend-element {
   display: table-cell;
+}
+
+.legend .triple-text ul {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* ------ Map sizes ------ */
