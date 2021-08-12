@@ -12,7 +12,6 @@ Imports:
     config (>= 0.3.1),
     dplyr,
     dbplyr,
-    dqshiny,
     forcats,
     fs,
     ggplot2,
@@ -55,6 +54,5 @@ Depends:
 Suggests: 
     testthat (>= 3.0.0)
 Remotes:
-    benmarwick/words2number,
-    sharlagelfand/dqshiny
+    benmarwick/words2number
 Config/testthat/edition: 3

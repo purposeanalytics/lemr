@@ -64,7 +64,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       {
         if (search_method() == "address") {
           mapboxer::mapboxer_proxy(ns("map")) %>%
-            zoom_map_to_address(address_and_neighbourhood$address_sf) %>%
+            zoom_map_to_address(address_and_neighbourhood$address) %>%
             zoom_map_to_neighbourhood(address_and_neighbourhood$neighbourhood) %>%
             mapboxer::update_mapboxer()
         } else if (search_method() == "neighbourhood") {

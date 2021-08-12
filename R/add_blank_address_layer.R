@@ -1,6 +1,6 @@
 #' Add a blank address layer
 #'
-#' Add an empty layer of \link{address_points} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
+#' Add an empty layer to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -12,9 +12,7 @@
 #' map_toronto() %>%
 #'   add_blank_address_layer()
 add_blank_address_layer <- function(map) {
-  initial_data <- lemur::address_points() %>%
-    head(1) %>%
-    dplyr::collect() %>%
+  initial_data <- dplyr::tibble(longitude = "-79.384293", latitude = "43.653908") %>%
     sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
   map %>%

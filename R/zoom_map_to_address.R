@@ -12,13 +12,6 @@
 #'   add_blank_address_layer() %>%
 #'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
-  if (!inherits(address, "sf")) {
-    address <- address_points() %>%
-      dplyr::filter(.data$address == !!address) %>%
-      utils::head(1) %>%
-      dplyr::collect() %>%
-      sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
-  }
 
   map %>%
     # Update the data in the "address_points" layer to be for this address, so that that point shows
