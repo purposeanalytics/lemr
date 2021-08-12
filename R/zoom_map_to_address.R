@@ -12,7 +12,6 @@
 #'   add_blank_address_layer() %>%
 #'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
-
   if (!inherits(address, "sf")) {
     address <- address_points() %>%
       dplyr::filter(.data$address == !!address) %>%

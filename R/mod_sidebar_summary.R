@@ -177,10 +177,9 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
 
     output$amenity_density_table <- shiny::renderText({
       generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%
-        kableExtra::footnote(general = 'A very small number of areas have unknown amenity density, so values may not add up to 100%.')
+        kableExtra::footnote(general = "A very small number of areas have unknown amenity density, so values may not add up to 100%.")
     }) %>%
       shiny::bindCache(level(), neighbourhood())
-
   })
 }
 

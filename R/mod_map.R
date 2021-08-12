@@ -97,7 +97,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         map <- mapboxer::mapboxer_proxy(ns("map"))
 
         # Turn selected layers on
-        for(l in point_layers()) {
+        for (l in point_layers()) {
           map <- map %>%
             toggle_layer_visible(l)
         }
@@ -105,7 +105,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         # Turn not-selected layers off
         diff_layers <- setdiff(point_layers_choices, point_layers())
 
-        for(l in diff_layers) {
+        for (l in diff_layers) {
           map <- map %>%
             toggle_layer_invisible(l)
         }
@@ -124,7 +124,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         map <- mapboxer::mapboxer_proxy(ns("map"))
 
         # Turn selected layers on
-        for(l in aggregate_layers()) {
+        for (l in aggregate_layers()) {
           map <- map %>%
             toggle_layer_visible(l)
         }
@@ -132,7 +132,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         # Turn not-selected layers off
         diff_layers <- setdiff(aggregate_layers_choices, aggregate_layers())
 
-        for(l in diff_layers) {
+        for (l in diff_layers) {
           map <- map %>%
             toggle_layer_invisible(l)
         }

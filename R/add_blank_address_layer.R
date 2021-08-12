@@ -12,7 +12,6 @@
 #' map_toronto() %>%
 #'   add_blank_address_layer()
 add_blank_address_layer <- function(map) {
-
   initial_data <- lemur::address_points() %>%
     head(1) %>%
     dplyr::collect() %>%

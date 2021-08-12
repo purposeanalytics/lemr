@@ -11,7 +11,7 @@ apartment_building_evaluation <- read_latest_file(directory = here::here("data-r
 apartment_building_evaluation <- apartment_building_evaluation %>%
   left_join(apartment_building_registry %>%
     as_tibble() %>%
-      mutate(rsn = as.character(rsn)) %>%
+    mutate(rsn = as.character(rsn)) %>%
     select(rsn, starts_with("bing"), neighbourhood),
   by = "rsn"
   )

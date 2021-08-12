@@ -39,7 +39,7 @@ median_score_by_neighbourhood <- median_score_by_neighbourhood %>%
   split(.$neighbourhood) %>%
   map("value")
 
-for(i in seq_along(neighbourhood_profiles)){
+for (i in seq_along(neighbourhood_profiles)) {
   neighbourhood_profiles[[i]][["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
 }
 
