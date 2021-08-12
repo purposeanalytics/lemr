@@ -25,7 +25,7 @@ app_ui <- function(request) {
           class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
-            style = "overflow: auto;",
+            style = "overflow-y: auto;",
             mod_search_ui("search"),
             mod_layers_ui("layers"),
             mod_sidebar_ui("sidebar")
