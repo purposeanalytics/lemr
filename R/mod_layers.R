@@ -49,7 +49,7 @@ mod_layers_ui <- function(id) {
       ),
       shiny::column(
         width = 6,
-        generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High")
+        generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "High", "Medium", "Low")
       )
     )
   )

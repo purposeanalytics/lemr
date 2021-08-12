@@ -25,7 +25,7 @@ format_measure <- function(data, measure) {
   } else if (measure == "average_renter_shelter_cost") {
     scales::dollar(data, accuracy = 1)
   } else if (measure == "apartment_building_evaluation") {
-    data
+    paste0(data, "%")
   }
 }
 
@@ -187,7 +187,7 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemur::city_profile[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The values range from {min} to {max} apartment buildings and the distribution is normally distributed with most values between {skew_min} and {skew_max}.",
+  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),

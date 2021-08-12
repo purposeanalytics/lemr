@@ -119,12 +119,12 @@ h3 {
 /* Layout */
 
 .map-col {
-  width: 65%;
+  width: 70%;
   float: left;
 }
 
 .sidebar-col {
-  width: 35%;
+  width: 30%;
   float: left;
 }
 
