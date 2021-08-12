@@ -83,6 +83,24 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Validate that the address is in Toronto
+    iv <- shinyvalidate::InputValidator$new()
+    iv$add_rule("address", function(x) {
+      # If it's empty, don't error
+      if (x == "") {
+        NULL
+      }  else if (is.null(address_and_neighbourhood$address)) {
+        # If the autocomplete has not yet been populated, don't error
+        NULL
+      } else if (address_and_neighbourhood$address_error) {
+        # If the neighbourhood is NULL, it means that the address isn't in Toronto - so error!
+        "Address must be in the city of Toronto."
+      } else {
+        NULL
+      }
+    })
+    iv$enable()
+
     # If address is selected, store coords and neighbourhood
     shiny::observeEvent(input$jsValueCoords, ignoreInit = TRUE, {
 
@@ -90,20 +108,26 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
         dplyr::as_tibble() %>%
         sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
 
-      address_res$address <- input$jsValuePretty
+      address_res$address <- stringr::str_split(input$jsValuePretty, ", Toronto", simplify = TRUE)[[1]]
 
       address_and_neighbourhood$address <- address_res
 
       # Get neighbourhood of address
-      address_and_neighbourhood$neighbourhood <- address_and_neighbourhood$address %>%
-        sf::st_intersection(lemur::neighbourhoods) %>%
+      neighbourhood <- address_and_neighbourhood$address %>%
+      sf::st_intersection(lemur::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
-      # Update search method
-      search_method("address")
+      address_and_neighbourhood$address_error <- length(neighbourhood) == 0
 
-      # Deselect neighbourhood
-      shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
+      if (!address_and_neighbourhood$address_error) {
+
+        address_and_neighbourhood$neighbourhood <- neighbourhood
+        # Update search method
+        search_method("address")
+
+        # Deselect neighbourhood
+        shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
+      }
     })
 
     # If neighbourhood is selected, store neighbourhood
