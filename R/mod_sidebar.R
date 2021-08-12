@@ -22,7 +22,7 @@ mod_sidebar_ui <- function(id) {
         shinyWidgets::dropdownButton(
           inputId = "download-button",
           circle = FALSE,
-          label = "Download report",
+          label = "Download",
           shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
           shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
         )

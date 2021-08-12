@@ -12,10 +12,8 @@ mod_search_ui <- function(id) {
     shiny::column(
       width = 6,
       shiny::textInput(inputId = ns("address"), label = "Address", placeholder = "Search address..."),
-      HTML(paste0(" <script>
+      shiny::HTML(paste0(" <script>
                 function initAutocomplete() {
-
-                // Append 'Toronto, ON' to search text so only Toronto comes up
 
                 var searchText = document.getElementById('search-address');
 

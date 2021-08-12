@@ -44,7 +44,9 @@ Imports:
     shinybusy,
     pagedown,
     tibble,
-    waiter
+    waiter,
+    shinyvalidate,
+    opendatatoronto
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
@@ -54,5 +56,6 @@ Depends:
 Suggests: 
     testthat (>= 3.0.0)
 Remotes:
-    benmarwick/words2number
+    benmarwick/words2number,
+    rstudio/shinyvalidate
 Config/testthat/edition: 3
