@@ -15,7 +15,18 @@ mod_search_ui <- function(id) {
       HTML(paste0(" <script>
                 function initAutocomplete() {
 
-                 var autocomplete =   new google.maps.places.Autocomplete(document.getElementById('search-address'),{types: ['geocode']});
+                // Append 'Toronto, ON' to search text so only Toronto comes up
+
+                var searchText = document.getElementById('search-address');
+
+                // Limit search to Toronto bounding box - not perfect, but should work?
+                var torontoBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(43.58100, -79.63927),
+                new google.maps.LatLng(43.85547, -79.11525));
+
+                 var autocomplete = new google.maps.places.Autocomplete(searchText, {bounds: torontoBounds, types: ['geocode']});
+                // Limit to Canada
+                 autocomplete.setComponentRestrictions({'country': ['CA']});
                  autocomplete.setFields(['address_components', 'formatted_address',  'geometry', 'icon', 'name']);
                  autocomplete.addListener('place_changed', function() {
                  var place = autocomplete.getPlace();
