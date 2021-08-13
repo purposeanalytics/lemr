@@ -12,7 +12,6 @@ Imports:
     config (>= 0.3.1),
     dplyr,
     dbplyr,
-    dqshiny,
     forcats,
     fs,
     ggplot2,
@@ -44,7 +43,10 @@ Imports:
     shinyBS,
     shinybusy,
     pagedown,
-    tibble
+    tibble,
+    waiter,
+    shinyvalidate,
+    opendatatoronto
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
@@ -55,5 +57,5 @@ Suggests:
     testthat (>= 3.0.0)
 Remotes:
     benmarwick/words2number,
-    sharlagelfand/dqshiny
+    rstudio/shinyvalidate
 Config/testthat/edition: 3

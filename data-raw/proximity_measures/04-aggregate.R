@@ -13,8 +13,10 @@ proximity_measures <- readRDS(here::here("data-raw", "proximity_measures", "fina
 amenity_density <- proximity_measures %>%
   as_tibble() %>%
   distinct(dbuid, population, amenity_dense, neighbourhood) %>%
-  mutate(amenity_dense = fct_relevel(amenity_dense, "High", "Medium", "Low", "Unknown"),
-         amenity_dense = fct_rev(amenity_dense)) %>%
+  mutate(
+    amenity_dense = fct_relevel(amenity_dense, "High", "Medium", "Low", "Unknown"),
+    amenity_dense = fct_rev(amenity_dense)
+  ) %>%
   arrange(amenity_dense)
 
 # Aggregate by neighbourhood

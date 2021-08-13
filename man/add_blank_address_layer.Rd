@@ -10,7 +10,7 @@ add_blank_address_layer(map)
 \item{map}{Map created via \link{map_toronto}}
 }
 \description{
-Add an empty layer of \link{address_points} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
+Add an empty layer to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling highlighting an address, via \link{zoom_map_to_address}.
 }
 \examples{
 library(sf)

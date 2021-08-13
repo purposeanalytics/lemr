@@ -107,9 +107,9 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
   data <- data[[variable]]
 
   if (variable == "amenity_density") {
-      data <- data %>%
-        dplyr::filter(.data$group != "Unknown") %>%
-        dplyr::mutate(group = forcats::fct_drop(.data$group, "Unknown"))
+    data <- data %>%
+      dplyr::filter(.data$group != "Unknown") %>%
+      dplyr::mutate(group = forcats::fct_drop(.data$group, "Unknown"))
   }
 
   if (compare) {

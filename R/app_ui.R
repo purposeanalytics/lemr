@@ -7,18 +7,25 @@ app_ui <- function(request) {
   shiny::tagList(
     golem_add_external_resources(),
     shiny::navbarPage(
-      "LEMUR",
+      shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
+      selected = "Map",
+      shiny::tabPanel(
+        "About"
+      ),
+      shiny::tabPanel(
+        "Analysis"
+      ),
       shiny::tabPanel(
         "Map",
-        shiny::column(
-          width = 9,
+        shiny::div(
+          class = "map-col",
           mod_map_ui("map")
         ),
-        shiny::column(
-          width = 3,
+        shiny::div(
+          class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
-            style = "overflow: auto;",
+            style = "overflow-y: auto;",
             mod_search_ui("search"),
             mod_layers_ui("layers"),
             mod_sidebar_ui("sidebar")
@@ -47,7 +54,7 @@ golem_add_external_resources <- function() {
     golem::favicon(),
     golem::bundle_resources(
       path = app_sys("app/www"),
-      app_title = "lemur"
+      app_title = "Low-end of Market Rental Monitor"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

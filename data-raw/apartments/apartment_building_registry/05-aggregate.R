@@ -63,7 +63,7 @@ units_by_neighbourhood <- units_by_neighbourhood %>%
   split(.$neighbourhood) %>%
   map("value")
 
-for(i in seq_along(neighbourhood_profiles)){
+for (i in seq_along(neighbourhood_profiles)) {
   neighbourhood_profiles[[i]][["number_of_apartments"]] <- apartments_by_neighbourhood[[i]]
   neighbourhood_profiles[[i]][["number_of_units"]] <- units_by_neighbourhood[[i]]
 }

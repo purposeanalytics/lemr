@@ -41,6 +41,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
     output$summary_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
+          shiny::htmlOutput(ns("legend")),
           shiny::h2("Apartment buildings"),
           bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
           shiny::textOutput(ns("number_of_apartments_description")),
@@ -58,6 +59,20 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
         )
       )
     })
+
+    # Legend ----
+
+    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
+    plot_legend <- shiny::reactive({
+      if (level() == "neighbourhood") {
+        create_legend(neighbourhood())
+      }
+    })
+
+    output$legend <- shiny::renderText({
+      plot_legend()
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
 
     # Number of apartments -----
 
@@ -177,10 +192,9 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
 
     output$amenity_density_table <- shiny::renderText({
       generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%
-        kableExtra::footnote(general = 'A very small number of areas have unknown amenity density, so values may not add up to 100%.')
+        kableExtra::footnote(general = "A very small number of areas have unknown amenity density, so values may not add up to 100%.")
     }) %>%
       shiny::bindCache(level(), neighbourhood())
-
   })
 }
 
