@@ -10,7 +10,8 @@ mod_layers_ui <- function(id) {
   shiny::column(
     width = 12,
     shiny::hr(),
-    bigger_padded("Display additional layers"),
+    biggest_padded("Display additional layers"),
+    bigger_padded("Aggregate data"),
     shiny::fluidRow(
       shiny::column(
         width = 6,
@@ -39,6 +40,7 @@ mod_layers_ui <- function(id) {
         generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "High", "Medium", "Low")
       )
     ),
+    bigger_padded("Points data"),
     shiny::fluidRow(
       shiny::column(
         width = 6,
