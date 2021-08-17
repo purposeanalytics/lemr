@@ -22,6 +22,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
+        add_blank_lem_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_apartment_layer() %>%
         add_blank_address_layer() %>%

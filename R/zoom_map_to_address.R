@@ -1,7 +1,7 @@
 #' Zoom map of Toronto to address
 #'
 #' @param map Map created by \link{map_toronto}
-#' @param address Address from \link{address_points}
+#' @param address Address or sf tibble with geometry column
 #'
 #' @export
 #'
@@ -12,6 +12,11 @@
 #'   add_blank_address_layer() %>%
 #'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
+
+  if (!inherits(address, "sf") & is.character(address)) {
+    address <- geocode_address(glue::glue("{address} Toronto ON"), quiet = TRUE) %>%
+      sf::st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)
+  }
 
   map %>%
     # Update the data in the "address_points" layer to be for this address, so that that point shows

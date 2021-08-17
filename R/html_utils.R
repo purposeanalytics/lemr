@@ -13,3 +13,7 @@ bigger_padded <- function(...) {
 biggest <- function(...) {
   htmltools::div(class = "biggest", ...)
 }
+
+biggest_padded <- function(...) {
+  htmltools::div(class = "biggest padded", ...)
+}
