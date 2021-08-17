@@ -67,6 +67,19 @@ mod_layers_ui <- function(id) {
         width = 6,
         generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "Low", "100%")
       )
+    ),
+    shiny::fluidRow(
+      shiny::column(
+        width = 6,
+        shinyWidgets::checkboxGroupButtons(
+          inputId = ns("agi"),
+          choices = list("AGI Applications" = "agi"),
+          justified = TRUE
+        )
+      ),
+      shiny::column(
+        width = 6
+      )
     )
   )
 }
@@ -81,11 +94,12 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
       {
         input$apartment_buildings
         input$apartment_evaluation
+        input$agi
       },
       ignoreInit = TRUE,
       ignoreNULL = FALSE,
       {
-        active_layers <- c(input$apartment_buildings, input$apartment_evaluation)
+        active_layers <- c(input$apartment_buildings, input$apartment_evaluation, input$agi)
 
         # Update reactive with value from input
         point_layers(active_layers)
@@ -109,7 +123,7 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
   })
 }
 
-point_layers_choices <- list("Apartment buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation")
+point_layers_choices <- list("Apartment buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "AGI Applications" = "agi")
 
 aggregate_layers_choices <- list("Amenity density" = "amenity_density", "Low-end of market rentals" = "lem")
 

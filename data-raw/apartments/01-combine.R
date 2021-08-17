@@ -35,9 +35,11 @@ agi_applications <- lemur::agi_applications %>%
   as_tibble() %>%
   group_by(agi, address, bing_address) %>%
   arrange(desc(date_agi_initiated)) %>%
-  summarise(geometry = geometry,
-            date_agi_initiated = glue::glue_collapse(date_agi_initiated, sep = ", "),
-            .groups = "drop") %>%
+  summarise(
+    geometry = geometry,
+    date_agi_initiated = glue::glue_collapse(unique(date_agi_initiated), sep = ", "),
+    .groups = "drop"
+  ) %>%
   distinct()
 
 agi_applications <- agi_applications %>%
