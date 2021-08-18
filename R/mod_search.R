@@ -77,7 +77,7 @@ mod_search_ui <- function(id) {
 #' search Server Functions
 #'
 #' @noRd
-mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_method) {
+mod_search_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 

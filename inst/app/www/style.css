@@ -176,6 +176,22 @@ body > .container-fluid {
 
 /* Layers legend */
 
+.popover {
+  width: 400px;
+  border-radius: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.popover-title {
+  font-weight: var(--bold-weight);
+  font-size: inherit;
+}
+
+.layer-popup .btn {
+  border-width: 0;
+}
+
 .checkboxGroupButtons {
   overflow: hidden;
 }
