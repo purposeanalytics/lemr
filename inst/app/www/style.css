@@ -176,6 +176,14 @@ body > .container-fluid {
 
 /* Layers legend */
 
+.layer-popup {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-right: 0;
+  height: 35.6px;
+}
+
 .popover {
   width: 400px;
   border-radius: 0;
@@ -186,10 +194,6 @@ body > .container-fluid {
 .popover-title {
   font-weight: var(--bold-weight);
   font-size: inherit;
-}
-
-.layer-popup .btn {
-  border-width: 0;
 }
 
 .checkboxGroupButtons {
