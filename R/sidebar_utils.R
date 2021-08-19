@@ -212,7 +212,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
 apartment_building_evaluation_plot <- function(data, compare) {
   data %>%
     plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2) +
-    ggplot2::scale_x_continuous(limits = c(0, 100))
+    ggplot2::scale_x_continuous(limits = c(0, 100), oob = scales::oob_keep)
 }
 
 # Amenity density -----
