@@ -20,7 +20,7 @@ mod_layers_ui <- function(id) {
         choices = list("Low-end of Market Rentals" = "lem"),
         justified = TRUE
       ),
-      legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A", "#053C6B"), "0", "100")
+      legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100")
     ),
     # Amenity Density
     create_full_legend(
@@ -73,6 +73,7 @@ mod_layers_ui <- function(id) {
         choices = list("RentSafeTO Evaluation Scores" = "apartment_evaluation"),
         justified = TRUE
       ),
+<<<<<<< HEAD
       shiny::column(
         width = 6,
         shinyWidgets::checkboxGroupButtons(
@@ -83,11 +84,11 @@ mod_layers_ui <- function(id) {
       ),
       shiny::column(
         width = 6,
-        generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "Low", "100%")
+        generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "Low", "100%"),
         width = 5,
         generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
-      )
-      legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
+      ),
+      legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
     ),
     # AGI Applications
     create_full_legend(
