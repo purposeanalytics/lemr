@@ -12,7 +12,6 @@
 #'   add_blank_address_layer() %>%
 #'   zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
-
   if (!inherits(address, "sf") & is.character(address)) {
     address <- geocode_address(glue::glue("{address} Toronto ON"), quiet = TRUE) %>%
       sf::st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)

@@ -51,8 +51,10 @@ color_groups <- c("0", cut(1:100, breaks = seq(1, 100, length.out = length(color
 colors <- tibble(colour = colors, color_group = color_groups)
 
 total_affordable_by_neighbourhood <- total_affordable_by_neighbourhood %>%
-  mutate(color_group = cut(n, breaks = seq(1, 100, length.out = nrow(colors))),
-         color_group = coalesce(color_group, "0")) %>%
+  mutate(
+    color_group = cut(n, breaks = seq(1, 100, length.out = nrow(colors))),
+    color_group = coalesce(color_group, "0")
+  ) %>%
   left_join(colors, by = "color_group") %>%
   select(neighbourhood, n, colour, geometry)
 

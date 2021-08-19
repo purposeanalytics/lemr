@@ -9,13 +9,14 @@ devtools::load_all()
 
 lem <- lemur::affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Very", "Deeply")) %>%
-  mutate(Bedrooms = case_when(
-    bedrooms == "0" ~ "Bachelor",
-    bedrooms == 1 ~ "1 bedroom",
-    bedrooms %in% c("2", "3+") ~ paste(bedrooms, "bedrooms")
-  ),
-  Bedrooms = fct_relevel(Bedrooms, "Bachelor", "1 bedroom", "2 bedrooms", "3+ bedrooms"),
-  affordable = glue::glue("{affordable} Affordable")
+  mutate(
+    Bedrooms = case_when(
+      bedrooms == "0" ~ "Bachelor",
+      bedrooms == 1 ~ "1 bedroom",
+      bedrooms %in% c("2", "3+") ~ paste(bedrooms, "bedrooms")
+    ),
+    Bedrooms = fct_relevel(Bedrooms, "Bachelor", "1 bedroom", "2 bedrooms", "3+ bedrooms"),
+    affordable = glue::glue("{affordable} Affordable")
   ) %>%
   as_tibble()
 
