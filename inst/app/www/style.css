@@ -185,7 +185,6 @@ body > .container-fluid {
 }
 
 .popover {
-  width: 400px;
   border-radius: 0;
   font-size: inherit;
   font-family: inherit;

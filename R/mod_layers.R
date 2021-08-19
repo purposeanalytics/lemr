@@ -17,13 +17,13 @@ mod_layers_ui <- function(id) {
         width = 1,
         class = "layer-popup",
         popup_icon %>%
-          bsplus::bs_embed_popover(title = "Low-end of market rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.", placement = "right")
+          bsplus::bs_embed_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.", placement = "right", container = "body", trigger = "hover")
       ),
       shiny::column(
         width = 6,
         shinyWidgets::checkboxGroupButtons(
           inputId = ns("lem"),
-          choices = list("Low-end of market rentals" = "lem"),
+          choices = list("Low-end of Market Rentals" = "lem"),
           justified = TRUE
         )
       ),
@@ -37,7 +37,7 @@ mod_layers_ui <- function(id) {
         width = 1,
         class = "layer-popup",
         popup_icon %>%
-          bsplus::bs_embed_popover(title = "Amenity density", content = "This layer shows the amenity density of each census dissemination block. An area is low amenity dense (green) if it does not have access to the following eight proximity measures: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It is medium amenity dense (yellow) if it has access to all eight measures, and high amenity dense (purple) if its proximity measure values are in the top third of the distribution for each of the eight measures. Darker colours indicate higher population, while lighter colours indicate lower population.", placement = "right")
+          bsplus::bs_embed_popover(title = "Amenity Density", content = "This layer shows the amenity density of census block. An area is low amenity dense (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It is medium amenity dense (yellow) if it has access to all eight, and high amenity dense (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.", placement = "right", container = "body", trigger = "hover")
       ),
       shiny::column(
         width = 6,
@@ -48,8 +48,13 @@ mod_layers_ui <- function(id) {
         )
       ),
       shiny::column(
+<<<<<<< HEAD
         width = 6,
         generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "High", "Medium", "Low")
+=======
+        width = 5,
+        generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "Low", "Medium", "High")
+>>>>>>> Edit popover text, show on hover
       )
     ),
     bigger_padded("Select one or more points data layers:"),
@@ -58,13 +63,13 @@ mod_layers_ui <- function(id) {
         width = 1,
         class = "layer-popup",
         popup_icon %>%
-          bsplus::bs_embed_popover(title = "Apartment buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant.", placement = "right")
+          bsplus::bs_embed_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant.", placement = "right", container = "body", trigger = "hover")
       ),
       shiny::column(
         width = 6,
         shinyWidgets::checkboxGroupButtons(
           inputId = ns("apartment_buildings"),
-          choices = list("Apartment buildings" = "apartment_buildings"),
+          choices = list("Apartment Buildings" = "apartment_buildings"),
           justified = TRUE
         )
       ),
@@ -77,7 +82,7 @@ mod_layers_ui <- function(id) {
         width = 1,
         class = "layer-popup",
         popup_icon %>%
-          bsplus::bs_embed_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Dark red indicates a higher (better) score, and light yellow indicates a lower (worse) score. Apartments that fail the evaluation by scoring less than 50% must undergo an audit.", placement = "right")
+          bsplus::bs_embed_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Light yellow indicates a failing score (50% or lower) while dark red indicates 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit.", placement = "right", container = "body", trigger = "hover")
       ),
       shiny::column(
         width = 6,
@@ -88,8 +93,13 @@ mod_layers_ui <- function(id) {
         )
       ),
       shiny::column(
+<<<<<<< HEAD
         width = 6,
         generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "Low", "100%")
+=======
+        width = 5,
+        generate_layers_legend(c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
+>>>>>>> Edit popover text, show on hover
       )
     ),
     shiny::fluidRow(
@@ -97,7 +107,7 @@ mod_layers_ui <- function(id) {
         width = 1,
         class = "layer-popup",
         popup_icon %>%
-          bsplus::bs_embed_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of rentals whose landlords applied for an Above Guideline Increase (AGI) in the rent.", placement = "right")
+          bsplus::bs_embed_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of rentals whose landlords applied for an Above Guideline Increase (AGI) in the rent.", placement = "right", container = "body", trigger = "hover")
       ),
       shiny::column(
         width = 6,
@@ -153,9 +163,11 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
   })
 }
 
-point_layers_choices <- list("Apartment buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "AGI Applications" = "agi")
+popup_icon <- htmltools::tags$i(class = "fa fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
 
-aggregate_layers_choices <- list("Amenity density" = "amenity_density", "Low-end of market rentals" = "lem")
+point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "AGI Applications" = "agi")
+
+aggregate_layers_choices <- list("Amenity Density" = "amenity_density", "Low-end of Market Rentals" = "lem")
 
 generate_layers_legend <- function(colors, min_text, max_text) {
   colors <- purrr::map(colors, function(x) {
