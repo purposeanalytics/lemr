@@ -9,6 +9,7 @@ mod_layers_ui <- function(id) {
   ns <- NS(id)
   shiny::column(
     width = 12,
+<<<<<<< HEAD
     shiny::hr(),
     biggest_padded("Display additional layers"),
     bigger_padded("Select one aggregate data layer:"),
@@ -110,6 +111,68 @@ mod_layers_ui <- function(id) {
         width = 6
       )
       legend = NULL
+=======
+    bsplus::use_bs_popover(),
+    shiny::hr(),
+    bigger_padded(shiny::tags$b("Display layers"), shiny::icon("chevron-down")) %>%
+      bsplus::bs_attach_collapse(ns("layers")),
+    bsplus::bs_collapse(
+      id = ns("layers"),
+      content = shiny::tagList(
+        padded("Select one aggregate data layer:"),
+        # LEM
+        create_full_legend(
+          icon = create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("lem"),
+            choices = list("Low-end of Market Rentals" = "lem"),
+            justified = TRUE
+          ),
+          legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100")
+        ),
+        # Amenity Density
+        create_full_legend(
+          icon = create_popover(title = "Amenity Density", content = "This layer shows the amenity density of census block. An area is low amenity dense (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It is medium amenity dense (yellow) if it has access to all eight, and high amenity dense (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("amenity_density"),
+            choices = list("Amenity Density" = "amenity_density"),
+            justified = TRUE
+          ),
+          legend = generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "Low", "Medium", "High")
+        ),
+        padded("Select one or more points data layers:"),
+        # Apartment Buildings
+        create_full_legend(
+          icon = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("apartment_buildings"),
+            choices = list("Apartment Buildings" = "apartment_buildings"),
+            justified = TRUE
+          ),
+          legend = NULL
+        ),
+        # RentSafeTO
+        create_full_legend(
+          icon = create_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Light yellow indicates a failing score (50% or lower) while dark red indicates 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("apartment_evaluation"),
+            choices = list("RentSafeTO Evaluation Scores" = "apartment_evaluation"),
+            justified = TRUE
+          ),
+          legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
+        ),
+        # AGI Applications
+        create_full_legend(
+          icon = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of rentals whose landlords applied for an Above Guideline Increase (AGI) in the rent."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("agi"),
+            choices = list("AGI Applications" = "agi"),
+            justified = TRUE
+          ),
+          legend = NULL
+        )
+      )
+>>>>>>> Move layers into collapsible div
     )
   )
 }
@@ -153,7 +216,7 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
   })
 }
 
-popup_icon <- htmltools::tags$i(class = "fa fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
+popup_icon <- htmltools::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
 
 create_popover <- function(icon = popup_icon, title, content) {
   icon %>%
