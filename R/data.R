@@ -79,11 +79,6 @@ address_points <- function() {
   ), "address_points")
 }
 
-#' Address Points addresses only
-#'
-#' Addresses only from \link{address_points}
-"address_points_just_address"
-
 #' Proximity Measures
 #'
 #' Proximity Measures from \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}{Statistics Canada}, showing proximity to the following ten services and amenities: employment, pharmacies, child care, health care, grocery stores, primary education, secondary education, libraries, neighbourhood parks, and public transit; as well as a measure of "amenity density": high, medium, or low. The data is at the dissemination block level, and only contains dissemination blocks within Toronto proper.

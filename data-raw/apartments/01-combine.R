@@ -14,14 +14,23 @@ apartment_buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built.y),
     neighbourhood = coalesce(neighbourhood, neighbourhood.y)
   ) %>%
-  select(rsn, site_address, bing_address, neighbourhood, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, property_management, property_management_clean, evaluation_completed_on, score, score_percent, results_of_score, score_colour = color)
+  select(rsn, site_address, bing_address, neighbourhood, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, property_management, property_management_clean, evaluation_completed_on, score, score_percent, results_of_score, score_colour = color, geometry)
 
-# Add AGI
+apartment_buildings_coords <- apartment_buildings %>%
+  st_coordinates() %>%
+  as_tibble()
+
+apartment_buildings <- apartment_buildings %>%
+  as_tibble() %>%
+  select(-geometry) %>%
+  bind_cols(apartment_buildings_coords)
+
+# Add AGI / TDF
 # Not all AGI are apartments, but we want them in the same data set anyways
 # For now, just take property management if it's there, and if not, use landlord
 
 # Combine multiple AGI dates, and take the latest non-NA landlord
-latest_agi_landlord <- lemur::agi_applications %>%
+latest_agi_landlord <- lemur::agi_applications_and_tdf %>%
   as_tibble() %>%
   filter(!is.na(landlord)) %>%
   group_by(address) %>%
@@ -30,37 +39,50 @@ latest_agi_landlord <- lemur::agi_applications %>%
   distinct(address, landlord) %>%
   ungroup()
 
-agi_applications <- lemur::agi_applications %>%
+agi_applications <- lemur::agi_applications_and_tdf %>%
   mutate(agi = TRUE) %>%
   as_tibble() %>%
-  group_by(agi, address, bing_address) %>%
+  group_by(agi, tdf, address, bing_address) %>%
   arrange(desc(date_agi_initiated)) %>%
   summarise(
     geometry = geometry,
     date_agi_initiated = glue::glue_collapse(unique(date_agi_initiated), sep = ", "),
     .groups = "drop"
   ) %>%
-  distinct()
+  distinct() %>%
+  st_as_sf(crs = 4326)
 
 agi_applications <- agi_applications %>%
   left_join(latest_agi_landlord, by = "address")
+
+agi_applications_coords <- agi_applications %>%
+  st_coordinates() %>%
+  as_tibble()
+
+agi_applications <- agi_applications %>%
+  as_tibble() %>%
+  select(-geometry) %>%
+  bind_cols(agi_applications_coords)
 
 apartment_buildings <- apartment_buildings %>%
   as_tibble() %>%
   full_join(agi_applications, by = "bing_address") %>%
   mutate(
-    geometry = coalesce(geometry.x, geometry.y),
     property_management_or_landlord = case_when(
       property_management_clean == "Unknown" | is.na(property_management_clean) ~ coalesce(landlord, "Unknown"),
       TRUE ~ property_management_clean
     ),
-    agi = coalesce(agi, FALSE)
+    site_address = coalesce(site_address, bing_address),
+    agi = coalesce(agi, FALSE),
+    tdf = coalesce(tdf, FALSE),
+    X = coalesce(X.x, X.y),
+    Y = coalesce(Y.x, Y.y)
   )
 
 apartment_buildings <- apartment_buildings %>%
   relocate(property_management_or_landlord, .before = property_management_clean) %>%
-  select(-property_management_clean, -landlord, -geometry.x, -geometry.y) %>%
-  st_as_sf(crs = 4326)
+  select(-property_management_clean, -landlord, -X.x, -X.y, -Y.x, -Y.y) %>%
+  st_as_sf(coords = c("X", "Y"), crs = 4326)
 
 # Generate tooltip based on information available
 
@@ -86,7 +108,14 @@ generate_tooltip <- function(data) {
   ) %>%
     glue::glue_collapse()
 
-  glue::glue("<b>{data$site_address}</b><br>{variables_text}")
+  tooltip <- glue::glue("<b>{data$site_address}</b><br>{variables_text}")
+
+  if (data$tdf) {
+    # Tooltip has <br> at the end so no need to add
+    tooltip <- glue::glue("{tooltip}Received tenant defence fund grant")
+  }
+
+  tooltip
 }
 
 tooltips <- apartment_buildings %>%
