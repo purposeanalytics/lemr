@@ -8,7 +8,7 @@ library(sf)
 agi_applications <- readRDS(here::here("data-raw", "apartments", "renovictions_to", "geocode", "agi_applications.rds"))
 
 agi_applications <- agi_applications %>%
-  select(date_agi_initiated = date_initiated, landlord_original = landlord, address = address_for_geocoding, bing_address, bing_latitude, bing_longitude) %>%
+  select(case_number, date_agi_initiated = date_initiated, landlord_original = landlord, address = address_for_geocoding, bing_address, bing_latitude, bing_longitude) %>%
   mutate(address = as.character(address))
 
 # There are some addresses that are slightly different (e.g. postal code, or one contains "West") but they get geocoded to the same address
@@ -61,8 +61,4 @@ agi_applications <- agi_applications %>%
   relocate(landlord, landlord_care_of, landlord_alt, .after = landlord_original) %>%
   select(-landlord_original)
 
-# Make spatial
-agi_applications <- agi_applications %>%
-  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)
-
-usethis::use_data(agi_applications, overwrite = TRUE)
+saveRDS(agi_applications, here::here("data-raw", "apartments", "renovictions_to", "clean", "agi_applications.rds"))

@@ -15,4 +15,5 @@ README_cache/
 *.prj
 *.shp
 *.shx
+*.xls
 .Renviron
