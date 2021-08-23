@@ -20,5 +20,5 @@ add_blank_agi_layer <- function(map) {
     # Set the visibility to "none", so it's not shown
     mapboxer::set_layout_property(layer_id = "agi", "visibility", "none") %>%
     # Add tooltips
-    mapboxer::add_tooltips(layer_id = "agi", "{{{tooltip}}}")
+    mapboxer::add_popups(layer_id = "agi", "{{{tooltip}}}")
 }

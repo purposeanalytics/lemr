@@ -20,5 +20,5 @@ add_blank_tdf_layer <- function(map) {
     # Set the visibility to "none", so it's not shown
     mapboxer::set_layout_property(layer_id = "tdf", "visibility", "none") %>%
     # Add tooltips
-    mapboxer::add_tooltips(layer_id = "tdf", "{{{tooltip}}}")
+    mapboxer::add_popups(layer_id = "tdf", "{{{tooltip}}}")
 }
