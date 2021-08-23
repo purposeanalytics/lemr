@@ -5,6 +5,8 @@ library(purrr)
 library(sf)
 devtools::load_all()
 
+# Join registry and RentSafeTO -----
+
 apartment_buildings <- apartment_building_registry %>%
   # Only joining by RSN, because the registry addresses have ranges but the evaluation addresses do not - use the addresses from registry
   full_join(apartment_building_evaluation, by = "rsn", suffix = c("", ".y")) %>%
@@ -25,7 +27,7 @@ apartment_buildings <- apartment_buildings %>%
   select(-geometry) %>%
   bind_cols(apartment_buildings_coords)
 
-# Add AGI / TDF
+# Add AGI / TDF -----
 # Not all AGI are apartments, but we want them in the same data set anyways
 # For now, just take property management if it's there, and if not, use landlord
 
@@ -81,10 +83,31 @@ apartment_buildings <- apartment_buildings %>%
 
 apartment_buildings <- apartment_buildings %>%
   relocate(property_management_or_landlord, .before = property_management_clean) %>%
-  select(-property_management_clean, -landlord, -X.x, -X.y, -Y.x, -Y.y) %>%
+  select(-property_management_clean, -landlord, -X.x, -X.y, -Y.x, -Y.y)
+
+# Add evictions hearings -----
+
+apartment_buildings <- apartment_buildings %>%
+  full_join(eviction_hearings %>%
+    mutate(eviction_hearing = TRUE), by = "bing_address") %>%
+  mutate(
+    site_address = coalesce(site_address, address.y),
+    agi = coalesce(agi, FALSE),
+    tdf = coalesce(tdf, FALSE),
+    eviction_hearing = coalesce(eviction_hearing, FALSE),
+    X = coalesce(X, bing_longitude),
+    Y = coalesce(Y, bing_latitude),
+    number_of_hearings = hearings,
+    property_management_or_landlord = coalesce(property_management_or_landlord, landlord)
+  ) %>%
+  select(-address.x, -address.y, -landlord, -bing_latitude, -bing_longitude, -hearings)
+
+# Convert to spatial -----
+
+apartment_buildings <- apartment_buildings %>%
   st_as_sf(coords = c("X", "Y"), crs = 4326)
 
-# Generate tooltip based on information available
+# Generate tooltip based on information available -----
 
 generate_tooltip <- function(data) {
   variables <- tribble(
@@ -93,6 +116,7 @@ generate_tooltip <- function(data) {
     "Landlord/Management", "property_management_or_landlord",
     "Units", "confirmed_units",
     "RentSafeTO Evaluation", "score_percent",
+    "Eviction Hearings", "number_of_hearings",
     "AGI Application", "date_agi_initiated"
   )
 
