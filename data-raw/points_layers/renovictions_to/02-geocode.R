@@ -7,7 +7,7 @@ library(tidyr)
 library(stringr)
 devtools::load_all()
 
-agi_applications <- readRDS(here::here("data-raw", "apartments", "renovictions_to", "extract", "agi_applications.rds"))
+agi_applications <- readRDS(here::here("data-raw", "points_layers", "renovictions_to", "extract", "agi_applications.rds"))
 
 # And a "safe" version in case there's errors!
 safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise = NA)
@@ -100,4 +100,4 @@ agi_applications_addresses_geocoded <- agi_applications_addresses_geocoded %>%
 agi_applications <- agi_applications %>%
   left_join(agi_applications_addresses_geocoded, by = "address_for_geocoding")
 
-saveRDS(agi_applications, here::here("data-raw", "apartments", "renovictions_to", "geocode", "agi_applications.rds"))
+saveRDS(agi_applications, here::here("data-raw", "points_layers", "renovictions_to", "geocode", "agi_applications.rds"))

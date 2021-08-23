@@ -6,7 +6,7 @@ library(readr)
 library(stringr)
 library(forcats)
 
-apartment_building_evaluation <- readRDS(here::here("data-raw", "apartments", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
+apartment_building_evaluation <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
 
 # Use readr to fix column types, and convert "N/A" to NA
 

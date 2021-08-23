@@ -6,7 +6,7 @@ library(sf)
 devtools::load_all() # Load package itself to get geocode_address and read_latest_file
 
 # Read in latest extract
-apartment_building_evaluation <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_evaluation", "extract"), suffix = "-apartment_building_evaluation.rds", fileext = "rds")
+apartment_building_evaluation <- read_latest_file(directory = here::here("data-raw", "points_layers", "apartment_building_evaluation", "extract"), suffix = "-apartment_building_evaluation.rds", fileext = "rds")
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   left_join(apartment_building_registry %>%
@@ -28,4 +28,4 @@ if (apartments_need_geocoding == 0) {
 }
 
 # Save geocoded
-saveRDS(apartment_building_evaluation, here::here("data-raw", "apartments", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
+saveRDS(apartment_building_evaluation, here::here("data-raw", "points_layers", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
