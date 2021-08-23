@@ -18,7 +18,7 @@ add_blank_agi_layer <- function(map) {
     mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(apartment_buildings %>%
       dplyr::filter(agi)), circle_color = "red", circle_opacity = 0.75, id = "agi", circle_blur = 0.5, circle_radius = 6) %>%
     # Set the visibility to "none", so it's not shown
-    mapboxer::set_layout_property(layer_id = "agi", "visibility", "none")%>%
+    mapboxer::set_layout_property(layer_id = "agi", "visibility", "none") %>%
     # Add tooltips
-    mapboxer::add_tooltips(layer_id = "agi", "{{{tooltip}}}")
+    mapboxer::add_popups(layer_id = "agi", "{{{tooltip}}}")
 }

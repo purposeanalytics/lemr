@@ -77,7 +77,7 @@ mod_search_ui <- function(id) {
 #' search Server Functions
 #'
 #' @noRd
-mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_method) {
+mod_search_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -87,7 +87,7 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
       # If it's empty, don't error
       if (x == "") {
         NULL
-      }  else if (is.null(address_and_neighbourhood$address)) {
+      } else if (is.null(address_and_neighbourhood$address)) {
         # If the autocomplete has not yet been populated, don't error
         NULL
       } else if (address_and_neighbourhood$address_error) {
@@ -101,7 +101,6 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
 
     # If address is selected, store coords and neighbourhood
     shiny::observeEvent(input$jsValueCoords, ignoreInit = TRUE, {
-
       address_res <- input$jsValueCoords %>%
         dplyr::as_tibble() %>%
         sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
@@ -112,13 +111,12 @@ mod_search_server <- function(id, lemur_db, address_and_neighbourhood, search_me
 
       # Get neighbourhood of address
       neighbourhood <- address_and_neighbourhood$address %>%
-      sf::st_intersection(lemur::neighbourhoods) %>%
+        sf::st_intersection(lemur::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
       address_and_neighbourhood$address_error <- length(neighbourhood) == 0
 
       if (!address_and_neighbourhood$address_error) {
-
         address_and_neighbourhood$neighbourhood <- neighbourhood
         # Update search method
         search_method("address")

@@ -15,9 +15,9 @@
 add_blank_apartment_evaluation_layer <- function(map) {
   map %>%
     # Add the layer
-    mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(lemur::apartment_buildings), id = "apartment_evaluation", circle_color = c("get", "score_colour"), circle_blur = 0.5, circle_radius = 6) %>%
+    mapboxer::add_circle_layer(source = mapboxer::as_mapbox_source(lemur::apartment_buildings %>% dplyr::filter(!is.na(score))), id = "apartment_evaluation", circle_color = c("get", "score_colour"), circle_blur = 0.5, circle_radius = 6) %>%
     # Set the visibility to "none", so it's not shown
     mapboxer::set_layout_property(layer_id = "apartment_evaluation", "visibility", "none") %>%
     # Add tooltips
-    mapboxer::add_tooltips(layer_id = "apartment_evaluation", "{{{tooltip}}}")
+    mapboxer::add_popups(layer_id = "apartment_evaluation", "{{{tooltip}}}")
 }

@@ -4,6 +4,7 @@ library(dplyr)
 library(lubridate)
 library(readr)
 library(stringr)
+library(forcats)
 
 apartment_building_evaluation <- readRDS(here::here("data-raw", "apartments", "apartment_building_evaluation", "geocode", "apartment_building_evaluation.rds"))
 
@@ -61,15 +62,21 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
   ))
 
 # Colour points
+# All 50% and lower will get the lightest color
+# And the rest of the gradient will be 51 - 100
 
 # Set colours
-n <- 8
+n <- 7
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  dplyr::mutate(score_bucket = cut(score, breaks = seq(20, 100, length.out = n)))
+  dplyr::mutate(
+    score_bucket = cut(score, breaks = seq(51, 100, length.out = n - 1)),
+    score_bucket = fct_explicit_na(score_bucket, na_level = "<50"),
+    score_bucket = fct_relevel(score_bucket, "<50", after = 0)
+  )
 
 score_bucket_colors <- dplyr::tibble(
   score_bucket = levels(apartment_building_evaluation[["score_bucket"]]),
-  color = c("#FFFFCC", "#FED976", "#FEB24C", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
+  color = c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
 )
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
