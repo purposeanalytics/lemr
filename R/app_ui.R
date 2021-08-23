@@ -8,6 +8,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     shiny::navbarPage(
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
+      collapsible = TRUE,
       selected = "Map",
       shiny::tabPanel(
         "About"

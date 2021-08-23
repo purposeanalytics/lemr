@@ -309,3 +309,56 @@ body > .container-fluid {
   border-radius: 0;
   margin-bottom: 0;
 }
+
+/* Media queries - smaller screen sizes */
+
+/* Extra small devices (portrait phones, up to 575px) */
+@media (max-width: 575px) {
+}
+
+/* Small devices (landscape phones, 576px to 767) */
+@media (max-width: 767px) {
+  :root {
+  --font: "Open Sans", Sans-Serif;
+  --base-size: 12px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (max-width: 991px) {
+  :root {
+  --font: "Open Sans", Sans-Serif;
+  --base-size: 12px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Large devices (desktops, 992px to 1200px) */
+@media (max-width: 1200px) {
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+/* This is the standard, what the CSS expects - so no special rules */
