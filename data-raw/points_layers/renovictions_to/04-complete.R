@@ -4,9 +4,9 @@ library(dplyr)
 library(tidyr)
 library(sf)
 
-agi_applications <- readRDS(here::here("data-raw", "apartments", "renovictions_to", "clean", "agi_applications.rds"))
+agi_applications <- readRDS(here::here("data-raw", "points_layers", "renovictions_to", "clean", "agi_applications.rds"))
 
-tenant_defense_fund <- readRDS(here::here("data-raw", "apartments", "tenant_defense_fund", "clean", "tenant_defense_fund.rds"))
+tenant_defense_fund <- readRDS(here::here("data-raw", "points_layers", "tenant_defense_fund", "clean", "tenant_defense_fund.rds"))
 
 tenant_defense_fund <- tenant_defense_fund %>%
   select(case_number, address, bing_address, bing_latitude, bing_longitude) %>%

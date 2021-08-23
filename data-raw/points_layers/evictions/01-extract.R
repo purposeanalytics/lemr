@@ -5,7 +5,7 @@ library(readr)
 library(tidyr)
 library(janitor)
 
-evictions <- read_csv(here::here("data-raw", "apartments", "evictions", "raw", "data.csv"))
+evictions <- read_csv(here::here("data-raw", "points_layers", "evictions", "raw", "data.csv"))
 
 # Convert into wide format - one row for each address, one column for landlord / property management and one for number of hearings
 
@@ -25,4 +25,4 @@ evictions <- evictions %>%
 
 # Save data
 
-saveRDS(evictions, here::here("data-raw", "apartments", "evictions", "extract", "evictions.rds"))
+saveRDS(evictions, here::here("data-raw", "points_layers", "evictions", "extract", "evictions.rds"))

@@ -12,13 +12,13 @@ library(usethis)
 devtools::load_all() # Load package itself to get geocode_address and read_latest_file
 
 # Read in latest extract
-apartment_building_registry <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_registry", "extract"), suffix = "-apartment_building_registry.csv")
+apartment_building_registry <- read_latest_file(directory = here::here("data-raw", "points_layers", "apartment_building_registry", "extract"), suffix = "-apartment_building_registry.csv")
 
 # If geocoded files exist, read in the latest one, and only geocode new addresses
-geocoded_files <- dir_ls(here::here("data-raw", "apartments", "apartment_building_registry", "geocode_raw"))
+geocoded_files <- dir_ls(here::here("data-raw", "points_layers", "apartment_building_registry", "geocode_raw"))
 
 if (length(geocoded_files) > 0) {
-  apartment_building_registry_already_geocoded <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
+  apartment_building_registry_already_geocoded <- read_latest_file(directory = here::here("data-raw", "points_layers", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
 
   apartment_building_registry_not_geocoded <- apartment_building_registry %>%
     anti_join(apartment_building_registry_already_geocoded, by = "_id")
@@ -101,4 +101,4 @@ if (length(geocoded_files) > 0) {
 }
 
 # Save results ----
-saveRDS(apartment_building_registry_geocoded, here::here("data-raw", "apartments", "apartment_building_registry", "geocode_raw", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded.rds")))
+saveRDS(apartment_building_registry_geocoded, here::here("data-raw", "points_layers", "apartment_building_registry", "geocode_raw", glue::glue("{Sys.Date()}-apartment_building_registry_geocoded.rds")))

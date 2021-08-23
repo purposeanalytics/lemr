@@ -4,7 +4,7 @@ library(purrr)
 library(janitor)
 library(stringr)
 
-files <- fs::dir_ls(here::here("data-raw", "apartments", "tenant_defense_fund", "raw"))
+files <- fs::dir_ls(here::here("data-raw", "points_layers", "tenant_defense_fund", "raw"))
 
 tenant_defense_fund <- files %>%
   map_dfr(function(x) {
@@ -21,4 +21,4 @@ tenant_defense_fund <- tenant_defense_fund %>%
   filter(!str_detect(Address, "Averages|Totals"))
 
 # Save data
-saveRDS(tenant_defense_fund, here::here("data-raw", "apartments", "tenant_defense_fund", "extract", "tenant_defense_fund.rds"))
+saveRDS(tenant_defense_fund, here::here("data-raw", "points_layers", "tenant_defense_fund", "extract", "tenant_defense_fund.rds"))

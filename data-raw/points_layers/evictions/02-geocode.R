@@ -7,7 +7,7 @@ library(progress)
 library(tidyr)
 devtools::load_all()
 
-evictions <- readRDS(here::here("data-raw", "apartments", "evictions", "extract", "evictions.rds"))
+evictions <- readRDS(here::here("data-raw", "points_layers", "evictions", "extract", "evictions.rds"))
 
 # Clean up addresses - separate postal code, add Ontario, convert to title case
 evictions <- evictions %>%
@@ -123,4 +123,4 @@ evictions_geocoded <- evictions_geocoded %>%
   rows_update(evictions_geocoded_redone_incorrect %>%
     select(-corrected), by = "address")
 
-saveRDS(evictions_geocoded, here::here("data-raw", "apartments", "evictions", "geocode", "evictions.rds"))
+saveRDS(evictions_geocoded, here::here("data-raw", "points_layers", "evictions", "geocode", "evictions.rds"))

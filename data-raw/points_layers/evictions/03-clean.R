@@ -4,7 +4,7 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 
-evictions <- readRDS(here::here("data-raw", "apartments", "evictions", "geocode", "evictions.rds"))
+evictions <- readRDS(here::here("data-raw", "points_layers", "evictions", "geocode", "evictions.rds"))
 
 # Select relevant columns
 

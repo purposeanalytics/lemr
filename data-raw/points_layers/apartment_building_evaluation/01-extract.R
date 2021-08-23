@@ -11,4 +11,4 @@ apartment_building_evaluation <- list_package_resources("https://open.toronto.ca
   clean_names()
 
 # Save resource with date extracted
-saveRDS(apartment_building_evaluation, here::here("data-raw", "apartments", "apartment_building_evaluation", "extract", glue::glue("{Sys.Date()}-apartment_building_evaluation.rds")))
+saveRDS(apartment_building_evaluation, here::here("data-raw", "points_layers", "apartment_building_evaluation", "extract", glue::glue("{Sys.Date()}-apartment_building_evaluation.rds")))

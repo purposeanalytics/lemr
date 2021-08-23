@@ -5,7 +5,7 @@ library(stringr)
 library(tidyr)
 library(sf)
 
-agi_applications <- readRDS(here::here("data-raw", "apartments", "renovictions_to", "geocode", "agi_applications.rds"))
+agi_applications <- readRDS(here::here("data-raw", "points_layers", "renovictions_to", "geocode", "agi_applications.rds"))
 
 agi_applications <- agi_applications %>%
   select(case_number, date_agi_initiated = date_initiated, landlord_original = landlord, address = address_for_geocoding, bing_address, bing_latitude, bing_longitude) %>%
@@ -61,4 +61,4 @@ agi_applications <- agi_applications %>%
   relocate(landlord, landlord_care_of, landlord_alt, .after = landlord_original) %>%
   select(-landlord_original)
 
-saveRDS(agi_applications, here::here("data-raw", "apartments", "renovictions_to", "clean", "agi_applications.rds"))
+saveRDS(agi_applications, here::here("data-raw", "points_layers", "renovictions_to", "clean", "agi_applications.rds"))

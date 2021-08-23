@@ -6,7 +6,7 @@ library(stringr)
 library(dplyr)
 devtools::load_all()
 
-apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "apartments", "apartment_building_registry", "geocode_clean"), suffix = "-apartment_building_registry_geocoded_clean.rds", fileext = "rds")
+apartment_building_registry_geocoded <- read_latest_file(directory = here::here("data-raw", "points_layers", "apartment_building_registry", "geocode_clean"), suffix = "-apartment_building_registry_geocoded_clean.rds", fileext = "rds")
 
 # Move address fields to start, clean up column names
 apartment_building_registry_geocoded <- apartment_building_registry_geocoded %>%
