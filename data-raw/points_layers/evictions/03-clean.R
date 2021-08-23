@@ -20,6 +20,12 @@ evictions <- evictions %>%
     str_remove_all("Limited|Incorporated|Corporation|Inc|Ltd|Corp|Lp") %>%
     str_trim())
 
-eviction_hearings <- evictions
+# Clean address
+eviction_hearings <- evictions %>%
+  mutate(
+    address = str_remove(address, " Ontario"),
+    address = str_remove(address, "Toronto|Scarborough|Etobicoke|North York|York|East York|Scarborugh|City"),
+    address = str_trim(address)
+  )
 
 usethis::use_data(eviction_hearings, overwrite = TRUE)
