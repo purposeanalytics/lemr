@@ -24,12 +24,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       map_toronto() %>%
         add_blank_lem_layer()%>%
         add_blank_amenity_density_layer() %>%
-        add_blank_address_layer() %>%
-        add_blank_apartment_layer() %>%
-        add_blank_apartment_evaluation_layer() %>%
-        add_blank_evictions_hearings_layer() %>%
-        add_blank_agi_layer() %>%
-        add_blank_tdf_layer() %>%
+        add_blank_points_layers() %>%
         add_blank_neighbourhood_layer() %>%
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {

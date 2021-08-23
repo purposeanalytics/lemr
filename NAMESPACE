@@ -2,11 +2,7 @@
 
 export("%>%")
 export(add_blank_address_layer)
-export(add_blank_agi_layer)
 export(add_blank_amenity_density_layer)
-export(add_blank_apartment_evaluation_layer)
-export(add_blank_apartment_layer)
-export(add_blank_evictions_hearings_layer)
 export(add_blank_lem_layer)
 export(add_blank_neighbourhood_layer)
 export(add_blank_tdf_layer)
