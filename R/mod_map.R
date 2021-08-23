@@ -27,6 +27,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         add_blank_address_layer() %>%
         add_blank_apartment_layer() %>%
         add_blank_apartment_evaluation_layer() %>%
+        add_blank_evictions_hearings_layer() %>%
         add_blank_agi_layer() %>%
         add_blank_tdf_layer() %>%
         add_blank_neighbourhood_layer() %>%

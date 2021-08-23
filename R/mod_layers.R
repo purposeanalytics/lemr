@@ -58,6 +58,16 @@ mod_layers_ui <- function(id) {
           ),
           legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
         ),
+        # Evictions hearings ----
+        create_full_legend(
+          icon = create_popover(title = "Evictions Hearings", content = "This layer shows the locations of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021."),
+          button = shinyWidgets::checkboxGroupButtons(
+            inputId = ns("evictions_hearings"),
+            choices = list("Evictions Hearings" = "evictions_hearings"),
+            justified = TRUE
+          ),
+          legend = NULL
+        ),
         # AGI Applications -----
         create_full_legend(
           icon = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of rentals whose landlords applied for an Above Guideline Increase (AGI) in the rent."),
@@ -93,13 +103,14 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
       {
         input$apartment_buildings
         input$apartment_evaluation
+        input$evictions_hearings
         input$agi
         input$tdf
       },
       ignoreInit = TRUE,
       ignoreNULL = FALSE,
       {
-        active_layers <- c(input$apartment_buildings, input$apartment_evaluation, input$agi, input$tdf)
+        active_layers <- c(input$apartment_buildings, input$apartment_evaluation, input$evictions_hearings, input$agi, input$tdf)
 
         # Update reactive with value from input
         point_layers(active_layers)
@@ -149,7 +160,7 @@ create_full_legend <- function(icon, button, legend) {
   )
 }
 
-point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "AGI Applications" = "agi", "Tenant Defence Fund" = "tdf")
+point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "Evictions Hearings" = "evictions_hearings", "AGI Applications" = "agi", "Tenant Defence Fund" = "tdf")
 
 aggregate_layers_choices <- list("Amenity Density" = "amenity_density", "Low-end of Market Rentals" = "lem")
 
