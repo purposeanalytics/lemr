@@ -211,7 +211,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
 apartment_building_evaluation_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, height = height) %>%
-    echarts4r::e_x_axis(min = 0, max = 100)
+    plotly::layout(xaxis = list(range = c(0, 100), ticksuffix = "%"))
 }
 
 # Amenity density -----

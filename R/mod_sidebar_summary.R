@@ -47,13 +47,13 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::h2("Apartment buildings"),
           bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
           shiny::textOutput(ns("number_of_apartments_description")),
-          echarts4r::echarts4rOutput(ns("number_of_apartments_plot"), height = "100px"),
+          plotly::plotlyOutput(ns("number_of_apartments_plot"), height = "100px"),
           shiny::textOutput(ns("number_of_units_description")),
-          echarts4r::echarts4rOutput(ns("number_of_units_plot"), height = "100px"),
+          plotly::plotlyOutput(ns("number_of_units_plot"), height = "100px"),
           shiny::h2("RentSafeTO evaluation scores"),
           bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
           shiny::textOutput(ns("apartment_building_evaluation_description")),
-          echarts4r::echarts4rOutput(ns("apartment_building_evaluation_plot"), height = "100px"),
+          plotly::plotlyOutput(ns("apartment_building_evaluation_plot"), height = "100px"),
           shiny::h2("Amenity density"),
           shiny::textOutput(ns("amenity_density_description")),
           shiny::plotOutput(ns("amenity_density_plot"), height = "150px"),
@@ -61,6 +61,18 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
         )
       )
     })
+
+    output$test <- plotly::renderPlotly({
+      plot_ly(x, x = ~x, y = ~y, type = "bar", hoverinfo = "skip") %>%
+        layout(
+          yaxis = list(title = NA, showline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+          xaxis = list(title = NA, showline = FALSE, fixedrange = TRUE),
+          margin = list(l = 0, r = 0, t = 0, b = 0),
+          barmode = "stack"
+        ) %>%
+        config(displayModeBar = FALSE)
+    }
+    )
 
     # Legend ----
 
@@ -116,7 +128,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       number_of_apartments_plot_alt_text(level(), neighbourhood())
     })
 
-    output$number_of_apartments_plot <- echarts4r::renderEcharts4r(
+    output$number_of_apartments_plot <- plotly::renderPlotly(
       {
         number_of_apartments_plot(dataset(), compare())
       }
@@ -132,7 +144,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       number_of_units_plot_alt_text(level(), neighbourhood())
     })
 
-    output$number_of_units_plot <- echarts4r::renderEcharts4r(
+    output$number_of_units_plot <- plotly::renderPlotly(
       {
         number_of_units_plot(dataset(), compare())
       }
@@ -163,7 +175,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       apartment_building_evaluation_plot_alt_text(level(), neighbourhood())
     })
 
-    output$apartment_building_evaluation_plot <- echarts4r::renderEcharts4r(
+    output$apartment_building_evaluation_plot <- plotly::renderPlotly(
       {
         apartment_building_evaluation_plot(dataset(), compare())
       }

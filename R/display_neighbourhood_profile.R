@@ -243,6 +243,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL) {
+  # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
@@ -253,46 +254,33 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
     plot_data <- plot_data %>%
-      dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
-      dplyr::mutate(
-        neighbourhood_y = ifelse(.data$neighbourhood, y, NA_real_)
-      )
-
-    # If there is no value for the neighbourhood (e.g. in the case of RentSafeTO scores), then all y should retain their existing values and all neighbourhood_y should be NAs
-    missing_neighbourhood_y <- plot_data %>%
-      dplyr::filter(!is.na(.data$neighbourhood_y)) %>%
-      nrow() == 0
-
-    # Otherwise, y is all cases where neighbourhood_y is NA
-    if (!missing_neighbourhood_y) {
-      plot_data <- plot_data %>%
-        dplyr::mutate(y = ifelse(.data$neighbourhood, NA_real_, y))
-    }
+      dplyr::mutate(is_neighbourhood = ifelse(data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax, "yes", "no"))
+  } else {
+    plot_data <- plot_data %>%
+      dplyr::mutate(is_neighbourhood = "no")
   }
 
-  p <- plot_data %>%
-    # Set as factor to not double axis - but makes labels ugly! ugh.
-    dplyr::mutate(x = as.factor(x)) %>%
-    echarts4r::e_chart(x = x, height = height, dispose = FALSE) %>%
-    echarts4r::e_bar(serie = y, stack = "grp", emphasis = list(itemStyle = list(color = grey_colour))) %>%
-    echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
-    echarts4r::e_x_axis(
-      axisLine = list(show = FALSE),
-      axisTick = list(show = FALSE),
-      splitLine = list(show = FALSE)
+  # Widen data to get yes/no columns
+
+  plot_data <- plot_data %>%
+    tidyr::pivot_wider(names_from = is_neighbourhood, values_from = y) %>%
+    # Set NAs to 0 to avoid warning of missing values
+    dplyr::mutate(dplyr::across(tidyselect::any_of(c("yes", "no")), dplyr::coalesce, 0))
+
+  p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
+    plotly::layout(
+      yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+      xaxis = list(title = NA, showline = FALSE, fixedrange = TRUE, tickformat = "digits"),
+      margin = setNames(as.list(rep(25, 4)), c("t", "r", "b", "l")),
+      barmode = "stack",
+      showlegend = FALSE
     ) %>%
-    echarts4r::e_y_axis(
-      show = FALSE
-    ) %>%
-    echarts4r::e_legend(show = FALSE)
+    plotly::config(displayModeBar = FALSE)
 
   if (compare) {
     p <- p %>%
-      echarts4r::e_bar(serie = neighbourhood_y, stack = "grp", emphasis = list(itemStyle = list(color = main_colour)))
+      plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
   }
 
-
-  p %>%
-    echarts4r::e_animation(show = FALSE) %>%
-    echarts4r::e_grid(top = "10px", left = "15px", right = "15px", bottom = "25px")
+  p
 }
