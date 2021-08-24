@@ -23,9 +23,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
   original_data <- data[[variable]]
 
-  original_data <- original_data %>%
-    dplyr::arrange(desc(.data$group))
-
   data <- original_data
 
   # Flag if it's a proportion variable
@@ -62,40 +59,38 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
   if (type == "plot") {
     if (compare) {
-      p <- data %>%
-        echarts4r::e_chart(x = group) %>%
-        echarts4r::e_bar(neighbourhood, name = neighbourhood_name, emphasis = list(itemStyle = list(color = main_colour))) %>%
-        echarts4r::e_bar(toronto, name = "City of Toronto", emphasis = list(itemStyle = list(color = grey_colour))) %>%
-        echarts4r::e_flip_coords() %>%
-        echarts4r::e_color(color = c(main_colour, grey_colour))
+      p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip") %>%
+        plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip")
     } else {
-      p <- data %>%
-        echarts4r::e_chart(x = group) %>%
-        echarts4r::e_bar(prop, emphasis = list(itemStyle = list(color = grey_colour)), legend = FALSE) %>%
-        echarts4r::e_flip_coords() %>%
-        echarts4r::e_color(color = grey_colour)
+
+      if (prop_variable) {
+        plot_data <- data %>%
+          dplyr::select(-value) %>%
+          dplyr::rename(value = prop)
+      } else {
+        plot_data <- data
+      }
+
+      p <- plotly::plot_ly(plot_data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip")
     }
 
     if (dollar) {
       p <- p %>%
-        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "currency"))
+        plotly::layout(xaxis = list(tickprefix = "$"))
     } else {
       p <- p %>%
-        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
+        plotly::layout(xaxis = list(tickformat = "%"))
     }
 
     p %>%
-      echarts4r::e_x_axis(
-        axisLine = list(show = FALSE),
-        axisTick = list(show = FALSE),
-        splitLine = list(show = FALSE)
+      plotly::layout(
+        yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
+        margin = list(t = 15, r = 25, b = 5, l = 25),
+        showlegend = FALSE,
+        font = list(family = "Open Sans", size = 14, color = "black")
       ) %>%
-      echarts4r::e_y_axis(
-        axisLine = list(show = FALSE),
-        axisTick = list(show = FALSE)
-      ) %>%
-      echarts4r::e_animation(show = FALSE) %>%
-      echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "75px", right = "15px", bottom = "25px")
+      plotly::config(displayModeBar = FALSE)
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -166,7 +161,6 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
         dplyr::select(.data$group, .data$prop, .data$neighbourhood) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1)) %>%
         tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$prop) %>%
-        dplyr::arrange(dplyr::desc(.data$group)) %>%
         dplyr::relocate(.data$`City of Toronto`, .after = dplyr::last_col())
 
       return(res)
@@ -185,7 +179,6 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
   } else if (!compare) {
     if (type == "table") {
       res <- data %>%
-        dplyr::arrange(dplyr::desc(.data$group)) %>%
         dplyr::select(.data$group, .data$prop) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1))
 

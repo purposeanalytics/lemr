@@ -54,12 +54,12 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
-          # plotly::plotlyOutput(ns("household_size_plot"), height = "200px"),
+          plotly::plotlyOutput(ns("household_size_plot"), height = "200px"),
           shiny::htmlOutput(ns("household_size_table")),
           shiny::hr(),
           shiny::h2("Average total household income"),
           shiny::textOutput(ns("average_total_household_income_description")),
-          # plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px"),
+          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px"),
           shiny::htmlOutput(ns("average_total_household_income_table")),
           shiny::hr(),
           shiny::h2("Unaffordable housing"),
@@ -78,7 +78,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           bigger_padded(shiny::textOutput(ns("visible_minority"))),
           bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
           shiny::textOutput(ns("visible_minority_description")),
-          # plotly::plotlyOutput(ns("visible_minority_plot"), height = "400px"),
+          plotly::plotlyOutput(ns("visible_minority_plot"), height = "400px"),
           shiny::htmlOutput(ns("visible_minority_table"))
         )
       )
