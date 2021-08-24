@@ -300,12 +300,24 @@ body > .container-fluid {
 
 /* Extra small devices (portrait phones, up to 575px) */
 @media (max-width: 575px) {
+
+  :root {
+  --base-size: 12px;
+  }
+
+  .map-col {
+    width: 100%;
+  }
+
+  .sidebar-col {
+    width: 100%;
+  }
 }
 
 /* Small devices (landscape phones, 576px to 767) */
-@media (max-width: 767px) {
+@media (min-width: 576px) and (max-width: 767px) {
+
   :root {
-  --font: "Open Sans", Sans-Serif;
   --base-size: 12px;
   }
 
@@ -319,9 +331,9 @@ body > .container-fluid {
 }
 
 /* Medium devices (tablets, 768px to 991px) */
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
+
   :root {
-  --font: "Open Sans", Sans-Serif;
   --base-size: 12px;
   }
 
@@ -335,7 +347,7 @@ body > .container-fluid {
 }
 
 /* Large devices (desktops, 992px to 1200px) */
-@media (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1199px) {
   .map-col {
     width: 50%;
   }
