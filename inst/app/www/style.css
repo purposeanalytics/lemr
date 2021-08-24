@@ -5,7 +5,6 @@
   --font: "Open Sans", Sans-Serif;
   --base-size: 16px;
   --bigger-size: 1.25em;
-  --biggest-size: 1.5em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -40,11 +39,8 @@ h1 {
 }
 
 h2 {
-  font-size: 1.75em;
-}
-
-h3 {
   font-size: 1.5em;
+  font-weight: var(--bold-weight);
 }
 
 .padded {
@@ -57,10 +53,6 @@ h3 {
 
 .bigger {
   font-size: var(--bigger-size);
-}
-
-.biggest {
-  font-size: var(--biggest-size);
 }
 
 .nav-tabs {
