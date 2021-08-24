@@ -44,21 +44,21 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),
-          plotly::plotlyOutput(ns("structure_type_plot"), height = "200px"),
+          shiny::uiOutput(ns("structure_type_plot_ui")),
           shiny::htmlOutput(ns("structure_type_table")),
           shiny::h2("Number of bedrooms"),
           shiny::textOutput(ns("bedrooms_description")),
-          plotly::plotlyOutput(ns("bedrooms_plot"), height = "200px"),
+          shiny::uiOutput(ns("bedrooms_plot_ui")),
           shiny::htmlOutput(ns("bedrooms_table")),
           shiny::h2("Households by tenure"),
           shiny::textOutput(ns("household_tenure_description")),
-          plotly::plotlyOutput(ns("household_tenure_plot"), height = "150px"),
+          shiny::uiOutput(ns("household_tenure_plot_ui")),
           shiny::htmlOutput(ns("household_tenure_table")),
           shiny::h2("Average shelter cost for renters"),
           bigger_padded(shiny::textOutput(ns("shelter_cost"))),
           bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
           shiny::textOutput(ns("average_renter_shelter_cost_description")),
-          plotly::plotlyOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
+          shiny::uiOutput(ns("average_renter_shelter_cost_plot_ui"))
         )
       )
     })
@@ -95,6 +95,14 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$structure_type_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = structure_type_alt_text(),
+        plotly::plotlyOutput(ns("structure_type_plot"), height = "200px")
+      )
+    })
+
     output$structure_type_table <- shiny::renderText({
       generate_table(dataset(), "structure_type", compare(), "Housing Structure Type", "Percent")
     }) %>%
@@ -118,6 +126,14 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$bedrooms_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = bedrooms_alt_text(),
+        plotly::plotlyOutput(ns("bedrooms_plot"), height = "200px")
+      )
+    })
+
     output$bedrooms_table <- shiny::renderText({
       generate_table(dataset(), "bedrooms", compare(), "Number of bedrooms", "Percent")
     }) %>%
@@ -140,6 +156,14 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$household_tenure_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = household_tenure_alt_text(),
+        plotly::plotlyOutput(ns("household_tenure_plot"), height = "100px")
+      )
+    })
 
     output$household_tenure_table <- shiny::renderText({
       generate_table(dataset(), "household_tenure", compare(), "Household tenure", "Percent")
@@ -183,6 +207,15 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$average_renter_shelter_cost_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = average_renter_shelter_cost_alt_text(),
+        plotly::plotlyOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
+      )
+    })
+
   })
 }
 

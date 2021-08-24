@@ -45,40 +45,40 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
-          plotly::plotlyOutput(ns("population_change_plot"), height = "100px"),
+          shiny::uiOutput(ns("population_change_plot_ui")),
           shiny::hr(),
           shiny::h2("Population density"),
           bigger_padded(shiny::textOutput(ns("population_density_number"))),
           shiny::textOutput(ns("population_density_description")),
-          plotly::plotlyOutput(ns("population_density_plot"), height = "100px"),
+          shiny::uiOutput(ns("population_density_plot_ui")),
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
-          plotly::plotlyOutput(ns("household_size_plot"), height = "200px"),
+          shiny::uiOutput(ns("household_size_plot_ui")),
           shiny::htmlOutput(ns("household_size_table")),
           shiny::hr(),
           shiny::h2("Average total household income"),
           shiny::textOutput(ns("average_total_household_income_description")),
-          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px"),
+          shiny::uiOutput(ns("average_total_household_income_plot_ui")),
           shiny::htmlOutput(ns("average_total_household_income_table")),
           shiny::hr(),
           shiny::h2("Unaffordable housing"),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
           shiny::textOutput(ns("unaffordable_housing_description")),
-          plotly::plotlyOutput(ns("unaffordable_housing_plot"), height = "100px"),
+          shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
           shiny::hr(),
           shiny::h2("Low-income measure after tax"),
           bigger_padded(shiny::textOutput(ns("lim_at"))),
           bigger_padded(shiny::textOutput(ns("lim_at_city"))),
           shiny::textOutput(ns("lim_at_description")),
-          plotly::plotlyOutput(ns("lim_at_plot"), height = "100px"),
+          shiny::uiOutput(ns("lim_at_plot_ui")),
           shiny::hr(),
           shiny::h2("Visible minority population"),
           bigger_padded(shiny::textOutput(ns("visible_minority"))),
           bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
           shiny::textOutput(ns("visible_minority_description")),
-          plotly::plotlyOutput(ns("visible_minority_plot"), height = "400px"),
+          shiny::uiOutput(ns("visible_minority_plot_ui")),
           shiny::htmlOutput(ns("visible_minority_table"))
         )
       )
@@ -129,6 +129,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$population_change_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = population_change_alt_text(),
+        plotly::plotlyOutput(ns("population_change_plot"), height = "100px")
+      )
+    })
+
     # Population density -----
 
     population_density <- shiny::reactive({
@@ -160,6 +168,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$population_density_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = population_density_alt_text(),
+        plotly::plotlyOutput(ns("population_density_plot"), height = "100px")
+      )
+    })
+
     # Household size -----
 
     output$household_size_description <- shiny::renderText({
@@ -177,6 +193,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$household_size_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = household_size_alt_text(),
+        plotly::plotlyOutput(ns("household_size_plot"), height = "200px")
+      )
+    })
 
     output$household_size_table <- shiny::renderText({
       generate_table(dataset(), "household_size", compare(), "Household Size", "Percent")
@@ -200,6 +224,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$average_total_household_income_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = average_total_household_income_alt_text(),
+        plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px")
+      )
+    })
 
     output$average_total_household_income_table <- shiny::renderText({
       generate_table(dataset(), "average_total_income", compare(), "Household Size", "Average Total Household", format = "dollar")
@@ -241,6 +273,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$unaffordable_housing_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = unaffordable_housing_alt_text(),
+        plotly::plotlyOutput(ns("unaffordable_housing_plot"), height = "100px")
+      )
+    })
+
     # LIM-AT -----
 
     lim_at <- shiny::reactive({
@@ -277,6 +317,13 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$lim_at_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = lim_at_alt_text(),
+        plotly::plotlyOutput(ns("lim_at_plot"), height = "100px")
+      )
+    })
 
     # Visible minority population -----
 
@@ -305,6 +352,14 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$visible_minority_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = visible_minority_alt_text(),
+        plotly::plotlyOutput(ns("visible_minority_plot"), height = "400px")
+      )
+    })
 
     output$visible_minority_table <- shiny::renderText({
       generate_table(dataset(), "visible_minority", compare(), "Visible Minority Group", "Percent") %>%
