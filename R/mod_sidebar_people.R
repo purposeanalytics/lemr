@@ -45,40 +45,40 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
-          shiny::plotOutput(ns("population_change_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("population_change_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Population density"),
           bigger_padded(shiny::textOutput(ns("population_density_number"))),
           shiny::textOutput(ns("population_density_description")),
-          shiny::plotOutput(ns("population_density_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("population_density_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
-          shiny::plotOutput(ns("household_size_plot"), height = "200px"),
+          echarts4r::echarts4rOutput(ns("household_size_plot"), height = "200px"),
           shiny::htmlOutput(ns("household_size_table")),
           shiny::hr(),
           shiny::h2("Average total household income"),
           shiny::textOutput(ns("average_total_household_income_description")),
-          shiny::plotOutput(ns("average_total_household_income_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("average_total_household_income_plot"), height = "100px"),
           shiny::htmlOutput(ns("average_total_household_income_table")),
           shiny::hr(),
           shiny::h2("Unaffordable housing"),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
           shiny::textOutput(ns("unaffordable_housing_description")),
-          shiny::plotOutput(ns("unaffordable_housing_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("unaffordable_housing_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Low-income measure after tax"),
           bigger_padded(shiny::textOutput(ns("lim_at"))),
           bigger_padded(shiny::textOutput(ns("lim_at_city"))),
           shiny::textOutput(ns("lim_at_description")),
-          shiny::plotOutput(ns("lim_at_plot"), height = "100px"),
+          echarts4r::echarts4rOutput(ns("lim_at_plot"), height = "100px"),
           shiny::hr(),
           shiny::h2("Visible minority population"),
           bigger_padded(shiny::textOutput(ns("visible_minority"))),
           bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
           shiny::textOutput(ns("visible_minority_description")),
-          shiny::plotOutput(ns("visible_minority_plot"), height = "400px"),
+          echarts4r::echarts4rOutput(ns("visible_minority_plot"), height = "400px"),
           shiny::htmlOutput(ns("visible_minority_table"))
         )
       )
@@ -122,13 +122,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_change_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_change_plot <- shiny::renderPlot(
+    output$population_change_plot <- echarts4r::renderEcharts4r(
       {
         population_change_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = population_change_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -156,13 +153,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_density_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_density_plot <- shiny::renderPlot(
+    output$population_density_plot <- echarts4r::renderEcharts4r(
       {
         population_density_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = population_density_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -177,13 +171,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       household_size_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_size_plot <- shiny::renderPlot(
+    output$household_size_plot <- echarts4r::renderEcharts4r(
       {
         household_size_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = household_size_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -203,13 +194,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       average_total_household_income_plot_alt_text(level(), neighbourhood())
     })
 
-    output$average_total_household_income_plot <- shiny::renderPlot(
+    output$average_total_household_income_plot <- echarts4r::renderEcharts4r(
       {
         average_total_household_income_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = average_total_household_income_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -246,13 +234,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       unaffordable_housing_plot_alt_text(level(), neighbourhood())
     })
 
-    output$unaffordable_housing_plot <- shiny::renderPlot(
+    output$unaffordable_housing_plot <- echarts4r::renderEcharts4r(
       {
         unaffordable_housing_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = unaffordable_housing_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -285,13 +270,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       lim_at_plot_alt_text(level(), neighbourhood())
     })
 
-    output$lim_at_plot <- shiny::renderPlot(
+    output$lim_at_plot <- echarts4r::renderEcharts4r(
       {
         lim_at_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = lim_at_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -317,13 +299,10 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       visible_minority_plot_alt_text(level(), neighbourhood())
     })
 
-    output$visible_minority_plot <- shiny::renderPlot(
+    output$visible_minority_plot <- echarts4r::renderEcharts4r(
       {
         visible_minority_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = visible_minority_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 

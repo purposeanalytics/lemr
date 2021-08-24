@@ -21,74 +21,105 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type))
   }
 
-  data <- data[[variable]] %>%
-    dplyr::mutate(group = forcats::fct_rev(.data$group)) # Reverse factor levels so they read top to bottom
+  original_data <- data[[variable]]
+
+  original_data <- original_data %>%
+    dplyr::arrange(desc(.data$group))
+
+  data <- original_data
+
+  # Flag if it's a proportion variable
+  prop_variable <- "prop" %in% names(original_data)
 
   if (compare) {
-    city_data <- lemur::city_profile[[variable]] %>%
-      dplyr::mutate(group = forcats::fct_relevel(.data$group, levels(data[["group"]])))
+
+    neighbourhood_name <- data %>%
+      dplyr::pull(.data$neighbourhood) %>%
+      unique()
+
+    if (prop_variable) {
+      city_data <- lemur::city_profile[[variable]] %>%
+        dplyr::rename(toronto = .data$prop)
+
+      data <- data %>%
+        dplyr::select(-.data$neighbourhood) %>%
+        dplyr::rename(neighbourhood = .data$prop)
+    } else {
+      city_data <- lemur::city_profile[[variable]] %>%
+        dplyr::rename(toronto = .data$value)
+
+      data <- data %>%
+        dplyr::select(-.data$neighbourhood) %>%
+        dplyr::rename(neighbourhood = .data$value)
+    }
 
     data <- data %>%
-      dplyr::bind_rows(city_data) %>%
-      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, "City of Toronto")) %>%
-      dplyr::mutate(neighbourhood = forcats::fct_relevel(.data$neighbourhood, "City of Toronto", after = 0))
+      dplyr::full_join(city_data, by = "group")
   }
 
   data <- data %>%
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
-  # Flag if it's a proportion variable
-  prop_variable <- "prop" %in% names(data)
-
-  if (prop_variable) {
-    data <- data %>%
-      dplyr::mutate(
-        label = scales::percent(.data$prop, accuracy = 0.1),
-        value = .data$prop
-      )
-  } else {
-    data <- data %>%
-      dplyr::mutate(label = .data$value)
-  }
-
   if (type == "plot") {
     if (compare) {
-      p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group, fill = .data$neighbourhood)) +
-        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1)) +
-        ggplot2::scale_fill_manual(values = c(grey_colour, main_colour), guide = ggplot2::guide_legend(reverse = TRUE))
+      p <- data %>%
+        echarts4r::e_chart(x = group) %>%
+        echarts4r::e_bar(neighbourhood, name = neighbourhood_name, emphasis = list(itemStyle = list(color = main_colour))) %>%
+        echarts4r::e_bar(toronto, name = "City of Toronto", emphasis = list(itemStyle = list(color = grey_colour))) %>%
+        echarts4r::e_flip_coords() %>%
+        echarts4r::e_color(color = c(main_colour, grey_colour))
     } else {
-      p <- ggplot2::ggplot(data, ggplot2::aes(y = .data$group)) +
-        ggplot2::geom_col(ggplot2::aes(x = .data$value), position = ggplot2::position_dodge2(preserve = "single", width = 1), fill = grey_colour)
+      p <- data %>%
+        echarts4r::e_chart(x = group) %>%
+        echarts4r::e_bar(prop, emphasis = list(itemStyle = list(color = grey_colour)), legend = FALSE) %>%
+        echarts4r::e_flip_coords() %>%
+        echarts4r::e_color(color = grey_colour)
     }
 
     if (dollar) {
-      p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = scales::dollar(.data$label)), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
+      p <- p %>%
+        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "currency"))
     } else {
-      p <- p +
-        ggplot2::geom_text(ggplot2::aes(x = .data$value, label = .data$label), position = ggplot2::position_dodge2(preserve = "single", width = 1), hjust = -0.1, size = 3)
+      p <- p %>%
+        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
     }
 
-    p +
-      ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
-      ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.20))) +
-      theme_lemur(base_size = 12) +
-      ggplot2::theme(
-        legend.position = "none",
-        axis.text.x = ggplot2::element_blank()
-      )
+    p %>%
+      echarts4r::e_x_axis(
+        axisLine = list(show = FALSE),
+        axisTick = list(show = FALSE),
+        splitLine = list(show = FALSE)
+      ) %>%
+      echarts4r::e_y_axis(
+        axisLine = list(show = FALSE),
+        axisTick = list(show = FALSE)
+      ) %>%
+      echarts4r::e_animation(show = FALSE) %>%
+      echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "75px", right = "15px", bottom = "25px")
   } else if (type == "table") {
-    data <- data %>%
-      dplyr::arrange(dplyr::desc(.data$group))
-
     if (compare) {
       res <- data %>%
-        dplyr::select(.data$group, .data$neighbourhood, .data$label) %>%
-        tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$label)
+        dplyr::select(.data$group, .data$neighbourhood, .data$toronto)
+
+      names(res) <- c("group", neighbourhood_name, "City of Toronto")
     } else {
-      res <- data %>%
-        dplyr::select(.data$group, .data$label)
+
+      if (prop_variable) {
+        res <- data %>%
+          dplyr::select(.data$group, .data$prop)
+      } else {
+        res <- data %>%
+          dplyr::select(.data$group, .data$value)
+      }
     }
+
+    if (prop_variable) {
+      res <- res %>%
+        dplyr::mutate(dplyr::across(-c(.data$group), scales::percent_format(accuracy = 0.1)))
+    }
+
+    res <- res %>%
+      dplyr::arrange(group)
 
     return(res)
   }
@@ -211,28 +242,57 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 #'
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
-plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE) {
+plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL) {
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
+
+  plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
+    dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax)
 
   if (compare) {
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
-    plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
-      dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax) %>%
+    plot_data <- plot_data %>%
       dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
-      dplyr::mutate(neighbourhood = dplyr::coalesce(.data$neighbourhood, FALSE)) %>%
-      tidyr::uncount(weights = .data$y)
+      dplyr::mutate(
+        neighbourhood_y = ifelse(.data$neighbourhood, y, NA_real_)
+      )
 
-    p <- ggplot2::ggplot() +
-      ggplot2::geom_histogram(data = plot_data, ggplot2::aes(x = .data$x, fill = .data$neighbourhood), binwidth = binwidth, show.legend = FALSE) +
-      ggplot2::scale_fill_manual(values = c(grey_colour, main_colour))
+    # If there is no value for the neighbourhood (e.g. in the case of RentSafeTO scores), then all y should retain their existing values and all neighbourhood_y should be NAs
+    missing_neighbourhood_y <- plot_data %>%
+      dplyr::filter(!is.na(.data$neighbourhood_y)) %>%
+      nrow() == 0
+
+    # Otherwise, y is all cases where neighbourhood_y is NA
+    if (!missing_neighbourhood_y) {
+      plot_data <- plot_data %>%
+        dplyr::mutate(y = ifelse(.data$neighbourhood, NA_real_, y))
+    }
   }
 
-  p +
-    theme_lemur() +
-    ggplot2::theme(
-      axis.title = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_blank()
-    )
+  p <- plot_data %>%
+    # Set as factor to not double axis - but makes labels ugly! ugh.
+    dplyr::mutate(x = as.factor(x)) %>%
+    echarts4r::e_chart(x = x, height = height, dispose = FALSE) %>%
+    echarts4r::e_bar(serie = y, stack = "grp", emphasis = list(itemStyle = list(color = grey_colour))) %>%
+    echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
+    echarts4r::e_x_axis(
+      axisLine = list(show = FALSE),
+      axisTick = list(show = FALSE),
+      splitLine = list(show = FALSE)
+    ) %>%
+    echarts4r::e_y_axis(
+      show = FALSE
+    ) %>%
+    echarts4r::e_legend(show = FALSE)
+
+  if (compare) {
+    p <- p %>%
+      echarts4r::e_bar(serie = neighbourhood_y, stack = "grp", emphasis = list(itemStyle = list(color = main_colour)))
+  }
+
+
+  p %>%
+    echarts4r::e_animation(show = FALSE) %>%
+    echarts4r::e_grid(top = "10px", left = "15px", right = "15px", bottom = "25px")
 }

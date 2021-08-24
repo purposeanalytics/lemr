@@ -15,9 +15,7 @@ library(knitr)
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "100%", fig.pos = "!H")
 
-knitr::opts_template$set(distribution = list(
-  fig.height = 1
-))
+distribution_height <- "200px"
 
 html_output <- is_html_output()
 output <- ifelse(html_output, "html", "pdf")
@@ -69,16 +67,15 @@ lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartme
   format_paragraph() %>%
   lemur:::bigger_padded()
 
-lemur:::number_of_apartments_plot(dataset, compare)
+lemur:::number_of_apartments_plot(dataset, compare, height = distribution_height)
 ```
 
 ```{r apartment-building-units, opts.label = "distribution", fig.alt = lemur:::number_of_units_plot_alt_text(level, neighbourhood)}
-
 lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
   format_paragraph() %>%
   lemur:::bigger_padded()
 
-lemur:::number_of_units_plot(dataset, compare)
+lemur:::number_of_units_plot(dataset, compare, height = distribution_height)
 ```
 
 ## RentSafeTO evaluation scores
@@ -94,7 +91,7 @@ lemur:::apartment_building_evaluation_description(level, neighbourhood, apartmen
   format_paragraph() %>%
   lemur:::bigger_padded()
 
-lemur:::apartment_building_evaluation_plot(dataset, compare)
+lemur:::apartment_building_evaluation_plot(dataset, compare, height = distribution_height)
 ```
 
 ## Population change
@@ -110,7 +107,7 @@ lemur:::population_change_description(level, neighbourhood, population_change, p
   format_paragraph() %>%
   lemur:::bigger_padded()
 
-lemur:::population_change_plot(dataset, compare)
+lemur:::population_change_plot(dataset, compare, height = distribution_height)
 ```
 
 ## Population density
@@ -126,7 +123,7 @@ lemur:::population_density_description(level, neighbourhood, population_density,
   format_paragraph() %>%
   lemur:::bigger_padded()
 
-lemur:::population_density_plot(dataset, compare)
+lemur:::population_density_plot(dataset, compare, height = distribution_height)
 ```
 
 ## Household size 
@@ -166,7 +163,7 @@ lemur:::unaffordable_housing_city(level) %>%
 lemur:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
   format_paragraph()
 
-lemur:::unaffordable_housing_plot(dataset, compare)
+lemur:::unaffordable_housing_plot(dataset, compare, height = distribution_height)
 ```
 
 ## Low-income measure after tax
@@ -184,13 +181,13 @@ lemur:::lim_at_city(level) %>%
 lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
   format_paragraph()
 
-lemur:::lim_at_plot(dataset, compare)
+lemur:::lim_at_plot(dataset, compare, height = distribution_height)
 ```
 
 ## Visible minority population
 
 ```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
-lemur:::visible_minority_number(dataset)  %>%
+lemur:::visible_minority_number(dataset) %>%
   lemur:::bigger_padded()
 
 lemur:::visible_minority_city(level) %>%
@@ -253,5 +250,5 @@ lemur:::shelter_cost_city(level) %>%
 lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
   format_paragraph()
 
-lemur:::average_renter_shelter_cost_plot(dataset, compare)
+lemur:::average_renter_shelter_cost_plot(dataset, compare, height = distribution_height)
 ```

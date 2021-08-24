@@ -61,7 +61,7 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
   if (output == "pdf") {
     res %>%
       kableExtra::kable(format = "latex", align = c("l", rep("r", ncol(res) - 1))) %>%
-      kableExtra::kable_styling()
+      kableExtra::kable_styling(latex_options = "HOLD_position")
   } else {
     res %>%
       kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
@@ -111,9 +111,9 @@ number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-number_of_apartments_plot <- function(data, compare) {
+number_of_apartments_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 5)
+    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 5, height = height)
 }
 
 number_of_units_description <- function(level, neighbourhood, number_of_units, number_of_units_formatted) {
@@ -152,10 +152,9 @@ number_of_units_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-number_of_units_plot <- function(data, compare) {
+number_of_units_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250) +
-    ggplot2::scale_x_continuous(labels = scales::comma)
+    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250, height = height)
 }
 
 # Apartment building evaluation (RentSafeTO) ----
@@ -209,10 +208,10 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-apartment_building_evaluation_plot <- function(data, compare) {
+apartment_building_evaluation_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2) +
-    ggplot2::scale_x_continuous(limits = c(0, 100), oob = scales::oob_keep)
+    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, height = height) %>%
+    echarts4r::e_x_axis(min = 0, max = 100)
 }
 
 # Amenity density -----
@@ -270,10 +269,10 @@ population_change_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-population_change_plot <- function(data, compare) {
+population_change_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01) +
-    ggplot2::scale_x_continuous(labels = scales::label_percent())
+    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01, height = height) %>%
+    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter("percent"))
 }
 
 # Population density ----
@@ -312,10 +311,9 @@ population_density_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-population_density_plot <- function(data, compare) {
+population_density_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000) +
-    ggplot2::scale_x_continuous(labels = scales::comma)
+    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000, height = height)
 }
 
 # Household size ----
@@ -398,10 +396,10 @@ unaffordable_housing_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-unaffordable_housing_plot <- function(data, compare) {
+unaffordable_housing_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare, binwidth = 0.025) +
-    ggplot2::scale_x_continuous(labels = scales::label_percent())
+    plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare, binwidth = 0.025, height = height) %>%
+    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
 }
 
 # LIM-AT
@@ -448,10 +446,10 @@ lim_at_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-lim_at_plot <- function(data, compare) {
+lim_at_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("lim_at", compare = compare, binwidth = 0.025) +
-    ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+    plot_neighbourhood_profile_distribution("lim_at", compare = compare, binwidth = 0.025, height = height) %>%
+    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
 }
 
 # Visible minority
@@ -496,8 +494,8 @@ visible_minority_plot_alt_text <- function(level, neighbourhood) {
 
 visible_minority_plot <- function(data, compare) {
   data %>%
-    display_neighbourhood_profile("visible_minority", width = 20, compare = compare) +
-    ggplot2::labs(caption = 'Note: "n.i.e." = not included elsewhere')
+    display_neighbourhood_profile("visible_minority", width = 20, compare = compare) %>%
+    echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "125px", right = "15px", bottom = "25px")
 }
 
 # Structure type ----
@@ -589,8 +587,8 @@ average_renter_shelter_cost_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-average_renter_shelter_cost_plot <- function(data, compare) {
+average_renter_shelter_cost_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50) +
-    ggplot2::scale_x_continuous(labels = scales::dollar)
+    plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50, height = height) %>%
+    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "currency"))
 }
