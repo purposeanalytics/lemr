@@ -58,11 +58,15 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   if (type == "plot") {
+
+    data <- data %>%
+      dplyr::mutate(group = forcats::fct_rev(group))
+
     if (compare) {
 
       if(prop_variable) {
         data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::percent)))
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
       } else if (dollar) {
         data <- data %>%
           dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
@@ -78,7 +82,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         data <- data %>%
           dplyr::select(-value) %>%
           dplyr::rename(value = prop) %>%
-          dplyr::mutate(label = scales::percent(value))
+          dplyr::mutate(label = scales::percent(value, accuracy = 0.1))
       } else if (dollar) {
         data <- data %>%
           dplyr::mutate(label = scales::dollar(value))
