@@ -261,6 +261,10 @@ body > .container-fluid {
   height: calc(100vh - 120px) !important;
 }
 
+#sidebar {
+  overflow-y: auto;
+}
+
 /* ------ Tabs ------ */
 
 
@@ -301,16 +305,32 @@ body > .container-fluid {
 /* Extra small devices (portrait phones, up to 575px) */
 @media (max-width: 575px) {
 
+  .navbar-header {
+    height: 75px;
+  }
+
   :root {
   --base-size: 12px;
   }
 
+  /* Stack map and sidebar */
   .map-col {
     width: 100%;
   }
 
+  /* Shorter map */
+  #map-map{
+    height: calc(50vh) !important;
+  }
+
   .sidebar-col {
     width: 100%;
+  }
+
+  /* Overflow sidebar div to avoid double scrolly */
+  #sidebar {
+    overflow-y: visible;
+    border-width: 0;
   }
 }
 
@@ -319,6 +339,10 @@ body > .container-fluid {
 
   :root {
   --base-size: 12px;
+  }
+
+  .navbar-header {
+    height: 75px;
   }
 
   .map-col {
@@ -337,6 +361,10 @@ body > .container-fluid {
   --base-size: 12px;
   }
 
+  .navbar-header {
+    height: 75px;
+  }
+
   .map-col {
     width: 50%;
   }
@@ -348,6 +376,7 @@ body > .container-fluid {
 
 /* Large devices (desktops, 992px to 1200px) */
 @media (min-width: 992px) and (max-width: 1199px) {
+
   .map-col {
     width: 50%;
   }
