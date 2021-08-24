@@ -87,12 +87,6 @@ h2 {
   height: 100%;
 }
 
-.navbar-nav {
-  float: right;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
 .navbar-default .navbar-nav > a:hover {
   color: white;
 }
@@ -341,7 +335,7 @@ body > .container-fluid {
 }
 
 /* Large devices (desktops, 992px to 1200px) */
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .map-col {
     width: 50%;
   }
@@ -352,5 +346,13 @@ body > .container-fluid {
 
 }
 
-/* Extra large devices (large desktops, 1200px and up) */
-/* This is the standard, what the CSS expects - so no special rules */
+/* When bootstrap collapsed navbar is not triggered, style the navbar all nice */
+/* Only then, otherwise it looks bad in the hamburger menu! */
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
