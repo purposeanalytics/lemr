@@ -58,7 +58,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
           bigger_padded(shiny::textOutput(ns("shelter_cost"))),
           bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
           shiny::textOutput(ns("average_renter_shelter_cost_description")),
-          shiny::plotOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
+          plotly::plotlyOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
         )
       )
     })
@@ -186,13 +186,10 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
-    output$average_renter_shelter_cost_plot <- shiny::renderPlot(
+    output$average_renter_shelter_cost_plot <- plotly::renderPlotly(
       {
         average_renter_shelter_cost_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = average_renter_shelter_cost_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
   })

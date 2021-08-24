@@ -269,11 +269,12 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
 
   p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
     plotly::layout(
-      yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
-      xaxis = list(title = NA, showline = FALSE, fixedrange = TRUE, tickformat = "digits"),
-      margin = setNames(as.list(rep(25, 4)), c("t", "r", "b", "l")),
+      yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+      xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
+      margin = list(t = 15, r = 25, b = 5, l = 25),
       barmode = "stack",
-      showlegend = FALSE
+      showlegend = FALSE,
+      font = list(family = "Open Sans", size = 14, color = "black")
     ) %>%
     plotly::config(displayModeBar = FALSE)
 
