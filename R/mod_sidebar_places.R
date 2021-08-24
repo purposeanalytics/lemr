@@ -44,15 +44,15 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
           shiny::htmlOutput(ns("legend")),
           shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),
-          shiny::plotOutput(ns("structure_type_plot"), height = "200px"),
+          plotly::plotlyOutput(ns("structure_type_plot"), height = "200px"),
           shiny::htmlOutput(ns("structure_type_table")),
           shiny::h2("Number of bedrooms"),
           shiny::textOutput(ns("bedrooms_description")),
-          shiny::plotOutput(ns("bedrooms_plot"), height = "200px"),
+          plotly::plotlyOutput(ns("bedrooms_plot"), height = "200px"),
           shiny::htmlOutput(ns("bedrooms_table")),
           shiny::h2("Households by tenure"),
           shiny::textOutput(ns("household_tenure_description")),
-          shiny::plotOutput(ns("household_tenure_plot"), height = "150px"),
+          plotly::plotlyOutput(ns("household_tenure_plot"), height = "150px"),
           shiny::htmlOutput(ns("household_tenure_table")),
           shiny::h2("Average shelter cost for renters"),
           bigger_padded(shiny::textOutput(ns("shelter_cost"))),
@@ -88,13 +88,10 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       structure_type_plot_alt_text(level(), neighbourhood())
     })
 
-    output$structure_type_plot <- shiny::renderPlot(
+    output$structure_type_plot <- plotly::renderPlotly(
       {
         structure_type_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = structure_type_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -114,13 +111,10 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       bedrooms_plot_alt_text(level(), neighbourhood())
     })
 
-    output$bedrooms_plot <- shiny::renderPlot(
+    output$bedrooms_plot <- plotly::renderPlotly(
       {
         bedrooms_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = bedrooms_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -140,13 +134,10 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       household_tenure_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_tenure_plot <- shiny::renderPlot(
+    output$household_tenure_plot <- plotly::renderPlotly(
       {
         household_tenure_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = household_tenure_alt_text
+      }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 

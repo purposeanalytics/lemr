@@ -299,7 +299,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       visible_minority_plot_alt_text(level(), neighbourhood())
     })
 
-    output$visible_minority_plot <- echarts4r::renderEcharts4r(
+    output$visible_minority_plot <- plotly::renderPlotly(
       {
         visible_minority_plot(dataset(), compare())
       }

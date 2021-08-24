@@ -17,7 +17,7 @@
 #'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
-  if (variable %in% c("household_tenure", "amenity_density")) {
+  if (variable %in% c("amenity_density")) {
     return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type))
   }
 
@@ -59,19 +59,35 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
   if (type == "plot") {
     if (compare) {
-      p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip") %>%
-        plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip")
+
+      if(prop_variable) {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::percent)))
+      } else if (dollar) {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
+      } else {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ .x)))
+      }
+      p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
+        plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     } else {
 
       if (prop_variable) {
-        plot_data <- data %>%
+        data <- data %>%
           dplyr::select(-value) %>%
-          dplyr::rename(value = prop)
+          dplyr::rename(value = prop) %>%
+          dplyr::mutate(label = scales::percent(value))
+      } else if (dollar) {
+        data <- data %>%
+          dplyr::mutate(label = scales::dollar(value))
       } else {
-        plot_data <- data
+        data <- data %>%
+          dplyr::mutate(label = value)
       }
 
-      p <- plotly::plot_ly(plot_data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip")
+      p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     }
 
     if (dollar) {
@@ -82,15 +98,16 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         plotly::layout(xaxis = list(tickformat = "%"))
     }
 
-    p %>%
+    p <- p %>%
       plotly::layout(
         yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
         xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
         margin = list(t = 15, r = 25, b = 5, l = 25),
         showlegend = FALSE,
-        font = list(family = "Open Sans", size = 14, color = "black")
+        font = list(family = "Open Sans", size = 12, color = "black")
       ) %>%
       plotly::config(displayModeBar = FALSE)
+
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -267,7 +284,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
       margin = list(t = 15, r = 25, b = 5, l = 25),
       barmode = "stack",
       showlegend = FALSE,
-      font = list(family = "Open Sans", size = 14, color = "black")
+      font = list(family = "Open Sans", size = 12, color = "black")
     ) %>%
     plotly::config(displayModeBar = FALSE)
 
