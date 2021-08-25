@@ -11,12 +11,12 @@ mod_layers_ui <- function(id) {
     width = 12,
     bsplus::use_bs_popover(),
     shiny::hr(),
-    bigger_padded(shiny::tags$b("Display layers"), shiny::icon("chevron-down")) %>%
+    shiny::h2(shiny::tags$b("Display layers"), shiny::icon("chevron-down")) %>%
       bsplus::bs_attach_collapse(ns("layers")),
     bsplus::bs_collapse(
       id = ns("layers"),
       content = shiny::tagList(
-        padded("Select one aggregate data layer:"),
+        bigger_padded("Select one aggregate data layer:"),
         # LEM ----
         create_full_legend(
           icon = create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab."),
@@ -37,7 +37,7 @@ mod_layers_ui <- function(id) {
           ),
           legend = generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "Low", "Medium", "High")
         ),
-        padded("Select one or more points data layers:"),
+        bigger_padded("Select one or more points data layers:"),
         # Apartment Buildings -----
         create_full_legend(
           icon = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),

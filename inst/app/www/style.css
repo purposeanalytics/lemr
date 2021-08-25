@@ -5,7 +5,6 @@
   --font: "Open Sans", Sans-Serif;
   --base-size: 16px;
   --bigger-size: 1.25em;
-  --biggest-size: 1.5em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -40,11 +39,8 @@ h1 {
 }
 
 h2 {
-  font-size: 1.75em;
-}
-
-h3 {
   font-size: 1.5em;
+  font-weight: var(--bold-weight);
 }
 
 .padded {
@@ -57,10 +53,6 @@ h3 {
 
 .bigger {
   font-size: var(--bigger-size);
-}
-
-.biggest {
-  font-size: var(--biggest-size);
 }
 
 .nav-tabs {
@@ -95,12 +87,6 @@ h3 {
   height: 100%;
 }
 
-.navbar-nav {
-  float: right;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
 .navbar-default .navbar-nav > a:hover {
   color: white;
 }
@@ -275,6 +261,10 @@ body > .container-fluid {
   height: calc(100vh - 120px) !important;
 }
 
+#sidebar {
+  overflow-y: auto;
+}
+
 /* ------ Tabs ------ */
 
 
@@ -308,4 +298,102 @@ body > .container-fluid {
   background-color: white;
   border-radius: 0;
   margin-bottom: 0;
+}
+
+/* Media queries - smaller screen sizes */
+
+/* Extra small devices (portrait phones, up to 575px) */
+@media (max-width: 575px) {
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  :root {
+  --base-size: 12px;
+  }
+
+  /* Stack map and sidebar */
+  .map-col {
+    width: 100%;
+  }
+
+  /* Shorter map */
+  #map-map{
+    height: calc(50vh) !important;
+  }
+
+  .sidebar-col {
+    width: 100%;
+  }
+
+  /* Overflow sidebar div to avoid double scrolly */
+  #sidebar {
+    overflow-y: visible;
+    border-width: 0;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767) */
+@media (min-width: 576px) and (max-width: 767px) {
+
+  :root {
+  --base-size: 12px;
+  }
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+
+  :root {
+  --base-size: 12px;
+  }
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Large devices (desktops, 992px to 1200px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+
+}
+
+/* When bootstrap collapsed navbar is not triggered, style the navbar all nice */
+/* Only then, otherwise it looks bad in the hamburger menu! */
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 }

@@ -17,14 +17,11 @@
 #'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
-  if (variable %in% c("household_tenure", "amenity_density")) {
+  if (variable %in% c("amenity_density")) {
     return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type))
   }
 
   original_data <- data[[variable]]
-
-  original_data <- original_data %>%
-    dplyr::arrange(desc(.data$group))
 
   data <- original_data
 
@@ -61,41 +58,60 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   if (type == "plot") {
+
+    data <- data %>%
+      dplyr::mutate(group = forcats::fct_rev(group))
+
     if (compare) {
-      p <- data %>%
-        echarts4r::e_chart(x = group) %>%
-        echarts4r::e_bar(neighbourhood, name = neighbourhood_name, emphasis = list(itemStyle = list(color = main_colour))) %>%
-        echarts4r::e_bar(toronto, name = "City of Toronto", emphasis = list(itemStyle = list(color = grey_colour))) %>%
-        echarts4r::e_flip_coords() %>%
-        echarts4r::e_color(color = c(main_colour, grey_colour))
+
+      if(prop_variable) {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
+      } else if (dollar) {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
+      } else {
+        data <- data %>%
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ .x)))
+      }
+      p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
+        plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     } else {
-      p <- data %>%
-        echarts4r::e_chart(x = group) %>%
-        echarts4r::e_bar(prop, emphasis = list(itemStyle = list(color = grey_colour)), legend = FALSE) %>%
-        echarts4r::e_flip_coords() %>%
-        echarts4r::e_color(color = grey_colour)
+
+      if (prop_variable) {
+        data <- data %>%
+          dplyr::select(-value) %>%
+          dplyr::rename(value = prop) %>%
+          dplyr::mutate(label = scales::percent(value, accuracy = 0.1))
+      } else if (dollar) {
+        data <- data %>%
+          dplyr::mutate(label = scales::dollar(value))
+      } else {
+        data <- data %>%
+          dplyr::mutate(label = value)
+      }
+
+      p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     }
 
     if (dollar) {
       p <- p %>%
-        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "currency"))
+        plotly::layout(xaxis = list(tickprefix = "$"))
     } else {
       p <- p %>%
-        echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
+        plotly::layout(xaxis = list(tickformat = "%"))
     }
 
-    p %>%
-      echarts4r::e_x_axis(
-        axisLine = list(show = FALSE),
-        axisTick = list(show = FALSE),
-        splitLine = list(show = FALSE)
+    p <- p %>%
+      plotly::layout(
+        yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
+        margin = list(t = 15, r = 25, b = 5, l = 25),
+        showlegend = FALSE,
+        font = list(family = "Open Sans", size = 12, color = "black")
       ) %>%
-      echarts4r::e_y_axis(
-        axisLine = list(show = FALSE),
-        axisTick = list(show = FALSE)
-      ) %>%
-      echarts4r::e_animation(show = FALSE) %>%
-      echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "75px", right = "15px", bottom = "25px")
+      plotly::config(displayModeBar = FALSE)
+
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -166,7 +182,6 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
         dplyr::select(.data$group, .data$prop, .data$neighbourhood) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1)) %>%
         tidyr::pivot_wider(names_from = .data$neighbourhood, values_from = .data$prop) %>%
-        dplyr::arrange(dplyr::desc(.data$group)) %>%
         dplyr::relocate(.data$`City of Toronto`, .after = dplyr::last_col())
 
       return(res)
@@ -185,7 +200,6 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
   } else if (!compare) {
     if (type == "table") {
       res <- data %>%
-        dplyr::arrange(dplyr::desc(.data$group)) %>%
         dplyr::select(.data$group, .data$prop) %>%
         dplyr::mutate(prop = scales::percent(.data$prop, accuracy = 0.1))
 
@@ -243,6 +257,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL) {
+  # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
@@ -253,46 +268,34 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
     plot_data <- plot_data %>%
-      dplyr::mutate(neighbourhood = data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax) %>%
-      dplyr::mutate(
-        neighbourhood_y = ifelse(.data$neighbourhood, y, NA_real_)
-      )
-
-    # If there is no value for the neighbourhood (e.g. in the case of RentSafeTO scores), then all y should retain their existing values and all neighbourhood_y should be NAs
-    missing_neighbourhood_y <- plot_data %>%
-      dplyr::filter(!is.na(.data$neighbourhood_y)) %>%
-      nrow() == 0
-
-    # Otherwise, y is all cases where neighbourhood_y is NA
-    if (!missing_neighbourhood_y) {
-      plot_data <- plot_data %>%
-        dplyr::mutate(y = ifelse(.data$neighbourhood, NA_real_, y))
-    }
+      dplyr::mutate(is_neighbourhood = ifelse(data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax, "yes", "no"))
+  } else {
+    plot_data <- plot_data %>%
+      dplyr::mutate(is_neighbourhood = "no")
   }
 
-  p <- plot_data %>%
-    # Set as factor to not double axis - but makes labels ugly! ugh.
-    dplyr::mutate(x = as.factor(x)) %>%
-    echarts4r::e_chart(x = x, height = height, dispose = FALSE) %>%
-    echarts4r::e_bar(serie = y, stack = "grp", emphasis = list(itemStyle = list(color = grey_colour))) %>%
-    echarts4r::e_color(color = c(grey_colour, main_colour)) %>%
-    echarts4r::e_x_axis(
-      axisLine = list(show = FALSE),
-      axisTick = list(show = FALSE),
-      splitLine = list(show = FALSE)
+  # Widen data to get yes/no columns
+
+  plot_data <- plot_data %>%
+    tidyr::pivot_wider(names_from = is_neighbourhood, values_from = y) %>%
+    # Set NAs to 0 to avoid warning of missing values
+    dplyr::mutate(dplyr::across(tidyselect::any_of(c("yes", "no")), dplyr::coalesce, 0))
+
+  p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
+    plotly::layout(
+      yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+      xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
+      margin = list(t = 15, r = 25, b = 5, l = 25),
+      barmode = "stack",
+      showlegend = FALSE,
+      font = list(family = "Open Sans", size = 12, color = "black")
     ) %>%
-    echarts4r::e_y_axis(
-      show = FALSE
-    ) %>%
-    echarts4r::e_legend(show = FALSE)
+    plotly::config(displayModeBar = FALSE)
 
   if (compare) {
     p <- p %>%
-      echarts4r::e_bar(serie = neighbourhood_y, stack = "grp", emphasis = list(itemStyle = list(color = main_colour)))
+      plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
   }
 
-
-  p %>%
-    echarts4r::e_animation(show = FALSE) %>%
-    echarts4r::e_grid(top = "10px", left = "15px", right = "15px", bottom = "25px")
+  p
 }

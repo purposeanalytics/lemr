@@ -14,7 +14,7 @@ mod_sidebar_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 8,
-        shiny::uiOutput(ns("population"), class = "padded")
+        shiny::uiOutput(ns("population"), class = "bigger padded")
       ),
       shiny::column(
         width = 4,

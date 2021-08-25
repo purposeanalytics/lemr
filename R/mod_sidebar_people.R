@@ -45,40 +45,40 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
-          echarts4r::echarts4rOutput(ns("population_change_plot"), height = "100px"),
+          shiny::uiOutput(ns("population_change_plot_ui")),
           shiny::hr(),
           shiny::h2("Population density"),
           bigger_padded(shiny::textOutput(ns("population_density_number"))),
           shiny::textOutput(ns("population_density_description")),
-          echarts4r::echarts4rOutput(ns("population_density_plot"), height = "100px"),
+          shiny::uiOutput(ns("population_density_plot_ui")),
           shiny::hr(),
           shiny::h2("Household size"),
           shiny::textOutput(ns("household_size_description")),
-          echarts4r::echarts4rOutput(ns("household_size_plot"), height = "200px"),
+          shiny::uiOutput(ns("household_size_plot_ui")),
           shiny::htmlOutput(ns("household_size_table")),
           shiny::hr(),
           shiny::h2("Average total household income"),
           shiny::textOutput(ns("average_total_household_income_description")),
-          echarts4r::echarts4rOutput(ns("average_total_household_income_plot"), height = "100px"),
+          shiny::uiOutput(ns("average_total_household_income_plot_ui")),
           shiny::htmlOutput(ns("average_total_household_income_table")),
           shiny::hr(),
           shiny::h2("Unaffordable housing"),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
           bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
           shiny::textOutput(ns("unaffordable_housing_description")),
-          echarts4r::echarts4rOutput(ns("unaffordable_housing_plot"), height = "100px"),
+          shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
           shiny::hr(),
           shiny::h2("Low-income measure after tax"),
           bigger_padded(shiny::textOutput(ns("lim_at"))),
           bigger_padded(shiny::textOutput(ns("lim_at_city"))),
           shiny::textOutput(ns("lim_at_description")),
-          echarts4r::echarts4rOutput(ns("lim_at_plot"), height = "100px"),
+          shiny::uiOutput(ns("lim_at_plot_ui")),
           shiny::hr(),
           shiny::h2("Visible minority population"),
           bigger_padded(shiny::textOutput(ns("visible_minority"))),
           bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
           shiny::textOutput(ns("visible_minority_description")),
-          echarts4r::echarts4rOutput(ns("visible_minority_plot"), height = "400px"),
+          shiny::uiOutput(ns("visible_minority_plot_ui")),
           shiny::htmlOutput(ns("visible_minority_table"))
         )
       )
@@ -122,12 +122,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_change_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_change_plot <- echarts4r::renderEcharts4r(
+    output$population_change_plot <- plotly::renderPlotly(
       {
         population_change_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$population_change_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = population_change_alt_text(),
+        plotly::plotlyOutput(ns("population_change_plot"), height = "100px")
+      )
+    })
 
     # Population density -----
 
@@ -153,12 +161,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_density_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_density_plot <- echarts4r::renderEcharts4r(
+    output$population_density_plot <- plotly::renderPlotly(
       {
         population_density_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$population_density_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = population_density_alt_text(),
+        plotly::plotlyOutput(ns("population_density_plot"), height = "100px")
+      )
+    })
 
     # Household size -----
 
@@ -171,12 +187,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       household_size_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_size_plot <- echarts4r::renderEcharts4r(
+    output$household_size_plot <- plotly::renderPlotly(
       {
         household_size_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$household_size_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = household_size_alt_text(),
+        plotly::plotlyOutput(ns("household_size_plot"), height = "200px")
+      )
+    })
 
     output$household_size_table <- shiny::renderText({
       generate_table(dataset(), "household_size", compare(), "Household Size", "Percent")
@@ -194,12 +218,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       average_total_household_income_plot_alt_text(level(), neighbourhood())
     })
 
-    output$average_total_household_income_plot <- echarts4r::renderEcharts4r(
+    output$average_total_household_income_plot <- plotly::renderPlotly(
       {
         average_total_household_income_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$average_total_household_income_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = average_total_household_income_alt_text(),
+        plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px")
+      )
+    })
 
     output$average_total_household_income_table <- shiny::renderText({
       generate_table(dataset(), "average_total_income", compare(), "Household Size", "Average Total Household", format = "dollar")
@@ -234,12 +266,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       unaffordable_housing_plot_alt_text(level(), neighbourhood())
     })
 
-    output$unaffordable_housing_plot <- echarts4r::renderEcharts4r(
+    output$unaffordable_housing_plot <- plotly::renderPlotly(
       {
         unaffordable_housing_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$unaffordable_housing_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = unaffordable_housing_alt_text(),
+        plotly::plotlyOutput(ns("unaffordable_housing_plot"), height = "100px")
+      )
+    })
 
     # LIM-AT -----
 
@@ -270,13 +310,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       lim_at_plot_alt_text(level(), neighbourhood())
     })
 
-    output$lim_at_plot <- echarts4r::renderEcharts4r(
+    output$lim_at_plot <- plotly::renderPlotly(
       {
         lim_at_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$lim_at_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = lim_at_alt_text(),
+        plotly::plotlyOutput(ns("lim_at_plot"), height = "100px")
+      )
+    })
 
     # Visible minority population -----
 
@@ -299,12 +346,20 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       visible_minority_plot_alt_text(level(), neighbourhood())
     })
 
-    output$visible_minority_plot <- echarts4r::renderEcharts4r(
+    output$visible_minority_plot <- plotly::renderPlotly(
       {
         visible_minority_plot(dataset(), compare())
       }
     ) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$visible_minority_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = visible_minority_alt_text(),
+        plotly::plotlyOutput(ns("visible_minority_plot"), height = "400px")
+      )
+    })
 
     output$visible_minority_table <- shiny::renderText({
       generate_table(dataset(), "visible_minority", compare(), "Visible Minority Group", "Percent") %>%

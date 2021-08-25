@@ -8,6 +8,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     shiny::navbarPage(
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
+      collapsible = TRUE,
       selected = "Map",
       shiny::tabPanel(
         "About"
@@ -25,7 +26,6 @@ app_ui <- function(request) {
           class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
-            style = "overflow-y: auto;",
             mod_search_ui("search"),
             mod_layers_ui("layers"),
             mod_sidebar_ui("sidebar")

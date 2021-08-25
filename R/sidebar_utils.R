@@ -211,7 +211,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
 apartment_building_evaluation_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, height = height) %>%
-    echarts4r::e_x_axis(min = 0, max = 100)
+    plotly::layout(xaxis = list(range = c(0, 100), ticksuffix = "%"))
 }
 
 # Amenity density -----
@@ -272,7 +272,7 @@ population_change_plot_alt_text <- function(level, neighbourhood) {
 population_change_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01, height = height) %>%
-    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter("percent"))
+    plotly::layout(xaxis = list(tickformat = "%"))
 }
 
 # Population density ----
@@ -399,7 +399,7 @@ unaffordable_housing_plot_alt_text <- function(level, neighbourhood) {
 unaffordable_housing_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare, binwidth = 0.025, height = height) %>%
-    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
+    plotly::layout(xaxis = list(tickformat = "%"))
 }
 
 # LIM-AT
@@ -449,7 +449,7 @@ lim_at_plot_alt_text <- function(level, neighbourhood) {
 lim_at_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("lim_at", compare = compare, binwidth = 0.025, height = height) %>%
-    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "percent"))
+    plotly::layout(xaxis = list(tickformat = "%"))
 }
 
 # Visible minority
@@ -494,8 +494,7 @@ visible_minority_plot_alt_text <- function(level, neighbourhood) {
 
 visible_minority_plot <- function(data, compare) {
   data %>%
-    display_neighbourhood_profile("visible_minority", width = 20, compare = compare) %>%
-    echarts4r::e_grid(top = ifelse(compare, "25px", "10px"), left = "125px", right = "15px", bottom = "25px")
+    display_neighbourhood_profile("visible_minority", width = 20, compare = compare)
 }
 
 # Structure type ----
@@ -590,5 +589,5 @@ average_renter_shelter_cost_plot_alt_text <- function(level, neighbourhood) {
 average_renter_shelter_cost_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50, height = height) %>%
-    echarts4r::e_x_axis(formatter = echarts4r::e_axis_formatter(style = "currency"))
+    plotly::layout(xaxis = list(tickprefix = "$"))
 }
