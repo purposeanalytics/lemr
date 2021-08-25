@@ -7,23 +7,25 @@ devtools::load_all()
 
 # Join registry and RentSafeTO -----
 
-apartment_buildings <- apartment_building_registry %>%
+buildings <- apartment_building_registry %>%
   mutate(apartment = TRUE) %>%
   # Only joining by RSN, because the registry addresses have ranges but the evaluation addresses do not - use the addresses from registry
-  full_join(apartment_building_evaluation, by = "rsn", suffix = c("", ".y")) %>%
+  full_join(apartment_building_evaluation, by = "rsn", suffix = c("", "_evaluation")) %>%
   mutate(
-    site_address = coalesce(site_address, site_address.y),
-    bing_address = coalesce(bing_address, bing_address.y),
-    year_built = coalesce(year_built, year_built.y),
-    neighbourhood = coalesce(neighbourhood, neighbourhood.y)
+    address = coalesce(address, address_evaluation),
+    bing_address = coalesce(bing_address, bing_address_evaluation),
+    year_built = coalesce(year_built, year_built_evaluation),
+    neighbourhood = coalesce(neighbourhood, neighbourhood_evaluation)
   ) %>%
-  select(rsn, site_address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, property_management, property_management_clean, evaluation_completed_on, score, score_percent, results_of_score, score_colour = color, geometry)
+  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, results_of_score, score_colour, geometry) %>%
+  mutate(landlord = ifelse(property_management == "Unknown", NA_character_, property_management))
 
-apartment_buildings_coords <- apartment_buildings %>%
+# Get coords instead of geometry column, so we can coalesce more easily
+apartment_buildings_coords <- buildings %>%
   st_coordinates() %>%
   as_tibble()
 
-apartment_buildings <- apartment_buildings %>%
+buildings <- buildings %>%
   as_tibble() %>%
   select(-geometry) %>%
   bind_cols(apartment_buildings_coords)
@@ -45,14 +47,21 @@ latest_agi_landlord <- lemur::agi_applications_and_tdf %>%
 agi_applications <- lemur::agi_applications_and_tdf %>%
   mutate(agi = TRUE) %>%
   as_tibble() %>%
-  group_by(agi, tdf, address, bing_address) %>%
+  mutate(reduced_increase_by = case_when(
+    is.na(reduced_increase_by) ~ NA_character_,
+    TRUE ~ paste0(round(reduced_increase_by, 2), "%")
+  )) %>%
+  group_by(agi, address, bing_address, neighbourhood) %>%
   arrange(desc(date_agi_initiated)) %>%
   summarise(
     geometry = geometry,
-    date_agi_initiated = glue::glue_collapse(unique(date_agi_initiated), sep = ", "),
+    date_agi_initiated = paste(na.omit(unique(date_agi_initiated)), collapse = ", "),
+    tdf_year = paste(na.omit(tdf_year), collapse = ", "),
+    reduced_increase_by = paste(na.omit(reduced_increase_by), collapse = ", "),
     .groups = "drop"
   ) %>%
   distinct() %>%
+  mutate(tdf = tdf_year != "") %>%
   st_as_sf(crs = 4326)
 
 agi_applications <- agi_applications %>%
@@ -67,47 +76,50 @@ agi_applications <- agi_applications %>%
   select(-geometry) %>%
   bind_cols(agi_applications_coords)
 
-apartment_buildings <- apartment_buildings %>%
+buildings <- buildings %>%
   as_tibble() %>%
-  full_join(agi_applications, by = "bing_address") %>%
-  mutate(
-    property_management_or_landlord = case_when(
-      property_management_clean == "Unknown" | is.na(property_management_clean) ~ coalesce(landlord, "Unknown"),
-      TRUE ~ property_management_clean
-    ),
-    site_address = coalesce(site_address, bing_address),
-    apartment = coalesce(apartment, FALSE),
-    agi = coalesce(agi, FALSE),
-    tdf = coalesce(tdf, FALSE),
-    X = coalesce(X.x, X.y),
-    Y = coalesce(Y.x, Y.y)
-  )
-
-apartment_buildings <- apartment_buildings %>%
-  relocate(property_management_or_landlord, .before = property_management_clean) %>%
-  select(-property_management_clean, -landlord, -X.x, -X.y, -Y.x, -Y.y)
+  full_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
 # Add evictions hearings -----
 
-apartment_buildings <- apartment_buildings %>%
+eviction_hearings_coords <- lemur::eviction_hearings %>%
+  st_coordinates() %>%
+  as_tibble()
+
+eviction_hearings <- lemur::eviction_hearings %>%
+  as_tibble() %>%
+  select(-geometry) %>%
+  bind_cols(eviction_hearings_coords) %>%
+  rename_at(vars(landlord, address, X, Y, neighbourhood), ~paste0(.x, "_evictions"))
+
+buildings <- buildings %>%
   full_join(eviction_hearings %>%
-    mutate(eviction_hearing = TRUE), by = "bing_address") %>%
+    mutate(eviction_hearing = TRUE), by = "bing_address", suffix = c("_apt_agi", "_evictions"))
+
+# Fill in columns, prioritizing apt -> agi -> evictions
+
+buildings <- buildings %>%
   mutate(
-    site_address = coalesce(site_address, address.y),
-    apartment = coalesce(apartment, FALSE),
+    property_management_or_landlord = coalesce(landlord_apt, landlord_agi, landlord_evictions),
+    address = coalesce(address_apt, address_agi, address_evictions),
+    X = coalesce(X_apt, X_agi, X_evictions),
+    Y = coalesce(Y_apt, Y_agi, Y_evictions),
+    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_evictions),
+    apt = coalesce(agi, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
     eviction_hearing = coalesce(eviction_hearing, FALSE),
-    X = coalesce(X, bing_longitude),
-    Y = coalesce(Y, bing_latitude),
-    number_of_hearings = hearings,
-    property_management_or_landlord = coalesce(property_management_or_landlord, landlord)
-  ) %>%
-  select(-address.x, -address.y, -landlord, -bing_latitude, -bing_longitude, -hearings)
+    hearings = coalesce(hearings, 0)
+  )
+
+# Select columns -----
+
+buildings <- buildings %>%
+  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, results_of_score, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, eviction_hearing, hearings)
 
 # Convert to spatial -----
 
-apartment_buildings <- apartment_buildings %>%
+buildings <- buildings %>%
   st_as_sf(coords = c("X", "Y"), crs = 4326)
 
 # Generate tooltip based on information available -----
@@ -117,10 +129,12 @@ generate_tooltip <- function(data) {
     ~title, ~variable,
     "Built", "year_built",
     "Landlord/Management", "property_management_or_landlord",
-    "Units", "confirmed_units",
+    "Units", "units",
     "RentSafeTO Evaluation", "score_percent",
-    "Eviction Hearings", "number_of_hearings",
-    "AGI Application", "date_agi_initiated"
+    "Eviction Hearings", "hearings",
+    "AGI Application", "date_agi_initiated",
+    "Tenant Defence Fund Received", "tdf_year",
+    "TDF Reduced Increase By", "reduced_increase_by"
   )
 
   variables_text <- purrr::map2_chr(
@@ -135,17 +149,12 @@ generate_tooltip <- function(data) {
   ) %>%
     glue::glue_collapse()
 
-  tooltip <- glue::glue("<b>{data$site_address}</b><br>{variables_text}")
-
-  if (data$tdf) {
-    # Tooltip has <br> at the end so no need to add
-    tooltip <- glue::glue("{tooltip}Received tenant defence fund grant")
-  }
+  tooltip <- glue::glue("<b>{data$address}</b><br>{variables_text}")
 
   tooltip
 }
 
-tooltips <- apartment_buildings %>%
+tooltips <- buildings %>%
   as_tibble() %>%
   mutate(id = row_number()) %>%
   split(.$id) %>%
@@ -154,7 +163,7 @@ tooltips <- apartment_buildings %>%
 
 tooltips <- tibble(tooltip = tooltips)
 
-apartment_buildings <- apartment_buildings %>%
+buildings <- buildings %>%
   bind_cols(tooltips)
 
-usethis::use_data(apartment_buildings, overwrite = TRUE)
+usethis::use_data(buildings, overwrite = TRUE)

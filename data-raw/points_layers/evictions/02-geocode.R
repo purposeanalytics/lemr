@@ -47,7 +47,7 @@ evictions_geocoded <- evictions_geocoded %>%
   unnest(cols = c(address_geocode)) %>%
   select(-tidyselect::any_of("address_geocode"))
 
-# Get errors - either 404 or low confidence, and re-geocode
+# Get errors - either 404 or low confidence, and re-geocode ----
 evictions_geocoded_redone <- evictions_geocoded %>%
   filter(bing_status_code == 404 | bing_confidence == "Low") %>%
   select(-starts_with("bing"), -address_geocode_error) %>%
@@ -77,7 +77,7 @@ address_corrections <- tribble(
   "1172 Pleasant View Drive Toronto", "172 Pleasant View Drive Toronto Ontario M2J3R5",
   "185 1/2 Beverley Street Toronto", "185 Beverley Street Toronto Ontario M5T1Y9",
   "558 Waterton Road Toronto", "58 Waterton Road Toronto Ontario M9P2R1",
-  "106 Lakeshore Drive Toronto", "106 Lake Shore Dr Etobicoke, ON M8V 2A2",
+  "", "30 Tuxedo Court Scarborough Ontario",
   "5162 Young Street Toronto", "5162 Yonge Street Toronto Ontario M2N0E9"
 )
 
@@ -94,7 +94,8 @@ address_corrections <- address_corrections %>%
   mutate(corrected = TRUE)
 
 evictions_geocoded_redone_incorrect <- evictions_geocoded_redone_incorrect %>%
-  rows_update(address_corrections, by = "address")
+  rows_update(address_corrections %>%
+               semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
 
 # Some need manual lat / long
 
@@ -108,12 +109,14 @@ lat_long_corrections <- tribble(
   "6 Vena Way Toronto", "6 Vena Way", 43.75022337410752, -79.54159714567894,
   "2 Vena Way Toronto", "2 Vena Way", 43.749107626057466, -79.54124877886046,
   "Hertford Hertford Avenue W Toronto", "1 Hertford Avenue W", 43.68872295218799, -79.47692736064509,
-  "106 Lakeshore Drive Toronto", "106 Lakeshore Drive", 43.595109238893485, -79.50397790103436
+  "106 Lakeshore Drive Toronto", "106 Lakeshore Drive", 43.595109238893485, -79.50397790103436,
+  "30 Tuxedo Court Scarborough", "30 Tuxedo Court", 43.78133507434108, -79.2295188197332
 ) %>%
   mutate(corrected = TRUE)
 
 evictions_geocoded_redone_incorrect <- evictions_geocoded_redone_incorrect %>%
-  rows_update(lat_long_corrections, by = "address")
+  rows_update(lat_long_corrections %>%
+                semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
 
 # Check all issues were corrected
 

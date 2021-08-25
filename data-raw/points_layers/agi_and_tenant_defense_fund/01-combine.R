@@ -58,6 +58,6 @@ agi_applications_and_tdf <- agi_applications_and_tdf %>%
 # Select relevant columns
 
 agi_applications_and_tdf <- agi_applications_and_tdf %>%
-  select(case_number, address, bing_address, landlord, date_agi_initiated, tdf, tdf_year, reduced_increase_by, geometry)
+  select(case_number, address, bing_address, landlord, neighbourhood, date_agi_initiated, tdf, tdf_year, reduced_increase_by, geometry)
 
 usethis::use_data(agi_applications_and_tdf, overwrite = TRUE)
