@@ -107,7 +107,7 @@ apartment_building_registry <- apartment_building_registry_sf %>%
 # Keep relevant columns
 
 apartment_building_registry <- apartment_building_registry %>%
-  select(id, rsn, site_address, bing_address, neighbourhood, confirmed_units, confirmed_storeys, year_built, property_management, property_management_clean, geometry)
+  select(id, rsn, address = site_address, bing_address, neighbourhood, units = confirmed_units, storeys = confirmed_storeys, year_built, property_management = property_management, geometry)
 
 # Check values
 apartment_building_registry %>%
@@ -116,16 +116,16 @@ apartment_building_registry %>%
 # Can't really find data on year built, so will have to go with "Unknown"
 
 apartment_building_registry %>%
-  filter(confirmed_units < 10 | is.na(confirmed_units))
+  filter(units < 10 | is.na(units))
 
 apartment_building_registry %>%
-  filter(confirmed_storeys < 3 | is.na(confirmed_storeys))
+  filter(storeys < 3 | is.na(storeys))
 
 # Flag as NA
 
 apartment_building_registry <- apartment_building_registry %>%
   mutate(across(
-    c(confirmed_units, confirmed_storeys),
+    c(units, storeys),
     function(x) {
       case_when(
         cur_data()[["rsn"]] %in% c(4820405, 4904686) ~ NA_real_,

@@ -11,7 +11,7 @@ apartments_by_neighbourhood <- apartment_building_registry %>%
 units_by_neighbourhood <- apartment_building_registry %>%
   as_tibble() %>%
   group_by(neighbourhood) %>%
-  summarise(value = sum(confirmed_units, na.rm = TRUE))
+  summarise(value = sum(units, na.rm = TRUE))
 
 # Not all neighbourhoods have apartments, so need to complete the data set
 
