@@ -76,7 +76,7 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 
 score_bucket_colors <- dplyr::tibble(
   score_bucket = levels(apartment_building_evaluation[["score_bucket"]]),
-  color = c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
+  score_colour = c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
 )
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
@@ -84,6 +84,10 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   select(-score_bucket)
+
+apartment_building_evaluation <- apartment_building_evaluation %>%
+  rename(address = site_address) %>%
+  select(-id)
 
 # Save final dataset
 usethis::use_data(apartment_building_evaluation, overwrite = TRUE)
