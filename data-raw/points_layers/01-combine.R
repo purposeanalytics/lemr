@@ -8,6 +8,7 @@ devtools::load_all()
 # Join registry and RentSafeTO -----
 
 apartment_buildings <- apartment_building_registry %>%
+  mutate(apartment = TRUE) %>%
   # Only joining by RSN, because the registry addresses have ranges but the evaluation addresses do not - use the addresses from registry
   full_join(apartment_building_evaluation, by = "rsn", suffix = c("", ".y")) %>%
   mutate(
@@ -16,7 +17,7 @@ apartment_buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built.y),
     neighbourhood = coalesce(neighbourhood, neighbourhood.y)
   ) %>%
-  select(rsn, site_address, bing_address, neighbourhood, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, property_management, property_management_clean, evaluation_completed_on, score, score_percent, results_of_score, score_colour = color, geometry)
+  select(rsn, site_address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, confirmed_units, confirmed_storeys, property_management, property_management_clean, evaluation_completed_on, score, score_percent, results_of_score, score_colour = color, geometry)
 
 apartment_buildings_coords <- apartment_buildings %>%
   st_coordinates() %>%
@@ -75,6 +76,7 @@ apartment_buildings <- apartment_buildings %>%
       TRUE ~ property_management_clean
     ),
     site_address = coalesce(site_address, bing_address),
+    apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
     X = coalesce(X.x, X.y),
@@ -92,6 +94,7 @@ apartment_buildings <- apartment_buildings %>%
     mutate(eviction_hearing = TRUE), by = "bing_address") %>%
   mutate(
     site_address = coalesce(site_address, address.y),
+    apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
     eviction_hearing = coalesce(eviction_hearing, FALSE),
