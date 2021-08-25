@@ -6,7 +6,7 @@ library(purrr)
 library(progress)
 devtools::load_all()
 
-tenant_defense_fund <- readRDS(here::here("data-raw", "points_layers", "tenant_defense_fund", "extract", "tenant_defense_fund.rds"))
+tenant_defense_fund <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "tenant_defense_fund", "extract", "tenant_defense_fund.rds"))
 
 # Set correct data types
 tenant_defense_fund <- tenant_defense_fund %>%
@@ -127,4 +127,4 @@ tenant_defense_fund_address_geocoded <- tenant_defense_fund_address_geocoded %>%
     select(-fixed_address_for_geocoding), by = c("id", "address_for_geocoding"))
 
 # Save
-saveRDS(tenant_defense_fund_address_geocoded, here::here("data-raw", "points_layers", "tenant_defense_fund", "geocode", "tenant_defense_fund.rds"))
+saveRDS(tenant_defense_fund_address_geocoded, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "tenant_defense_fund", "geocode", "tenant_defense_fund.rds"))

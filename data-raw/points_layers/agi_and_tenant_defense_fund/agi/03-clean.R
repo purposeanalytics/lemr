@@ -5,11 +5,12 @@ library(stringr)
 library(tidyr)
 library(sf)
 
-agi_applications <- readRDS(here::here("data-raw", "points_layers", "renovictions_to", "geocode", "agi_applications.rds"))
+agi_applications <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "geocode", "agi_applications.rds"))
 
 agi_applications <- agi_applications %>%
-  select(case_number, date_agi_initiated = date_initiated, landlord_original = landlord, address = address_for_geocoding, bing_address, bing_latitude, bing_longitude) %>%
-  mutate(address = as.character(address))
+  separate(address_for_geocoding, into = "address", sep = ", Toronto") %>%
+  mutate(address = case_when(address == "NA Crestview Apts (leacrest & Mallory)" ~ "30-75 Leacrest Rd", TRUE ~ address)) %>%
+  select(case_number, date_agi_initiated = date_initiated, landlord_original = landlord, address, bing_address, bing_latitude, bing_longitude)
 
 # There are some addresses that are slightly different (e.g. postal code, or one contains "West") but they get geocoded to the same address
 # We want to combine them so that we can see multiple AGI applications at the same address
@@ -59,6 +60,6 @@ landlords <- agi_applications %>%
 agi_applications <- agi_applications %>%
   left_join(landlords, by = "landlord_original") %>%
   relocate(landlord, landlord_care_of, landlord_alt, .after = landlord_original) %>%
-  select(-landlord_original)
+  select(-landlord_original, -landlord_care_of, -landlord_alt)
 
-saveRDS(agi_applications, here::here("data-raw", "points_layers", "renovictions_to", "clean", "agi_applications.rds"))
+saveRDS(agi_applications, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "clean", "agi_applications.rds"))

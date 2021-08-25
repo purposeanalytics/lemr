@@ -7,7 +7,7 @@ library(tidyr)
 library(stringr)
 devtools::load_all()
 
-agi_applications <- readRDS(here::here("data-raw", "points_layers", "renovictions_to", "extract", "agi_applications.rds"))
+agi_applications <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "extract", "agi_applications.rds"))
 
 # And a "safe" version in case there's errors!
 safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise = NA)
@@ -48,7 +48,7 @@ agi_applications_addresses_geocoded <- agi_applications_addresses_geocoded %>%
 
 # Requery failed results - seems to work!
 agi_applications_addresses_geocoded_missing <- agi_applications_addresses_geocoded %>%
-  filter(bing_status_code == "404") %>%
+  filter(bing_status_code == "404" | bing_confidence == "Low") %>%
   select(address_for_geocoding)
 
 agi_applications_addresses_geocoded_fixed <- agi_applications_addresses_geocoded_missing %>%
@@ -68,7 +68,7 @@ agi_applications_addresses_geocoded_fixed <- agi_applications_addresses_geocoded
   select(-tidyselect::any_of("address_geocode"))
 
 agi_applications_addresses_geocoded_still_404 <- agi_applications_addresses_geocoded_fixed %>%
-  filter(bing_status_code == "404") %>%
+  filter(bing_status_code == "404" | bing_confidence == "Low") %>%
   mutate(
     fixed_address_for_geocoding = case_when(
       address_for_geocoding == "30 1/2 Macaulay Avenue, Toronto, ON M6P3P6" ~ "30 Macaulay Avenue, Toronto, ON M6P3P6",
@@ -100,4 +100,4 @@ agi_applications_addresses_geocoded <- agi_applications_addresses_geocoded %>%
 agi_applications <- agi_applications %>%
   left_join(agi_applications_addresses_geocoded, by = "address_for_geocoding")
 
-saveRDS(agi_applications, here::here("data-raw", "points_layers", "renovictions_to", "geocode", "agi_applications.rds"))
+saveRDS(agi_applications, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "geocode", "agi_applications.rds"))

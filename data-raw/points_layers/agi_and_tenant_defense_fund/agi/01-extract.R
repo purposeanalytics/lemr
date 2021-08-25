@@ -23,4 +23,4 @@ agi_applications <- all_evictions %>%
   ) %>%
   select(-`1`)
 
-saveRDS(agi_applications, here::here("data-raw", "points_layers", "renovictions_to", "extract", "agi_applications.rds"))
+saveRDS(agi_applications, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "extract", "agi_applications.rds"))
