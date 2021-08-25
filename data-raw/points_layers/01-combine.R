@@ -105,7 +105,7 @@ buildings <- buildings %>%
     X = coalesce(X_apt, X_agi, X_evictions),
     Y = coalesce(Y_apt, Y_agi, Y_evictions),
     neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_evictions),
-    apt = coalesce(agi, FALSE),
+    apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
     eviction_hearing = coalesce(eviction_hearing, FALSE),
