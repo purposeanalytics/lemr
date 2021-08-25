@@ -1,8 +1,10 @@
-# Clean
+# Clean evictions
 
 library(dplyr)
 library(stringr)
 library(tidyr)
+library(sf)
+devtools::load_all()
 
 evictions <- readRDS(here::here("data-raw", "points_layers", "evictions", "geocode", "evictions.rds"))
 
@@ -27,5 +29,12 @@ eviction_hearings <- evictions %>%
     address = str_remove(address, "Toronto|Scarborough|Etobicoke|North York|York|East York|Scarborugh|City"),
     address = str_trim(address)
   )
+
+# Make spatial and add neighbourhood
+
+eviction_hearings <- eviction_hearings %>%
+  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326) %>%
+  st_join(lemur::neighbourhoods) %>%
+  select(address, bing_address, landlord, neighbourhood, hearings, geometry)
 
 usethis::use_data(eviction_hearings, overwrite = TRUE)

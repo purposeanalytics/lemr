@@ -57,28 +57,6 @@
 #' @rdname profiles
 "city_profile"
 
-#' Address Points
-#'
-#' Address points for over 500,000 addresses within the City of Toronto, retrieved from \href{https://open.toronto.ca/dataset/address-points-municipal-toronto-one-address-repository/}{Address Points (Municipal) - Toronto One Address Repository}. The data is stored in a SQLite database, so it can be filtered like a regular data frame, then results must be "collected" with \link[dplyr]{collect}.
-#'
-#' @export
-#'
-#' @examples \dontrun{
-#' library(dplyr)
-#' address_points() %>%
-#'   collect()
-#'
-#' address_points() %>%
-#'   filter(address == "404 Lake Promenade") %>%
-#'   collect()
-#' }
-address_points <- function() {
-  dplyr::tbl(pool::dbPool(
-    drv = RSQLite::SQLite(),
-    dbname = system.file("extdata/lemur.sqlite", package = "lemur")
-  ), "address_points")
-}
-
 #' Proximity Measures
 #'
 #' Proximity Measures from \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}{Statistics Canada}, showing proximity to the following ten services and amenities: employment, pharmacies, child care, health care, grocery stores, primary education, secondary education, libraries, neighbourhood parks, and public transit; as well as a measure of "amenity density": high, medium, or low. The data is at the dissemination block level, and only contains dissemination blocks within Toronto proper.

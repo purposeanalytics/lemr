@@ -21,7 +21,7 @@ if (length(geocoded_files) > 0) {
   apartment_building_registry_already_geocoded <- read_latest_file(directory = here::here("data-raw", "points_layers", "apartment_building_registry", "geocode_raw"), suffix = "-apartment_building_registry_geocoded.rds", fileext = "rds")
 
   apartment_building_registry_not_geocoded <- apartment_building_registry %>%
-    anti_join(apartment_building_registry_already_geocoded, by = "_id")
+    anti_join(apartment_building_registry_already_geocoded, by = c("RSN", "SITE_ADDRESS"))
 
   if (nrow(apartment_building_registry_not_geocoded) == 0) {
     ui_done("All addresses done - no geocoding required! No need to run through the rest of the script or others for this data set.")

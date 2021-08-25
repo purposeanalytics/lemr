@@ -5,7 +5,7 @@
 \alias{apartment_building_evaluation}
 \title{Apartment building evaluation}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3474 rows and 13 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3476 rows and 12 columns.
 }
 \usage{
 apartment_building_evaluation
