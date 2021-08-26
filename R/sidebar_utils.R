@@ -154,7 +154,8 @@ number_of_units_plot_alt_text <- function(level, neighbourhood) {
 
 number_of_units_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250, height = height)
+    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250, height = height) %>%
+    plotly::layout(xaxis = list(tickformat = ",d"))
 }
 
 # Apartment building evaluation (RentSafeTO) ----
@@ -313,7 +314,8 @@ population_density_plot_alt_text <- function(level, neighbourhood) {
 
 population_density_plot <- function(data, compare, height = NULL) {
   data %>%
-    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000, height = height)
+    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000, height = height) %>%
+    plotly::layout(xaxis = list(tickformat = ",d"))
 }
 
 # Household size ----
@@ -349,7 +351,8 @@ average_total_household_income_plot_alt_text <- function(level, neighbourhood) {
 
 average_total_household_income_plot <- function(data, compare) {
   data %>%
-    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare)
+    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare) %>%
+    plotly::layout(xaxis = list(tickformat = ",d"))
 }
 
 # Unaffordable housing ----
@@ -589,5 +592,5 @@ average_renter_shelter_cost_plot_alt_text <- function(level, neighbourhood) {
 average_renter_shelter_cost_plot <- function(data, compare, height = NULL) {
   data %>%
     plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50, height = height) %>%
-    plotly::layout(xaxis = list(tickprefix = "$"))
+    plotly::layout(xaxis = list(tickprefix = "$", tickformat = ",d"))
 }
