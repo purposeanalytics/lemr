@@ -102,6 +102,29 @@ h2 {
   font-weight: var(--bold-weight);
 }
 
+/* Collapsed navbar in small layout */
+/* Say "MENU" instead of hamburger menu icon, which a lot of people don't understand */
+
+/* Hide hamburgies */
+.icon-bar {
+  display: none !important;
+}
+
+/* Text instead */
+.navbar-toggle:before {
+  content: "Menu";
+}
+
+/* Match size to logo */
+.navbar-toggle {
+  color: black;
+  font-size: var(--bigger-size);
+  font-weight: var(--bold-weight);
+  border-radius: 0;
+  height: 45px;
+  margin: 15px 15px;
+}
+
 /* Layout */
 
 .map-col {
