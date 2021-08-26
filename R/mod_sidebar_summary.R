@@ -56,16 +56,16 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
           shiny::h2("Amenity density"),
           shiny::textOutput(ns("amenity_density_description")),
-          shiny::div(
-            shiny::column(
-              width = 6,
-              plotly::plotlyOutput(ns("amenity_density_plot"), height = "175px")
-            ),
-            shiny::column(
-              width = 6,
+          # shiny::div(
+            # shiny::column(
+              # width = 6,
+              plotly::plotlyOutput(ns("amenity_density_plot"), height = "175px"),
+            # ),
+            # shiny::column(
+              # width = 6,
               shiny::htmlOutput(ns("amenity_density_table"))
-            )
-          )
+            # )
+          # )
         )
       )
     })

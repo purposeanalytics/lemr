@@ -187,20 +187,9 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
         dplyr::pull(neighbourhood) %>%
         unique()
 
-      neighbourhood_plot <- plot_ly(neighbourhood_data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
-        plotly::layout(
-          xaxis = list(title = stringr::str_wrap(neighbourhood, width = 20), showgrid = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
-          margin = list(t = 10, r = 0, b = 15, l = 15)
-        ) %>%
-        plotly::config(displayModeBar = FALSE)
-
-      city_plot <- plot_ly(data %>%
-        dplyr::filter(neighbourhood == "City of Toronto"), x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
-        plotly::layout(
-          xaxis = list(title = "City of Toronto", showgrid = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
-          margin = list(t = 10, r = 0, l = 15)
-        ) %>%
-        plotly::config(displayModeBar = FALSE)
+      neighbourhood_plot <- plot_amenity_density(neighbourhood_data, neighbourhood)
+      city_plot <- plot_amenity_density(data %>%
+        dplyr::filter(neighbourhood == "City of Toronto"), "City of Toronto")
 
       plotly::subplot(neighbourhood_plot, city_plot, shareY = TRUE, titleX = TRUE) %>%
         plotly::layout(showlegend = FALSE)
@@ -213,29 +202,22 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
       return(res)
     } else if (type == "plot") {
-      # p <- plotly::plot_ly(data,
-      #   labels = ~group, values = ~prop,
-      #   insidetextorientation = "horizontal",
-      #   marker = list(colors = c(low_colour, mid_colour, high_colour)),
-      #   textfont = list(family = "Open Sans", size = 12)
-      # ) %>%
-      #   plotly::add_pie(hole = 0.3) %>%
-      #   plotly::layout(
-      #     showlegend = FALSE,
-      #     xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-      #     yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-      #     margin = list(t = 10, r = 0, b = 15, l = 0)
-      #   ) %>%
-      #   plotly::config(displayModeBar = FALSE)
-
-      p <- plot_ly(data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
-        plotly::layout(
-          xaxis = list(showgrid = FALSE, title = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
-          margin = list(t = 10, r = 0, b = 15, l = 15)
-        ) %>%
-        plotly::config(displayModeBar = FALSE)
+      plot_amenity_density(data)
     }
   }
+}
+
+plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15) {
+  data <- data %>%
+    dplyr::mutate(label = scales::percent(prop, accuracy = 0.1))
+
+  plot_ly(data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour)), text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
+    plotly::layout(
+      xaxis = list(showgrid = FALSE, title = xaxis_title, fixedrange = TRUE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%", fixedrange = TRUE),
+      margin = list(t = 15, r = 0, b = b, l = 15),
+      font = list(family = "Open Sans", size = 12, color = "black")
+    ) %>%
+    plotly::config(displayModeBar = FALSE)
 }
 
 #' Plot the distribution of a neighbourhood profile variable
