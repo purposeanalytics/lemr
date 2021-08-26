@@ -25,7 +25,7 @@ mod_layers_ui <- function(id) {
             choices = list("Low-end of Market Rentals" = "lem"),
             justified = TRUE
           ),
-          legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100")
+          legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 100 (dark blue).")
         ),
         # Amenity Density ------
         create_full_legend(
@@ -35,7 +35,7 @@ mod_layers_ui <- function(id) {
             choices = list("Amenity Density" = "amenity_density"),
             justified = TRUE
           ),
-          legend = generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High")
+          legend = generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High", alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
         ),
         bigger_padded("Select one or more points data layers:"),
         # Apartment Buildings -----
@@ -56,7 +56,7 @@ mod_layers_ui <- function(id) {
             choices = list("RentSafeTO Evaluation Scores" = "apartment_evaluation"),
             justified = TRUE
           ),
-          legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%")
+          legend = generate_layers_legend(c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126"), "50%", "100%", alt_text = "A legend showing values for RentSafeTO evaluation scores, from 50% (light yellow) to 100% (dark red).")
         ),
         # Evictions hearings ----
         create_full_legend(
@@ -134,7 +134,6 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
 
     shiny::observeEvent(input$amenity_density, ignoreInit = TRUE, ignoreNULL = FALSE, {
       if (is.null(input$amenity_density) & identical(latest_aggregate_layer(), "amenity_density")) {
-        # Only send NULL value when it was also the latest selected, otherwise the update input below creates circular logic
         latest_aggregate_layer(input$amenity_density)
       } else if (!is.null(input$amenity_density)) {
         latest_aggregate_layer(input$amenity_density)
@@ -193,13 +192,15 @@ point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "Ren
 
 aggregate_layers_choices <- list("Amenity Density" = "amenity_density", "Low-end of Market Rentals" = "lem")
 
-generate_layers_legend <- function(colors, min_text, max_text) {
+generate_layers_legend <- function(colors, min_text, max_text, alt_text) {
   colors <- purrr::map(colors, function(x) {
     shiny::div(class = "legend-element", style = glue::glue("background-color: {x};"))
   })
 
   shiny::div(
     class = "legend",
+    role = "img",
+    `aria-label` = alt_text,
     shiny::tags$ul(
       shiny::tags$li(class = "min", min_text),
       shiny::tags$li(class = "max", max_text),
@@ -214,13 +215,15 @@ generate_layers_legend <- function(colors, min_text, max_text) {
   )
 }
 
-generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text) {
+generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, alt_text) {
   colors <- purrr::map(colors, function(x) {
     shiny::div(class = "legend-element", style = glue::glue("background-color: {x};"))
   })
 
   shiny::div(
     class = "legend",
+    role = "img",
+    `aria-label` = alt_text,
     shiny::div(
       class = "triple-text",
       shiny::tags$ul(
