@@ -35,7 +35,7 @@ mod_layers_ui <- function(id) {
             choices = list("Amenity Density" = "amenity_density"),
             justified = TRUE
           ),
-          legend = generate_low_mid_high_legends(rev(c(low_colour, mid_colour, high_colour)), "Low", "Medium", "High")
+          legend = generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High")
         ),
         bigger_padded("Select one or more points data layers:"),
         # Apartment Buildings -----

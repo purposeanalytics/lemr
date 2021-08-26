@@ -29,7 +29,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
   prop_variable <- "prop" %in% names(original_data)
 
   if (compare) {
-
     neighbourhood_name <- data %>%
       dplyr::pull(.data$neighbourhood) %>%
       unique()
@@ -58,13 +57,11 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   if (type == "plot") {
-
     data <- data %>%
       dplyr::mutate(group = forcats::fct_rev(group))
 
     if (compare) {
-
-      if(prop_variable) {
+      if (prop_variable) {
         data <- data %>%
           dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
       } else if (dollar) {
@@ -72,12 +69,11 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
           dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
       } else {
         data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ .x)))
+          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~.x)))
       }
       p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
         plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     } else {
-
       if (prop_variable) {
         data <- data %>%
           dplyr::select(-value) %>%
@@ -111,7 +107,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         font = list(family = "Open Sans", size = 12, color = "black")
       ) %>%
       plotly::config(displayModeBar = FALSE)
-
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -119,7 +114,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
       names(res) <- c("group", neighbourhood_name, "City of Toronto")
     } else {
-
       if (prop_variable) {
         res <- data %>%
           dplyr::select(.data$group, .data$prop)
@@ -186,16 +180,30 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
       return(res)
     } else if (type == "plot") {
-      data <- data %>%
-        dplyr::mutate(neighbourhood = str_wrap_factor(.data$neighbourhood, width = width))
+      neighbourhood_data <- data %>%
+        dplyr::filter(neighbourhood != "City of Toronto")
 
-      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
-        ggplot2::geom_col() +
-        theme_lemur() +
-        ggplot2::theme(
-          axis.title = ggplot2::element_blank(),
-          legend.position = "top"
-        )
+      neighbourhood <- neighbourhood_data %>%
+        dplyr::pull(neighbourhood) %>%
+        unique()
+
+      neighbourhood_plot <- plot_ly(neighbourhood_data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
+        plotly::layout(
+          xaxis = list(title = stringr::str_wrap(neighbourhood, width = 20), showgrid = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
+          margin = list(t = 10, r = 0, b = 15, l = 15)
+        ) %>%
+        plotly::config(displayModeBar = FALSE)
+
+      city_plot <- plot_ly(data %>%
+        dplyr::filter(neighbourhood == "City of Toronto"), x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
+        plotly::layout(
+          xaxis = list(title = "City of Toronto", showgrid = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
+          margin = list(t = 10, r = 0, l = 15)
+        ) %>%
+        plotly::config(displayModeBar = FALSE)
+
+      plotly::subplot(neighbourhood_plot, city_plot, shareY = TRUE, titleX = TRUE) %>%
+        plotly::layout(showlegend = FALSE)
     }
   } else if (!compare) {
     if (type == "table") {
@@ -205,28 +213,28 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
       return(res)
     } else if (type == "plot") {
-      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
-        ggplot2::geom_col() +
-        theme_lemur() +
-        ggplot2::theme(
-          axis.title = ggplot2::element_blank(),
-          axis.text.y = ggplot2::element_blank()
-        )
+      # p <- plotly::plot_ly(data,
+      #   labels = ~group, values = ~prop,
+      #   insidetextorientation = "horizontal",
+      #   marker = list(colors = c(low_colour, mid_colour, high_colour)),
+      #   textfont = list(family = "Open Sans", size = 12)
+      # ) %>%
+      #   plotly::add_pie(hole = 0.3) %>%
+      #   plotly::layout(
+      #     showlegend = FALSE,
+      #     xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+      #     yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+      #     margin = list(t = 10, r = 0, b = 15, l = 0)
+      #   ) %>%
+      #   plotly::config(displayModeBar = FALSE)
+
+      p <- plot_ly(data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour))) %>%
+        plotly::layout(
+          xaxis = list(showgrid = FALSE, title = FALSE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%"),
+          margin = list(t = 10, r = 0, b = 15, l = 15)
+        ) %>%
+        plotly::config(displayModeBar = FALSE)
     }
-  }
-
-  if (type == "plot") {
-    plot_colours <- switch(variable,
-      "household_tenure" = c(mid_colour, high_colour),
-      "amenity_density" = rev(c(high_colour, mid_colour, low_colour))
-    )
-
-    p +
-      ggplot2::scale_fill_manual(values = plot_colours, drop = TRUE) +
-      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) +
-      ggplot2::scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
-      ggplot2::labs(fill = NULL) +
-      ggplot2::theme(legend.position = "top")
   }
 }
 
