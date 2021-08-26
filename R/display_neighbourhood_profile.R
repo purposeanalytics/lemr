@@ -211,9 +211,19 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15) {
   data <- data %>%
     dplyr::mutate(label = scales::percent(prop, accuracy = 0.1))
 
-  plot_ly(data, x = ~group, y = ~prop, type = "bar", hoverinfo = "skip", marker = list(color = c(low_colour, mid_colour, high_colour)), text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
+  plot_ly(data,
+    x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",
+    marker = list(color = c(low_colour, mid_colour, high_colour)),
+    text = ~label, textposition = "outside", cliponaxis = FALSE,
+    textfont = list(color = "black")
+  ) %>%
     plotly::layout(
-      xaxis = list(showgrid = FALSE, title = xaxis_title, fixedrange = TRUE), yaxis = list(showgrid = FALSE, zeroline = FALSE, title = FALSE, tickformat = "%", fixedrange = TRUE),
+      xaxis = list(showgrid = FALSE, title = xaxis_title, fixedrange = TRUE),
+      yaxis = list(
+        showgrid = FALSE, zeroline = FALSE, title = FALSE,
+        tickformat = "%",
+        fixedrange = TRUE
+      ),
       margin = list(t = 15, r = 0, b = b, l = 15),
       font = list(family = "Open Sans", size = 12, color = "black")
     ) %>%

@@ -56,16 +56,8 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
           shiny::h2("Amenity density"),
           shiny::textOutput(ns("amenity_density_description")),
-          # shiny::div(
-            # shiny::column(
-              # width = 6,
-              plotly::plotlyOutput(ns("amenity_density_plot"), height = "175px"),
-            # ),
-            # shiny::column(
-              # width = 6,
-              shiny::htmlOutput(ns("amenity_density_table"))
-            # )
-          # )
+          shiny::uiOutput(ns("amenity_density_plot_ui")),
+          shiny::htmlOutput(ns("amenity_density_table"))
         )
       )
     })
@@ -212,9 +204,17 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
+    output$amenity_density_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = amenity_density_alt_text(),
+        plotly::plotlyOutput(ns("amenity_density_plot"), height = "150px")
+      )
+    })
+
     output$amenity_density_table <- shiny::renderText({
-      generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") # %>%
-      # kableExtra::footnote(general = "A very small number of areas have unknown amenity density, so values may not add up to 100%.")
+      generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%
+      kableExtra::footnote(general = "A very small number of areas have unknown amenity density, so values may not add up to 100%.")
     }) %>%
       shiny::bindCache(level(), neighbourhood())
   })
