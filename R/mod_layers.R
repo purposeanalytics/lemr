@@ -99,6 +99,8 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Points layers ----
+
     shiny::observeEvent(
       {
         input$apartment_buildings
@@ -112,25 +114,52 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
       {
         active_layers <- c(input$apartment_buildings, input$apartment_evaluation, input$evictions_hearings, input$agi, input$tdf)
 
-        # Update reactive with value from input
+        # Update reactive with value from input - then mod_map handles what's shown
         point_layers(active_layers)
       }
     )
 
+    # Aggregate layers -----
+
+    latest_aggregate_layer <- shiny::reactiveVal()
+
+    shiny::observeEvent(input$lem, ignoreInit = TRUE, ignoreNULL = FALSE, {
+      if (is.null(input$lem) & identical(latest_aggregate_layer(), "lem")) {
+        # Only send NULL value when it was also the latest selected, otherwise the update input below creates circular logic
+        latest_aggregate_layer(input$lem)
+      } else if (!is.null(input$lem)) {
+        latest_aggregate_layer(input$lem)
+      }
+    })
+
+    shiny::observeEvent(input$amenity_density, ignoreInit = TRUE, ignoreNULL = FALSE, {
+      if (is.null(input$amenity_density) & identical(latest_aggregate_layer(), "amenity_density")) {
+        # Only send NULL value when it was also the latest selected, otherwise the update input below creates circular logic
+        latest_aggregate_layer(input$amenity_density)
+      } else if (!is.null(input$amenity_density)) {
+        latest_aggregate_layer(input$amenity_density)
+      }
+    })
+
     shiny::observeEvent(
       {
-        input$amenity_density
-        input$lem
+        latest_aggregate_layer()
       },
       ignoreInit = TRUE,
       ignoreNULL = FALSE,
       {
-        active_layers <- c(input$amenity_density, input$lem)
+        # Only allow one aggregate layer on at a time - deselect the others -----
+        diff_layers <- setdiff(aggregate_layers_choices, latest_aggregate_layer())
 
-        # Update reactive with value from input
-        aggregate_layers(active_layers)
+        for (l in diff_layers) {
+          shinyWidgets::updateCheckboxGroupButtons(session, l, selected = character(0))
+        }
+
+        # Update reactive with latest input - then mod_map handles what's shown
+        aggregate_layers(latest_aggregate_layer())
       }
     )
+
   })
 }
 

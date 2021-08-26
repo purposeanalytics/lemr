@@ -97,7 +97,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
 
     # Update layers -----
 
-    ## Point layers
+    ## Point layers -----
     shiny::observeEvent(
       point_layers(),
       ignoreInit = TRUE,
@@ -125,7 +125,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       }
     )
 
-    ## Aggregate layers
+    ## Aggregate layers -----
     shiny::observeEvent(
       aggregate_layers(),
       ignoreInit = TRUE,
