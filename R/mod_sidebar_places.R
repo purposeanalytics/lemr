@@ -41,7 +41,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
-          shiny::htmlOutput(ns("legend")),
+          mod_legend_ui(ns("legend")),
           shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),
           shiny::uiOutput(ns("structure_type_plot_ui")),
@@ -65,17 +65,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     # Legend ----
 
-    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
-    plot_legend <- shiny::reactive({
-      if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
-      }
-    })
-
-    output$legend <- shiny::renderText({
-      plot_legend()
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
+    mod_legend_server("legend", level, neighbourhood)
 
     # Structure type -----
 
