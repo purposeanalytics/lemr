@@ -108,8 +108,9 @@ buildings <- buildings %>%
     apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
-    eviction_hearing = coalesce(eviction_hearing, FALSE),
-    hearings = coalesce(hearings, 0)
+    tdf_year = na_if(tdf_year, ""),
+    reduced_increase_by = na_if(reduced_increase_by, ""),
+    eviction_hearing = coalesce(eviction_hearing, FALSE)
   )
 
 # Select columns -----
