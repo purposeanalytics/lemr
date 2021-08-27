@@ -164,7 +164,6 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
         aggregate_layers(latest_aggregate_layer())
       }
     )
-
   })
 }
 

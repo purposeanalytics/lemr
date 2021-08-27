@@ -22,7 +22,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_lem_layer()%>%
+        add_blank_lem_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
@@ -42,7 +42,6 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     shiny::observeEvent(
       input$map_onclick,
       {
-
         current_neighbourhood <- address_and_neighbourhood$neighbourhood
         clicked_neighbourhood <- input$map_onclick$props$neighbourhood
 
@@ -59,7 +58,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
           search_method("neighbourhood")
           address_and_neighbourhood$neighbourhood <- clicked_neighbourhood
         }
-        }
+      }
     )
 
     # Update zoom of map and highlighted apartment and/or neighbourhood based on search -----

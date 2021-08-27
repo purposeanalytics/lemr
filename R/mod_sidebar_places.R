@@ -78,11 +78,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       structure_type_plot_alt_text(level(), neighbourhood())
     })
 
-    output$structure_type_plot <- plotly::renderPlotly(
-      {
-        structure_type_plot(dataset(), compare())
-      }
-    ) %>%
+    output$structure_type_plot <- plotly::renderPlotly({
+      structure_type_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$structure_type_plot_ui <- shiny::renderUI({
@@ -109,11 +107,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       bedrooms_plot_alt_text(level(), neighbourhood())
     })
 
-    output$bedrooms_plot <- plotly::renderPlotly(
-      {
-        bedrooms_plot(dataset(), compare())
-      }
-    ) %>%
+    output$bedrooms_plot <- plotly::renderPlotly({
+      bedrooms_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$bedrooms_plot_ui <- shiny::renderUI({
@@ -140,11 +136,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       household_tenure_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_tenure_plot <- plotly::renderPlotly(
-      {
-        household_tenure_plot(dataset(), compare())
-      }
-    ) %>%
+    output$household_tenure_plot <- plotly::renderPlotly({
+      household_tenure_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$household_tenure_plot_ui <- shiny::renderUI({
@@ -191,11 +185,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
-    output$average_renter_shelter_cost_plot <- plotly::renderPlotly(
-      {
-        average_renter_shelter_cost_plot(dataset(), compare())
-      }
-    ) %>%
+    output$average_renter_shelter_cost_plot <- plotly::renderPlotly({
+      average_renter_shelter_cost_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$average_renter_shelter_cost_plot_ui <- shiny::renderUI({
@@ -205,7 +197,6 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
         plotly::plotlyOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
       )
     })
-
   })
 }
 

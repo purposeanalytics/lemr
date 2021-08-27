@@ -90,7 +90,7 @@ eviction_hearings <- lemur::eviction_hearings %>%
   as_tibble() %>%
   select(-geometry) %>%
   bind_cols(eviction_hearings_coords) %>%
-  rename_at(vars(landlord, address, X, Y, neighbourhood), ~paste0(.x, "_evictions"))
+  rename_at(vars(landlord, address, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
 
 buildings <- buildings %>%
   full_join(eviction_hearings %>%
