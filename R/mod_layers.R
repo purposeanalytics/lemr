@@ -7,6 +7,7 @@
 #' @noRd
 mod_layers_ui <- function(id) {
   ns <- NS(id)
+
   shiny::column(
     width = 12,
     bsplus::use_bs_popover(),
@@ -43,7 +44,9 @@ mod_layers_ui <- function(id) {
           icon = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
           button = shinyWidgets::checkboxGroupButtons(
             inputId = ns("apartment_buildings"),
-            choices = list("Apartment Buildings" = "apartment_buildings"),
+            choiceNames = as.character(create_circle_legend(layer_colours[["apartment_buildings"]], "Apartment buildings", alt_text = "A legend showing the colour of the points of apartment buildings - a dark blue.")),
+            choiceValues = "apartment_buildings",
+            # choices = list("Apartment Buildings" = "apartment_buildings"),
             justified = TRUE
           ),
           legend = NULL
@@ -63,7 +66,8 @@ mod_layers_ui <- function(id) {
           icon = create_popover(title = "Evictions Hearings", content = "This layer shows the locations of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021."),
           button = shinyWidgets::checkboxGroupButtons(
             inputId = ns("evictions_hearings"),
-            choices = list("Evictions Hearings" = "evictions_hearings"),
+            choiceNames = as.character(create_circle_legend(layer_colours[["evictions_hearings"]], "Eviction hearings", alt_text = "A legend showing the yellow colour of the points of eviction hearings.")),
+            choiceValues = "evictions_hearings",
             justified = TRUE
           ),
           legend = NULL
@@ -73,7 +77,8 @@ mod_layers_ui <- function(id) {
           icon = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of rentals whose landlords applied for an Above Guideline Increase (AGI) in the rent."),
           button = shinyWidgets::checkboxGroupButtons(
             inputId = ns("agi"),
-            choices = list("AGI Applications" = "agi"),
+            choiceNames = as.character(create_circle_legend(layer_colours[["agi"]], "AGI applications", alt_text = "A legend showing the green colour of the points of above guideline increase applications.")),
+            choiceValues = "agi",
             justified = TRUE
           ),
           legend = NULL
@@ -83,7 +88,8 @@ mod_layers_ui <- function(id) {
           icon = create_popover(title = "Tenant Defence Fund Grants", content = "This layer shows the locations of rentals who received a Tenant Defence Fund grant for the above guideline increases their landlords requested."),
           button = shinyWidgets::checkboxGroupButtons(
             inputId = ns("tdf"),
-            choices = list("Tenant Defence Fund Grants" = "tdf"),
+            choiceNames = as.character(create_circle_legend(layer_colours[["tdf"]], "Tenant Defense Fund grants", alt_text = "A legend showing the purple colour of the points of tenant defense fund grants.")),
+            choiceValues = "tdf",
             justified = TRUE
           ),
           legend = NULL

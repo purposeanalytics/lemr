@@ -1,5 +1,3 @@
-
-
 add_blank_points_layers <- function(map) {
   blur <- 0.5
   radius <- 5
@@ -20,7 +18,7 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "apartment_buildings",
       filter = list("==", "apartment", TRUE),
-      circle_color = main_colour,
+      circle_color = layer_colours[["apartment_buildings"]],
       circle_blur = blur,
       circle_radius = radius,
       visibility = FALSE,
@@ -42,7 +40,7 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "evictions_hearings",
       filter = list("==", "eviction_hearing", TRUE),
-      circle_color = accent_colour,
+      circle_color = layer_colours[["evictions_hearings"]],
       circle_blur = blur,
       circle_radius = radius,
       visibility = FALSE,
@@ -53,7 +51,7 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "agi",
       filter = list("==", "agi", TRUE),
-      circle_color = low_colour,
+      circle_color = layer_colours[["agi"]],
       circle_blur = blur,
       circle_radius = radius,
       visibility = FALSE,
@@ -64,7 +62,7 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "tdf",
       filter = list("==", "tdf", TRUE),
-      circle_color = high_colour,
+      circle_color = layer_colours[["tdf"]],
       circle_blur = blur,
       circle_radius = radius,
       visibility = FALSE,

@@ -183,6 +183,10 @@ body > .container-fluid {
   vertical-align: middle;
 }
 
+.color-preview.circle {
+   border-radius: 50%;
+}
+
 /* Layers legend */
 
 .layer-popup {
