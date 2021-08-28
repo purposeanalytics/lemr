@@ -1,177 +1,254 @@
 ---
-output: html_document
 params:
-  neighbourhood: Danforth
-editor_options: 
-  chunk_output_type: console
----
-
----
-title: `r params$neighbourhood`
+  level: neighbourhood
+  neighbourhood: Bridle Path-Sunnybrook-York Mills
+output:
+  html_document:
+    df_print: paged
+    css: ../app/www/style.css
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300)
-
 library(lemur)
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(forcats)
+library(htmltools)
+library(knitr)
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "100%", fig.pos = "!H")
+
+distribution_height <- "200px"
+
+html_output <- is_html_output()
+output <- ifelse(html_output, "html", "pdf")
+
+if (html_output) {
+  output <- "html"
+  format_paragraph <- htmltools::p
+} else {
+  output <- "pdf"
+  format_paragraph <- function(x) {
+    cat(x, "\n")
+  }
+}
+
+level <- params$level
+neighbourhood <- params$neighbourhood
+compare <- level == "neighbourhood"
+
+title <- switch(level,
+  "neighbourhood" = neighbourhood,
+  "city" = "City of Toronto"
+)
+
+dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 ```
 
-```{r data}
-neighbourhood_profile <- neighbourhood_profiles[[params$neighbourhood]]
+---
+title: `r title`
+---
+
+```{r population}
+glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)') %>%
+  lemur:::bigger_padded()
 ```
 
-### Population: `r comma(neighbourhood_profile[["population"]])` (`r comma(neighbourhood_profile[["households"]])` households)
+## Apartment buildings
 
-<div style = "display: flex;">
+```{r apartment-buildings, opts.label = "distribution", fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+number_of_apartments <- lemur:::get_measure(dataset, "number_of_apartments")
+number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_apartments")
 
-<div style = "width: 30%;">
+number_of_units <- lemur:::get_measure(dataset, "number_of_units")
+number_of_units_formatted <- lemur:::format_measure(number_of_units, "number_of_units")
 
-#### Population density
-##### `r comma(round(neighbourhood_profile[["population_density"]]))` people per square km
-</div>
+lemur:::number_of_apartments_number(number_of_apartments_formatted, number_of_units_formatted) %>%
+  lemur:::bigger_padded()
 
-<div style = "width: 70%;">
-```{r density-comparison, fig.height = 2}
-ggplot() +
-  geom_density(data = city_profile[["population_density"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["population_density"]]), color = "darkgreen") +
-  theme_lemur() +
-  scale_x_continuous(labels = comma) +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
-```
-</div>
-</div>
+lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
 
-<div style = "display: flex;">
-
-<div style = "width: 50%;">
-#### Household size
-
-```{r household-size, fig.height = 5}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("household_size", width = 10)
-```
-</div>
-
-<div style = "width: 50%;">
-
-##### Mean total income
-
-```{r mean-total-income, fig.height = 2}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("average_total_income", dollar = TRUE)
+lemur:::number_of_apartments_plot(dataset, compare, height = distribution_height)
 ```
 
-##### Unaffordable housing
+```{r apartment-building-units, opts.label = "distribution", fig.alt = lemur:::number_of_units_plot_alt_text(level, neighbourhood)}
+lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
 
-<div style = "display: flex;">
-
-<div style = "width: 30%;">
-`r percent(neighbourhood_profile[["unaffordable_housing"]], accuracy = 0.1)`
-
-(City: `r city_profile[["unaffordable_housing"]][["value"]]`%)
-</div>
-
-<div style = "width: 70%;">
-```{r unaffordable-comparison, fig.height = 2}
-ggplot() +
-  geom_density(data = city_profile[["unaffordable_housing"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["unaffordable_housing"]]), color = "darkgreen") +
-  scale_x_continuous(labels = percent) +
-  theme_lemur() +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
-```
-</div>
-</div>
-
-#### Total people under poverty measure
-</div>
-
-</div>
-
-<div style = "display: flex;">
-
-<div style = "width: 50%;">
-#### Visible minority population
-
-```{r total-visible-minority}
-total_visible_minority <- neighbourhood_profile[["visible_minority"]] %>%
-  filter(group != "Not a visible minority") %>%
-  pull(prop) %>%
-  sum() %>%
-  percent(accuracy = 0.1)
-
-total_visible_minority_city <- city_profile[["visible_minority"]] %>%
-  filter(group != "Not a visible minority") %>%
-  pull(prop) %>%
-  sum() %>%
-  percent(accuracy = 0.1)
+lemur:::number_of_units_plot(dataset, compare, height = distribution_height)
 ```
 
+## RentSafeTO evaluation scores
 
-<div style = "display: flex;">
+```{r apartment-building-evaluation, opts.label = "distribution", fig.alt = lemur:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
+apartment_building_evaluation <- lemur:::get_measure(dataset, "apartment_building_evaluation")
+apartment_building_evaluation_formatted <- lemur:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
 
-<div style = "width: 50%;">
-Total visible minority population
-</div>
+lemur:::apartment_building_evaluation_number(apartment_building_evaluation_formatted) %>%
+  lemur:::bigger_padded()
 
-<div style = "width: 50%;">
-`r total_visible_minority`
+lemur:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
 
-(City: `r total_visible_minority_city`)
-</div>
-</div>
-
-```{r visible-minority, fig.height = 7}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("visible_minority", width = 10)
+lemur:::apartment_building_evaluation_plot(dataset, compare, height = distribution_height)
 ```
-</div>
-</div>
 
-# Places
+## Population change
 
-## Private dwellings by structure
+```{r population-change, opts.label = "distribution", fig.alt = lemur:::population_change_plot_alt_text(level, neighbourhood)}
+population_change <- lemur:::get_measure(dataset, "population_change")
+population_change_formatted <- lemur:::format_measure(population_change, "population_change")
 
-```{r structure-type}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("structure_type")
+lemur:::population_change_number(population_change_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::population_change_description(level, neighbourhood, population_change, population_change_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::population_change_plot(dataset, compare, height = distribution_height)
+```
+
+## Population density
+
+```{r population-density, opts.label = "distribution", fig.alt = lemur:::population_density_plot_alt_text(level, neighbourhood)}
+population_density <- lemur:::get_measure(dataset, "population_density")
+population_density_formatted <- lemur:::format_measure(population_density, "population_density")
+
+lemur:::population_density_number(population_density_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::population_density_description(level, neighbourhood, population_density, population_density_formatted) %>%
+  format_paragraph() %>%
+  lemur:::bigger_padded()
+
+lemur:::population_density_plot(dataset, compare, height = distribution_height)
+```
+
+## Household size 
+
+```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2}
+lemur:::household_size_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::household_size_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent", output = output)
+```
+
+## Average Total Household Income 
+
+```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1}
+lemur:::average_total_household_income_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::average_total_household_income_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar", output = output)
+```
+
+## Unaffordable housing
+
+```{r unaffordable-housing, opts.label = "distribution", fig.alt = lemur:::unaffordable_housing_plot_alt_text(level, neighbourhood)}
+unaffordable_housing <- lemur:::get_measure(dataset, "unaffordable_housing")
+unaffordable_housing_formatted <- lemur:::format_measure(unaffordable_housing, "unaffordable_housing")
+
+lemur:::unaffordable_housing_number(unaffordable_housing_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::unaffordable_housing_city(level) %>%
+  lemur:::bigger_padded()
+
+lemur:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
+  format_paragraph()
+
+lemur:::unaffordable_housing_plot(dataset, compare, height = distribution_height)
+```
+
+## Low-income measure after tax
+
+```{r lim-at, opts.label = "distribution", fig.alt = lemur:::lim_at_plot_alt_text(level, neighbourhood)}
+lim_at <- lemur:::get_measure(dataset, "lim_at")
+lim_at_formatted <- lemur:::format_measure(lim_at, "lim_at")
+
+lemur:::lim_at_number(lim_at_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::lim_at_city(level) %>%
+  lemur:::bigger_padded()
+
+lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
+  format_paragraph()
+
+lemur:::lim_at_plot(dataset, compare, height = distribution_height)
+```
+
+## Visible minority population
+
+```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
+lemur:::visible_minority_number(dataset) %>%
+  lemur:::bigger_padded()
+
+lemur:::visible_minority_city(level) %>%
+  lemur:::bigger_padded()
+
+lemur:::visible_minority_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::visible_minority_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent", output = output) %>%
+  kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
+```
+
+## Housing structure type
+
+```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2}
+lemur:::structure_type_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::structure_type_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
 ## Number of bedrooms
 
-```{r bedrooms}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("bedrooms")
+```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2}
+lemur:::bedrooms_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::bedrooms_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
-## Renter versus Owner
+# Households by tenure
 
-```{r renter-owner}
-neighbourhood_profile %>%
-  plot_neighbourhood_profile("renter_owner")
+```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1}
+lemur:::household_tenure_description(level, neighbourhood) %>%
+  format_paragraph()
+
+lemur:::household_tenure_plot(dataset, compare)
+
+lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent", output = output)
 ```
 
-## Shelter Cost for renters (`r dollar(neighbourhood_profile[["average_renter_shelter_cost"]], accuracy = 1)` (City: `r dollar(city_profile[["average_renter_shelter_cost"]][["value"]], accuracy = 1)`)
+## Average shelter cost for renters
 
-```{r shelter-cost-comparison}
-ggplot() +
-  geom_density(data = city_profile[["average_renter_shelter_cost"]][["distribution"]], aes(x = value), fill = "grey", color = "grey") +
-  geom_vline(aes(xintercept = neighbourhood_profile[["average_renter_shelter_cost"]]), color = "darkgreen") +
-  scale_x_continuous(labels = dollar) +
-  theme_lemur() +
-  theme(
-    axis.title = element_blank(),
-    axis.text.y = element_blank()
-  )
+```{r shelter-cost, opts.label = "distribution", fig.alt = lemur:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood)}
+shelter_cost <- lemur:::get_measure(dataset, "average_renter_shelter_cost")
+shelter_cost_formatted <- lemur:::format_measure(shelter_cost, "average_renter_shelter_cost")
+
+lemur:::shelter_cost_number(shelter_cost_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::shelter_cost_city(level) %>%
+  lemur:::bigger_padded()
+
+lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
+  format_paragraph()
+
+lemur:::average_renter_shelter_cost_plot(dataset, compare, height = distribution_height)
 ```

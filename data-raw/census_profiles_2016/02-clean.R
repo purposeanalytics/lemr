@@ -10,7 +10,7 @@ devtools::load_all()
 toronto_census_tracts <- readRDS(here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
 
 # Read file for converting census tract to neighbourhood
-geo_to_neighbourhood <- st_read(here::here("data-raw", "census_profiles_2016", "raw", "Census Geographies to TO Neighbourhoods.gpkg"))
+geo_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg"))
 
 # Just select relevant columns
 ct_to_neighbourhood <- geo_to_neighbourhood %>%

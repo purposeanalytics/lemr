@@ -6,6 +6,11 @@
 #' apartment_building_registry
 "apartment_building_registry"
 
+#' Apartment building evaluation
+#'
+#' Apartment building evaluation scores, retreieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-evaluation/}{Apartmenr Building Evaluation dataset}. This data set contains the results from \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/}{RentSafeTO: Apartment Building Standards}, a bylaw enforcement program established to ensure owners and operators of apartment buildings comply with building maintenance standards. This data set contains the building evaluation scores for buildings registered with RentSafeTO, which require evaluation at least once every three years. \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-building-owners/rentsafeto-building-evaluations-and-audits/}{Various items} are inspected and assigned a score from 1 to 5, which is then aggregated for the building. If a building scores less than 50 per cent, the building must undergo an audit. Otherwise, the score determines whether another evaluation needs to take place in one, two, or three years.
+"apartment_building_evaluation"
+
 #' City of Toronto boundaries
 #'
 #' City of Toronto boundaries, retrieved from the \href{https://open.toronto.ca/dataset/regional-municipal-boundary/}{Regional Municipal Boundary dataset}
@@ -52,29 +57,12 @@
 #' @rdname profiles
 "city_profile"
 
-#' Address Points
+#' Proximity Measures
 #'
-#' Address points for over 500,000 addresses within the City of Toronto, retrieved from \href{https://open.toronto.ca/dataset/address-points-municipal-toronto-one-address-repository/}{Address Points (Municipal) - Toronto One Address Repository}. The data is stored in a SQLite database, so it can be filtered like a regular data frame, then results must be "collected" with \link[dplyr]{collect}.
-#'
-#' @export
-#'
-#' @examples \dontrun{
-#' library(dplyr)
-#' address_points() %>%
-#'   collect()
-#'
-#' address_points() %>%
-#'   filter(address == "404 Lake Promenade") %>%
-#'   collect()
-#' }
-address_points <- function() {
-  dplyr::tbl(pool::dbPool(
-    drv = RSQLite::SQLite(),
-    dbname = system.file("extdata/lemur.sqlite", package = "lemur")
-  ), "address_points")
-}
+#' Proximity Measures from \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}{Statistics Canada}, showing proximity to the following ten services and amenities: employment, pharmacies, child care, health care, grocery stores, primary education, secondary education, libraries, neighbourhood parks, and public transit; as well as a measure of "amenity density": high, medium, or low. The data is at the dissemination block level, and only contains dissemination blocks within Toronto proper.
+"proximity_measures"
 
-#' Address Points addresses only
+#' Amenity density by neighbourhood
 #'
-#' Addresses only from \link{address_points}
-"address_points_just_address"
+#' An aggregation of amenity density from \link{proximity_measures}, showing what proportion of a neighbourhood's population lives in high, medium, or low amenity dense areas.
+"amenity_density_by_neighbourhood"

@@ -3,3 +3,17 @@
 .RData
 .Ruserdata
 .DS_Store
+*.rds
+*.csv
+rsconnect/
+README_cache/
+*.html
+*.pdf
+*.txt
+*.gpkg
+*.dbf
+*.prj
+*.shp
+*.shx
+*.xls
+.Renviron

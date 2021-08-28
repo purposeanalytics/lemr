@@ -1,3 +1,157 @@
+/* LEMR Styles */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+  --font: "Open Sans", Sans-Serif;
+  --base-size: 16px;
+  --bigger-size: 1.25em;
+  --regular-weight: 400;
+  --bold-weight: 700;
+  --main-color: #08569A;
+  --accent-color: #FFC20A;
+  --accent-color-rgba: rgba(255, 194, 10, 1);
+  --accent-color-lighter-rgba: rgba(255, 194, 10, 0.50);
+  --grey-color: #B8B8B8;
+}
+
+/* ------  Header and font styles ------ */
+
+body {
+  font-family: var(--font);
+  font-size: var(--base-size);
+  font-weight: var(--regular-weight);
+}
+
+a {
+  font-color: var(--main-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1em;
+  padding-top: 10px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 2.25em;
+  font-weight: var(--bold-weight);
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: var(--bold-weight);
+}
+
+.padded {
+  margin-bottom: 0.5em;
+}
+
+.normal {
+  font-size: 1em;
+}
+
+.bigger {
+  font-size: var(--bigger-size);
+}
+
+.nav-tabs {
+  border-bottom: 0;
+}
+
+.autocomplete-items div:hover {
+  background-color: var(--accent-color);
+}
+
+/* Navbar */
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-default {
+  border-bottom-width: 4px;
+  border-bottom-color: var(--main-color);
+  background: white;
+}
+
+.navbar-header {
+  height: 100px;
+}
+
+.navbar-brand {
+  height: 100%;
+}
+
+.navbar-img {
+  height: 100%;
+}
+
+.navbar-default .navbar-nav > a:hover {
+  color: white;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  background-color: inherit;
+  color: var(--accent-color);
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: black;
+  font-size: var(--bigger-size);
+  font-weight: var(--bold-weight);
+}
+
+/* Layout */
+
+.map-col {
+  width: 70%;
+  float: left;
+}
+
+.sidebar-col {
+  width: 30%;
+  float: left;
+}
+
+body > .container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Dropdown */
+
+.bootstrap-select .dropdown-menu {
+  max-width: 100%;
+  overflow-wrap: hyphenate-word;
+  hyphens: overflow;
+}
+
+/* Download modal box */
+
+.modal-content {
+  border-radius: 0;
+}
+
+/* Inputs */
+
+.form-control, .btn, .dropdown-menu {
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-default:hover {
+  border-color: var(--accent-color);
+  background-color: inherit;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+  background-color: var(--main-color);
+}
+
+/* ------ Legend ------ */
+
 .color-preview {
   display: inline-block;
   width: 1em;
@@ -6,6 +160,240 @@
   vertical-align: middle;
 }
 
-#map-map {
-  height: calc(100vh - 100px) !important;
+/* Layers legend */
+
+.layer-popup {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-right: 0;
+  height: 35.6px;
+}
+
+.popover {
+  border-radius: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.popover-title {
+  font-weight: var(--bold-weight);
+  font-size: inherit;
+}
+
+.checkboxGroupButtons {
+  overflow: hidden;
+}
+
+.checkboxGroupButtons .btn {
+  border: 2px solid var(--grey-color);
+  border-radius: 0;
+}
+
+.checkboxGroupButtons .btn.active {
+  border-color: var(--main-color);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.checkboxGroupButtons .btn.active:hover {
+  border-color: var(--main-color);
+}
+
+.checkboxGroupButtons .btn:hover {
+  border-color: var(--accent-color);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.legend {
+  width: 100%;
+  margin: auto;
+}
+
+.legend ul {
+  list-style: none;
+  padding: 0;
+}
+
+.legend li.min {
+  float: left
+}
+
+.legend li.max {
+  float: right
+}
+
+/* TODO, need to fix CSS to work on all browsers */
+.legend li.legend-colors {
+  clear: both;
+  overflow: hidden;
+  display: table;
+  width: 100%;
+  height: 10px;
+  border-radius: 0;
+  background-clip: padding;
+  border: 1px solid var(--grey-color);
+}
+
+.legend li.legend-colors .colors {
+  display: table-row;
+}
+
+.legend li.legend-colors .legend-element {
+  display: table-cell;
+}
+
+.legend .triple-text ul {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* ------ Map sizes ------ */
+
+#map-map, #sidebar {
+  height: calc(100vh - 120px) !important;
+}
+
+#sidebar {
+  overflow-y: auto;
+}
+
+/* ------ Tabs ------ */
+
+
+.nav-tabs {
+  border-bottom: 1px solid black;
+}
+
+.nav-tabs > li > a {
+  margin-right: 0.75em;
+  border: 1px solid black !important;
+  border-radius: 0;
+  background-color: var(--accent-color-lighter-rgba) !important;
+  color: black !important;
+}
+
+.nav-tabs > li.active > a {
+  background-color: var(--accent-color-rgba) !important;
+}
+
+.nav-tabs > li.active > a:hover {
+  text-shadow: 0;
+}
+
+.nav-tabs > li > a:hover {
+  background-color: var(--accent-color-rgba) !important;
+}
+
+/* ------ Well panel ------ */
+
+.well {
+  background-color: white;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+/* Media queries - smaller screen sizes */
+
+/* Extra small devices (portrait phones, up to 575px) */
+@media (max-width: 575px) {
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  :root {
+  --base-size: 12px;
+  }
+
+  /* Stack map and sidebar */
+  .map-col {
+    width: 100%;
+  }
+
+  /* Shorter map */
+  #map-map{
+    height: calc(50vh) !important;
+  }
+
+  .sidebar-col {
+    width: 100%;
+  }
+
+  /* Overflow sidebar div to avoid double scrolly */
+  #sidebar {
+    overflow-y: visible;
+    border-width: 0;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767) */
+@media (min-width: 576px) and (max-width: 767px) {
+
+  :root {
+  --base-size: 12px;
+  }
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+
+  :root {
+  --base-size: 12px;
+  }
+
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+}
+
+/* Large devices (desktops, 992px to 1200px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .map-col {
+    width: 50%;
+  }
+
+  .sidebar-col {
+    width: 50%;
+  }
+
+}
+
+/* When bootstrap collapsed navbar is not triggered, style the navbar all nice */
+/* Only then, otherwise it looks bad in the hamburger menu! */
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 }
