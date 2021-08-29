@@ -23,7 +23,7 @@ create_circle_legend <- function(colour, text, alt_text) {
 color_preview_circle <- function(color) {
   shiny::tagList(
     shiny::span(
-      class = "color-preview circle",
+      class = "color-preview-circle",
       style = paste("background-color:", color),
       .noWS = "outside"
     )

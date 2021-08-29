@@ -183,8 +183,13 @@ body > .container-fluid {
   vertical-align: middle;
 }
 
-.color-preview.circle {
-   border-radius: 50%;
+.color-preview-circle {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.33em;
+  vertical-align: middle;
+  border-radius: 50%;
 }
 
 /* Layers legend */
