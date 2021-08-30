@@ -167,7 +167,7 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
   })
 }
 
-popup_icon <- htmltools::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
+popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
 
 create_popover <- function(icon = popup_icon, title, content) {
   icon %>%

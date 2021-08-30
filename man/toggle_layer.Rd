@@ -12,7 +12,7 @@ toggle_layer_invisible(map, id)
 \arguments{
 \item{map}{Map e.g. from \link{map_toronto}}
 
-\item{id}{ID of existing layer, added via e.g. \link{add_blank_apartment_layer}}
+\item{id}{ID of existing layer, added via e.g. \link{add_blank_amenity_density_layer}}
 }
 \description{
 Toggle mapbox layer visible or invisible

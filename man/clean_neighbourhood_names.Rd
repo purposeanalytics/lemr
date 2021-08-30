@@ -17,11 +17,9 @@ If there are any cleaning errors and the names cannot all be matched to that for
 }
 \examples{
 {
-  library(opendatatoronto)
   library(dplyr)
 
-  list_package_resources("https://open.toronto.ca/dataset/neighbourhoods/") \%>\%
-    get_resource() \%>\%
-    mutate(neighbourhood = clean_neighbourhood_names(AREA_NAME))
+  tibble(neighbourhood = c("Casa Loma (96)", "Milliken (130)")) \%>\%
+    mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
 }
 }

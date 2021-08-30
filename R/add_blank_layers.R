@@ -1,3 +1,15 @@
+#' Add blank points layers
+#'
+#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), RentSafeTO scores (apartment_evaluation), evictions hearings (evictions_hearings), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
+#'
+#' @param map Map created via \link{map_toronto}
+#'
+#' @export
+#'
+#' @examples
+#' map_toronto() %>%
+#'   add_blank_points_layers() %>%
+#'   toggle_layer_visible("tdf")
 add_blank_points_layers <- function(map) {
   blur <- 0.5
   radius <- 5

@@ -1,7 +1,7 @@
 #' Toggle mapbox layer visible or invisible
 #'
 #' @param map Map e.g. from \link{map_toronto}
-#' @param id ID of existing layer, added via e.g. \link{add_blank_apartment_layer}
+#' @param id ID of existing layer, added via e.g. \link{add_blank_amenity_density_layer}
 #'
 #' @export
 #' @rdname toggle_layer

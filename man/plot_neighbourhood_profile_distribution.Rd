@@ -8,8 +8,7 @@ plot_neighbourhood_profile_distribution(
   data,
   variable,
   binwidth,
-  compare = TRUE,
-  height = NULL
+  compare = TRUE
 )
 }
 \arguments{
