@@ -15,9 +15,9 @@ zoom_map_to_address(map, address)
 Zoom map of Toronto to address
 }
 \examples{
-library(sf)
+# library(sf)
 
-map_toronto() \%>\%
-  add_blank_address_layer() \%>\%
-  zoom_map_to_address("378 Markham St")
+# map_toronto() \%>\%
+#  add_blank_address_layer() \%>\%
+#  zoom_map_to_address("378 Markham St")
 }
