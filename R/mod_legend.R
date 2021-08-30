@@ -16,7 +16,7 @@ mod_legend_ui <- function(id) {
 #'
 #' @noRd
 mod_legend_server <- function(id, level, neighbourhood) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
 

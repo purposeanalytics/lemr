@@ -58,33 +58,33 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
   if (type == "plot") {
     data <- data %>%
-      dplyr::mutate(group = forcats::fct_rev(group))
+      dplyr::mutate(group = forcats::fct_rev(.data$group))
 
     if (compare) {
       if (prop_variable) {
         data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
       } else if (dollar) {
         data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = scales::dollar)))
       } else {
         data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~.x)))
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = ~.x)))
       }
       p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
         plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
     } else {
       if (prop_variable) {
         data <- data %>%
-          dplyr::select(-value) %>%
-          dplyr::rename(value = prop) %>%
-          dplyr::mutate(label = scales::percent(value, accuracy = 0.1))
+          dplyr::select(-.data$value) %>%
+          dplyr::rename(value = .data$prop) %>%
+          dplyr::mutate(label = scales::percent(.data$value, accuracy = 0.1))
       } else if (dollar) {
         data <- data %>%
-          dplyr::mutate(label = scales::dollar(value))
+          dplyr::mutate(label = scales::dollar(.data$value))
       } else {
         data <- data %>%
-          dplyr::mutate(label = value)
+          dplyr::mutate(label = .data$value)
       }
 
       p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
@@ -129,7 +129,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     }
 
     res <- res %>%
-      dplyr::arrange(group)
+      dplyr::arrange(.data$group)
 
     return(res)
   }
@@ -158,7 +158,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
     if (variable == "amenity_density") {
       city_data <- city_data %>%
-        dplyr::filter(group != "Unknown")
+        dplyr::filter(.data$group != "Unknown")
     }
 
     data <- city_data %>%
@@ -209,7 +209,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
 plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15) {
   data <- data %>%
-    dplyr::mutate(label = scales::percent(prop, accuracy = 0.1))
+    dplyr::mutate(label = scales::percent(.data$prop, accuracy = 0.1))
 
   plotly::plot_ly(data,
     x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",
@@ -277,7 +277,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   # Widen data to get yes/no columns
 
   plot_data <- plot_data %>%
-    tidyr::pivot_wider(names_from = is_neighbourhood, values_from = y) %>%
+    tidyr::pivot_wider(names_from = .data$is_neighbourhood, values_from = .data$y) %>%
     # Set NAs to 0 to avoid warning of missing values
     dplyr::mutate(dplyr::across(tidyselect::any_of(c("yes", "no")), dplyr::coalesce, 0))
 

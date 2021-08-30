@@ -9,8 +9,8 @@
 #' library(sf)
 #'
 #' map_toronto() %>%
-#'   add_blank_apartment_layer() %>%
-#'   toggle_layer_visible("apartment_buildings")
+#'   add_blank_amenity_density_layer() %>%
+#'   toggle_layer_visible("amenity_density")
 toggle_layer_visible <- function(map, id) {
   map %>%
     # Set the visibility to visible

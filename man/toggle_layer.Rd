@@ -21,6 +21,6 @@ Toggle mapbox layer visible or invisible
 library(sf)
 
 map_toronto() \%>\%
-  add_blank_apartment_layer() \%>\%
-  toggle_layer_visible("apartment_buildings")
+  add_blank_amenity_density_layer() \%>\%
+  toggle_layer_visible("amenity_density")
 }
