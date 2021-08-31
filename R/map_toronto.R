@@ -7,9 +7,9 @@
 #' map_toronto()
 map_toronto <- function() {
   lemur::toronto %>%
-    mapboxer::as_mapbox_source() %>%
-    mapboxer::mapboxer(style = mapboxer::basemap_raster_style(), center = c(-79.39021, 43.72557), zoom = 11, pitch = 0, bearing = -15, minZoom = 8) %>%
-    mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = -15) %>%
+    mapboxer::as_mapbox_source() %>%    mapboxer::mapboxer(style = "mapbox://styles/purposeanalytics/cksw80iwn155y1anq5l1f0v5n", center = c(-79.3753, 43.7173), zoom = 12, pitch = 0, bearing = -17, minZoom = 8) %>%
+    mapboxer::fit_bounds(sf::st_bbox(toronto), pitch = 0, bearing = -17) %>%
     mapboxer::add_navigation_control() %>%
-    mapboxer::add_line_layer(line_color = main_colour, line_width = 2)
+    mapboxer::add_line_layer(line_color = default_line_colour
+                             , line_width = 1.5)
 }

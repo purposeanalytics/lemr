@@ -1,4 +1,5 @@
 main_colour <- "#08569A"
+default_line_colour <- "#FFFFFF"
 accent_colour <- mid_colour <- "#FFC20A"
 low_colour <- "#3BA535"
 high_colour <- "#9C62BE"
