@@ -121,19 +121,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
-        shinybusy::show_modal_spinner(color = accent_colour, text = "Generating report...")
-
-        html_file <- generate_report(level(), neighbourhood(), format = "html", filename = glue::glue("{download_filename()}.html"))
-
-        pagedown::chrome_print(
-          html_file,
-          output = file,
-          extra_args = chrome_extra_args(),
-          verbose = 1,
-          async = TRUE # returns a promise
-        )$finally(
-          shinybusy::remove_modal_spinner
-        )
+        file.copy(system.file(glue::glue("templates/pdf/{neighbourhood()}.pdf"), package = "lemur"), file)
       }
     )
   })
@@ -144,28 +132,3 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
 ## To be copied in the server
 # mod_sidebar_server("sidebar")
-
-
-# Via: https://github.com/RLesur/chrome_print_shiny
-#' Return Chrome CLI arguments
-#'
-#' This is a helper function which returns arguments to be passed to Chrome.
-#' This function tests whether the code is running on shinyapps and returns the
-#' appropriate Chrome extra arguments.
-#'
-#' @param default_args Arguments to be used in any circumstances.
-#'
-#' @return A character vector with CLI arguments to be passed to Chrome.
-#' @noRd
-chrome_extra_args <- function(default_args = c("--disable-gpu")) {
-  args <- default_args
-  # Test whether we are in a shinyapps container
-  if (identical(Sys.getenv("R_CONFIG_ACTIVE"), "shinyapps")) {
-    args <- c(
-      args,
-      "--no-sandbox", # required because we are in a container
-      "--disable-dev-shm-usage"
-    ) # in case of low available memory
-  }
-  args
-}
