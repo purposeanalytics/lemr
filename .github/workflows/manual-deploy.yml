@@ -1,0 +1,24 @@
+name: Deployment
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@main
+        
+      - name: Lemur Files
+        uses: purposeanalytics/lemur@main
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
+          target: ${{ secrets.REMOTE_APP_DIR }}
+          source: '.'
+          rm: true
