@@ -268,7 +268,13 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
     plot_data <- plot_data %>%
-      dplyr::mutate(is_neighbourhood = ifelse(data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax, "yes", "no"))
+      dplyr::mutate(
+        is_neighbourhood = dplyr::case_when(
+          data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax ~ "yes",
+          is.na(data[[variable]]) ~ "no",
+          TRUE ~ "no"
+        )
+      )
   } else {
     plot_data <- plot_data %>%
       dplyr::mutate(is_neighbourhood = "no")
@@ -292,7 +298,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     ) %>%
     plotly::config(displayModeBar = FALSE)
 
-  if (compare) {
+  if (compare & "yes" %in% names(plot_data)) {
     p <- p %>%
       plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
   }

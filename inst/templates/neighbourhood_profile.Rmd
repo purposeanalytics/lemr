@@ -13,7 +13,7 @@ library(lemur)
 library(htmltools)
 library(knitr)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "100%", fig.pos = "!H")
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "100%", fig.pos = "!H", out.height = "2in")
 
 distribution_height <- "200px"
 
