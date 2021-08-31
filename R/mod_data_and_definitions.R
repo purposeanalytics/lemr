@@ -9,7 +9,42 @@
 #' @importFrom shiny NS tagList
 mod_data_and_definitions_ui <- function(id) {
   ns <- NS(id)
-  shiny::includeMarkdown(system.file("app", "data_and_definitions.md", package = "lemur"))
+  shiny::div(
+    style = "max-width: 1000px; margin-left: auto; margin-right: auto",
+    shiny::h1("Data and Definitions"),
+    collapse_definitions(
+      title = "Low-end of market",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Amenity Density",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Apartment Buildings",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "RentSafeTO Evaluation Scores",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Eviction Hearings",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Above Guideline Increase applications",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Tenant Defense Fund grants",
+      content = NULL
+    ),
+    collapse_definitions(
+      title = "Neighbourhood Profiles",
+      content = shiny::includeMarkdown(system.file("app", "data_and_definitions", "neighbourhood_profiles.md", package = "lemur"))
+    )
+  )
 }
 
 #' data_and_definitions Server Functions
@@ -21,8 +56,18 @@ mod_data_and_definitions_server <- function(id) {
   })
 }
 
-## To be copied in the UI
-# mod_data_and_definitions_ui("data_and_definitions_ui_1")
+collapse_definitions <- function(title, content) {
+  id <- janitor::make_clean_names(title)
 
-## To be copied in the server
-# mod_data_and_definitions_server("data_and_definitions_ui_1")
+  shiny::tagList(
+    shiny::h2(shiny::tags$b(title), shiny::icon("chevron-down")) %>%
+      bsplus::bs_attach_collapse(id),
+    bsplus::bs_collapse(
+      id = id,
+      content = shiny::tagList(
+        content
+      )
+    ),
+    shiny::hr()
+  )
+}
