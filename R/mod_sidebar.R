@@ -64,7 +64,7 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         city = lemur::city_profile,
         neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
-      glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)')
+      glue::glue('Households: {scales::comma(dataset[["households"]])} <br> Population: {scales::comma(dataset[["population"]])}')
     })
 
     output$back_to_city <- shiny::renderUI({

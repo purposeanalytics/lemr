@@ -65,7 +65,8 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
   } else {
     res %>%
       kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
-      kableExtra::kable_styling()
+      kableExtra::kable_styling() %>%
+      kableExtra::kable_styling(bootstrap_options = "condensed")
   }
 }
 

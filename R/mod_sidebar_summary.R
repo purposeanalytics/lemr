@@ -42,7 +42,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       shiny::tagList(
         shiny::div(
           mod_legend_ui(ns("legend")),
-          shiny::h2("Low-end of market rentals"),
+          shiny::h2("Estimated supply of low-end of market rental"),
           shiny::htmlOutput(ns("lem_table")),
           shiny::h2("Apartment buildings"),
           bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
@@ -71,7 +71,9 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
     output$lem_table <- shiny::renderText({
       dataset()[["lem"]] %>%
         kableExtra::kable() %>%
-        kableExtra::kable_styling()
+        kableExtra::kable_styling(bootstrap_options = "condensed") %>%
+        kableExtra::column_spec(1, width = "30%") %>%
+        kableExtra::column_spec(2:4, width = "20%")
     })
 
     # Number of apartments -----
