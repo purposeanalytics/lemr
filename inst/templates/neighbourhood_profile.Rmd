@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Bridle Path-Sunnybrook-York Mills
+  neighbourhood: Danforth
 output:
   html_document:
     df_print: paged
@@ -12,6 +12,8 @@ output:
 library(lemur)
 library(htmltools)
 library(knitr)
+library(leaflet)
+library(mapview)
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "100%", fig.pos = "!H", out.height = "2in")
 
@@ -46,8 +48,63 @@ dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 title: `r title`
 ---
 
+```{r map}
+neighbourhood_data <- lemur::neighbourhoods %>%
+  dplyr::filter(neighbourhood == !!neighbourhood)
+
+bbox <- sf::st_bbox(neighbourhood_data) %>%
+  unname()
+
+neighbourhood_buildings <- lemur::buildings %>%
+  dplyr::filter(neighbourhood == !!neighbourhood)
+
+add_circle_layer <- function(map, data, colour) {
+  map %>%
+    addCircles(data = data, color = "white", fillColor = colour, stroke = TRUE, opacity = 1, fillOpacity = 1, weight = 0.5, radius = 20)
+}
+
+m <- leaflet(data = neighbourhood_data, options = leafletOptions(zoomControl = FALSE, attributionControl = FALSE)) %>%
+  addTiles() %>%
+  addPolygons(color = lemur:::main_colour, fill = FALSE, opacity = 1) %>%
+  fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) %>%
+  add_circle_layer(
+    data = neighbourhood_buildings %>%
+      dplyr::filter(apartment),
+    colour = lemur:::layer_colours[["apartment_buildings"]]
+  ) %>%
+  add_circle_layer(
+    data = neighbourhood_buildings %>%
+      dplyr::filter(eviction_hearing),
+    colour = lemur:::layer_colours[["evictions_hearings"]]
+  ) %>%
+  add_circle_layer(
+    data = neighbourhood_buildings %>%
+      dplyr::filter(agi),
+    colour = lemur:::layer_colours[["agi"]]
+  ) %>%
+  add_circle_layer(data = neighbourhood_buildings %>%
+    dplyr::filter(tdf), colour = lemur:::layer_colours[["tdf"]]) %>%
+  addLegend(
+    colors = unname(lemur:::layer_colours),
+    labels = c("Apartment buildings", "Evictions hearings", "Above Guideline Increase applications", "Tenant Defense Fund grants"),
+    opacity = 1,
+    position = "bottomright"
+  )
+
+mapshot(m, file = here::here("inst", "templates", "maps", glue::glue("{neighbourhood}.png")))
+```
+
+```{r map-include, fig.height = 10, out.height = NULL}
+knitr::include_graphics(here::here("inst", "templates", "maps", glue::glue("{neighbourhood}.png")))
+```
+
+```{r households}
+glue::glue('Households: {scales::comma(dataset[["households"]])}') %>%
+  lemur:::bigger_padded()
+```
+
 ```{r population}
-glue::glue('Population: {scales::comma(dataset[["population"]])} ({scales::comma(dataset[["households"]])} households)') %>%
+glue::glue('Population: {scales::comma(dataset[["population"]])}') %>%
   lemur:::bigger_padded()
 ```
 
