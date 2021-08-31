@@ -8,7 +8,8 @@
 #'
 mod_search_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
+  shiny::div(
+    id = ns("text"),
     shiny::column(
       width = 6,
       shiny::textInput(inputId = ns("address"), label = "Address", placeholder = "Search address..."),
