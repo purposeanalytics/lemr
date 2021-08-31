@@ -1,10 +1,9 @@
-
 name: Deployment
 
 on: 
   push:
     tags:
-      – v*
+      - v*
 
 jobs:
   build:
@@ -12,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      – name: Checkout Main
+      - name: Checkout Main
         uses: actions/checkout@main
         
-      – name: Lemur Files
+      - name: Lemr Files
         uses: purposeanalytics/lemur@main
         with:
           host: ${{ secrets.REMOTE_HOST }}
