@@ -101,7 +101,6 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
       shiny::updateTextInput(session = session, inputId = "address", value = NULL)
     })
 
-    # If the address_and_neighbourhood are cleared, reset both
     shiny::observeEvent(
       {
         address_and_neighbourhood$address
@@ -110,9 +109,18 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
       ignoreNULL = FALSE,
       ignoreInit = TRUE,
       {
+        # If the address_and_neighbourhood are cleared, reset both
         if (is.null(address_and_neighbourhood$address) & is.null(address_and_neighbourhood$neighbourhood)) {
           shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
-          shiny::updateTextInput(session = session, inputId = "address", value = NULL)
+          shiny::updateTextInput(session = session, inputId = "address", value = "")
+        } else if (!is.null(address_and_neighbourhood$neighbourhood)) {
+          # If the neighbourhood is updated (i.e. via click), update the input to be that too
+          shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = address_and_neighbourhood$neighbourhood)
+
+          # Clear the address
+          if (is.null(address_and_neighbourhood$address)) {
+            shiny::updateTextInput(session = session, inputId = "address", value = "")
+          }
         }
       }
     )
