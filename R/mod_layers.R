@@ -24,7 +24,8 @@ mod_layers_ui <- function(id) {
           button = shinyWidgets::checkboxGroupButtons(
             inputId = ns("lem"),
             choices = list("Low-end of Market Rentals" = "lem"),
-            justified = TRUE
+            justified = TRUE,
+            selected = "lem"
           ),
           legend = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 100 (dark blue).")
         ),
@@ -129,7 +130,7 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
 
     latest_aggregate_layer <- shiny::reactiveVal()
 
-    shiny::observeEvent(input$lem, ignoreInit = TRUE, ignoreNULL = FALSE, {
+    shiny::observeEvent(input$lem, ignoreInit = FALSE, ignoreNULL = FALSE, {
       if (is.null(input$lem) & identical(latest_aggregate_layer(), "lem")) {
         # Only send NULL value when it was also the latest selected, otherwise the update input below creates circular logic
         latest_aggregate_layer(input$lem)
@@ -150,7 +151,7 @@ mod_layers_server <- function(id, point_layers, aggregate_layers) {
       {
         latest_aggregate_layer()
       },
-      ignoreInit = TRUE,
+      ignoreInit = FALSE,
       ignoreNULL = FALSE,
       {
         # Only allow one aggregate layer on at a time - deselect the others -----
