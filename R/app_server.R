@@ -21,7 +21,7 @@ app_server <- function(input, output, session) {
   mod_sidebar_server("sidebar", address_and_neighbourhood, search_method)
 
   # Tour
-  gen_guide()$init()$start()
+  # gen_guide()$init()$start()
 
   # shiny::observeEvent(input$mapZoom, ignoreInit = TRUE, {
   #   if (input$mapZoom < 12.5 & input$mapZoom != 11) {
