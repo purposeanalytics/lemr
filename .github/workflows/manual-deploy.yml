@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout Main
-        uses: actions/checkout@main
         
       - name: Lemur Files
         uses: purposeanalytics/lemur@main
