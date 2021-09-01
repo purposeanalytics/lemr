@@ -17,6 +17,11 @@ jobs:
       - name: Checkout Main
         uses: actions/checkout@main
       - uses: r-lib/actions/setup-r@master
+      
+      - name: Install shiny
+        run: |
+          install.packages(c("shiny", "rsconnect"), type = "binary")
+        shell: Rscript {0}
         
       - name: Lemr Files
         run: |
