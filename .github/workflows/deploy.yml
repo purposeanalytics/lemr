@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - v*
-  schedule:
-    - cron: "*/20 * * * *"
 
 
 jobs:
