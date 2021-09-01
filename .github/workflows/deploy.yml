@@ -23,11 +23,7 @@ jobs:
           install.packages(c("shiny", "rsconnect"))
         shell: Rscript {0}
         
-      - name: R Commit
-        run: |
-          Rscript -e "rsconnect::setAccountInfo(name= ${{ secrets.REMOTE_USER }}, token=${{secrets.SSH_KEY}}, secret=${{secrets.SSH_KEY_PASSPHRASE}})"
-          Rscript -e "rsconnect::deployApp()" 
-      
+ 
       - name: Docker Commit
         run: docker_run
           e- HOST =  ${{ secrets.REMOTE_HOST }}
@@ -36,3 +32,9 @@ jobs:
           e- PASSPHRASE = ${{ secrets.SSH_KEY_PASSPHRASE }}
           e- TARGET = ${{ secrets.REMOTE_APP_DIR }}
           main
+          
+      - name: R Commit
+        run: |
+          Rscript -e "rsconnect::setAccountInfo(name= ${{ secrets.REMOTE_USER }}, token=${{secrets.SSH_KEY}}, secret=${{secrets.SSH_KEY_PASSPHRASE}})"
+          Rscript -e "rsconnect::deployApp()" 
+      
