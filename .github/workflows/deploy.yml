@@ -23,12 +23,13 @@ jobs:
           install.packages(c("shiny", "rsconnect"))
         shell: Rscript {0}
         
-      - name: Lemr Files
+      - name: R Commit
         run: |
-          Rscript -e "rsconnect::setAccountInfo(name='username', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
+          Rscript -e "rsconnect::setAccountInfo(name= ${{ secrets.REMOTE_USER }}, token=${{secrets.SSH_KEY}}, secret=${{secrets.SSH_KEY_PASSPHRASE}})"
           Rscript -e "rsconnect::deployApp(appName = 'appname')" 
       
-      - run: docker_run
+      - name: Docker Commit
+        run: docker_run
           e- HOST =  ${{ secrets.REMOTE_HOST }}
           e- USERNAME =  ${{ secrets.REMOTE_USER }}
           e- KEY = ${{ secrets.SSH_KEY }}
