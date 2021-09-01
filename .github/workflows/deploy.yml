@@ -16,14 +16,17 @@ jobs:
     steps:
       - name: Checkout Main
         uses: actions/checkout@main
+      - uses: r-lib/actions/setup-r@master
         
       - name: Lemr Files
-        uses: purposeanalytics/lemur@main
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
-          target: ${{ secrets.REMOTE_APP_DIR }}
-          source: '.'
-          rm: true
+        run: |
+          Rscript -e "rsconnect::setAccountInfo(name='username', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
+          Rscript -e "rsconnect::deployApp(appName = 'appname')" 
+      
+      - run: docker_run
+          e- HOST =  ${{ secrets.REMOTE_HOST }}
+          e- USERNAME =  ${{ secrets.REMOTE_USER }}
+          e- KEY = ${{ secrets.SSH_KEY }}
+          e- PASSPHRASE = ${{ secrets.SSH_KEY_PASSPHRASE }}
+          e- TARGET = ${{ secrets.REMOTE_APP_DIR }}
+          main
