@@ -26,7 +26,7 @@ jobs:
       - name: R Commit
         run: |
           Rscript -e "rsconnect::setAccountInfo(name= ${{ secrets.REMOTE_USER }}, token=${{secrets.SSH_KEY}}, secret=${{secrets.SSH_KEY_PASSPHRASE}})"
-          Rscript -e "rsconnect::deployApp(appName = 'appname')" 
+          Rscript -e "rsconnect::deployApp()" 
       
       - name: Docker Commit
         run: docker_run
