@@ -349,9 +349,9 @@ household_size_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level, neighbourhood, "household sizes")
 }
 
-household_size_plot <- function(data, compare) {
+household_size_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("household_size", width = 10, compare = compare)
+    display_neighbourhood_profile("household_size", width = 10, compare = compare, static = static)
 }
 
 # Average total household income ----
@@ -370,10 +370,16 @@ average_total_household_income_plot_alt_text <- function(level, neighbourhood) {
   )
 }
 
-average_total_household_income_plot <- function(data, compare) {
-  data %>%
-    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare) %>%
-    plotly::layout(xaxis = list(tickformat = ",d"))
+average_total_household_income_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare, static = static)
+
+  if (!static) {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = ",d"))
+  } else {
+    p
+  }
 }
 
 # Unaffordable housing ----
@@ -530,9 +536,9 @@ visible_minority_plot_alt_text <- function(level, neighbourhood) {
   )
 }
 
-visible_minority_plot <- function(data, compare) {
+visible_minority_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("visible_minority", width = 20, compare = compare)
+    display_neighbourhood_profile("visible_minority", width = 20, compare = compare, static = static)
 }
 
 # Structure type ----
@@ -545,9 +551,9 @@ structure_type_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "housing structure type")
 }
 
-structure_type_plot <- function(data, compare) {
+structure_type_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("structure_type", compare = compare)
+    display_neighbourhood_profile("structure_type", compare = compare, static = static)
 }
 
 # Bedrooms ----
@@ -560,9 +566,9 @@ bedrooms_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "number of bedrooms")
 }
 
-bedrooms_plot <- function(data, compare) {
+bedrooms_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("bedrooms", compare = compare)
+    display_neighbourhood_profile("bedrooms", compare = compare, static = static)
 }
 
 # Household tenure -----
@@ -575,9 +581,9 @@ household_tenure_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "household tenure (renter versus owner)")
 }
 
-household_tenure_plot <- function(data, compare) {
+household_tenure_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("household_tenure", compare = compare, width = 25)
+    display_neighbourhood_profile("household_tenure", compare = compare, width = 25, static = static)
 }
 
 # Shelter cost -----
