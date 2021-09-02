@@ -256,7 +256,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15) {
 #'
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
-plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL) {
+plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL, width = NULL, static = FALSE) {
   # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
@@ -287,20 +287,33 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # Set NAs to 0 to avoid warning of missing values
     dplyr::mutate(dplyr::across(tidyselect::any_of(c("yes", "no")), dplyr::coalesce, 0))
 
-  p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
-    plotly::layout(
-      yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
-      xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
-      margin = list(t = 15, r = 25, b = 5, l = 25),
-      barmode = "stack",
-      showlegend = FALSE,
-      font = list(family = "Open Sans", size = 12, color = "black")
-    ) %>%
-    plotly::config(displayModeBar = FALSE)
+  if (static) {
+     p <- ggplot2::ggplot(plot_data)  +
+       ggplot2::geom_col(ggplot2::aes(x = x, y = no), fill = grey_colour) +
+       ggplot2::labs(x = NULL, y = NULL) +
+       lemur::theme_lemur() +
+       ggplot2::theme(axis.text.y = ggplot2::element_blank())
 
-  if (compare & "yes" %in% names(plot_data)) {
-    p <- p %>%
-      plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
+     if (compare & "yes" %in% names(plot_data)) {
+       p <- p +
+         ggplot2::geom_col(ggplot2::aes(x = x, y = yes), fill = main_colour)
+     }
+  } else {
+    p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
+      plotly::layout(
+        yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
+        margin = list(t = 15, r = 25, b = 5, l = 25),
+        barmode = "stack",
+        showlegend = FALSE,
+        font = list(family = "Open Sans", size = 12, color = "black")
+      ) %>%
+      plotly::config(displayModeBar = FALSE)
+
+    if (compare & "yes" %in% names(plot_data)) {
+      p <- p %>%
+        plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
+    }
   }
 
   p
