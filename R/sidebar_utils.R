@@ -237,9 +237,9 @@ amenity_density_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level, neighbourhood, "amenity density by population")
 }
 
-amenity_density_plot <- function(data, compare) {
+amenity_density_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("amenity_density", compare = compare, width = 25)
+    display_neighbourhood_profile("amenity_density", compare = compare, width = 25, static = static)
 }
 
 
