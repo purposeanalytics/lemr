@@ -213,7 +213,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
 
 apartment_building_evaluation_plot <- function(data, compare, static = FALSE) {
   p <- data %>%
-    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, static = TRUE)
+    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, static = static)
 
   if (static) {
     p +

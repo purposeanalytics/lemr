@@ -1,9 +1,10 @@
 /* LEMR Styles */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap');
 
 :root {
-  --font: "Open Sans", Sans-Serif;
-  --base-size: 16px;
+  --font: "Lato", Sans-Serif;
+  --base-size: 14px;
   --bigger-size: 1.25em;
   --regular-weight: 400;
   --bold-weight: 700;

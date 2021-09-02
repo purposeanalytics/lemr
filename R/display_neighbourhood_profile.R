@@ -87,7 +87,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         p <- ggplot2::ggplot(data, ggplot2::aes(x = new_value, y = group, fill = new_neighbourhood)) +
           ggplot2::geom_col(position = ggplot2::position_dodge2()) +
           ggplot2::scale_fill_manual(values = c(grey_colour, main_colour)) +
-          ggplot2::geom_text(ggplot2::aes(x = new_value, y = group, label = label), position = ggplot2::position_dodge(width = 1), hjust = -0.1) +
+          ggplot2::geom_text(ggplot2::aes(x = new_value, y = group, label = label), position = ggplot2::position_dodge(width = 1), hjust = -0.1, size = 2) +
           lemur::theme_lemur() +
           ggplot2::labs(x = NULL, y = NULL) +
           ggplot2::theme(legend.position = "none")
@@ -133,7 +133,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
           xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
           margin = list(t = 15, r = 25, b = 5, l = 25),
           showlegend = FALSE,
-          font = list(family = "Open Sans", size = 12, color = "black")
+          font = list(family = "Lato", size = 12, color = "black")
         ) %>%
         plotly::config(displayModeBar = FALSE)
     }
@@ -256,7 +256,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15) {
         fixedrange = TRUE
       ),
       margin = list(t = 15, r = 0, b = b, l = 15),
-      font = list(family = "Open Sans", size = 12, color = "black")
+      font = list(family = "Lato", size = 12, color = "black")
     ) %>%
     plotly::config(displayModeBar = FALSE)
 }
@@ -337,7 +337,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
         margin = list(t = 15, r = 25, b = 5, l = 25),
         barmode = "stack",
         showlegend = FALSE,
-        font = list(family = "Open Sans", size = 12, color = "black")
+        font = list(family = "Lato", size = 12, color = "black")
       ) %>%
       plotly::config(displayModeBar = FALSE)
 
