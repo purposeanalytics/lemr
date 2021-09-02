@@ -109,7 +109,16 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
           dplyr::mutate(label = .data$value)
       }
 
+      if (static) {
+        p <- ggplot2::ggplot(data, ggplot2::aes(x = value, y = group)) +
+          ggplot2::geom_col(fill = grey_colour) +
+          ggplot2::geom_text(ggplot2::aes(label = label, hjust = - 0.1), size = 2.5) +
+          lemur::theme_lemur() +
+          ggplot2::labs(x = NULL, y = NULL)
+      } else {
+
       p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
+      }
     }
 
     if (dollar) {

@@ -16,6 +16,6 @@ theme_lemur <- function(base_size = 12, base_family = "Lato") {
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       rect = ggplot2::element_rect(fill = "transparent"),
-      axis.text.x = ggplot2::element_text(colour = "black")
+      axis.text = ggplot2::element_text(colour = "black")
     )
 }
