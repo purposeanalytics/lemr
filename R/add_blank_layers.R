@@ -1,13 +1,27 @@
-
-
+#' Add blank points layers
+#'
+#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), RentSafeTO scores (apartment_evaluation), evictions hearings (evictions_hearings), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
+#'
+#' @param map Map created via \link{map_toronto}
+#'
+#' @export
+#'
+#' @examples
+#' map_toronto() %>%
+#'   add_blank_points_layers() %>%
+#'   toggle_layer_visible("tdf")
 add_blank_points_layers <- function(map) {
-  blur <- 0.5
+  blur <- 0
   radius <- 5
+  radius <- 4
+  opacity <- 0.8
+  stroke_colour <- "#FFFFFF"
+  stroke_width <- 1
 
   # Temporarily setting NA score_colour to "none" so we can filter the data in the RentSafeTO layer
   # I can't figure out how to filter out NA/null yet
   data <- lemur::buildings %>%
-    dplyr::mutate(score_colour = dplyr::coalesce(score_colour, "none"))
+    dplyr::mutate(score_colour = dplyr::coalesce(.data$score_colour, "none"))
 
   map %>%
     # All points layers source data ----
@@ -20,9 +34,12 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "apartment_buildings",
       filter = list("==", "apartment", TRUE),
-      circle_color = main_colour,
+      circle_color = layer_colours[["apartment_buildings"]],
       circle_blur = blur,
+      circle_opacity = opacity,
       circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     ) %>%
@@ -33,7 +50,10 @@ add_blank_points_layers <- function(map) {
       filter = list("!=", "score_colour", "none"),
       circle_color = c("get", "score_colour"),
       circle_blur = blur,
+      circle_opacity = opacity,
       circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     ) %>%
@@ -42,9 +62,12 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "evictions_hearings",
       filter = list("==", "eviction_hearing", TRUE),
-      circle_color = accent_colour,
+      circle_color = layer_colours[["evictions_hearings"]],
       circle_blur = blur,
+      circle_opacity = opacity,
       circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     ) %>%
@@ -53,9 +76,12 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "agi",
       filter = list("==", "agi", TRUE),
-      circle_color = low_colour,
+      circle_color = layer_colours[["agi"]],
       circle_blur = blur,
+      circle_opacity = opacity,
       circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     ) %>%
@@ -64,9 +90,12 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "tdf",
       filter = list("==", "tdf", TRUE),
-      circle_color = high_colour,
+      circle_color = layer_colours[["tdf"]],
       circle_blur = blur,
+      circle_opacity = opacity,
       circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     )
@@ -173,9 +202,7 @@ add_blank_amenity_density_layer <- function(map) {
 add_blank_lem_layer <- function(map) {
   map %>%
     # Add the layer
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(total_affordable_by_neighbourhood), fill_color = c("get", "colour"), fill_opacity = 0.75, id = "lem") %>%
-    # Set the visibility to "none", so it's not shown
-    mapboxer::set_layout_property(layer_id = "lem", "visibility", "none")
+    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lemur::total_affordable_by_neighbourhood), fill_color = c("get", "colour"), fill_opacity = 0.65, id = "lem")
 }
 #' Add a blank neighbourhood layer
 #'
@@ -192,9 +219,23 @@ add_blank_lem_layer <- function(map) {
 #'   zoom_map_to_neighbourhood("Casa Loma")
 add_blank_neighbourhood_layer <- function(map) {
   map %>%
-    mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), line_color = main_colour, line_width = 2, id = "neighbourhood_line") %>%
+    mapboxer::add_source(
+      # Add numeric ID to source so it can be used to toggle hover
+      source = mapboxer::as_mapbox_source(lemur::neighbourhoods %>%
+        dplyr::mutate(id = dplyr::row_number()),
+      promoteId = "id"
+      ),
+      id = "neighbourhoods"
+    ) %>%
+    mapboxer::add_line_layer(source = "neighbourhoods", line_color = default_line_colour, line_width = 1.5, id = "neighbourhood_line") %>%
     # Add a "blank" layer for clicking on, that contains all neighbourhoods
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), fill_color = main_colour, fill_opacity = 0, id = "neighbourhood_click") %>%
+    mapboxer::add_fill_layer(source = "neighbourhoods", fill_color = main_colour, fill_opacity = list(
+      "case",
+      # 0.25 if hover is TRUE
+      list("boolean", c("feature-state", "hover"), FALSE), 0.25,
+      # otherwise 0
+      0
+    ), id = "neighbourhood_click") %>%
     # Add an actual layer for neighbourhoods that will be thickened
-    mapboxer::add_line_layer(source = mapboxer::as_mapbox_source(lemur::neighbourhoods), line_color = main_colour, line_width = 5, id = "neighbourhood_click_line", filter = list("==", "neighbourhood", "none"))
+    mapboxer::add_line_layer(source = "neighbourhoods", line_color = main_colour, line_width = 5, id = "neighbourhood_click_line", filter = list("==", "neighbourhood", "none"))
 }

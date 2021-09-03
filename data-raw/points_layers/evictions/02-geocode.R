@@ -95,7 +95,7 @@ address_corrections <- address_corrections %>%
 
 evictions_geocoded_redone_incorrect <- evictions_geocoded_redone_incorrect %>%
   rows_update(address_corrections %>%
-               semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
+    semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
 
 # Some need manual lat / long
 
@@ -116,7 +116,7 @@ lat_long_corrections <- tribble(
 
 evictions_geocoded_redone_incorrect <- evictions_geocoded_redone_incorrect %>%
   rows_update(lat_long_corrections %>%
-                semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
+    semi_join(evictions_geocoded_redone_incorrect, by = "address"), by = "address")
 
 # Check all issues were corrected
 

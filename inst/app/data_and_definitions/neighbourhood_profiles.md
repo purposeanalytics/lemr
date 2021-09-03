@@ -1,7 +1,3 @@
-Data and Definitions
-================
-
-## Neighbourhood profiles - 2016 census
 
 -   **Population**: Population residing in the area at the time of the
     2016 Census. Populations counted in the Census included Canadian

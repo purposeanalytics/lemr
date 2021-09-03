@@ -7,7 +7,9 @@ library(janitor)
 library(purrr)
 devtools::load_all()
 
-lem <- lemur::affordable_by_neighbourhood_and_bedrooms %>%
+affordable_by_neighbourhood_and_bedrooms <- readRDS(here::here("data-raw", "affordable-rental-market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
+
+lem <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Very", "Deeply")) %>%
   mutate(
     Bedrooms = case_when(

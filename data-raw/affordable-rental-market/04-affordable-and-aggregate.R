@@ -36,7 +36,7 @@ affordable_by_neighbourhood_and_bedrooms <- rental_data_with_neighbourhoods %>%
   left_join(neighbourhoods) %>%
   st_sf()
 
-usethis::use_data(affordable_by_neighbourhood_and_bedrooms, overwrite = TRUE)
+saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "affordable-rental-market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
 
 total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Deeply", "Very")) %>%

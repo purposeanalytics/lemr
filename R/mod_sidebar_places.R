@@ -41,7 +41,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
-          shiny::htmlOutput(ns("legend")),
+          mod_legend_ui(ns("legend")),
           shiny::h2("Housing structure type"),
           shiny::textOutput(ns("structure_type_description")),
           shiny::uiOutput(ns("structure_type_plot_ui")),
@@ -65,17 +65,7 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
 
     # Legend ----
 
-    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
-    plot_legend <- shiny::reactive({
-      if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
-      }
-    })
-
-    output$legend <- shiny::renderText({
-      plot_legend()
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
+    mod_legend_server("legend", level, neighbourhood)
 
     # Structure type -----
 
@@ -88,11 +78,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       structure_type_plot_alt_text(level(), neighbourhood())
     })
 
-    output$structure_type_plot <- plotly::renderPlotly(
-      {
-        structure_type_plot(dataset(), compare())
-      }
-    ) %>%
+    output$structure_type_plot <- plotly::renderPlotly({
+      structure_type_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$structure_type_plot_ui <- shiny::renderUI({
@@ -119,11 +107,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       bedrooms_plot_alt_text(level(), neighbourhood())
     })
 
-    output$bedrooms_plot <- plotly::renderPlotly(
-      {
-        bedrooms_plot(dataset(), compare())
-      }
-    ) %>%
+    output$bedrooms_plot <- plotly::renderPlotly({
+      bedrooms_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$bedrooms_plot_ui <- shiny::renderUI({
@@ -150,11 +136,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
       household_tenure_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_tenure_plot <- plotly::renderPlotly(
-      {
-        household_tenure_plot(dataset(), compare())
-      }
-    ) %>%
+    output$household_tenure_plot <- plotly::renderPlotly({
+      household_tenure_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$household_tenure_plot_ui <- shiny::renderUI({
@@ -201,11 +185,9 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
-    output$average_renter_shelter_cost_plot <- plotly::renderPlotly(
-      {
-        average_renter_shelter_cost_plot(dataset(), compare())
-      }
-    ) %>%
+    output$average_renter_shelter_cost_plot <- plotly::renderPlotly({
+      average_renter_shelter_cost_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$average_renter_shelter_cost_plot_ui <- shiny::renderUI({
@@ -215,7 +197,6 @@ mod_sidebar_places_server <- function(id, neighbourhood) {
         plotly::plotlyOutput(ns("average_renter_shelter_cost_plot"), height = "100px")
       )
     })
-
   })
 }
 

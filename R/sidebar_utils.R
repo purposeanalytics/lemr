@@ -43,7 +43,7 @@ generate_bar_chart_alt_text <- function(level, neighbourhood, text) {
   )
 }
 
-generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none", output = "html") {
+generate_table <- function(data, measure, compare, first_column_name, rest_column_names, format = "none") {
   res <- data %>%
     display_neighbourhood_profile(measure, compare = compare, type = "table")
 
@@ -58,15 +58,10 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
     names(res)[[1]] <- first_column_name
   }
 
-  if (output == "pdf") {
-    res %>%
-      kableExtra::kable(format = "latex", align = c("l", rep("r", ncol(res) - 1))) %>%
-      kableExtra::kable_styling(latex_options = "HOLD_position")
-  } else {
-    res %>%
-      kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
-      kableExtra::kable_styling()
-  }
+  res %>%
+    kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
+    kableExtra::kable_styling() %>%
+    kableExtra::kable_styling(bootstrap_options = "condensed")
 }
 
 # Number of apartments ----
@@ -111,9 +106,9 @@ number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-number_of_apartments_plot <- function(data, compare, height = NULL) {
+number_of_apartments_plot <- function(data, compare, static = FALSE) {
   data %>%
-    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 5, height = height)
+    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 5, static = static)
 }
 
 number_of_units_description <- function(level, neighbourhood, number_of_units, number_of_units_formatted) {
@@ -152,9 +147,17 @@ number_of_units_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-number_of_units_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250, height = height)
+number_of_units_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("number_of_units", compare = compare, binwidth = 250, static = static)
+
+  if (static) {
+    p +
+      ggplot2::scale_x_continuous(labels = scales::comma)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = ",d"))
+  }
 }
 
 # Apartment building evaluation (RentSafeTO) ----
@@ -208,10 +211,17 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-apartment_building_evaluation_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, height = height) %>%
-    plotly::layout(xaxis = list(range = c(0, 100), ticksuffix = "%"))
+apartment_building_evaluation_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("apartment_building_evaluation", compare = compare, binwidth = 2, static = static)
+
+  if (static) {
+    p +
+      ggplot2::scale_x_continuous(limits = c(0, 100), labels = function(x) paste0(x, "%"))
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(range = c(0, 100), ticksuffix = "%"))
+  }
 }
 
 # Amenity density -----
@@ -227,9 +237,9 @@ amenity_density_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level, neighbourhood, "amenity density by population")
 }
 
-amenity_density_plot <- function(data, compare) {
+amenity_density_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("amenity_density", compare = compare, width = 25)
+    display_neighbourhood_profile("amenity_density", compare = compare, width = 25, static = static)
 }
 
 
@@ -269,10 +279,16 @@ population_change_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-population_change_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01, height = height) %>%
-    plotly::layout(xaxis = list(tickformat = "%"))
+population_change_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("population_change", compare = compare, binwidth = 0.01, static = static)
+
+  if (static) {
+    p + ggplot2::scale_x_continuous(labels = scales::percent)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
 }
 
 # Population density ----
@@ -311,9 +327,16 @@ population_density_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-population_density_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000, height = height)
+population_density_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("population_density", compare = compare, binwidth = 1000, static = static)
+
+  if (static) {
+    p + ggplot2::scale_x_continuous(labels = scales::comma)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = ",d"))
+  }
 }
 
 # Household size ----
@@ -326,9 +349,9 @@ household_size_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level, neighbourhood, "household sizes")
 }
 
-household_size_plot <- function(data, compare) {
+household_size_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("household_size", width = 10, compare = compare)
+    display_neighbourhood_profile("household_size", width = 10, compare = compare, static = static)
 }
 
 # Average total household income ----
@@ -347,9 +370,16 @@ average_total_household_income_plot_alt_text <- function(level, neighbourhood) {
   )
 }
 
-average_total_household_income_plot <- function(data, compare) {
-  data %>%
-    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare)
+average_total_household_income_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    display_neighbourhood_profile("average_total_income", width = 10, dollar = TRUE, compare = compare, static = static)
+
+  if (!static) {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = ",d"))
+  } else {
+    p
+  }
 }
 
 # Unaffordable housing ----
@@ -396,10 +426,17 @@ unaffordable_housing_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-unaffordable_housing_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare, binwidth = 0.025, height = height) %>%
-    plotly::layout(xaxis = list(tickformat = "%"))
+unaffordable_housing_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("unaffordable_housing", compare = compare, binwidth = 0.025, static = static)
+
+  if (static) {
+    p +
+      ggplot2::scale_x_continuous(labels = scales::percent)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
 }
 
 # LIM-AT
@@ -446,10 +483,17 @@ lim_at_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-lim_at_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("lim_at", compare = compare, binwidth = 0.025, height = height) %>%
-    plotly::layout(xaxis = list(tickformat = "%"))
+lim_at_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("lim_at", compare = compare, binwidth = 0.025, static = static)
+
+  if (static) {
+    p +
+      ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
 }
 
 # Visible minority
@@ -492,9 +536,9 @@ visible_minority_plot_alt_text <- function(level, neighbourhood) {
   )
 }
 
-visible_minority_plot <- function(data, compare) {
+visible_minority_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("visible_minority", width = 20, compare = compare)
+    display_neighbourhood_profile("visible_minority", width = 20, compare = compare, static = static)
 }
 
 # Structure type ----
@@ -507,9 +551,9 @@ structure_type_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "housing structure type")
 }
 
-structure_type_plot <- function(data, compare) {
+structure_type_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("structure_type", compare = compare)
+    display_neighbourhood_profile("structure_type", compare = compare, static = static)
 }
 
 # Bedrooms ----
@@ -522,9 +566,9 @@ bedrooms_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "number of bedrooms")
 }
 
-bedrooms_plot <- function(data, compare) {
+bedrooms_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("bedrooms", compare = compare)
+    display_neighbourhood_profile("bedrooms", compare = compare, static = static)
 }
 
 # Household tenure -----
@@ -537,9 +581,9 @@ household_tenure_plot_alt_text <- function(level, neighbourhood) {
   generate_bar_chart_alt_text(level = level, neighbourhood = neighbourhood, text = "household tenure (renter versus owner)")
 }
 
-household_tenure_plot <- function(data, compare) {
+household_tenure_plot <- function(data, compare, static = FALSE) {
   data %>%
-    display_neighbourhood_profile("household_tenure", compare = compare, width = 25)
+    display_neighbourhood_profile("household_tenure", compare = compare, width = 25, static = static)
 }
 
 # Shelter cost -----
@@ -586,8 +630,15 @@ average_renter_shelter_cost_plot_alt_text <- function(level, neighbourhood) {
   alt_text
 }
 
-average_renter_shelter_cost_plot <- function(data, compare, height = NULL) {
-  data %>%
-    plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50, height = height) %>%
-    plotly::layout(xaxis = list(tickprefix = "$"))
+average_renter_shelter_cost_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("average_renter_shelter_cost", compare = compare, binwidth = 50, static = static)
+
+  if (static) {
+    p +
+      ggplot2::scale_x_continuous(labels = scales::dollar)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickprefix = "$", tickformat = ",d"))
+  }
 }

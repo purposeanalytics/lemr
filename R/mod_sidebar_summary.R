@@ -41,8 +41,8 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
     output$summary_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
-          shiny::htmlOutput(ns("legend")),
-          shiny::h2("Low-end of market rentals"),
+          mod_legend_ui(ns("legend")),
+          shiny::h2("Estimated supply of low-end of market rental"),
           shiny::htmlOutput(ns("lem_table")),
           shiny::h2("Apartment buildings"),
           bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
@@ -56,7 +56,7 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
           shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
           shiny::h2("Amenity density"),
           shiny::textOutput(ns("amenity_density_description")),
-          shiny::plotOutput(ns("amenity_density_plot"), height = "150px"),
+          shiny::uiOutput(ns("amenity_density_plot_ui")),
           shiny::htmlOutput(ns("amenity_density_table"))
         )
       )
@@ -64,24 +64,16 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
 
     # Legend ----
 
-    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
-    plot_legend <- shiny::reactive({
-      if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
-      }
-    })
-
-    output$legend <- shiny::renderText({
-      plot_legend()
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
+    mod_legend_server("legend", level, neighbourhood)
 
     # LEM ----
 
     output$lem_table <- shiny::renderText({
       dataset()[["lem"]] %>%
         kableExtra::kable() %>%
-        kableExtra::kable_styling()
+        kableExtra::kable_styling(bootstrap_options = "condensed") %>%
+        kableExtra::column_spec(1, width = "30%") %>%
+        kableExtra::column_spec(2:4, width = "20%")
     })
 
     # Number of apartments -----
@@ -199,15 +191,18 @@ mod_sidebar_summary_server <- function(id, neighbourhood) {
       amenity_density_plot_alt_text(level(), neighbourhood())
     })
 
-    output$amenity_density_plot <- shiny::renderPlot(
-      {
-        amenity_density_plot(dataset(), compare())
-      },
-      res = 96,
-      bg = "transparent",
-      alt = amenity_density_alt_text
-    ) %>%
+    output$amenity_density_plot <- plotly::renderPlotly({
+      amenity_density_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
+
+    output$amenity_density_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = amenity_density_alt_text(),
+        plotly::plotlyOutput(ns("amenity_density_plot"), height = "150px")
+      )
+    })
 
     output$amenity_density_table <- shiny::renderText({
       generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%

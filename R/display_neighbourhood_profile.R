@@ -16,9 +16,9 @@
 #'   neighbourhood_profiles[["Danforth"]] %>%
 #'     display_neighbourhood_profile("average_total_income")
 #' }
-display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot") {
+display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot", static = FALSE) {
   if (variable %in% c("amenity_density")) {
-    return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type))
+    return(display_neighbourhood_profile_horizontal(data, variable = variable, compare = compare, width = width, type = type, static = static))
   }
 
   original_data <- data[[variable]]
@@ -29,7 +29,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
   prop_variable <- "prop" %in% names(original_data)
 
   if (compare) {
-
     neighbourhood_name <- data %>%
       dplyr::pull(.data$neighbourhood) %>%
       unique()
@@ -58,60 +57,95 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     dplyr::mutate(group = str_wrap_factor(.data$group, width = width))
 
   if (type == "plot") {
-
     data <- data %>%
-      dplyr::mutate(group = forcats::fct_rev(group))
+      dplyr::mutate(group = forcats::fct_rev(.data$group))
 
     if (compare) {
-
-      if(prop_variable) {
-        data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
-      } else if (dollar) {
-        data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = scales::dollar)))
-      } else {
-        data <- data %>%
-          dplyr::mutate(dplyr::across(c(toronto, neighbourhood), .fns = list(label = ~ .x)))
-      }
-      p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
-        plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
-    } else {
-
       if (prop_variable) {
         data <- data %>%
-          dplyr::select(-value) %>%
-          dplyr::rename(value = prop) %>%
-          dplyr::mutate(label = scales::percent(value, accuracy = 0.1))
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = ~ scales::percent(.x, accuracy = 0.1))))
       } else if (dollar) {
         data <- data %>%
-          dplyr::mutate(label = scales::dollar(value))
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = scales::dollar)))
       } else {
         data <- data %>%
-          dplyr::mutate(label = value)
+          dplyr::mutate(dplyr::across(c(.data$toronto, .data$neighbourhood), .fns = list(label = ~.x)))
       }
 
-      p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
+      if (static) {
+        data <- data %>%
+          tidyr::pivot_longer(cols = c(neighbourhood, toronto), names_to = "new_neighbourhood", values_to = "new_value") %>%
+          dplyr::mutate(
+            label = dplyr::case_when(
+              new_neighbourhood == "toronto" ~ toronto_label,
+              new_neighbourhood == "neighbourhood" ~ neighbourhood_label
+            ),
+            new_neighbourhood = forcats::fct_relevel(new_neighbourhood, "toronto", "neighbourhood")
+          ) %>%
+          dplyr::arrange(new_neighbourhood)
+
+        p <- ggplot2::ggplot(data, ggplot2::aes(x = new_value, y = group, fill = new_neighbourhood)) +
+          ggplot2::geom_col(position = ggplot2::position_dodge2()) +
+          ggplot2::scale_fill_manual(values = c(grey_colour, main_colour)) +
+          ggplot2::geom_text(ggplot2::aes(x = new_value, y = group, label = label), position = ggplot2::position_dodge(width = 1), hjust = -0.1, size = 2) +
+          lemur::theme_lemur() +
+          ggplot2::labs(x = NULL, y = NULL) +
+          ggplot2::theme(legend.position = "none")
+      } else {
+        p <- plotly::plot_ly(data, x = ~toronto, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~toronto_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black")) %>%
+          plotly::add_trace(x = ~neighbourhood, color = I(main_colour), hoverinfo = "skip", text = ~neighbourhood_label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
+      }
+    } else {
+      if (prop_variable) {
+        data <- data %>%
+          dplyr::select(-.data$value) %>%
+          dplyr::rename(value = .data$prop) %>%
+          dplyr::mutate(label = scales::percent(.data$value, accuracy = 0.1))
+      } else if (dollar) {
+        data <- data %>%
+          dplyr::mutate(label = scales::dollar(.data$value))
+      } else {
+        data <- data %>%
+          dplyr::mutate(label = .data$value)
+      }
+
+      if (static) {
+        p <- ggplot2::ggplot(data, ggplot2::aes(x = value, y = group)) +
+          ggplot2::geom_col(fill = grey_colour) +
+          ggplot2::geom_text(ggplot2::aes(label = label, hjust = -0.1), size = 2.5) +
+          lemur::theme_lemur() +
+          ggplot2::labs(x = NULL, y = NULL)
+      } else {
+        p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
+      }
     }
 
     if (dollar) {
-      p <- p %>%
-        plotly::layout(xaxis = list(tickprefix = "$"))
+      if (static) {
+        p <- p + ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.2)), breaks = scales::pretty_breaks(), labels = scales::dollar)
+      } else {
+        p <- p %>% plotly::layout(xaxis = list(tickprefix = "$"))
+      }
     } else {
-      p <- p %>%
-        plotly::layout(xaxis = list(tickformat = "%"))
+      if (static) {
+        p <- p + ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1), expand = ggplot2::expansion(mult = c(0, 0.15)))
+      } else {
+        p <- p %>% plotly::layout(xaxis = list(tickformat = "%"))
+      }
     }
 
-    p <- p %>%
-      plotly::layout(
-        yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
-        xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
-        margin = list(t = 15, r = 25, b = 5, l = 25),
-        showlegend = FALSE,
-        font = list(family = "Open Sans", size = 12, color = "black")
-      ) %>%
-      plotly::config(displayModeBar = FALSE)
-
+    if (!static) {
+      p <- p %>%
+        plotly::layout(
+          yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
+          xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
+          margin = list(t = 15, r = 25, b = 5, l = 25),
+          showlegend = FALSE,
+          font = list(family = "Lato", size = 12, color = "black")
+        ) %>%
+        plotly::config(displayModeBar = FALSE)
+    }
+    p
   } else if (type == "table") {
     if (compare) {
       res <- data %>%
@@ -119,7 +153,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
       names(res) <- c("group", neighbourhood_name, "City of Toronto")
     } else {
-
       if (prop_variable) {
         res <- data %>%
           dplyr::select(.data$group, .data$prop)
@@ -135,7 +168,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     }
 
     res <- res %>%
-      dplyr::arrange(group)
+      dplyr::arrange(.data$group)
 
     return(res)
   }
@@ -150,7 +183,7 @@ str_wrap_factor <- function(x, width) {
   x
 }
 
-display_neighbourhood_profile_horizontal <- function(data, variable, compare = TRUE, width = 20, type = "plot") {
+display_neighbourhood_profile_horizontal <- function(data, variable, compare = TRUE, width = 20, type = "plot", static = FALSE) {
   data <- data[[variable]]
 
   if (variable == "amenity_density") {
@@ -164,7 +197,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
     if (variable == "amenity_density") {
       city_data <- city_data %>%
-        dplyr::filter(group != "Unknown")
+        dplyr::filter(.data$group != "Unknown")
     }
 
     data <- city_data %>%
@@ -186,16 +219,25 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
       return(res)
     } else if (type == "plot") {
-      data <- data %>%
-        dplyr::mutate(neighbourhood = str_wrap_factor(.data$neighbourhood, width = width))
+      if (static) {
+        plot_amenity_density(data %>%
+          dplyr::mutate(neighbourhood = forcats::fct_rev(neighbourhood)), static = TRUE) +
+          ggplot2::facet_wrap(dplyr::vars(neighbourhood))
+      } else {
+        neighbourhood_data <- data %>%
+          dplyr::filter(neighbourhood != "City of Toronto")
 
-      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = .data$neighbourhood, fill = .data$group)) +
-        ggplot2::geom_col() +
-        theme_lemur() +
-        ggplot2::theme(
-          axis.title = ggplot2::element_blank(),
-          legend.position = "top"
-        )
+        neighbourhood <- neighbourhood_data %>%
+          dplyr::pull(neighbourhood) %>%
+          unique()
+
+        neighbourhood_plot <- plot_amenity_density(neighbourhood_data, neighbourhood, static = static)
+        city_plot <- plot_amenity_density(data %>%
+          dplyr::filter(neighbourhood == "City of Toronto"), "City of Toronto", static = static)
+
+        plotly::subplot(neighbourhood_plot, city_plot, shareY = TRUE, titleX = TRUE) %>%
+          plotly::layout(showlegend = FALSE)
+      }
     }
   } else if (!compare) {
     if (type == "table") {
@@ -205,28 +247,42 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 
       return(res)
     } else if (type == "plot") {
-      p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
-        ggplot2::geom_col() +
-        theme_lemur() +
-        ggplot2::theme(
-          axis.title = ggplot2::element_blank(),
-          axis.text.y = ggplot2::element_blank()
-        )
+      plot_amenity_density(data, static = static)
     }
   }
+}
 
-  if (type == "plot") {
-    plot_colours <- switch(variable,
-      "household_tenure" = c(mid_colour, high_colour),
-      "amenity_density" = rev(c(high_colour, mid_colour, low_colour))
-    )
+plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FALSE) {
+  data <- data %>%
+    dplyr::mutate(label = scales::percent(.data$prop, accuracy = 0.1))
 
-    p +
-      ggplot2::scale_fill_manual(values = plot_colours, drop = TRUE) +
-      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) +
-      ggplot2::scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
-      ggplot2::labs(fill = NULL) +
-      ggplot2::theme(legend.position = "top")
+  if (static) {
+    ggplot2::ggplot(data, ggplot2::aes(x = group, y = prop, fill = group)) +
+      ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::geom_text(ggplot2::aes(label = label), vjust = -0.2, size = 2.5) +
+      lemur::theme_lemur() +
+      ggplot2::labs(x = NULL, y = NULL) +
+      ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
+      ggplot2::scale_fill_manual(values = c(low_colour, mid_colour, high_colour)) +
+      ggplot2::theme(axis.text.y = ggplot2::element_blank())
+  } else {
+    plotly::plot_ly(data,
+      x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",
+      marker = list(color = c(low_colour, mid_colour, high_colour)),
+      text = ~label, textposition = "outside", cliponaxis = FALSE,
+      textfont = list(color = "black")
+    ) %>%
+      plotly::layout(
+        xaxis = list(showgrid = FALSE, title = xaxis_title, fixedrange = TRUE),
+        yaxis = list(
+          showgrid = FALSE, zeroline = FALSE, title = FALSE,
+          tickformat = "%",
+          fixedrange = TRUE
+        ),
+        margin = list(t = 15, r = 0, b = b, l = 15),
+        font = list(family = "Lato", size = 12, color = "black")
+      ) %>%
+      plotly::config(displayModeBar = FALSE)
   }
 }
 
@@ -256,7 +312,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
 #'
 #' neighbourhood_profiles[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
-plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL) {
+plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL, width = NULL, static = FALSE) {
   # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
     ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
@@ -268,7 +324,13 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     # If we're comparing, we want to highlight the bar the neighbourhood is in
     # Rather than trying to construct the bins ourselves, use the underlying ggplot2 object which has it!
     plot_data <- plot_data %>%
-      dplyr::mutate(is_neighbourhood = ifelse(data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax, "yes", "no"))
+      dplyr::mutate(
+        is_neighbourhood = dplyr::case_when(
+          data[[variable]] >= .data$xmin & data[[variable]] < .data$xmax ~ "yes",
+          is.na(data[[variable]]) ~ "no",
+          TRUE ~ "no"
+        )
+      )
   } else {
     plot_data <- plot_data %>%
       dplyr::mutate(is_neighbourhood = "no")
@@ -277,24 +339,37 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
   # Widen data to get yes/no columns
 
   plot_data <- plot_data %>%
-    tidyr::pivot_wider(names_from = is_neighbourhood, values_from = y) %>%
+    tidyr::pivot_wider(names_from = .data$is_neighbourhood, values_from = .data$y) %>%
     # Set NAs to 0 to avoid warning of missing values
     dplyr::mutate(dplyr::across(tidyselect::any_of(c("yes", "no")), dplyr::coalesce, 0))
 
-  p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
-    plotly::layout(
-      yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
-      xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
-      margin = list(t = 15, r = 25, b = 5, l = 25),
-      barmode = "stack",
-      showlegend = FALSE,
-      font = list(family = "Open Sans", size = 12, color = "black")
-    ) %>%
-    plotly::config(displayModeBar = FALSE)
+  if (static) {
+    p <- ggplot2::ggplot(plot_data) +
+      ggplot2::geom_col(ggplot2::aes(x = x, y = no), fill = grey_colour) +
+      ggplot2::labs(x = NULL, y = NULL) +
+      lemur::theme_lemur() +
+      ggplot2::theme(axis.text.y = ggplot2::element_blank())
 
-  if (compare) {
-    p <- p %>%
-      plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
+    if (compare & "yes" %in% names(plot_data)) {
+      p <- p +
+        ggplot2::geom_col(ggplot2::aes(x = x, y = yes), fill = main_colour)
+    }
+  } else {
+    p <- plotly::plot_ly(plot_data, x = ~x, y = ~no, type = "bar", hoverinfo = "skip", color = I(grey_colour)) %>%
+      plotly::layout(
+        yaxis = list(title = NA, zeroline = FALSE, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, zeroline = FALSE, fixedrange = TRUE),
+        margin = list(t = 15, r = 25, b = 5, l = 25),
+        barmode = "stack",
+        showlegend = FALSE,
+        font = list(family = "Lato", size = 12, color = "black")
+      ) %>%
+      plotly::config(displayModeBar = FALSE)
+
+    if (compare & "yes" %in% names(plot_data)) {
+      p <- p %>%
+        plotly::add_trace(x = ~x, y = ~yes, type = "bar", hoverinfo = "skip", color = I(main_colour))
+    }
   }
 
   p
