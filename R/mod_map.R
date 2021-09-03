@@ -30,10 +30,47 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
       var map = mapboxer._widget['map-map'].map;
+      // Get zoom level on zoom out, to know when to reset to city view
       map.on('zoomend', function () {
       var mapZoom = map.getZoom();
       Shiny.onInputChange('mapZoom', mapZoom);
       });
+
+      // Highlight / fill neighbourhood on hover
+
+      let hoveredNghdId = null;
+      // When the user moves their mouse over the neighbourhood_click layer, we'll update the
+      // feature state for the feature under the mouse.
+      map.on('mousemove', 'neighbourhood_click', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        if (e.features.length > 0) {
+          if (hoveredNghdId !== null) {
+            map.setFeatureState(
+              { source: 'neighbourhoods', id: hoveredNghdId },
+              { hover: false }
+            );
+          }
+        hoveredNghdId = e.features[0].id;
+          map.setFeatureState(
+            { source: 'neighbourhoods', id: hoveredNghdId },
+            { hover: true }
+          );
+        }
+      });
+      // When the mouse leaves the neighbourhood_click layer, update the feature state of the
+      // previously hovered feature.
+      map.on('mouseleave', 'neighbourhood_click', () => {
+        if (hoveredNghdId !== null) {
+          map.setFeatureState(
+            { source: 'neighbourhoods', id: hoveredNghdId },
+            { hover: false }
+          );
+        }
+        hoveredNghdId = null;
+        // Reset the cursor style
+        map.getCanvas().style.cursor = '';
+      });
+
         }")
     })
 
@@ -88,7 +125,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
             # Clear neighbourhood
             zoom_map_to_neighbourhood("none") %>%
             # Zoom back out to Toronto
-            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = -17) %>%
+            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = bearing) %>%
             mapboxer::update_mapboxer()
         }
       }

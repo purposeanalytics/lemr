@@ -220,12 +220,22 @@ add_blank_lem_layer <- function(map) {
 add_blank_neighbourhood_layer <- function(map) {
   map %>%
     mapboxer::add_source(
-      source = mapboxer::as_mapbox_source(lemur::neighbourhoods),
+      # Add numeric ID to source so it can be used to toggle hover
+      source = mapboxer::as_mapbox_source(lemur::neighbourhoods %>%
+        dplyr::mutate(id = dplyr::row_number()),
+      promoteId = "id"
+      ),
       id = "neighbourhoods"
     ) %>%
     mapboxer::add_line_layer(source = "neighbourhoods", line_color = default_line_colour, line_width = 1.5, id = "neighbourhood_line") %>%
     # Add a "blank" layer for clicking on, that contains all neighbourhoods
-    mapboxer::add_fill_layer(source = "neighbourhoods", fill_color = main_colour, fill_opacity = 0, id = "neighbourhood_click") %>%
+    mapboxer::add_fill_layer(source = "neighbourhoods", fill_color = main_colour, fill_opacity = list(
+      "case",
+      # 0.25 if hover is TRUE
+      list("boolean", c("feature-state", "hover"), FALSE), 0.25,
+      # otherwise 0
+      0
+    ), id = "neighbourhood_click") %>%
     # Add an actual layer for neighbourhoods that will be thickened
     mapboxer::add_line_layer(source = "neighbourhoods", line_color = main_colour, line_width = 5, id = "neighbourhood_click_line", filter = list("==", "neighbourhood", "none"))
 }

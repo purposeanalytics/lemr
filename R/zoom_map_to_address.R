@@ -23,5 +23,5 @@ zoom_map_to_address <- function(map, address) {
     # Set the visibility to visible
     toggle_layer_visible(id = "address_points") %>%
     # Zoom to the address
-    mapboxer::fit_bounds(sf::st_bbox(address), maxZoom = 14, pitch = 0, bearing = -17)
+    mapboxer::fit_bounds(sf::st_bbox(address), maxZoom = 14, pitch = 0, bearing = bearing)
 }
