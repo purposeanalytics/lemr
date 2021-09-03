@@ -41,7 +41,11 @@ Imports:
     tibble,
     shinyvalidate,
     bsplus,
-    plotly
+    plotly,
+    cicerone,
+    extrafont,
+    janitor,
+    tidyselect
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
