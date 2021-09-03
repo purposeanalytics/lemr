@@ -924,13 +924,6 @@
       "Repository": "CRAN",
       "Hash": "819d7169c7d39f0f952473e943375da1"
     },
-    "lemur": {
-      "Package": "lemur",
-      "Version": "0.0.0.9003",
-      "Source": "unknown",
-      "Remotes": "benmarwick/words2number, rstudio/shinyvalidate",
-      "Hash": "98ec073a1a4ca0efe0bf0a003cbfe642"
-    },
     "lhs": {
       "Package": "lhs",
       "Version": "1.1.1",
