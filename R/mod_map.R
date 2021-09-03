@@ -87,7 +87,6 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
 
         if (!identical(current_neighbourhood, clicked_neighbourhood)) {
           # Clear inputs
-          # TODO - not working yet to actually trigger resetting of searches in  mod_search
           address_and_neighbourhood$address <- NULL
           address_and_neighbourhood$neighbourhood <- NULL
 

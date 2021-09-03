@@ -121,7 +121,8 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
-        file.copy(system.file(glue::glue("templates/pdf/{neighbourhood()}.pdf"), package = "lemur"), file)
+        name <- switch(level(), city = "Toronto", neighbourhood = neighbourhood())
+        file.copy(system.file(glue::glue("templates/pdf/{name}.pdf"), package = "lemur"), file)
       }
     )
   })

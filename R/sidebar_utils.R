@@ -489,7 +489,7 @@ lim_at_plot <- function(data, compare, static = FALSE) {
 
   if (static) {
     p +
-      ggplot2::scale_x_continuous(labels = scales::percent) # TODO shows 10.0% etc
+      ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1))
   } else {
     p %>%
       plotly::layout(xaxis = list(tickformat = "%"))

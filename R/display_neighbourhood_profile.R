@@ -122,13 +122,13 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
 
     if (dollar) {
       if (static) {
-        p <- p + ggplot2::scale_x_continuous(labels = scales::dollar, expand = ggplot2::expansion(mult = c(0, 0.2)))
+        p <- p + ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.2)), breaks = scales::pretty_breaks(), labels = scales::dollar)
       } else {
         p <- p %>% plotly::layout(xaxis = list(tickprefix = "$"))
       }
     } else {
       if (static) {
-        p <- p + ggplot2::scale_x_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15)))
+        p <- p + ggplot2::scale_x_continuous(labels = scales::label_percent(accuracy = 1), expand = ggplot2::expansion(mult = c(0, 0.15)))
       } else {
         p <- p %>% plotly::layout(xaxis = list(tickformat = "%"))
       }
@@ -259,11 +259,12 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
   if (static) {
     ggplot2::ggplot(data, ggplot2::aes(x = group, y = prop, fill = group)) +
       ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_text(ggplot2::aes(label = label), vjust = -0.1, size = 2.5) +
+      ggplot2::geom_text(ggplot2::aes(label = label), vjust = -0.2, size = 2.5) +
       lemur::theme_lemur() +
       ggplot2::labs(x = NULL, y = NULL) +
-      ggplot2::scale_y_continuous(labels = scales::percent) +
-      ggplot2::scale_fill_manual(values = c(low_colour, mid_colour, high_colour))
+      ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
+      ggplot2::scale_fill_manual(values = c(low_colour, mid_colour, high_colour)) +
+      ggplot2::theme(axis.text.y = ggplot2::element_blank())
   } else {
     plotly::plot_ly(data,
       x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",

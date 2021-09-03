@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Bridle Path-Sunnybrook-York Mills
+  neighbourhood: Casa Loma
 output:
   html_document:
     df_print: paged
@@ -32,17 +32,11 @@ title <- switch(level,
 dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 ```
 
----
-title: `r title`
----
+# `r title`
 
-```{r households}
-glue::glue('Households: {scales::comma(dataset[["households"]])}') %>%
-  lemur:::bigger_padded()
-```
-
-```{r population}
-glue::glue('Population: {scales::comma(dataset[["population"]])}') %>%
+```{r households-population}
+glue::glue('Households: {scales::comma(dataset[["households"]])} <br> Population: {scales::comma(dataset[["population"]])}') %>%
+  htmltools::HTML() %>%
   lemur:::bigger_padded()
 ```
 
