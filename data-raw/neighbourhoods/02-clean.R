@@ -18,5 +18,9 @@ neighbourhoods <- neighbourhoods %>%
 # Projection is already 4326, so good to go
 st_crs(neighbourhoods)
 
+# Add a numeric ID to use for toggling hover
+neighbourhoods <- neighbourhoods %>%
+  mutate(id = row_number())
+
 # Save dataset
 usethis::use_data(neighbourhoods, overwrite = TRUE)
