@@ -6,6 +6,7 @@
   --font: "Lato", Sans-Serif;
   --base-size: 14px;
   --bigger-size: 1.25em;
+  --biggest-size: 1.75em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -35,12 +36,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 2.25em;
+  font-size: var(--biggest-size);
   font-weight: var(--bold-weight);
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: var(--bigger-size);
   font-weight: var(--bold-weight);
 }
 
@@ -101,6 +102,7 @@ h2 {
   color: black;
   font-size: var(--bigger-size);
   font-weight: var(--bold-weight);
+  font-family: Kanit;
 }
 
 /* Collapsed navbar in small layout */
@@ -114,6 +116,7 @@ h2 {
 /* Text instead */
 .navbar-toggle:before {
   content: "Menu";
+  font-family: Kanit;
 }
 
 /* Match size to logo */
