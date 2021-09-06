@@ -176,7 +176,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         }
 
         # Turn not-selected layers off
-        diff_layers <- setdiff(aggregate_layers_choices, aggregate_layers())
+        diff_layers <- setdiff(names(aggregate_layers_choices), aggregate_layers())
 
         for (l in diff_layers) {
           map <- map %>%

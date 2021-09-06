@@ -24,10 +24,8 @@ app_server <- function(input, output, session) {
   ## Aggregate layers
 
   aggregate_layers <- shiny::reactiveVal()
-  latest_aggregate_layer <- shiny::reactiveVal()
 
-  mod_aggregate_layer_server("lem", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
-  mod_aggregate_layer_server("amenity_density", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
+  mod_aggregate_layer_server("aggregate", address_and_neighbourhood, aggregate_layers)
 
   ## Points layers
 
