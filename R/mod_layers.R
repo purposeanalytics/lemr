@@ -194,9 +194,7 @@ create_full_legend <- function(icon, button, legend) {
   )
 }
 
-point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "Evictions Hearings" = "evictions_hearings", "AGI Applications" = "agi", "Tenant Defence Fund" = "tdf")
-
-aggregate_layers_choices <- list("Amenity Density" = "amenity_density", "Low-end of Market Rentals" = "lem")
+# aggregate_layers_choices <- list("Amenity Density" = "amenity_density", "Low-end of Market Rentals" = "lem")
 
 generate_layers_legend <- function(colors, min_text, max_text, alt_text) {
   colors <- purrr::map(colors, function(x) {

@@ -8,10 +8,7 @@
 mod_aggregate_layer_ui <- function(id) {
   ns <- NS(id)
 
-  label <- switch(id,
-    lem = "Low-end of market rentals",
-    amenity_density = "Amenity density"
-  )
+  label <- aggregate_layers_choices[[id]]
 
   legend <- switch(id,
     lem = generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 100 (dark blue)."),
@@ -80,7 +77,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
       ignoreNULL = FALSE,
       {
         # Only allow one aggregate layer on at a time - deselect the others -----
-        diff_layers <- setdiff(aggregate_layers_choices, latest_aggregate_layer())
+        diff_layers <- setdiff(names(aggregate_layers_choices), latest_aggregate_layer())
 
         # If the one to be deselected is "this one", deselect it!
 
@@ -171,6 +168,10 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
     })
   })
 }
+
+point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "Evictions Hearings" = "evictions_hearings", "AGI Applications" = "agi", "Tenant Defence Fund" = "tdf")
+
+aggregate_layers_choices <- list(amenity_density = "Amenity Density", lem = "Low-end of Market Rentals")
 
 ## To be copied in the UI
 # mod_aggregate_layer_ui("layer_lem_ui_1")

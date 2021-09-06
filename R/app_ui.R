@@ -30,7 +30,13 @@ app_ui <- function(request) {
             mod_search_ui("search"),
             mod_sidebar_header_ui("header"),
             mod_aggregate_layer_ui("lem"),
-            mod_aggregate_layer_ui("amenity_density")
+            mod_aggregate_layer_ui("amenity_density"),
+            mod_point_layer_ui("apartment_buildings"),
+            mod_point_layer_ui("apartment_evaluation"),
+            mod_point_layer_ui("evictions_hearings"),
+            mod_point_layer_ui("agi"),
+            mod_point_layer_ui("tdf")
+
             # mod_layers_ui("layers"),
           )
         )

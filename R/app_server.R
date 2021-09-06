@@ -11,8 +11,6 @@ app_server <- function(input, output, session) {
 
   mod_search_server("search", address_and_neighbourhood, search_method)
 
-  point_layers <- shiny::reactiveVal()
-
   mod_layers_server("layers", point_layers, aggregate_layers)
 
   mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
@@ -30,6 +28,16 @@ app_server <- function(input, output, session) {
 
   mod_aggregate_layer_server("lem", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
   mod_aggregate_layer_server("amenity_density", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
+
+  ## Points layers
+
+  point_layers <- shiny::reactiveVal()
+
+  mod_point_layer_server("apartment_buildings", point_layers)
+  mod_point_layer_server("apartment_evaluation", point_layers)
+  mod_point_layer_server("evictions_hearings", point_layers)
+  mod_point_layer_server("agi", point_layers)
+  mod_point_layer_server("tdf", point_layers)
 
   # Tour
   # gen_guide()$init()$start()
