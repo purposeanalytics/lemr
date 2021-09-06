@@ -28,8 +28,8 @@ app_server <- function(input, output, session) {
   aggregate_layers <- shiny::reactiveVal()
   latest_aggregate_layer <- shiny::reactiveVal()
 
-  mod_aggregate_layer_server("lem", aggregate_layers, latest_aggregate_layer)
-  mod_aggregate_layer_server("amenity_density", aggregate_layers, latest_aggregate_layer)
+  mod_aggregate_layer_server("lem", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
+  mod_aggregate_layer_server("amenity_density", address_and_neighbourhood, aggregate_layers, latest_aggregate_layer)
 
   # Tour
   # gen_guide()$init()$start()

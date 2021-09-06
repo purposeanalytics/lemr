@@ -13,7 +13,7 @@ mod_sidebar_summary_ui <- function(id) {
 #' sidebar_places Server Functions
 #'
 #' @noRd
-mod_sidebar_summary_server <- function(id, neighbourhood) {
+  mod_sidebar_summary_server <- function(id, neighbourhood) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
