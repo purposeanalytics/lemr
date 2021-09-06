@@ -31,11 +31,11 @@ app_server <- function(input, output, session) {
 
   point_layers <- shiny::reactiveVal()
 
-  mod_point_layer_server("apartment_buildings", point_layers)
-  mod_point_layer_server("apartment_evaluation", point_layers)
-  mod_point_layer_server("evictions_hearings", point_layers)
-  mod_point_layer_server("agi", point_layers)
-  mod_point_layer_server("tdf", point_layers)
+  mod_point_layer_server("apartment_buildings", address_and_neighbourhood, point_layers)
+  mod_point_layer_server("apartment_evaluation", address_and_neighbourhood, point_layers)
+  mod_point_layer_server("evictions_hearings", address_and_neighbourhood, point_layers)
+  mod_point_layer_server("agi", address_and_neighbourhood, point_layers)
+  mod_point_layer_server("tdf", address_and_neighbourhood, point_layers)
 
   # Tour
   # gen_guide()$init()$start()

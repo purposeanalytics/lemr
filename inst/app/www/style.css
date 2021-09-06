@@ -131,6 +131,10 @@ h2 {
 
 /* Layout */
 
+hr {
+  margin-top: 10px;
+}
+
 .map-col {
   width: 70%;
   float: left;
@@ -162,12 +166,21 @@ body > .container-fluid {
 
 /* Inputs */
 
+.pretty {
+  font-size: var(--bigger-size);
+  margin-right: 0;
+}
+
+.summary-legend {
+  padding-left: calc(var(--bigger-size) + 7px + 15px);
+}
+
 .label-primary {
   background-color: var(--main-color);
 }
 
-.material-switch {
-  font-size: var(--bigger-size);
+.form-group {
+  margin-bottom: 5px;
 }
 
 .form-control, .btn, .dropdown-menu {
@@ -186,6 +199,10 @@ body > .container-fluid {
 }
 
 /* ------ Legend ------ */
+
+ul {
+  margin-bottom: 0;
+}
 
 .color-preview {
   display: inline-block;
@@ -340,7 +357,7 @@ body > .container-fluid {
 
 .well {
   background-color: white;
-  border-radius: 0;
+  border: 0;
   margin-bottom: 0;
 }
 

@@ -18,44 +18,56 @@ mod_aggregate_layer_ui <- function(id) {
 
   shiny::tagList(
     bsplus::use_bs_popover(),
-    shiny::column(
-      width = 12,
-      shiny::h2("Select aggregate layer")
-    ),
-    shiny::column(
-      width = 11,
-      shiny::selectInput(inputId = ns("aggregate_layer"), label = NULL, choices = list("Low-end of market rentals" = "lem", "Amenity density" = "amenity_density"), selected = "lem", multiple = FALSE)
-    ),
-    shiny::column(
-      width = 1,
-      align = "right",
-      shiny::conditionalPanel(
-        "input.aggregate_layer == 'lem'",
-        lem_tooltip,
-        ns = ns
-      ),
-      shiny::conditionalPanel(
-        "input.aggregate_layer == 'amenity_density'",
-        amenity_density_tooltip,
-        ns = ns
+    shiny::fluidRow(
+      shiny::column(
+        width = 12,
+        shiny::conditionalPanel(
+          "input.layer == 'lem'",
+          shiny::h2(
+            "Select aggregate layer",
+            lem_tooltip
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'amenity_density'",
+          shiny::h2(
+            "Select aggregate layer",
+            amenity_density_tooltip
+          ),
+          ns = ns
+        )
       )
     ),
-    shiny::column(
-      width = 4,
-      shiny::conditionalPanel(
-        "input.aggregate_layer == 'lem'",
-        lem_legend,
-        ns = ns
-      ),
-      shiny::conditionalPanel(
-        "input.aggregate_layer == 'amenity_density'",
-        amenity_density_legend,
-        ns = ns
+    shiny::fluidRow(
+      shiny::column(
+        width = 12,
+        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = list("Low-end of market rentals" = "lem", "Amenity density" = "amenity_density"), selected = "lem", multiple = FALSE)
       )
     ),
-    shiny::column(
-      width = 8, align = "right",
-      shiny::textOutput(ns("aggregate_summary"))
+    shiny::fluidRow(
+      style = "position: relative;",
+      shiny::column(
+        width = 4,
+        class = "summary-legend padded",
+        shiny::conditionalPanel(
+          "input.layer == 'lem'",
+          lem_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'amenity_density'",
+          amenity_density_legend,
+          ns = ns
+        )
+      ),
+      shiny::column(
+        width = 7,
+        offset = 5,
+        align = "right",
+        style = "position: absolute; bottom: 0; right: 0;",
+        shiny::textOutput(ns("layer_summary"))
+      )
     )
   )
 }
@@ -90,8 +102,8 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
       determine_dataset_from_level(level(), neighbourhood())
     })
 
-    output$aggregate_summary <- shiny::renderText({
-      switch(input$aggregate_layer,
+    output$layer_summary <- shiny::renderText({
+      switch(input$layer,
         lem = glue::glue("Estimated LEM Units: {units}",
           units = scales::comma(dataset()[["lem"]][["Total"]] %>% sum())
         ),
@@ -161,7 +173,7 @@ popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentati
 
 create_popover <- function(icon = popup_icon, title, content) {
   icon %>%
-    bsplus::bs_embed_popover(title = title, content = content, placement = "left", container = "body", trigger = "hover")
+    bsplus::bs_embed_popover(title = title, content = content, placement = "right", container = "body", trigger = "hover")
 }
 
 ## To be copied in the UI

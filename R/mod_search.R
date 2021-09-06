@@ -8,7 +8,7 @@
 #'
 mod_search_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::div(
+  shiny::fluidRow(
     id = ns("text"),
     shiny::column(
       width = 6,

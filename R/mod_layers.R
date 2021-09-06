@@ -11,7 +11,6 @@ mod_layers_ui <- function(id) {
   shiny::column(
     width = 12,
     bsplus::use_bs_popover(),
-    shiny::hr(),
     shiny::h2(shiny::tags$b("Display layers"), shiny::icon("chevron-down")) %>%
       bsplus::bs_attach_collapse(ns("layers")),
     bsplus::bs_collapse(
