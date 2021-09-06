@@ -31,21 +31,21 @@ mod_point_layer_ui <- function(id) {
   shiny::tagList(
     shiny::fluidRow(
       style = "margin-left: 15px;",
-        bsplus::use_bs_popover(),
-        shinyWidgets::materialSwitch(
-          inputId = ns("input"),
-          label = label,
-          value = FALSE,
-          status = "primary",
-          inline = TRUE, # Ensures tooltip appears beside, since elements are inline
-          right = TRUE
-        ),
-        tooltip
+      bsplus::use_bs_popover(),
+      shinyWidgets::materialSwitch(
+        inputId = ns("input"),
+        label = label,
+        value = FALSE,
+        status = "primary",
+        inline = TRUE, # Ensures tooltip appears beside, since elements are inline
+        right = TRUE
+      ),
+      tooltip
     ),
     shiny::conditionalPanel("input.input == true",
       shiny::div(
-          style = "padding-left: 60px;",
-          legend
+        style = "padding-left: 60px;",
+        legend
       ),
       shiny::fluidRow(
         shiny::column(

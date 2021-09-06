@@ -22,31 +22,28 @@ mod_aggregate_layer_ui <- function(id) {
 
   shiny::tagList(
     shiny::fluidRow(
-      shiny::column(
-        width = 6,
-        bsplus::use_bs_popover(),
-        shinyWidgets::materialSwitch(
-          inputId = ns("input"),
-          label = label,
-          value = id == "lem", # LEM is on by default
-          status = "primary",
-          inline = TRUE, # Ensures tooltip appears beside, since elements are inline
-          right = TRUE
-        ),
-        tooltip
-      )
+      style = "margin-left: 15px;",
+      bsplus::use_bs_popover(),
+      shinyWidgets::materialSwitch(
+        inputId = ns("input"),
+        label = label,
+        value = id == "lem", # LEM is on by default
+        status = "primary",
+        inline = TRUE, # Ensures tooltip appears beside, since elements are inline
+        right = TRUE
+      ),
+      tooltip
     ),
     shiny::conditionalPanel("input.input == true",
-      shiny::fluidRow(
-        shiny::column(
-          width = 6,
-          style = "padding-left: 60px;",
-          legend
-        )
+      shiny::column(
+        width = 6,
+        style = "padding-left: 65px;",
+        legend
       ),
       shiny::fluidRow(
         shiny::column(
           width = 12,
+          style = "padding-left: 75px;",
           shiny::uiOutput(ns("plot_ui")),
           shiny::htmlOutput(ns("table"))
         )
