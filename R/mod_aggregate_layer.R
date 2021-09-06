@@ -34,14 +34,16 @@ mod_aggregate_layer_ui <- function(id) {
           right = TRUE
         ),
         tooltip
-      ),
-      shiny::column(
-        width = 6,
-        shiny::conditionalPanel("input.input == true", legend, ns = ns)
       )
     ),
-    shiny::conditionalPanel(
-      "input.input == true",
+    shiny::conditionalPanel("input.input == true",
+      shiny::fluidRow(
+        shiny::column(
+          width = 6,
+          style = "padding-left: 60px;",
+          legend
+        )
+      ),
       shiny::fluidRow(
         shiny::column(
           width = 12,
@@ -49,6 +51,7 @@ mod_aggregate_layer_ui <- function(id) {
           shiny::htmlOutput(ns("table"))
         )
       ),
+      shiny::hr(),
       ns = ns
     )
   )
