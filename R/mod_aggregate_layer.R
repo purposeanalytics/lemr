@@ -15,17 +15,25 @@ mod_aggregate_layer_ui <- function(id) {
     amenity_density = generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High", alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
   )
 
+  tooltip <- switch(id,
+    lem = create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab."),
+    amenity_density = create_popover(title = "Amenity Density", content = "This layer shows the amenity density of census block. An area is low amenity dense (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It is medium amenity dense (yellow) if it has access to all eight, and high amenity dense (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
+  )
+
   shiny::tagList(
     shiny::fluidRow(
       shiny::column(
         width = 6,
+        bsplus::use_bs_popover(),
         shinyWidgets::materialSwitch(
           inputId = ns("input"),
           label = label,
           value = id == "lem", # LEM is on by default
           status = "primary",
+          inline = TRUE, # Ensures tooltip appears beside, since elements are inline
           right = TRUE
-        )
+        ),
+        tooltip
       ),
       shiny::column(
         width = 6,
@@ -40,8 +48,8 @@ mod_aggregate_layer_ui <- function(id) {
           shiny::uiOutput(ns("plot_ui")),
           shiny::htmlOutput(ns("table"))
         )
-        ),
-        ns = ns
+      ),
+      ns = ns
     )
   )
 }
@@ -169,9 +177,65 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
   })
 }
 
-point_layers_choices <- list("Apartment Buildings" = "apartment_buildings", "RentSafeTO Evaluation Scores" = "apartment_evaluation", "Evictions Hearings" = "evictions_hearings", "AGI Applications" = "agi", "Tenant Defence Fund" = "tdf")
+generate_layers_legend <- function(colors, min_text, max_text, alt_text) {
+  colors <- purrr::map(colors, function(x) {
+    shiny::div(class = "legend-element", style = glue::glue("background-color: {x};"))
+  })
+
+  shiny::div(
+    class = "legend",
+    role = "img",
+    `aria-label` = alt_text,
+    shiny::tags$ul(
+      shiny::tags$li(class = "min", min_text),
+      shiny::tags$li(class = "max", max_text),
+      shiny::tags$li(
+        class = "legend-colors",
+        shiny::div(
+          class = "colors",
+          colors
+        )
+      )
+    )
+  )
+}
+
+generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, alt_text) {
+  colors <- purrr::map(colors, function(x) {
+    shiny::div(class = "legend-element", style = glue::glue("background-color: {x};"))
+  })
+
+  shiny::div(
+    class = "legend",
+    role = "img",
+    `aria-label` = alt_text,
+    shiny::div(
+      class = "triple-text",
+      shiny::tags$ul(
+        shiny::tags$li(min_text),
+        shiny::tags$li(mid_text),
+        shiny::tags$li(max_text)
+      )
+    ),
+    shiny::tags$li(
+      class = "legend-colors",
+      shiny::div(
+        class = "colors",
+        colors
+      )
+    )
+  )
+}
 
 aggregate_layers_choices <- list(amenity_density = "Amenity Density", lem = "Low-end of Market Rentals")
+
+
+popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon")
+
+create_popover <- function(icon = popup_icon, title, content) {
+  icon %>%
+    bsplus::bs_embed_popover(title = title, content = content, placement = "right", container = "body", trigger = "hover")
+}
 
 ## To be copied in the UI
 # mod_aggregate_layer_ui("layer_lem_ui_1")
