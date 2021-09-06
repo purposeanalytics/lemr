@@ -36,11 +36,10 @@ mod_point_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        class = "summary-legend",
+        class = "summary-legend very-padded",
         shiny::uiOutput(ns("layer_summary"))
       )
-    ),
-    shiny::hr()
+    )
   )
 }
 

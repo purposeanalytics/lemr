@@ -7,27 +7,27 @@
 #' @noRd
 mod_sidebar_header_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::column(
-    width = 12,
-    shiny::h1(shiny::textOutput(ns("header"))),
-    shiny::fluidRow(
-      shiny::column(
-        width = 8,
-        shiny::uiOutput(ns("population"), class = "bigger padded")
-      ),
-      shiny::column(
-        width = 4,
-        align = "right",
-        shinyWidgets::dropdownButton(
-          inputId = "download-button",
-          circle = FALSE,
-          label = "Download",
-          shiny::downloadButton(ns("download_pdf"), "PDF", style = "width: 100%"),
-          shiny::downloadButton(ns("download_html"), "HTML", style = "width: 100%")
-        )
-      )
+  shiny::fluidRow(
+    shiny::column(
+      width = 12,
+      shiny::h1(shiny::textOutput(ns("header"))),
+      shiny::h2("Summary statistics")
     ),
-    shiny::uiOutput(ns("back_to_city"), class = "padded")
+    shiny::column(
+      width = 6,
+      shiny::htmlOutput(ns("households")),
+      shiny::htmlOutput(ns("renters")),
+      shiny::htmlOutput(ns("core_housing_need")),
+    ),
+    shiny::column(
+      width = 6,
+      shiny::htmlOutput(ns("population"))
+    ),
+    shiny::column(
+      width = 12,
+    shiny::h2("Estimated rental supply"),
+    shiny::h2("Estimated annual availability of low-end of market rental")
+    )
   )
 }
 
@@ -57,12 +57,29 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
       )
     })
 
-    output$population <- shiny::renderText({
-      dataset <- switch(level(),
+    dataset <- shiny::reactive({
+      switch(level(),
         city = lemur::city_profile,
         neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
-      glue::glue('Households: {scales::comma(dataset[["households"]])} <br> Population: {scales::comma(dataset[["population"]])}')
+    })
+
+    output$households <- shiny::renderText({
+      glue::glue('Total households: <span style = "float: right;">{scales::comma(dataset()[["households"]])}</span>')
+    })
+
+    output$renters <- shiny::renderText({
+      glue::glue('Proportion renters: <span style = "float: right;">{scales::percent(renters, accuracy = 0.1)}</span>', renters = dataset()[["household_tenure"]] %>%
+        dplyr::filter(group == "Renter") %>%
+        dplyr::pull(prop))
+    })
+
+    output$core_housing_need <- shiny::renderText({
+      glue::glue('In core housing need: <span style = "float: right;"></span>')
+    })
+
+    output$population <- shiny::renderText({
+      glue::glue('Total population: <span style = "float: right;">{scales::comma(dataset()[["population"]])}</span>')
     })
 
     output$back_to_city <- shiny::renderUI({
@@ -106,7 +123,10 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
-        name <- switch(level(), city = "Toronto", neighbourhood = neighbourhood())
+        name <- switch(level(),
+          city = "Toronto",
+          neighbourhood = neighbourhood()
+        )
         file.copy(system.file(glue::glue("templates/pdf/{name}.pdf"), package = "lemur"), file)
       }
     )

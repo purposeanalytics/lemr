@@ -49,7 +49,7 @@ mod_aggregate_layer_ui <- function(id) {
       style = "position: relative;",
       shiny::column(
         width = 4,
-        class = "summary-legend padded",
+        class = "summary-legend very-padded",
         shiny::conditionalPanel(
           "input.layer == 'lem'",
           lem_legend,
