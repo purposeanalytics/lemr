@@ -12,13 +12,24 @@ app_server <- function(input, output, session) {
   mod_search_server("search", address_and_neighbourhood, search_method)
 
   point_layers <- shiny::reactiveVal()
-  aggregate_layers <- shiny::reactiveVal()
 
   mod_layers_server("layers", point_layers, aggregate_layers)
 
   mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
 
-  mod_sidebar_server("sidebar", address_and_neighbourhood, search_method)
+  # Header
+
+  mod_sidebar_header_server("header", address_and_neighbourhood, search_method)
+
+  # Layers
+
+  ## Aggregate layers
+
+  aggregate_layers <- shiny::reactiveVal()
+  latest_aggregate_layer <- shiny::reactiveVal()
+
+  mod_aggregate_layer_server("lem", aggregate_layers, latest_aggregate_layer)
+  mod_aggregate_layer_server("amenity_density", aggregate_layers, latest_aggregate_layer)
 
   # Tour
   # gen_guide()$init()$start()

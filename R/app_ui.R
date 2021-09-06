@@ -28,8 +28,10 @@ app_ui <- function(request) {
           shiny::wellPanel(
             id = "sidebar",
             mod_search_ui("search"),
-            mod_layers_ui("layers"),
-            mod_sidebar_ui("sidebar")
+            mod_sidebar_header_ui("header"),
+            mod_aggregate_layer_ui("lem"),
+            mod_aggregate_layer_ui("amenity_density")
+            # mod_layers_ui("layers"),
           )
         )
       ),

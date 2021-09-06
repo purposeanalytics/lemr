@@ -5,7 +5,7 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-mod_sidebar_ui <- function(id) {
+mod_sidebar_header_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::column(
     width = 12,
@@ -28,15 +28,14 @@ mod_sidebar_ui <- function(id) {
         )
       )
     ),
-    shiny::uiOutput(ns("back_to_city"), class = "padded"),
-    shiny::uiOutput(ns("tabs_sidebar"))
+    shiny::uiOutput(ns("back_to_city"), class = "padded")
   )
 }
 
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
+mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -80,19 +79,6 @@ mod_sidebar_server <- function(id, address_and_neighbourhood, search_method) {
 
       search_method("back")
     })
-
-    output$tabs_sidebar <- shiny::renderUI({
-      shiny::tabsetPanel(
-        id = "sidebar_tab",
-        shiny::tabPanel(title = "Summary", mod_sidebar_summary_ui(ns("summary"))),
-        shiny::tabPanel(title = "People", mod_sidebar_people_ui(ns("people"))),
-        shiny::tabPanel(title = "Places", mod_sidebar_places_ui(ns("places")))
-      )
-    })
-
-    mod_sidebar_summary_server("summary", neighbourhood)
-    mod_sidebar_people_server("people", neighbourhood)
-    mod_sidebar_places_server("places", neighbourhood)
 
     download_filename <- shiny::reactive({
       if (is.null(neighbourhood())) {

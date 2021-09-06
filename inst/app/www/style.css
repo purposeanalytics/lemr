@@ -162,6 +162,14 @@ body > .container-fluid {
 
 /* Inputs */
 
+.label-primary {
+  background-color: var(--main-color);
+}
+
+.material-switch {
+  font-size: var(--bigger-size);
+}
+
 .form-control, .btn, .dropdown-menu {
   border-radius: 0;
   -webkit-box-shadow: none;
