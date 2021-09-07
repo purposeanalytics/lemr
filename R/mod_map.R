@@ -22,7 +22,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_lem_layer()%>%
+        add_blank_lem_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
@@ -30,10 +30,47 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
       var map = mapboxer._widget['map-map'].map;
+      // Get zoom level on zoom out, to know when to reset to city view
       map.on('zoomend', function () {
       var mapZoom = map.getZoom();
       Shiny.onInputChange('mapZoom', mapZoom);
       });
+
+      // Highlight / fill neighbourhood on hover
+
+      let hoveredNghdId = null;
+      // When the user moves their mouse over the neighbourhood_click layer, we'll update the
+      // feature state for the feature under the mouse.
+      map.on('mousemove', 'neighbourhood_click', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        if (e.features.length > 0) {
+          if (hoveredNghdId !== null) {
+            map.setFeatureState(
+              { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+              { hover: false }
+            );
+          }
+        hoveredNghdId = e.features[0].id;
+          map.setFeatureState(
+            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+            { hover: true }
+          );
+        }
+      });
+      // When the mouse leaves the neighbourhood_click layer, update the feature state of the
+      // previously hovered feature.
+      map.on('mouseleave', 'neighbourhood_click', () => {
+        if (hoveredNghdId !== null) {
+          map.setFeatureState(
+            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+            { hover: false }
+          );
+        }
+        hoveredNghdId = null;
+        // Reset the cursor style
+        map.getCanvas().style.cursor = '';
+      });
+
         }")
     })
 
@@ -42,7 +79,6 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     shiny::observeEvent(
       input$map_onclick,
       {
-
         current_neighbourhood <- address_and_neighbourhood$neighbourhood
         clicked_neighbourhood <- input$map_onclick$props$neighbourhood
 
@@ -51,7 +87,6 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
 
         if (!identical(current_neighbourhood, clicked_neighbourhood)) {
           # Clear inputs
-          # TODO - not working yet to actually trigger resetting of searches in  mod_search
           address_and_neighbourhood$address <- NULL
           address_and_neighbourhood$neighbourhood <- NULL
 
@@ -59,7 +94,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
           search_method("neighbourhood")
           address_and_neighbourhood$neighbourhood <- clicked_neighbourhood
         }
-        }
+      }
     )
 
     # Update zoom of map and highlighted apartment and/or neighbourhood based on search -----
@@ -89,7 +124,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
             # Clear neighbourhood
             zoom_map_to_neighbourhood("none") %>%
             # Zoom back out to Toronto
-            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = -15) %>%
+            mapboxer::fit_bounds(sf::st_bbox(lemur::toronto), pitch = 0, bearing = bearing) %>%
             mapboxer::update_mapboxer()
         }
       }
@@ -97,7 +132,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
 
     # Update layers -----
 
-    ## Point layers
+    ## Point layers -----
     shiny::observeEvent(
       point_layers(),
       ignoreInit = TRUE,
@@ -125,7 +160,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       }
     )
 
-    ## Aggregate layers
+    ## Aggregate layers -----
     shiny::observeEvent(
       aggregate_layers(),
       ignoreInit = TRUE,

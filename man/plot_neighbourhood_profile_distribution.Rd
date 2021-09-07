@@ -9,7 +9,9 @@ plot_neighbourhood_profile_distribution(
   variable,
   binwidth,
   compare = TRUE,
-  height = NULL
+  height = NULL,
+  width = NULL,
+  static = FALSE
 )
 }
 \arguments{

@@ -47,7 +47,7 @@ agi_applications_tdf <- agi_applications_tdf %>%
   select(-ends_with("_agi"), -ends_with("_tdf"))
 
 # Make spatial
-agi_applications_and_tdf <-  agi_applications_tdf %>%
+agi_applications_and_tdf <- agi_applications_tdf %>%
   st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326)
 
 # Add neighbourhood

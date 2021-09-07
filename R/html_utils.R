@@ -1,15 +1,15 @@
 normal <- function(...) {
-  htmltools::div(class = "normal", ...)
+  shiny::div(class = "normal", ...)
 }
 
 bigger <- function(...) {
-  htmltools::div(class = "bigger", ...)
+  shiny::div(class = "bigger", ...)
 }
 
 bigger_padded <- function(...) {
-  htmltools::div(class = "bigger padded", ...)
+  shiny::div(class = "bigger padded", ...)
 }
 
 padded <- function(...) {
-  htmltools::div(class = "padded", ...)
+  shiny::div(class = "padded", ...)
 }

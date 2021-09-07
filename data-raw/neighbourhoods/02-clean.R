@@ -18,5 +18,10 @@ neighbourhoods <- neighbourhoods %>%
 # Projection is already 4326, so good to go
 st_crs(neighbourhoods)
 
-# Save dataset
+# Add a numeric ID to use for toggling hover
+neighbourhoods <- neighbourhoods %>%
+  mutate(id = row_number())
+
+# Save dataset - as geojson for mapbox
+st_write(neighbourhoods, here::here("data-raw", "neighbourhoods", "final", "neighbourhoods.geojson"))
 usethis::use_data(neighbourhoods, overwrite = TRUE)

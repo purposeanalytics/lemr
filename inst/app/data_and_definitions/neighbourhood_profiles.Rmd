@@ -1,0 +1,23 @@
+---
+output: github_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+
+library(dplyr)
+library(purrr)
+```
+
+```{r neighbourhood-profiles-metadata, results = "asis"}
+neighbourhood_profiles_metadata <- readr::read_csv(here::here("data-raw", "census_profiles_2016", "clean", "metadata.csv"))
+
+neighbourhood_profiles_metadata %>%
+  mutate(text = glue::glue("
+                           * **{Field}**: {Description}
+                               {processing}
+                           ",
+    processing = ifelse(!is.na(`Additional Processing`), glue::glue("* {`Additional Processing`}"), "")
+  )) %>%
+  pull(text)
+```

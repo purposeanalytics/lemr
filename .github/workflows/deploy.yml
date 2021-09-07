@@ -5,6 +5,7 @@ on:
     tags:
       - v*
 
+
 jobs:
   build:
     
@@ -13,14 +14,19 @@ jobs:
     steps:
       - name: Checkout Main
         uses: actions/checkout@main
-        
-      - name: Lemr Files
-        uses: purposeanalytics/lemur@main
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
-          target: ${{ secrets.REMOTE_APP_DIR }}
-          source: '.'
-          rm: true
+      - uses: r-lib/actions/setup-r@master       
+ 
+      - name: Docker Commit
+        run: docker_run
+          e- HOST =  ${{ secrets.REMOTE_HOST }}
+          e- USERNAME =  ${{ secrets.REMOTE_USER }}
+          e- KEY = ${{ secrets.SSH_KEY }}
+          e- PASSPHRASE = ${{ secrets.SSH_KEY_PASSPHRASE }}
+          e- TARGET = ${{ secrets.REMOTE_APP_DIR }}
+          main
+          
+      - name: R Commit
+        run: |
+          Rscript -e "rsconnect::setAccountInfo(name= ${{ secrets.REMOTE_USER }}, token=${{secrets.SSH_KEY}}, secret=${{secrets.SSH_KEY_PASSPHRASE}})"
+          Rscript -e "rsconnect::deployApp()" 
+      

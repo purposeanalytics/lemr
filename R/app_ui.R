@@ -10,6 +10,7 @@ app_ui <- function(request) {
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
       collapsible = TRUE,
       selected = "Map",
+      cicerone::use_cicerone(),
       shiny::tabPanel(
         "About"
       ),
@@ -54,7 +55,8 @@ golem_add_external_resources <- function() {
     golem::bundle_resources(
       path = app_sys("app/www"),
       app_title = "Low-end of Market Rental Monitor"
-    )
+    ),
+    cicerone::use_cicerone()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )

@@ -41,7 +41,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
     output$people_sidebar <- shiny::renderUI({
       shiny::tagList(
         shiny::div(
-          shiny::htmlOutput(ns("legend")),
+          mod_legend_ui(ns("legend")),
           shiny::h2("Population change"),
           bigger_padded(shiny::textOutput(ns("population_change_number"))),
           shiny::textOutput(ns("population_change_description")),
@@ -86,17 +86,7 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
 
     # Legend ----
 
-    # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
-    plot_legend <- shiny::reactive({
-      if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
-      }
-    })
-
-    output$legend <- shiny::renderText({
-      plot_legend()
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
+    mod_legend_server("legend", level, neighbourhood)
 
     # Population change -----
 
@@ -122,11 +112,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_change_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_change_plot <- plotly::renderPlotly(
-      {
-        population_change_plot(dataset(), compare())
-      }
-    ) %>%
+    output$population_change_plot <- plotly::renderPlotly({
+      population_change_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$population_change_plot_ui <- shiny::renderUI({
@@ -161,11 +149,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       population_density_plot_alt_text(level(), neighbourhood())
     })
 
-    output$population_density_plot <- plotly::renderPlotly(
-      {
-        population_density_plot(dataset(), compare())
-      }
-    ) %>%
+    output$population_density_plot <- plotly::renderPlotly({
+      population_density_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$population_density_plot_ui <- shiny::renderUI({
@@ -187,11 +173,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       household_size_plot_alt_text(level(), neighbourhood())
     })
 
-    output$household_size_plot <- plotly::renderPlotly(
-      {
-        household_size_plot(dataset(), compare())
-      }
-    ) %>%
+    output$household_size_plot <- plotly::renderPlotly({
+      household_size_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$household_size_plot_ui <- shiny::renderUI({
@@ -218,11 +202,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       average_total_household_income_plot_alt_text(level(), neighbourhood())
     })
 
-    output$average_total_household_income_plot <- plotly::renderPlotly(
-      {
-        average_total_household_income_plot(dataset(), compare())
-      }
-    ) %>%
+    output$average_total_household_income_plot <- plotly::renderPlotly({
+      average_total_household_income_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$average_total_household_income_plot_ui <- shiny::renderUI({
@@ -266,11 +248,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       unaffordable_housing_plot_alt_text(level(), neighbourhood())
     })
 
-    output$unaffordable_housing_plot <- plotly::renderPlotly(
-      {
-        unaffordable_housing_plot(dataset(), compare())
-      }
-    ) %>%
+    output$unaffordable_housing_plot <- plotly::renderPlotly({
+      unaffordable_housing_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$unaffordable_housing_plot_ui <- shiny::renderUI({
@@ -310,11 +290,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       lim_at_plot_alt_text(level(), neighbourhood())
     })
 
-    output$lim_at_plot <- plotly::renderPlotly(
-      {
-        lim_at_plot(dataset(), compare())
-      }
-    ) %>%
+    output$lim_at_plot <- plotly::renderPlotly({
+      lim_at_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$lim_at_plot_ui <- shiny::renderUI({
@@ -346,11 +324,9 @@ mod_sidebar_people_server <- function(id, neighbourhood) {
       visible_minority_plot_alt_text(level(), neighbourhood())
     })
 
-    output$visible_minority_plot <- plotly::renderPlotly(
-      {
-        visible_minority_plot(dataset(), compare())
-      }
-    ) %>%
+    output$visible_minority_plot <- plotly::renderPlotly({
+      visible_minority_plot(dataset(), compare())
+    }) %>%
       shiny::bindCache(level(), neighbourhood())
 
     output$visible_minority_plot_ui <- shiny::renderUI({

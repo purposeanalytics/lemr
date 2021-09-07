@@ -6,11 +6,11 @@
 #' @export
 #'
 #' @examples
-#' library(sf)
+#' # library(sf)
 #'
-#' map_toronto() %>%
-#'   add_blank_address_layer() %>%
-#'   zoom_map_to_address("378 Markham St")
+#' # map_toronto() %>%
+#' #  add_blank_address_layer() %>%
+#' #  zoom_map_to_address("378 Markham St")
 zoom_map_to_address <- function(map, address) {
   if (!inherits(address, "sf") & is.character(address)) {
     address <- geocode_address(glue::glue("{address} Toronto ON"), quiet = TRUE) %>%
@@ -23,5 +23,5 @@ zoom_map_to_address <- function(map, address) {
     # Set the visibility to visible
     toggle_layer_visible(id = "address_points") %>%
     # Zoom to the address
-    mapboxer::fit_bounds(sf::st_bbox(address), maxZoom = 15, pitch = 0, bearing = -15)
+    mapboxer::fit_bounds(sf::st_bbox(address), maxZoom = 14, pitch = 0, bearing = bearing)
 }

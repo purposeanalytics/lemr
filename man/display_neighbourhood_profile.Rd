@@ -10,7 +10,8 @@ display_neighbourhood_profile(
   compare = TRUE,
   width = 20,
   dollar = FALSE,
-  type = "plot"
+  type = "plot",
+  static = FALSE
 )
 }
 \arguments{
