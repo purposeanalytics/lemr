@@ -11,7 +11,8 @@ mod_aggregate_layer_ui <- function(id) {
   label <- aggregate_layers_choices[[id]]
 
   lem_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 100 (dark blue).")
-  amenity_density_legend <- generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High", alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
+
+  amenity_density_legend <- create_square_legend(c(low_colour, mid_colour, high_colour), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 
   lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
   amenity_density_tooltip <- create_popover(title = "Proximity to amenities", content = "This layer shows the proximity to amenities of each census block. An area has low proximity to amenities (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
@@ -46,10 +47,9 @@ mod_aggregate_layer_ui <- function(id) {
       )
     ),
     shiny::fluidRow(
-      style = "position: relative;",
       shiny::column(
-        width = 4,
-        class = "summary-legend very-padded",
+        width = 6,
+        class = "summary-legend padded",
         shiny::conditionalPanel(
           "input.layer == 'lem'",
           lem_legend,
@@ -60,12 +60,12 @@ mod_aggregate_layer_ui <- function(id) {
           amenity_density_legend,
           ns = ns
         )
-      ),
+      )
+    ),
+    shiny::fluidRow(
       shiny::column(
-        width = 7,
-        offset = 5,
-        align = "right",
-        style = "position: absolute; bottom: 0; right: 0;",
+        width = 12,
+        class = "summary-legend very-padded",
         shiny::textOutput(ns("layer_summary"))
       )
     )

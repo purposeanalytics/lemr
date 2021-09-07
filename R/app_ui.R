@@ -35,9 +35,7 @@ app_ui <- function(request) {
             mod_point_layer_ui("agi"),
             mod_point_layer_ui("tdf"),
             shiny::hr(),
-            mod_sidebar_header_ui("header"),
-
-            # mod_layers_ui("layers"),
+            mod_sidebar_header_ui("header")
           )
         )
       ),

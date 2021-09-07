@@ -146,12 +146,12 @@ hr {
 }
 
 .map-col {
-  width: 70%;
+  width: 65%;
   float: left;
 }
 
 .sidebar-col {
-  width: 30%;
+  width: 35%;
   float: left;
 }
 
@@ -162,7 +162,11 @@ body > .container-fluid {
 
 .modal-lg {
   width: 95%;
+}
+
+.modal-content {
   height: 95vh;
+  overflow-y: scroll;
 }
 
 /* Dropdown */
@@ -234,6 +238,7 @@ ul {
   margin: 0 0.33em;
   vertical-align: middle;
   border-radius: 50%;
+  border: solid 1px var(--grey-color);
 }
 
 /* Layers legend */

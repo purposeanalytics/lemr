@@ -23,7 +23,7 @@ mod_legend_server <- function(id, level, neighbourhood) {
     # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
     plot_legend <- shiny::reactive({
       if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
+        create_neighbourhood_legend(neighbourhood())
       }
     })
 

@@ -29,26 +29,22 @@ margin-right: 3em;",
           shiny::column(
             width = 12,
             shiny::h1(shiny::textOutput(ns("header"))),
-            shiny::hr()
-          ),
-          shiny::column(
-            width = 4,
+            shiny::hr(),
+          shiny::div(
+            style = "width: 30%; float: left;",
             shiny::h2("Summary statistics"),
             shiny::fluidRow(
             shiny::column(
               width = 6,
               shiny::htmlOutput(ns("households")),
+              shiny::htmlOutput(ns("population")),
               shiny::htmlOutput(ns("renters")),
               shiny::htmlOutput(ns("core_housing_need")),
             ),
             shiny::column(
-              width = 6,
-              shiny::htmlOutput(ns("population"))
-            ),
-            shiny::column(
               width = 12,
               shiny::h3("Estimated rental supply"),
-              shiny::tags$i("Coming soon!"),
+              shiny::tags$i("Coming soon"),
               shiny::h3("Estimated annual availability of low-end of market rental"),
               shiny::htmlOutput(ns("lem_table")),
               shiny::h3("Apartment buildings"),
@@ -66,8 +62,8 @@ margin-right: 3em;",
             )
             )
           ),
-          shiny::column(
-            width = 4,
+          shiny::div(
+            style = "width: 30%; float: left; margin-left: 5%",
             shiny::h2("Housing characteristics"),
             shiny::h3("Apartment units"),
             shiny::textOutput(ns("number_of_units_description")),
@@ -96,8 +92,8 @@ margin-right: 3em;",
             shiny::uiOutput(ns("bedrooms_plot_ui")),
             shiny::htmlOutput(ns("bedrooms_table"))
           ),
-          shiny::column(
-            width = 4,
+          shiny::div(
+            style = "width: 30%; float: left; margin-left: 5%",
             shiny::h2("Sociodemographic characteristics"),
             shiny::h3("Population density"),
             bigger_padded(shiny::textOutput(ns("population_density_number"))),
@@ -132,6 +128,7 @@ margin-right: 3em;",
             shiny::uiOutput(ns("visible_minority_plot_ui")),
             shiny::htmlOutput(ns("visible_minority_table"))
           )
+          )
         ),
         easyClose = TRUE,
         footer = NULL, size = "l"
@@ -161,7 +158,7 @@ margin-right: 3em;",
       })
 
       output$core_housing_need <- shiny::renderText({
-        glue::glue('In core housing need: <span style = "float: right;"><i>Coming soon!</i></span>')
+        glue::glue('In core housing need: <span style = "float: right;"><i>Coming soon</i></span>')
       })
 
       output$population <- shiny::renderText({

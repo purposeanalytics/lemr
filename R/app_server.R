@@ -11,8 +11,6 @@ app_server <- function(input, output, session) {
 
   mod_search_server("search", address_and_neighbourhood, search_method)
 
-  mod_layers_server("layers", point_layers, aggregate_layers)
-
   mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
 
   # Header
