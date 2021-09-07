@@ -14,7 +14,7 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 4, align = "right",
-      shiny::actionButton(ns("full_summary"), label = "Full Summary")
+      mod_full_summary_modal_ui(ns("full_summary"))
     ),
     shiny::column(
       width = 12,
@@ -32,10 +32,10 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 12,
-    shiny::h2("Estimated rental supply"),
-    shiny::tags$i("Coming soon!"),
-    shiny::h2("Estimated annual availability of low-end of market rental"),
-    shiny::htmlOutput(ns("lem_table"))
+      shiny::h2("Estimated rental supply"),
+      shiny::tags$i("Coming soon!"),
+      shiny::h2("Estimated annual availability of low-end of market rental"),
+      shiny::htmlOutput(ns("lem_table"))
     )
   )
 }
@@ -59,11 +59,16 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
       }
     })
 
-    output$header <- shiny::renderText({
+    header <- shiny::reactive({
+
       switch(level(),
-        city = "Toronto",
-        neighbourhood = neighbourhood()
+             city = "Toronto",
+             neighbourhood = neighbourhood()
       )
+    })
+
+    output$header <- shiny::renderText({
+      header()
     })
 
     dataset <- shiny::reactive({
@@ -72,6 +77,8 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
         neighbourhood = lemur::neighbourhood_profiles[[neighbourhood()]]
       )
     })
+
+    mod_full_summary_modal_server("full_summary", header)
 
     output$households <- shiny::renderText({
       glue::glue('Total households: <span style = "float: right;">{scales::comma(dataset()[["households"]])}</span>')

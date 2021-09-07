@@ -154,6 +154,10 @@ body > .container-fluid {
   padding-left: 0;
 }
 
+.modal-lg {
+  width: 95%;
+}
+
 /* Dropdown */
 
 .bootstrap-select .dropdown-menu {
