@@ -140,10 +140,29 @@ add_blank_address_layer <- function(map) {
 #'   add_blank_amenity_density_layer() %>%
 #'   toggle_layer_visible("amenity_density")
 add_blank_amenity_density_layer <- function(map) {
-
   map %>%
-    # Add the layer
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(amenity_density), fill_color = c("get", "colour"), fill_opacity = c("get", "alpha"), fill_outline_color = "black", id = "amenity_density", visibility = FALSE)
+    mapboxer::add_source(mapboxer::mapbox_source(
+      type = "vector",
+      url = "mapbox://purposeanalytics.15drt2xq"
+    ),
+    id = "amenity_density_data"
+    ) %>%
+    mapboxer::add_layer(
+      list(
+        "id" = "amenity_density",
+        "type" = "fill",
+        "source" = "amenity_density_data",
+        "source-layer" = "amenity_density-cxezz6",
+        "layout" = list(
+          "visibility" = "none"
+        ),
+        "paint" = list(
+          "fill-color" = c("get", "colour"),
+          "fill-opacity" = c("get", "alpha"),
+          "fill-outline-color" = "black"
+        )
+      )
+    )
 }
 
 
