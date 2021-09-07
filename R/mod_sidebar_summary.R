@@ -68,14 +68,6 @@ mod_sidebar_summary_ui <- function(id) {
 
     # LEM ----
 
-    output$lem_table <- shiny::renderText({
-      dataset()[["lem"]] %>%
-        kableExtra::kable() %>%
-        kableExtra::kable_styling(bootstrap_options = "condensed") %>%
-        kableExtra::column_spec(1, width = "30%") %>%
-        kableExtra::column_spec(2:4, width = "20%")
-    })
-
     # Number of apartments -----
 
     number_of_apartments <- shiny::reactive({

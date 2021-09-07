@@ -24,7 +24,7 @@ app_ui <- function(request) {
           class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
-            style = "margin-left: 15px;",
+            style = "margin-left: 15px; padding-right: 30px;",
             mod_search_ui("search"),
             shiny::hr(),
             mod_aggregate_layer_ui("aggregate"),

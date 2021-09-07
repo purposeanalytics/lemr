@@ -9,8 +9,15 @@ mod_sidebar_header_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::fluidRow(
     shiny::column(
+      width = 8,
+      shiny::h1(shiny::textOutput(ns("header")))
+    ),
+    shiny::column(
+      width = 4, align = "right",
+      shiny::actionButton(ns("full_summary"), label = "Full Summary")
+    ),
+    shiny::column(
       width = 12,
-      shiny::h1(shiny::textOutput(ns("header"))),
       shiny::h2("Summary statistics")
     ),
     shiny::column(
@@ -26,7 +33,9 @@ mod_sidebar_header_ui <- function(id) {
     shiny::column(
       width = 12,
     shiny::h2("Estimated rental supply"),
-    shiny::h2("Estimated annual availability of low-end of market rental")
+    shiny::tags$i("Coming soon!"),
+    shiny::h2("Estimated annual availability of low-end of market rental"),
+    shiny::htmlOutput(ns("lem_table"))
     )
   )
 }
@@ -75,11 +84,19 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
     })
 
     output$core_housing_need <- shiny::renderText({
-      glue::glue('In core housing need: <span style = "float: right;"></span>')
+      glue::glue('In core housing need: <span style = "float: right;"><i>Coming soon!</i></span>')
     })
 
     output$population <- shiny::renderText({
       glue::glue('Total population: <span style = "float: right;">{scales::comma(dataset()[["population"]])}</span>')
+    })
+
+    output$lem_table <- shiny::renderText({
+      dataset()[["lem"]] %>%
+        kableExtra::kable() %>%
+        kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
+        kableExtra::column_spec(1, width = "30%") %>%
+        kableExtra::column_spec(2:4, width = "20%")
     })
 
     output$back_to_city <- shiny::renderUI({
@@ -95,41 +112,6 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
 
       search_method("back")
     })
-
-    download_filename <- shiny::reactive({
-      if (is.null(neighbourhood())) {
-        file_start <- "City of Toronto"
-      } else {
-        file_start <- neighbourhood()
-      }
-
-      glue::glue("{file_start} 2016 Census Profile")
-    })
-
-    output$download_html <- shiny::downloadHandler(
-      filename = function() {
-        glue::glue("{download_filename()}.html")
-      },
-      content = function(file) {
-        shinybusy::show_modal_spinner(color = accent_colour, text = "Generating report...")
-        on.exit(shinybusy::remove_modal_spinner())
-
-        generate_report(level(), neighbourhood(), format = "html", filename = file)
-      }
-    )
-
-    output$download_pdf <- shiny::downloadHandler(
-      filename = function() {
-        glue::glue("{download_filename()}.pdf")
-      },
-      content = function(file) {
-        name <- switch(level(),
-          city = "Toronto",
-          neighbourhood = neighbourhood()
-        )
-        file.copy(system.file(glue::glue("templates/pdf/{name}.pdf"), package = "lemur"), file)
-      }
-    )
   })
 }
 

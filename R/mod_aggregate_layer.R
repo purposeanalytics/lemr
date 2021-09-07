@@ -14,7 +14,7 @@ mod_aggregate_layer_ui <- function(id) {
   amenity_density_legend <- generate_low_mid_high_legends(c(low_colour, mid_colour, high_colour), "Low", "Medium", "High", alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 
   lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
-  amenity_density_tooltip <- create_popover(title = "Amenity Density", content = "This layer shows the amenity density of census block. An area is low amenity dense (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It is medium amenity dense (yellow) if it has access to all eight, and high amenity dense (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
+  amenity_density_tooltip <- create_popover(title = "Proximity to amenities", content = "This layer shows the proximity to amenities of each census block. An area has low proximity to amenities (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
 
   shiny::tagList(
     bsplus::use_bs_popover(),
@@ -42,7 +42,7 @@ mod_aggregate_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = list("Low-end of market rentals" = "lem", "Amenity density" = "amenity_density"), selected = "lem", multiple = FALSE)
+        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
       )
     ),
     shiny::fluidRow(
@@ -81,7 +81,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
 
     # Update aggregate_layers() reactive with layer selected so that mod_map updates it
     shiny::observe(
-      aggregate_layers(input$aggregate_layer)
+      aggregate_layers(input$layer)
     )
 
     # Content ----
@@ -167,7 +167,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(amenity_density = "Amenity Density", lem = "Low-end of Market Rentals")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", amenity_density = "Proximity to amenities")
 
 popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon", style = "color: var(--grey-color);")
 
