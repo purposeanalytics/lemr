@@ -42,7 +42,7 @@ mod_aggregate_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
+        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = stats::setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
       )
     ),
     shiny::fluidRow(
