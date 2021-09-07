@@ -5,6 +5,7 @@ library(sf)
 library(janitor)
 library(lemur)
 library(rmapshaper)
+devtools::load_all()
 
 # Read / clean data and geos ----
 
@@ -36,19 +37,14 @@ proximity_measures <- proximity_measures_toronto %>%
 
 saveRDS(proximity_measures, here::here("data-raw", "proximity_measures", "final", "proximity_measures.rds"))
 
-# The geometry makes the file huge - 6+ MB versus 400kb. Remove for now until we decide what to actually do with this data, especially since we might just map the amenity density.
+# The geometry makes the file huge - 6+ MB versus 400kb. Don't save for now until we decide what to actually do with this data, especially since we might just map the amenity density.
 
-proximity_measures <- proximity_measures %>%
-  as_tibble() %>%
-  select(-geometry)
-
-# Save -----
-
-usethis::use_data(proximity_measures, overwrite = TRUE)
+# Don't save in the package
 
 # Amenity density only -----
 
 amenity_density <- proximity_measures_toronto %>%
+  as_tibble() %>%
   distinct(dbuid, population, amenity_dense) %>%
   left_join(dissemination_block_geo_toronto, by = "dbuid") %>%
   select(dbuid, population, amenity_dense, geometry) %>%
@@ -58,4 +54,46 @@ amenity_density <- proximity_measures_toronto %>%
 amenity_density <- amenity_density %>%
   ms_simplify(keep = 0.1, keep_shapes = TRUE)
 
-usethis::use_data(amenity_density, overwrite = TRUE)
+# Add colour and opacity
+
+# Colours
+amenity_density_colours <- tibble::tribble(
+  ~amenity_dense, ~colour,
+  "Low", low_colour,
+  "Medium", accent_colour,
+  "High", high_colour,
+  "Unknown", "white"
+)
+
+amenity_density <- amenity_density %>%
+  dplyr::left_join(amenity_density_colours, by = "amenity_dense")
+
+# Alphas / opacity
+n <- 20
+
+amenity_density_alpha <- amenity_density %>%
+  dplyr::as_tibble() %>%
+  dplyr::distinct(.data$dbuid, .data$population) %>%
+  dplyr::mutate(
+    log_population = log(.data$population + 1),
+    log_population_group = cut(.data$log_population, breaks = n)
+  )
+
+log_population_groups <- amenity_density_alpha %>%
+  dplyr::distinct(.data$log_population_group)
+
+alphas <- seq(0.1, 0.8, length.out = nrow(log_population_groups))
+
+log_population_groups <- log_population_groups %>%
+  dplyr::mutate(alpha = alphas)
+
+amenity_density_alpha <- amenity_density_alpha %>%
+  dplyr::left_join(log_population_groups, by = "log_population_group") %>%
+  dplyr::select(.data$dbuid, .data$alpha)
+
+amenity_density <- amenity_density %>%
+  dplyr::left_join(amenity_density_alpha, by = "dbuid")
+
+# Save final file, not in package but as geojson for a mapbox layer
+
+st_write(amenity_density, here::here("data-raw", "proximity_measures", "final", "amenity_density.geojson"))
