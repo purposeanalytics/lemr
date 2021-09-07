@@ -200,23 +200,57 @@ add_blank_lem_layer <- function(map) {
 #'   zoom_map_to_neighbourhood("Casa Loma")
 add_blank_neighbourhood_layer <- function(map) {
   map %>%
-    mapboxer::add_source(
-      # Add numeric ID to source so it can be used to toggle hover
-      source = mapboxer::as_mapbox_source(lemur::neighbourhoods %>%
-        dplyr::mutate(id = dplyr::row_number()),
+    mapboxer::add_source(mapboxer::mapbox_source(
+      type = "vector",
+      url = "mapbox://purposeanalytics.4juivyoh",
       promoteId = "id"
-      ),
-      id = "neighbourhoods"
+    ),
+    id = "neighbourhoods"
     ) %>%
-    mapboxer::add_line_layer(source = "neighbourhoods", line_color = default_line_colour, line_width = 1.5, id = "neighbourhood_line") %>%
+    # Outline layer
+    mapboxer::add_layer(
+      list(
+        "id" = "neighbourhood_line",
+        "type" = "line",
+        "source" = "neighbourhoods",
+        "source-layer" = "neighbourhoods-0jaap1",
+        "paint" = list(
+          "line-color" = default_line_colour,
+          "line-width" = 1.5
+        )
+      )
+    ) %>%
     # Add a "blank" layer for clicking on, that contains all neighbourhoods
-    mapboxer::add_fill_layer(source = "neighbourhoods", fill_color = main_colour, fill_opacity = list(
-      "case",
-      # 0.25 if hover is TRUE
-      list("boolean", c("feature-state", "hover"), FALSE), 0.25,
-      # otherwise 0
-      0
-    ), id = "neighbourhood_click") %>%
+    mapboxer::add_layer(
+      list(
+        "id" = "neighbourhood_click",
+        "type" = "fill",
+        "source" = "neighbourhoods",
+        "source-layer" = "neighbourhoods-0jaap1",
+        "paint" = list(
+          "fill-color" = main_colour,
+          "fill-opacity" = list(
+            "case",
+            # 0.25 if hover is TRUE
+            list("boolean", c("feature-state", "hover"), FALSE), 0.25,
+            # otherwise 0
+            0
+          )
+        )
+      )
+    ) %>%
     # Add an actual layer for neighbourhoods that will be thickened
-    mapboxer::add_line_layer(source = "neighbourhoods", line_color = main_colour, line_width = 5, id = "neighbourhood_click_line", filter = list("==", "neighbourhood", "none"))
+    mapboxer::add_layer(
+      list(
+        "id" = "neighbourhood_click_line",
+        "type" = "line",
+        "source" = "neighbourhoods",
+        "source-layer" = "neighbourhoods-0jaap1",
+        filter = list("==", "neighbourhood", "none"),
+        "paint" = list(
+          "line-color" = main_colour,
+          "line-width" = 5
+        )
+      )
+    )
 }

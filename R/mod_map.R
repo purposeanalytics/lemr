@@ -46,13 +46,13 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         if (e.features.length > 0) {
           if (hoveredNghdId !== null) {
             map.setFeatureState(
-              { source: 'neighbourhoods', id: hoveredNghdId },
+              { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
               { hover: false }
             );
           }
         hoveredNghdId = e.features[0].id;
           map.setFeatureState(
-            { source: 'neighbourhoods', id: hoveredNghdId },
+            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
             { hover: true }
           );
         }
@@ -62,7 +62,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       map.on('mouseleave', 'neighbourhood_click', () => {
         if (hoveredNghdId !== null) {
           map.setFeatureState(
-            { source: 'neighbourhoods', id: hoveredNghdId },
+            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
             { hover: false }
           );
         }
