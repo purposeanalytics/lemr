@@ -78,7 +78,7 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
       )
     })
 
-    mod_full_summary_modal_server("full_summary", header)
+    mod_full_summary_modal_server("full_summary", level, neighbourhood, dataset)
 
     output$households <- shiny::renderText({
       glue::glue('Total households: <span style = "float: right;">{scales::comma(dataset()[["households"]])}</span>')

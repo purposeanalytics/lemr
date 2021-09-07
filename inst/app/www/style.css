@@ -45,6 +45,12 @@ h2 {
   font-weight: var(--bold-weight);
 }
 
+h3 {
+  font-size: var(--bigger-size);
+  font-weight: var(--bold-weight);
+  color: #6c6c6c;
+}
+
 .padded {
   margin-bottom: 0.5em;
 }
@@ -156,6 +162,7 @@ body > .container-fluid {
 
 .modal-lg {
   width: 95%;
+  height: 95vh;
 }
 
 /* Dropdown */
