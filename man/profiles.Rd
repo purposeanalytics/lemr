@@ -8,7 +8,7 @@
 \format{
 An object of class \code{list} of length 140.
 
-An object of class \code{list} of length 26.
+An object of class \code{list} of length 30.
 }
 \usage{
 neighbourhood_profiles

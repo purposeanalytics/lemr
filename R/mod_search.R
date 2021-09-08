@@ -8,7 +8,7 @@
 #'
 mod_search_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::div(
+  shiny::fluidRow(
     id = ns("text"),
     shiny::column(
       width = 6,
@@ -32,6 +32,10 @@ mod_search_ui <- function(id) {
           noneSelectedText = "Search neighbourhood..."
         )
       )
+    ),
+    shiny::column(
+      width = 12,
+      shiny::uiOutput(ns("back_to_city"), class = "padded")
     )
   )
 }
@@ -124,6 +128,21 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
         }
       }
     )
+
+    # Back to city view
+    output$back_to_city <- shiny::renderUI({
+      if (!is.null(input$neighbourhood)) {
+        shiny::actionLink(ns("back"), label = "< Back to City of Toronto view", class = "padded")
+      }
+    })
+
+    # Observe the back button to reset the inputs and map
+    shiny::observeEvent(input$back, {
+      address_and_neighbourhood$address <- NULL
+      address_and_neighbourhood$neighbourhood <- NULL
+
+      search_method("back")
+    })
   })
 }
 

@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_data_and_definitions_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::div(
     style = "max-width: 1000px; margin-left: auto; margin-right: auto",
     shiny::h1("Data and Definitions"),

@@ -7,4 +7,4 @@ grey_colour <- "#B8B8B8"
 base_size <- 14
 bearing <- -17
 
-layer_colours <- c(apartment_buildings = main_colour, evictions_hearings = accent_colour, agi = low_colour, tdf = high_colour)
+layer_colours <- c(apartment_buildings = "#27a167", evictions_hearings = accent_colour, agi = "#fc8d59", tdf = "#ffffbf")

@@ -10,3 +10,4 @@ $run_dev.*
 ^scratch$
 ^app\.R$
 ^rsconnect$
+^\.github$

@@ -5,7 +5,7 @@
 \alias{agi_applications_and_tdf}
 \title{Above Guideline Increase applications and Tenant Defense Fund grants}
 \format{
-An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 2219 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 1421 rows and 10 columns.
 }
 \usage{
 agi_applications_and_tdf

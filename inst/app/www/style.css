@@ -45,8 +45,18 @@ h2 {
   font-weight: var(--bold-weight);
 }
 
+h3 {
+  font-size: var(--bigger-size);
+  font-weight: var(--bold-weight);
+  color: #6c6c6c;
+}
+
 .padded {
   margin-bottom: 0.5em;
+}
+
+.very-padded {
+  margin-bottom: 1.25em;
 }
 
 .normal {
@@ -131,13 +141,17 @@ h2 {
 
 /* Layout */
 
+hr {
+  margin-top: 10px;
+}
+
 .map-col {
-  width: 70%;
+  width: 65%;
   float: left;
 }
 
 .sidebar-col {
-  width: 30%;
+  width: 35%;
   float: left;
 }
 
@@ -145,6 +159,33 @@ body > .container-fluid {
   padding-right: 0;
   padding-left: 0;
 }
+
+.modal-lg {
+  width: 95%;
+}
+
+.shiny-modal {
+  overflow-y: hidden;
+}
+
+.modal-content {
+  height: 95vh;
+  overflow-y: scroll;
+}
+
+.modal-col {
+  width: 30%;
+  float: left;
+}
+
+.modal-col.middle {
+  margin-left: 5%
+}
+
+.modal-col.right {
+  margin-left: 5%
+}
+
 
 /* Dropdown */
 
@@ -161,6 +202,23 @@ body > .container-fluid {
 }
 
 /* Inputs */
+
+.pretty {
+  font-size: var(--bigger-size);
+  margin-right: 0;
+}
+
+.summary-legend {
+  padding-left: calc(var(--bigger-size) + 7px + 15px);
+}
+
+.label-primary {
+  background-color: var(--main-color);
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
 
 .form-control, .btn, .dropdown-menu {
   border-radius: 0;
@@ -179,6 +237,10 @@ body > .container-fluid {
 
 /* ------ Legend ------ */
 
+ul {
+  margin-bottom: 0;
+}
+
 .color-preview {
   display: inline-block;
   width: 1em;
@@ -194,6 +256,7 @@ body > .container-fluid {
   margin: 0 0.33em;
   vertical-align: middle;
   border-radius: 50%;
+  border: solid 1px var(--grey-color);
 }
 
 /* Layers legend */
@@ -332,7 +395,7 @@ body > .container-fluid {
 
 .well {
   background-color: white;
-  border-radius: 0;
+  border: 0;
   margin-bottom: 0;
 }
 
@@ -368,6 +431,13 @@ body > .container-fluid {
     overflow-y: visible;
     border-width: 0;
   }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 /* Small devices (landscape phones, 576px to 767) */
@@ -387,6 +457,13 @@ body > .container-fluid {
 
   .sidebar-col {
     width: 50%;
+  }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
@@ -408,6 +485,13 @@ body > .container-fluid {
   .sidebar-col {
     width: 50%;
   }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 /* Large devices (desktops, 992px to 1200px) */
@@ -419,6 +503,11 @@ body > .container-fluid {
 
   .sidebar-col {
     width: 50%;
+  }
+
+  /* Allow summary statistics to take up full width */
+  .modal-summary-statistics {
+    width: 100% !important;
   }
 
 }

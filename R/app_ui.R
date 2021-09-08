@@ -12,10 +12,7 @@ app_ui <- function(request) {
       selected = "Map",
       cicerone::use_cicerone(),
       shiny::tabPanel(
-        "About"
-      ),
-      shiny::tabPanel(
-        "Analysis"
+        "Start"
       ),
       shiny::tabPanel(
         "Map",
@@ -27,9 +24,18 @@ app_ui <- function(request) {
           class = "sidebar-col",
           shiny::wellPanel(
             id = "sidebar",
+            style = "margin-left: 15px; padding-right: 30px;",
             mod_search_ui("search"),
-            mod_layers_ui("layers"),
-            mod_sidebar_ui("sidebar")
+            shiny::hr(),
+            mod_aggregate_layer_ui("aggregate"),
+            shiny::h2("Select point(s) layers"),
+            mod_point_layer_ui("apartment_buildings"),
+            mod_point_layer_ui("apartment_evaluation"),
+            # mod_point_layer_ui("evictions_hearings"),
+            mod_point_layer_ui("agi"),
+            mod_point_layer_ui("tdf"),
+            shiny::hr(),
+            mod_sidebar_header_ui("header")
           )
         )
       ),
