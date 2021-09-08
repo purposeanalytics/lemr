@@ -85,24 +85,59 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) 
         apartment_buildings = create_circle_legend(layer_colours[["apartment_buildings"]], glue::glue("{scales::comma(units)} units ({scales::comma(buildings)} apartment {buildings_word})", units = dataset()[["number_of_units"]], buildings = dataset()[["number_of_apartments"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of apartment buildings."),
         apartment_evaluation = shiny::div(
           generate_apartment_evaluation_legend(),
-          shiny::div(
-            style = "margin-left: 0.33em; margin-top: 0.5em;",
-            shiny::textOutput(ns("median_score"))
-          )
+          shiny::uiOutput(ns("median_score"))
         ),
         evictions_hearings = create_circle_legend(layer_colours[["evictions_hearings"]], "Location of evictions hearings schedules November 2020 to January 2021", alt_text = "A legend showing the yellow colour of the points of eviction hearings."),
-        agi = create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi_n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications."),
-        tdf = create_circle_legend(layer_colours[["tdf"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} received TDF grants", buildings = dataset()[["tdf_n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+        agi = shiny::div(
+          create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi_n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications."),
+          shiny::uiOutput(ns("agi_prop"))
+        ),
+        tdf = shiny::div(
+          create_circle_legend(layer_colours[["tdf"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} received TDF grants", buildings = dataset()[["tdf_n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of tenant defense fund grants."),
+          shiny::uiOutput(ns("tdf_prop"))
+        )
       )
     })
 
-    output$median_score <- shiny::renderText({
+    output$median_score <- shiny::renderUI({
       score <- dataset()[["apartment_building_evaluation"]]
 
       if (level() == "city") {
         score <- score[["value"]]
       }
-      glue::glue("Median score: {score}%")
+
+      score_text <- glue::glue("Median score: {score}%")
+
+      if (!is.na(score)) {
+        shiny::div(
+          style = "margin-left: 0.33em; margin-top: 0.5em;",
+          score_text
+        )
+      }
+    })
+
+    output$agi_prop <- shiny::renderUI({
+      value <- dataset()[['agi_prop']]
+      text <- glue::glue("AGI rate by building: {scales::percent(value, accuracy = 0.1)}")
+
+      if (!is.na(value)) {
+        shiny::div(
+          style = "margin-left: 0.33em; margin-top: 0.5em;",
+          text
+        )
+      }
+    })
+
+    output$tdf_prop <- shiny::renderUI({
+      value <- dataset()[['tdf_prop']]
+      text <- glue::glue("TDF rate by AGIs: {scales::percent(value, accuracy = 0.1)}")
+
+      if (!is.na(value) & dataset()[["agi_prop"]] != 0) {
+        shiny::div(
+          style = "margin-left: 0.33em; margin-top: 0.5em;",
+          text
+        )
+      }
     })
   })
 }
