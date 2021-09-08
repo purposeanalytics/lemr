@@ -29,12 +29,13 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
             shiny::h1(shiny::textOutput(ns("header"))),
             shiny::hr(),
             shiny::div(
-              style = "width: 30%; float: left;",
+              class = "modal-col",
               mod_legend_ui(ns("legend")),
               shiny::h2("Summary statistics"),
               shiny::fluidRow(
                 shiny::column(
                   width = 6,
+                  class = "modal-summary-statistics",
                   shiny::htmlOutput(ns("households")),
                   shiny::htmlOutput(ns("population")),
                   shiny::htmlOutput(ns("renters")),
@@ -69,7 +70,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
               )
             ),
             shiny::div(
-              style = "width: 30%; float: left; margin-left: 5%",
+              class = "modal-col middle",
               shiny::h2("Housing characteristics"),
               shiny::h3("Apartment units"),
               shiny::textOutput(ns("number_of_units_description")),
@@ -104,7 +105,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
               shiny::hr()
             ),
             shiny::div(
-              style = "width: 30%; float: left; margin-left: 5%",
+              class = "modal-col right",
               shiny::h2("Sociodemographic characteristics"),
               shiny::h3("Population density"),
               bigger_padded(shiny::textOutput(ns("population_density_number"))),

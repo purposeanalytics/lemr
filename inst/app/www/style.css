@@ -173,6 +173,20 @@ body > .container-fluid {
   overflow-y: scroll;
 }
 
+.modal-col {
+  width: 30%;
+  float: left;
+}
+
+.modal-col.middle {
+  margin-left: 5%
+}
+
+.modal-col.right {
+  margin-left: 5%
+}
+
+
 /* Dropdown */
 
 .bootstrap-select .dropdown-menu {
@@ -417,6 +431,13 @@ ul {
     overflow-y: visible;
     border-width: 0;
   }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 /* Small devices (landscape phones, 576px to 767) */
@@ -436,6 +457,13 @@ ul {
 
   .sidebar-col {
     width: 50%;
+  }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
@@ -457,6 +485,13 @@ ul {
   .sidebar-col {
     width: 50%;
   }
+
+  /* Flow modal into a single column */
+  .modal-col {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 /* Large devices (desktops, 992px to 1200px) */
@@ -468,6 +503,11 @@ ul {
 
   .sidebar-col {
     width: 50%;
+  }
+
+  /* Allow summary statistics to take up full width */
+  .modal-summary-statistics {
+    width: 100% !important;
   }
 
 }
