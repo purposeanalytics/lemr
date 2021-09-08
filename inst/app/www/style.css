@@ -168,6 +168,10 @@ body > .container-fluid {
   overflow-y: hidden;
 }
 
+#shiny-modal button {
+  float: right;
+}
+
 .modal-content {
   height: 95vh;
   overflow-y: scroll;
