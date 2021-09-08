@@ -60,4 +60,8 @@ agi_applications_and_tdf <- agi_applications_and_tdf %>%
 agi_applications_and_tdf <- agi_applications_and_tdf %>%
   select(case_number, address, bing_address, landlord, neighbourhood, date_agi_initiated, tdf, tdf_year, reduced_increase_by, geometry)
 
+# Limit to the last 5 years - 2016 onwards
+agi_applications_and_tdf <- agi_applications_and_tdf %>%
+  filter(date_agi_initiated >= "2016-01-01")
+
 usethis::use_data(agi_applications_and_tdf, overwrite = TRUE)

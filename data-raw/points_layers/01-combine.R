@@ -3,6 +3,7 @@
 library(dplyr)
 library(purrr)
 library(sf)
+library(tidyr)
 devtools::load_all()
 
 # Join registry and RentSafeTO -----
@@ -17,7 +18,7 @@ buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built_evaluation),
     neighbourhood = coalesce(neighbourhood, neighbourhood_evaluation)
   ) %>%
-  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, results_of_score, score_colour, geometry) %>%
+  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, score_bucket, score_colour, geometry) %>%
   mutate(landlord = ifelse(property_management == "Unknown", NA_character_, property_management))
 
 # Get coords instead of geometry column, so we can coalesce more easily
@@ -31,17 +32,17 @@ buildings <- buildings %>%
   bind_cols(apartment_buildings_coords)
 
 # Add AGI / TDF -----
-# Not all AGI are apartments, but we want them in the same data set anyways
+# Just do AGIs that are in apartments
 # For now, just take property management if it's there, and if not, use landlord
 
 # Combine multiple AGI dates, and take the latest non-NA landlord
 latest_agi_landlord <- lemur::agi_applications_and_tdf %>%
   as_tibble() %>%
   filter(!is.na(landlord)) %>%
-  group_by(address) %>%
+  group_by(bing_address) %>%
   filter(date_agi_initiated == max(date_agi_initiated)) %>%
   slice(1) %>%
-  distinct(address, landlord) %>%
+  distinct(bing_address, landlord) %>%
   ungroup()
 
 agi_applications <- lemur::agi_applications_and_tdf %>%
@@ -51,7 +52,7 @@ agi_applications <- lemur::agi_applications_and_tdf %>%
     is.na(reduced_increase_by) ~ NA_character_,
     TRUE ~ paste0(round(reduced_increase_by, 2), "%")
   )) %>%
-  group_by(agi, address, bing_address, neighbourhood) %>%
+  group_by(agi, bing_address, neighbourhood) %>%
   arrange(desc(date_agi_initiated)) %>%
   summarise(
     geometry = geometry,
@@ -65,35 +66,53 @@ agi_applications <- lemur::agi_applications_and_tdf %>%
   st_as_sf(crs = 4326)
 
 agi_applications <- agi_applications %>%
-  left_join(latest_agi_landlord, by = "address")
+  left_join(latest_agi_landlord, by = "bing_address")
 
 agi_applications_coords <- agi_applications %>%
+  group_by(bing_address) %>%
+  slice(1) %>%
+  ungroup() %>%
   st_coordinates() %>%
   as_tibble()
 
 agi_applications <- agi_applications %>%
   as_tibble() %>%
   select(-geometry) %>%
+  distinct() %>%
   bind_cols(agi_applications_coords)
 
 buildings <- buildings %>%
   as_tibble() %>%
-  full_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
+  left_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
 # Add evictions hearings -----
 
-eviction_hearings_coords <- lemur::eviction_hearings %>%
+eviction_hearings <- lemur::eviction_hearings %>%
+  group_by(bing_address) %>%
+  fill(landlord, .direction = "downup") %>%
+  group_by(bing_address, neighbourhood, landlord) %>%
+  summarise(
+    geometry = geometry,
+    hearings = sum(hearings),
+    .groups = "drop"
+  )
+
+eviction_hearings_coords <- eviction_hearings %>%
+  group_by(bing_address) %>%
+  slice(1) %>%
+  ungroup() %>%
   st_coordinates() %>%
   as_tibble()
 
-eviction_hearings <- lemur::eviction_hearings %>%
+eviction_hearings <- eviction_hearings %>%
   as_tibble() %>%
   select(-geometry) %>%
+  distinct() %>%
   bind_cols(eviction_hearings_coords) %>%
-  rename_at(vars(landlord, address, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
+  rename_at(vars(landlord, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
 
 buildings <- buildings %>%
-  full_join(eviction_hearings %>%
+  left_join(eviction_hearings %>%
     mutate(eviction_hearing = TRUE), by = "bing_address", suffix = c("_apt_agi", "_evictions"))
 
 # Fill in columns, prioritizing apt -> agi -> evictions
@@ -101,7 +120,6 @@ buildings <- buildings %>%
 buildings <- buildings %>%
   mutate(
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi, landlord_evictions),
-    address = coalesce(address_apt, address_agi, address_evictions),
     X = coalesce(X_apt, X_agi, X_evictions),
     Y = coalesce(Y_apt, Y_agi, Y_evictions),
     neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_evictions),
@@ -116,7 +134,7 @@ buildings <- buildings %>%
 # Select columns -----
 
 buildings <- buildings %>%
-  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, results_of_score, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, eviction_hearing, hearings)
+  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, eviction_hearing, hearings)
 
 # Convert to spatial -----
 

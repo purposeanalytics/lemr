@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_legend_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::uiOutput(ns("legend_ui"), class = "padded", style = "margin-top: 0.5em;")
 }
 
@@ -23,7 +21,7 @@ mod_legend_server <- function(id, level, neighbourhood) {
     # Created in HTML because ggplot2 legends somehow can't be flushed to the left! Incredible.
     plot_legend <- shiny::reactive({
       if (level() == "neighbourhood") {
-        create_legend(neighbourhood())
+        create_neighbourhood_legend(neighbourhood())
       }
     })
 

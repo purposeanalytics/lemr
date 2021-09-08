@@ -228,11 +228,11 @@ add_blank_neighbourhood_layer <- function(map) {
         "source" = "neighbourhoods",
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
-          "fill-color" = main_colour,
+          "fill-color" = "white",
           "fill-opacity" = list(
             "case",
-            # 0.25 if hover is TRUE
-            list("boolean", c("feature-state", "hover"), FALSE), 0.25,
+            # 0.45 if hover is TRUE
+            list("boolean", c("feature-state", "hover"), FALSE), 0.45,
             # otherwise 0
             0
           )

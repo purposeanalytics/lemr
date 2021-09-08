@@ -24,7 +24,7 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 
 # Reorder columns
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  select(id, rsn, site_address, starts_with("bing"), property_type, neighbourhood, ward, year_built, year_registered, evaluation_completed_on, score, results_of_score, no_of_areas_evaluated, confirmed_storeys, confirmed_units, everything())
+  select(id, rsn, site_address, starts_with("bing"), property_type, neighbourhood, ward, year_built, year_registered, evaluation_completed_on, score, no_of_areas_evaluated, confirmed_storeys, confirmed_units, everything())
 
 # Clean some up
 apartment_building_evaluation <- apartment_building_evaluation %>%
@@ -52,7 +52,7 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
 # Select relevant columns
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  select(id, rsn, site_address, bing_address, property_type, neighbourhood, year_built, year_registered, evaluation_completed_on, score, results_of_score)
+  select(id, rsn, site_address, bing_address, property_type, neighbourhood, year_built, year_registered, evaluation_completed_on, score)
 
 # Generate score as percent for display
 apartment_building_evaluation <- apartment_building_evaluation %>%
@@ -62,28 +62,24 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
   ))
 
 # Colour points
-# All 50% and lower will get the lightest color
-# And the rest of the gradient will be 51 - 100
+# < 60: #dd1c77
+# 61 - 80: #c994c7
+# 81 - 100: #e7e1ef
 
 # Set colours
-n <- 7
 apartment_building_evaluation <- apartment_building_evaluation %>%
   dplyr::mutate(
-    score_bucket = cut(score, breaks = seq(51, 100, length.out = n - 1)),
-    score_bucket = fct_explicit_na(score_bucket, na_level = "<50"),
-    score_bucket = fct_relevel(score_bucket, "<50", after = 0)
+    score_bucket = cut(score, breaks = c(0, 60, 80, 100))
   )
 
 score_bucket_colors <- dplyr::tibble(
   score_bucket = levels(apartment_building_evaluation[["score_bucket"]]),
-  score_colour = c("#FFFFCC", "#FED976", "#FD8D3B", "#FC4E2B", "#BD0026", "#800126")
+  score_colour = c("#dd1c77", "#c994c7", "#e7e1ef")
 )
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  dplyr::left_join(score_bucket_colors, by = "score_bucket")
-
-apartment_building_evaluation <- apartment_building_evaluation %>%
-  select(-score_bucket)
+  dplyr::left_join(score_bucket_colors, by = "score_bucket") %>%
+  dplyr::mutate(score_bucket = recode(score_bucket, "(0,60]" = "60% and under", "(60,80]" = "61% to 80%", "(80,100]" = "81% to 100%"))
 
 apartment_building_evaluation <- apartment_building_evaluation %>%
   rename(address = site_address) %>%
