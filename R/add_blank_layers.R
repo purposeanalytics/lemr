@@ -158,8 +158,7 @@ add_blank_amenity_density_layer <- function(map) {
         ),
         "paint" = list(
           "fill-color" = c("get", "colour"),
-          # "fill-opacity" = c("get", "alpha"),
-          "fill-opacity" = 0.5,
+          "fill-opacity" = c("get", "alpha"),
           "fill-outline-color" = "black"
         )
       )

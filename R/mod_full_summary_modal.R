@@ -46,7 +46,6 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                   shiny::tags$i("Coming soon"),
                   shiny::hr(),
                   shiny::h3("Estimated annual availability of low-end of market rental"),
-                  shiny::hr(),
                   shiny::htmlOutput(ns("lem_table")),
                   shiny::hr(),
                   shiny::h3("Apartment buildings"),
