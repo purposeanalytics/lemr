@@ -8,38 +8,39 @@
 mod_data_and_definitions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(
-    style = "max-width: 1000px; margin-left: auto; margin-right: auto",
+    class = "content-page",
     shiny::h1("Data & Definitions"),
     collapse_definitions(
       title = "Low-end of market",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Amenity Density",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Apartment Buildings",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "RentSafeTO Evaluation Scores",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Eviction Hearings",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Above Guideline Increase applications",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Tenant Defense Fund grants",
-      content = NULL
+      content = shiny::tags$i("Coming soon")
     ),
     collapse_definitions(
       title = "Neighbourhood Profiles",
+      show = FALSE,
       content = shiny::includeMarkdown(system.file("app", "data_and_definitions", "neighbourhood_profiles.md", package = "lemur"))
     )
   )
@@ -54,7 +55,7 @@ mod_data_and_definitions_server <- function(id) {
   })
 }
 
-collapse_definitions <- function(title, content) {
+collapse_definitions <- function(title, content, show = TRUE) {
   id <- janitor::make_clean_names(title)
 
   shiny::tagList(
@@ -64,7 +65,8 @@ collapse_definitions <- function(title, content) {
       id = id,
       content = shiny::tagList(
         content
-      )
+      ),
+      show = show
     ),
     shiny::hr()
   )

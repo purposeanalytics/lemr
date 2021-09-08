@@ -190,6 +190,14 @@ body > .container-fluid {
   margin-left: 5%
 }
 
+.content-page {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: var(--bigger-size);
+  margin-top: 1em;
+}
+
 /* Dropdown */
 
 .bootstrap-select .dropdown-menu {
@@ -415,6 +423,10 @@ ul {
   --base-size: 12px;
   }
 
+  h1 {
+    font-size: var(--bigger-size);
+  }
+
   /* Stack map and sidebar */
   .map-col {
     width: 100%;
@@ -441,6 +453,10 @@ ul {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+
+  .content-page {
+    margin: 1em !important;
+  }
 }
 
 /* Small devices (landscape phones, 576px to 767) */
@@ -448,6 +464,10 @@ ul {
 
   :root {
   --base-size: 12px;
+  }
+
+  h1 {
+    font-size: var(--bigger-size);
   }
 
   .navbar-header {
@@ -467,6 +487,10 @@ ul {
     width: 100%;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+
+  .content-page {
+    margin: 1em !important;
   }
 }
 
@@ -495,6 +519,10 @@ ul {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+
+  .content-page {
+    margin: 1em !important;
+  }
 }
 
 /* Large devices (desktops, 992px to 1200px) */
@@ -512,7 +540,6 @@ ul {
   .modal-summary-statistics {
     width: 100% !important;
   }
-
 }
 
 /* When bootstrap collapsed navbar is not triggered, style the navbar all nice */

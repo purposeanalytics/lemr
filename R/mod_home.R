@@ -11,7 +11,7 @@ mod_home_ui <- function(id){
   ns <- NS(id)
   tagList(
     shiny::div(
-      style = "max-width: 1000px; margin-left: auto; margin-right: auto; font-size: var(--bigger-size); margin-top: 1em;",
+      class = "content-page",
       shiny::includeMarkdown(app_sys("app", "home.md"))
     )
   )
