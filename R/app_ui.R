@@ -9,10 +9,10 @@ app_ui <- function(request) {
     shiny::navbarPage(
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
       collapsible = TRUE,
-      selected = "Map",
+      selected = "Home",
       cicerone::use_cicerone(),
       shiny::tabPanel(
-        "Start"
+        "Home"
       ),
       shiny::tabPanel(
         "Map",
