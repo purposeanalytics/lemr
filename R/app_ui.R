@@ -6,13 +6,19 @@
 app_ui <- function(request) {
   shiny::tagList(
     golem_add_external_resources(),
+    shiny::tags$script(shiny::HTML(
+      'function link(page) {
+      Shiny.onInputChange("page_link", page)
+      }')),
     shiny::navbarPage(
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
       collapsible = TRUE,
+      id = "page",
       selected = "Home",
       cicerone::use_cicerone(),
       shiny::tabPanel(
-        "Home"
+        "Home",
+        mod_home_ui("home")
       ),
       shiny::tabPanel(
         "Map",
@@ -40,7 +46,7 @@ app_ui <- function(request) {
         )
       ),
       shiny::tabPanel(
-        "Data and Definitions",
+        "Data & Definitions",
         mod_data_and_definitions_ui("data_and_definitions")
       )
     )

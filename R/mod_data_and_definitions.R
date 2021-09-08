@@ -9,7 +9,7 @@ mod_data_and_definitions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(
     style = "max-width: 1000px; margin-left: auto; margin-right: auto",
-    shiny::h1("Data and Definitions"),
+    shiny::h1("Data & Definitions"),
     collapse_definitions(
       title = "Low-end of market",
       content = NULL

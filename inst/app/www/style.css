@@ -25,7 +25,7 @@ body {
 }
 
 a {
-  font-color: var(--main-color);
+  color: var(--main-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -189,7 +189,6 @@ body > .container-fluid {
 .modal-col.right {
   margin-left: 5%
 }
-
 
 /* Dropdown */
 

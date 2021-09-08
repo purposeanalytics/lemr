@@ -1,4 +1,6 @@
-This project is still in draft and will be undergoing continual updates and occasional downtime. 
+*Note: This project is still in draft and will be undergoing continual updates and occasional downtime.*
+
+<div style = "height: 1px; background-color: var(--accent-color); margin-top: 20px; margin-bottom: 20px;"></div>
 
 # Welcome to the Low-end of Market Rental Monitor 
 
@@ -14,18 +16,22 @@ By mapping the dynamics of the low-end of the rental market, LEMR equips policy 
 
 ## How to use this site: 
 
-Read the **Data Stories** below for an interpretation of our data analyses and learn how some of these implications may impact you, your organization, or your community. 
+Read the **Data Stories** below for an interpretation of our data analyses and learn how some of these implications may impact you, your organization, or your community.
 
-(Three placeholder images, caption/overlay "Coming soon") 
-Explore the **Map** to see summary statistics; find out which neighbourhoods have the highest estimated rental supply; compare the locations of awarded tenant defence fund grants against the applications for rent increases above the mandated guideline; and see the location of units with the highest and lowest safety ratings. 
+*(Three placeholder images, caption/overlay "Coming soon")*
 
-(Placeholder text for **Download** feature) 
+Explore the **<a id = "link_map" href = "#" onclick="link('Map')">Map</a>** to see summary statistics; find out which neighbourhoods have the highest estimated rental supply; compare the locations of awarded tenant defence fund grants against the applications for rent increases above the mandated guideline; and see the location of units with the highest and lowest safety ratings. 
 
-Learn about the data sources and key terminology in the **Data & Definitions** section. 
+*(Placeholder text for Download feature)*
 
-LEMR was developed by **Purpose Analytics** as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.  
+Learn about the data sources and key terminology in the **<a id = "link_data_and_definitions" href = "#" onclick="link('Data & Definitions')">Data & Definitions</a>** section. 
+
+<div style = "height: 1px; background-color: var(--accent-color); margin-top: 20px; margin-bottom: 20px;"></div>
+
+LEMR was developed by **<a href = "https://purposeanalytics.ca/" target = "_blank">Purpose Analytics</a>** as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.  
+
 Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada. 
 
-For the source code, you will be able to visit the project's **GitHub repository**. 
+For the source code, you will be able to visit the project's GitHub repository. 
 
-September 2021 
+*Last updated: September 2021* 
