@@ -10,7 +10,7 @@ mod_aggregate_layer_ui <- function(id) {
 
   label <- aggregate_layers_choices[[id]]
 
-  lem_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "100", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 100 (dark blue).")
+  lem_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "1,500", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 1500 (dark blue).")
 
   amenity_density_legend <- create_square_legend(c(low_colour, mid_colour, high_colour), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 
@@ -105,7 +105,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
     output$layer_summary <- shiny::renderText({
       switch(input$layer,
         lem = glue::glue("Estimated LEM Units: {units}",
-          units = scales::comma(dataset()[["lem"]][["Total"]] %>% sum())
+          units = scales::comma(dataset()[["lem"]] %>% dplyr::filter(Bedrooms == "Total") %>% dplyr::pull(Total))
         ),
         amenity_density = dataset()[["amenity_density"]] %>%
           dplyr::filter(.data$group != "Unknown") %>%

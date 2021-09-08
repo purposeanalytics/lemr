@@ -96,7 +96,8 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
 
     output$lem_table <- shiny::renderText({
       dataset()[["lem"]] %>%
-        kableExtra::kable() %>%
+        dplyr::mutate(dplyr::across(-Bedrooms, scales::comma)) %>%
+        kableExtra::kable(align = "lrrr") %>%
         kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
         kableExtra::column_spec(1, width = "30%") %>%
         kableExtra::column_spec(2:4, width = "20%")
