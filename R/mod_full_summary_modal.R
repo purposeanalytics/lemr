@@ -23,15 +23,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         style = "margin-top: 2em; margin-left: 3em; margin-right: 3em;",
         shiny::fluidRow(
           shiny::column(
-            width = 10,
+            width = 12,
+            shiny::modalButton("Close"),
             shiny::h1(shiny::textOutput(ns("header"))
             )
-          ),
-          shiny::column(
-            width = 2,
-            align = "right",
-            shiny::modalButton("Close")
-            )
+          )
         ),
         shiny::fluidRow(
           shiny::column(width = 12,
