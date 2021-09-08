@@ -82,7 +82,7 @@ for (i in names(neighbourhood_profiles)) {
   neighbourhood_profiles[[i]][["agi_n"]] <- agi_by_neighbourhood_n[[i]]
   neighbourhood_profiles[[i]][["agi_prop"]] <- agi_by_neighbourhood_prop[[i]]
   neighbourhood_profiles[[i]][["tdf_n"]] <- tdf_by_neighbourhood_n[[i]]
-  neighbourhood_profiles[[i]][["tdf_prop"]] <- agi_by_neighbourhood_prop[[i]]
+  neighbourhood_profiles[[i]][["tdf_prop"]] <- tdf_by_neighbourhood_prop[[i]]
 }
 
 city_profile[["agi_n"]] <- sum(agi_by_neighbourhood[["n"]])
