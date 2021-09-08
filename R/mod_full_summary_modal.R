@@ -42,6 +42,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 ),
                 shiny::column(
                   width = 12,
+                  shiny::hr(),
                   shiny::h3("Estimated rental supply"),
                   shiny::tags$i("Coming soon"),
                   shiny::hr(),
@@ -62,7 +63,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                   shiny::h3("Amenity density"),
                   shiny::textOutput(ns("amenity_density_description")),
                   shiny::uiOutput(ns("amenity_density_plot_ui")),
-                  shiny::htmlOutput(ns("amenity_density_table"))
+                  shiny::htmlOutput(ns("amenity_density_table")),
+                  shiny::hr()
                 )
               )
             ),
@@ -98,7 +100,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
               shiny::h3("Number of bedrooms"),
               shiny::textOutput(ns("bedrooms_description")),
               shiny::uiOutput(ns("bedrooms_plot_ui")),
-              shiny::htmlOutput(ns("bedrooms_table"))
+              shiny::htmlOutput(ns("bedrooms_table")),
+              shiny::hr()
             ),
             shiny::div(
               style = "width: 30%; float: left; margin-left: 5%",
