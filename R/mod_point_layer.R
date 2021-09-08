@@ -117,7 +117,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) 
     })
 
     output$agi_prop <- shiny::renderUI({
-      value <- dataset()[['agi_prop']]
+      value <- dataset()[["agi_prop"]]
       text <- glue::glue("AGI rate by building: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value)) {
@@ -129,7 +129,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) 
     })
 
     output$tdf_prop <- shiny::renderUI({
-      value <- dataset()[['tdf_prop']]
+      value <- dataset()[["tdf_prop"]]
       text <- glue::glue("TDF rate by AGIs: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value) & dataset()[["agi_prop"]] != 0) {

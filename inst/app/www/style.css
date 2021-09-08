@@ -164,6 +164,10 @@ body > .container-fluid {
   width: 95%;
 }
 
+.shiny-modal {
+  overflow-y: hidden;
+}
+
 .modal-content {
   height: 95vh;
   overflow-y: scroll;

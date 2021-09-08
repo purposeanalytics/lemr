@@ -57,10 +57,9 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
     })
 
     header <- shiny::reactive({
-
       switch(level(),
-             city = "Toronto",
-             neighbourhood = neighbourhood()
+        city = "Toronto",
+        neighbourhood = neighbourhood()
       )
     })
 

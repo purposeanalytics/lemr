@@ -51,8 +51,8 @@ gen_guide <- function() {
   cicerone::Cicerone$
     new()$
     step(
-      "search-address",
-      title = "Zoom map",
-      description = "Search by address or neighbourhood to zoom in"
-    )
+    "search-address",
+    title = "Zoom map",
+    description = "Search by address or neighbourhood to zoom in"
+  )
 }
