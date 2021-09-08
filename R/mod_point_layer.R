@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_point_layer_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
   tooltip <- switch(id,
     apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
@@ -47,7 +45,7 @@ mod_point_layer_ui <- function(id) {
 #'
 #' @noRd
 mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Update reactive with value, mod_map handles what's shown

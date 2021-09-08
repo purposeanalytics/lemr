@@ -5,10 +5,8 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_full_summary_modal_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
   shiny::actionButton(ns("modal"), label = "Full Summary")
 }
@@ -17,7 +15,7 @@ mod_full_summary_modal_ui <- function(id) {
 #'
 #' @noRd
 mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     shiny::observeEvent(input$modal, {

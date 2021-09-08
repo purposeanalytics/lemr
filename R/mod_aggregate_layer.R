@@ -6,7 +6,7 @@
 #'
 #' @noRd
 mod_aggregate_layer_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
   label <- aggregate_layers_choices[[id]]
 
@@ -76,7 +76,7 @@ mod_aggregate_layer_ui <- function(id) {
 #'
 #' @noRd
 mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_layers) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Update aggregate_layers() reactive with layer selected so that mod_map updates it
