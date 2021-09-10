@@ -229,13 +229,7 @@ add_blank_neighbourhood_layer <- function(map) {
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
           "fill-color" = "white",
-          "fill-opacity" = list(
-            "case",
-            # 0.45 if hover is TRUE
-            list("boolean", c("feature-state", "hover"), FALSE), 0.45,
-            # otherwise 0
-            0
-          )
+          "fill-opacity" = 0
         )
       )
     ) %>%
@@ -250,6 +244,32 @@ add_blank_neighbourhood_layer <- function(map) {
         "paint" = list(
           "line-color" = main_colour,
           "line-width" = 5
+        )
+      )
+    ) %>%
+    # Hover layer
+    mapboxer::add_layer(
+      list(
+        "id" = "neighbourhood_hover_line",
+        "type" = "line",
+        "source" = "neighbourhoods",
+        "source-layer" = "neighbourhoods-0jaap1",
+        "paint" = list(
+          "line-color" = list(
+            "case",
+            list("boolean", c("feature-state", "hover"), FALSE), main_colour,
+            "white"
+          ),
+          "line-width" = list(
+            "case",
+            list("boolean", c("feature-state", "hover"), FALSE), 5,
+            1
+          ),
+          "line-opacity" = list(
+            "case",
+            list("boolean", c("feature-state", "hover"), FALSE), 1,
+            0
+          )
         )
       )
     )
