@@ -41,6 +41,8 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       let hoveredNghdId = null;
       // When the user moves their mouse over the neighbourhood_click layer, we'll update the
       // feature state for the feature under the mouse.
+      // Note that the mouse is observed on neighbourhood_click, which is a fill layer, so it's observed when their mouse is inside the neighbourhood
+      // But the layer that is actually updated is neighbourhood_hover_line, in order to just update the border of the neighbourhood
       map.on('mousemove', 'neighbourhood_click', (e) => {
         map.getCanvas().style.cursor = 'pointer';
         if (e.features.length > 0) {
