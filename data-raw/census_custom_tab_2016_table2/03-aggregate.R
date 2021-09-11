@@ -11,7 +11,7 @@ library(readr)
 library(forcats)
 
 #### Read data ----
-custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_table1.rds"))
+custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))
 
 neighbourhood <- list()
 city <- list()
@@ -72,55 +72,20 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
     select(group, value, prop)
 }
 
-## Rental condos ---------------------------------------------------------------- -----
-# Switched from non-subsidized units because other custom tab is all renters and all renters may also be easier to explain
+## Rental households by number of bedrooms ---------------------------------------------------------------- -----
 
-secondary_condo_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
-  aggregate_prop_by_neighbourhood("condominium_status", "Total - Condominium status") %>%
-  filter(group == "Condominium") %>%
-  select(-group)
+number_of_bedrooms_by_neighbourhood <- custom_tab_toronto_cts %>%
+  filter(tenure == "Renter") %>%
+  aggregate_prop_by_neighbourhood("number_of_bedrooms", "Total - Number of bedrooms")
 
-neighbourhood <- append(neighbourhood, list(secondary_condo = secondary_condo_by_neighbourhood))
+neighbourhood <- append(neighbourhood, list(number_of_bedrooms = number_of_bedrooms_by_neighbourhood))
 
 # City
-secondary_condo_city <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
-  aggregate_prop_city("condominium_status", "Total - Condominium status") %>%
-  filter(group == "Condominium") %>%
-  pull(value)
+number_of_bedrooms_city <- custom_tab_toronto_cts %>%
+  filter(tenure == "Renter") %>%
+  aggregate_prop_city("number_of_bedrooms", "Total - Number of bedrooms")
 
-city <- append(city, list(secondary_condo = secondary_condo_city))
-
-### Rental households by structure -----
-# Switched from non-subsidized units because other custom tab is all renters and all renters may also be easier to explain
-
-structure_type_clean <- tribble(
-  ~original, ~clean,
-  "Apartment in a building that has fewer than five storeys", "Apartment, < 5 storeys",
-  "Apartment in a building that has five or more storeys", "Apartment, 5+ storeys",
-  "Apartment or flat in a duplex", "Duplex",
-  "Semi-detached house, row house, or other single attached house", "Single-, semi-detached, or row house",
-  "Single-detached house", "Single-, semi-detached, or row house"
-)
-
-structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
-  left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type)) %>%
-  aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling")
-
-neighbourhood <- append(neighbourhood, list(structure_type = structure_type_by_neighbourhood))
-
-# Compare to city with breakdown
-
-structure_type_city <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
-  left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type)) %>%
-  aggregate_prop_city("structural_type", "Total - Structural type of dwelling")
-
-city <- append(city, list(structure_type = structure_type_city))
+city <- append(city, list(number_of_bedrooms = number_of_bedrooms_city))
 
 ### Restructure data sets ----
 # I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
