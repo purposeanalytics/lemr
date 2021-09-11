@@ -11,7 +11,7 @@ library(readr)
 library(forcats)
 
 #### Read data ----
-custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016", "clean", "custom_tab_toronto_cts.rds"))
+custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_cts.rds"))
 
 neighbourhood <- list()
 city <- list()
@@ -126,17 +126,11 @@ city <- append(city, list(structure_type = structure_type_city))
 neighbourhood_profiles <- neighbourhood %>%
   map(~ split(.x, .x$neighbourhood))
 
-# Some of these are just a single value, so they don't need to be in a data frame
-neighbourhood_profiles[["secondary_condo"]] <- neighbourhood_profiles[["secondary_condo"]] %>%
-  map("value")
-neighbourhood_profiles[["structure_type"]] <- neighbourhood_profiles[["structure_type"]] %>%
-  map("value")
-
 # Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
 neighbourhood_profiles <- neighbourhood_profiles %>%
   transpose()
-
-usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
-
-city_profile <- city
-usethis::use_data(city_profile, overwrite = TRUE)
+#
+# usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+#
+# city_profile <- city
+# usethis::use_data(city_profile, overwrite = TRUE)
