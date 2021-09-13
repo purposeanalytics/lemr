@@ -8,6 +8,11 @@
 # Proximity measures / amenity density via proximity_measures/
 # LEM via affordable_rental_market/
 
+# Point data aggregated
+# Apartment buildings / units via points_layers/apartment_building_registry/
+# RentSafeTO Scores via points_layers/apartment_building_evaluation/
+# AGI and Tenant Defense Fund via points_layers/agi_and_tenant_defense_fund/
+
 library(dplyr)
 
 # Census profiles -----
@@ -40,7 +45,6 @@ rental_supply_city <- readRDS(here::here("data-raw", "aggregate_data", "rental_s
 
 amenity_density_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "proximity_measures", "aggregate", "amenity_density_by_neighbourhood.rds"))
 
-
 amenity_density_city <- readRDS(here::here("data-raw", "aggregate_data", "proximity_measures", "aggregate", "amenity_density_city.rds"))
 
 # LEM -----
@@ -48,6 +52,34 @@ amenity_density_city <- readRDS(here::here("data-raw", "aggregate_data", "proxim
 lem_by_neighbourhood <- readRDS( here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
 
 lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
+
+# Apartment buildings -----
+
+number_of_apartments_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "number_of_apartments_city.rds"))
+number_of_units_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "number_of_units_city.rds"))
+number_of_apartments_distribution <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "number_of_apartments_distribution.rds"))
+units_by_neighbourhood_distribution <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "units_by_neighbourhood_distribution.rds"))
+apartments_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds"))
+units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "units_by_neighbourhood.rds"))
+
+# RentSafeTO -----
+
+median_score_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_city.rds"))
+apartment_building_evaluation_distribution <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "apartment_building_evaluation_distribution.rds"))
+median_score_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_by_neighbourhood.rds"))
+
+# AGI / TDF -----
+
+tdf_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_by_neighbourhood.rds")) %>%
+  select(-n_agi) %>%
+  split(.$neighbourhood)
+
+agi_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_by_neighbourhood.rds")) %>%
+  select(-value) %>%
+  split(.$neighbourhood)
+
+agi_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))
+tdf_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_city.rds"))
 
 # Make aggregate data set ----
 
@@ -57,18 +89,36 @@ city_aggregate <- city_profile
 
 for (i in names(neighbourhood_aggregate)) {
 
-  neighbourhood_aggregate[[i]][["structure_type"]] <- structure_type_by_neighbourhood[[i]]
-  # neighbourhood_aggregate[[i]][["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
-  neighbourhood_aggregate[[i]][["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
-  neighbourhood_aggregate[[i]][["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
-  neighbourhood_aggregate[[i]][["lem"]] <- lem_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i <- neighbourhood_aggregate[[i]]
+
+  neighbourhood_aggregate_i[["structure_type"]] <- structure_type_by_neighbourhood[[i]]
+  # neighbourhood_aggregate_i[["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
+
+  neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["number_of_units"]] <- units_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["agi"]] <- agi_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["tdf"]] <- tdf_by_neighbourhood[[i]]
+
+  neighbourhood_aggregate[[i]] <- neighbourhood_aggregate_i
 }
 
 city_aggregate[["structure_type"]] <- structure_type_city
-# city_aggregate[["bedrooms"]] <- bedrooms_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
+
+city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
+city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution
+city_aggregate[["number_of_units"]] <- number_of_units_city
+city_aggregate[["number_of_units_distribution"]] <- units_by_neighbourhood_distribution
+city_aggregate[["apartment_building_evaluation"]] <- median_score_city[["value"]]
+city_aggregate[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution
+city_aggregate[["agi"]] <- agi_city
+city_aggregate[["tdf"]] <- tdf_city
 
 # Save data sets ----
 

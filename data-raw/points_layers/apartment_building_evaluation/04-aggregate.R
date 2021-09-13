@@ -15,7 +15,6 @@ neighbourhoods <- tibble(neighbourhood = names(neighbourhood_profiles))
 median_score_by_neighbourhood <- median_score_by_neighbourhood %>%
   right_join(neighbourhoods, by = "neighbourhood")
 
-
 # Median score for the city
 
 median_score_city <- apartment_building_evaluation %>%
@@ -34,4 +33,6 @@ median_score_by_neighbourhood <- median_score_by_neighbourhood %>%
 
 # Save
 
-saveRDS()
+saveRDS(median_score_city, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_city.rds"))
+saveRDS(apartment_building_evaluation_distribution, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "apartment_building_evaluation_distribution.rds"))
+saveRDS(median_score_by_neighbourhood, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_by_neighbourhood.rds"))

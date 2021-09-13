@@ -2,7 +2,7 @@
 
 library(dplyr)
 library(purrr)
-devtools::load_all()
+library(sf)
 
 agi_applications_and_tdf <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))
 
@@ -37,7 +37,13 @@ agi_by_neighbourhood <- agi_by_neighbourhood %>%
     prop = n / value
   )
 
-agi_city <- sum(agi_by_neighbourhood[["n"]]) / sum(agi_by_neighbourhood[["value"]])
+agi_city <- agi_by_neighbourhood %>%
+  summarise(
+    n = sum(n),
+    value = sum(value)
+  ) %>%
+  mutate(prop = n / value) %>%
+  select(-value)
 
 # TDFs -----
 # Buildings with TDFs / buildings with AGIs
@@ -56,7 +62,13 @@ tdf_by_neighbourhood <- tdf_by_neighbourhood %>%
   select(-value) %>%
   rename(n = n_tdf)
 
-tdf_city <- sum(tdf_by_neighbourhood[["n"]], na.rm = TRUE) / sum(tdf_by_neighbourhood[["n_agi"]], na.rm = TRUE)
+tdf_city <- tdf_by_neighbourhood %>%
+  summarise(
+    n = sum(n, na.rm = TRUE),
+    value = sum(n_agi, na.rm = TRUE)
+  ) %>%
+  mutate(prop = n / value) %>%
+  select(-value)
 
 # Save ----
 
