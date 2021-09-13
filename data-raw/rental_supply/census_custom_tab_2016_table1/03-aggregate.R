@@ -9,12 +9,10 @@ library(stringr)
 library(purrr)
 library(readr)
 library(forcats)
+devtools::load_all()
 
 #### Read data ----
-custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_table1.rds"))
-
-neighbourhood <- list()
-city <- list()
+custom_tab_toronto_cts <- readRDS(here::here("data-raw", "rental_supply", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_table1.rds"))
 
 ## Functions for getting total and prop -----
 
@@ -72,7 +70,7 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
     select(group, value, prop)
 }
 
-## Rental condos ---------------------------------------------------------------- -----
+## Rental condos ---------------------------------------------------------------
 # Switched from non-subsidized units because other custom tab is all renters and all renters may also be easier to explain
 
 secondary_condo_by_neighbourhood <- custom_tab_toronto_cts %>%
@@ -81,16 +79,12 @@ secondary_condo_by_neighbourhood <- custom_tab_toronto_cts %>%
   filter(group == "Condominium") %>%
   select(-group)
 
-neighbourhood <- append(neighbourhood, list(secondary_condo = secondary_condo_by_neighbourhood))
-
 # City
 secondary_condo_city <- custom_tab_toronto_cts %>%
   filter(tenure_including_subsidy == "Renter") %>%
   aggregate_prop_city("condominium_status", "Total - Condominium status") %>%
   filter(group == "Condominium") %>%
-  pull(value)
-
-city <- append(city, list(secondary_condo = secondary_condo_city))
+  select(value, prop)
 
 ### Rental households by structure -----
 # Switched from non-subsidized units because other custom tab is all renters and all renters may also be easier to explain
@@ -110,8 +104,6 @@ structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
   mutate(structural_type = coalesce(clean, structural_type)) %>%
   aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling")
 
-neighbourhood <- append(neighbourhood, list(structure_type = structure_type_by_neighbourhood))
-
 # Compare to city with breakdown
 
 structure_type_city <- custom_tab_toronto_cts %>%
@@ -120,19 +112,28 @@ structure_type_city <- custom_tab_toronto_cts %>%
   mutate(structural_type = coalesce(clean, structural_type)) %>%
   aggregate_prop_city("structural_type", "Total - Structural type of dwelling")
 
-city <- append(city, list(structure_type = structure_type_city))
+### Integrate into neighbourhood / city profile -----
 
-### Restructure data sets ----
-# I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
+secondary_condo_by_neighbourhood <- secondary_condo_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(~ select(.x, value, prop))
 
-neighbourhood_profiles <- neighbourhood %>%
-  map(~ split(.x, .x$neighbourhood))
+structure_type_by_neighbourhood <- structure_type_by_neighbourhood %>%
+  split(.$neighbourhood)
 
-# Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
-neighbourhood_profiles <- neighbourhood_profiles %>%
-  transpose()
-#
-# usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
-#
-# city_profile <- city
-# usethis::use_data(city_profile, overwrite = TRUE)
+neighbourhood_profiles <- lemur::neighbourhood_profiles
+
+for (i in names(neighbourhood_profiles)) {
+  neighbourhood_profiles[[i]][["rental_supply_secondary_condo"]] <- secondary_condo_by_neighbourhood[[i]]
+
+  # Replaces existing values
+  neighbourhood_profiles[[i]][["structure_type"]] <- structure_type_by_neighbourhood[[i]]
+}
+
+city_profile <- lemur::city_profile
+
+city_profile[["rental_supply_secondary_condo"]] <- secondary_condo_city
+city_profile[["structure_type"]] <- structure_type_city
+
+usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+usethis::use_data(city_profile, overwrite = TRUE)

@@ -14,7 +14,7 @@ library(janitor)
 
 ### Set up paths for data sets ------
 
-cts_census_path <- here::here("data-raw", "census_custom_tab_2016", "raw", "TorontoCT_geography_structuraltype_condominium_tenure_Table1.csv")
+cts_census_path <- here::here("data-raw", "rental_supply", "census_custom_tab_2016_table1", "raw", "TorontoCT_geography_structuraltype_condominium_tenure_Table1.csv")
 
 ### Get Toronto census tracts -----
 
@@ -35,5 +35,4 @@ toronto_cts <- toronto_cts %>%
 
 # ### Save Toronto census tracts
 
-saveRDS(toronto_cts, here::here("data-raw", "census_custom_tab_2016_table1", "extract", "custom_tab_toronto_table1.rds"))
-
+saveRDS(toronto_cts, here::here("data-raw", "rental_supply", "census_custom_tab_2016_table1", "extract", "custom_tab_toronto_table1.rds"))
