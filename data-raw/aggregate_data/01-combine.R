@@ -32,6 +32,9 @@ structure_type_city <- readRDS(here::here("data-raw", "aggregate_data", "rental_
 
 # Bedrooms for renters -----
 
+bedrooms_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_by_neighbourhood.rds"))
+bedrooms_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_city.rds"))
+
 # Rental supply -----
 
 rental_supply_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood.rds"))
@@ -92,7 +95,7 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i <- neighbourhood_aggregate[[i]]
 
   neighbourhood_aggregate_i[["structure_type"]] <- structure_type_by_neighbourhood[[i]]
-  # neighbourhood_aggregate_i[["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
@@ -107,6 +110,7 @@ for (i in names(neighbourhood_aggregate)) {
 }
 
 city_aggregate[["structure_type"]] <- structure_type_city
+city_aggregate[["bedrooms"]] <- bedrooms_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city

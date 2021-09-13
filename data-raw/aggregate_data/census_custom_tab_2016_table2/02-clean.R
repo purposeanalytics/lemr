@@ -7,7 +7,7 @@ devtools::load_all()
 
 ## CTs Data ----
 
-toronto_census_tracts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table2", "extract", "custom_tab_toronto_table2.rds"))
+toronto_census_tracts <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "extract", "custom_tab_toronto_table2.rds"))
 
 # Read file for converting census tract to neighbourhood
 geo_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg"))
@@ -24,7 +24,6 @@ ct_to_neighbourhood <- geo_to_neighbourhood %>%
 toronto_census_tracts <- toronto_census_tracts %>%
   filter(geography != 535)
 
-
 ### Clean neighbourhoods names -----
 
 ct_to_neighbourhood <- ct_to_neighbourhood %>%
@@ -35,11 +34,9 @@ ct_to_neighbourhood <- ct_to_neighbourhood %>%
 toronto_census_tracts <- toronto_census_tracts %>%
   inner_join(ct_to_neighbourhood, by = c("geography" = "ct"))
 
-
 ### Order variables ----
 toronto_census_tracts <- toronto_census_tracts %>%
   select(-c(one_person:five_or_more_person))
 
 ### Save data ----
-saveRDS(toronto_census_tracts, here::here("data-raw", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))
-
+saveRDS(toronto_census_tracts, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))

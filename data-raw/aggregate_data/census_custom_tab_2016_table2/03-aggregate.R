@@ -1,7 +1,4 @@
 # Aggregate census tracts to neighbourhoods
-# Create multiple datasets:
-# 1. Estimate of condo rental market (primary market and non-condo secondary market to be estimated by difference from Rental Market Survey)
-# 2. Structural type by rental tenure
 
 library(dplyr)
 library(tidyr)
@@ -11,10 +8,7 @@ library(readr)
 library(forcats)
 
 #### Read data ----
-custom_tab_toronto_cts <- readRDS(here::here("data-raw", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))
-
-neighbourhood <- list()
-city <- list()
+custom_tab_toronto_cts <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))
 
 ## Functions for getting total and prop -----
 
@@ -72,32 +66,22 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
     select(group, value, prop)
 }
 
-## Rental households by number of bedrooms ---------------------------------------------------------------- -----
+## Rental households by number of bedrooms -----
 
 number_of_bedrooms_by_neighbourhood <- custom_tab_toronto_cts %>%
   filter(tenure == "Renter") %>%
-  aggregate_prop_by_neighbourhood("number_of_bedrooms", "Total - Number of bedrooms")
+  aggregate_prop_by_neighbourhood("number_of_bedrooms", "Total - Number of bedrooms") %>%
+  mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
 
-neighbourhood <- append(neighbourhood, list(number_of_bedrooms = number_of_bedrooms_by_neighbourhood))
+number_of_bedrooms_by_neighbourhood <- number_of_bedrooms_by_neighbourhood %>%
+  split(.$neighbourhood)
 
-# City
 number_of_bedrooms_city <- custom_tab_toronto_cts %>%
   filter(tenure == "Renter") %>%
-  aggregate_prop_city("number_of_bedrooms", "Total - Number of bedrooms")
+  aggregate_prop_city("number_of_bedrooms", "Total - Number of bedrooms") %>%
+  mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
 
-city <- append(city, list(number_of_bedrooms = number_of_bedrooms_city))
+# Save -----
 
-### Restructure data sets ----
-# I want to make a list, one element for each neighbourhood, then within that have one element for each variable / dimension
-
-neighbourhood_profiles <- neighbourhood %>%
-  map(~ split(.x, .x$neighbourhood))
-
-# Now there's one element per variable, and within one per neighbourhood - transpose so it's inside out!
-neighbourhood_profiles <- neighbourhood_profiles %>%
-  transpose()
-#
-# usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
-#
-# city_profile <- city
-# usethis::use_data(city_profile, overwrite = TRUE)
+saveRDS(number_of_bedrooms_by_neighbourhood, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_by_neighbourhood.rds"))
+saveRDS(number_of_bedrooms_city, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_city.rds"))
