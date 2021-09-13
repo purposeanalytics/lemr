@@ -7,7 +7,7 @@ devtools::load_all()
 
 ## CTs Data ----
 
-toronto_census_tracts <- readRDS(here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
+toronto_census_tracts <- readRDS(here::here("data-raw", "aggregate_data", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
 
 # Read file for converting census tract to neighbourhood
 geo_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg"))
@@ -69,11 +69,11 @@ toronto_census_tracts <- toronto_census_tracts %>%
   select(dimension_full, dimension, parent_id, dimension_id, geo_code, neighbourhood, total, female, male)
 
 ### Save data ----
-saveRDS(toronto_census_tracts, here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
+saveRDS(toronto_census_tracts, here::here("data-raw", "aggregate_data", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
 
 ## Toronto CD Data ----
 
-toronto_census_division <- readRDS(here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_division.rds"))
+toronto_census_division <- readRDS(here::here("data-raw", "aggregate_data", "census_profiles_2016", "extract", "toronto_census_division.rds"))
 
 # ### Selecting columns ----
 
@@ -103,4 +103,4 @@ toronto_census_division <- toronto_census_division %>%
   select(dimension_full, dimension, parent_id, dimension_id, total, female, male)
 
 ### Save data ----
-saveRDS(toronto_census_division, here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto.rds"))
+saveRDS(toronto_census_division, here::here("data-raw", "aggregate_data", "census_profiles_2016", "clean", "census_profiles_toronto.rds"))

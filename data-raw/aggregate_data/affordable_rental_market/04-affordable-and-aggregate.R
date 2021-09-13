@@ -6,7 +6,7 @@ library(tidyr)
 library(ggplot2)
 devtools::load_all()
 
-rental_data <- readRDS(here::here("data-raw", "affordable-rental-market", "model", "rental_data.rds"))
+rental_data <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "model", "rental_data.rds"))
 
 rental_data <- rental_data %>%
   mutate(affordable = case_when(
@@ -43,7 +43,7 @@ affordable_by_neighbourhood_and_bedrooms <- affordable_by_neighbourhood_and_bedr
   left_join(neighbourhoods) %>%
   st_sf()
 
-saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "affordable-rental-market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
+saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "aggregate_data", "affordable_rental_market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
 
 total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Deeply", "Very")) %>%

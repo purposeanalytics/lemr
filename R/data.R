@@ -28,7 +28,7 @@
 
 #' City of Toronto Neighbourhood Profiles
 #'
-#' \code{neighbourhood profiles} contains variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable. \code{city_profile} describes the city of Toronto from the 2016 census, including breakdowns for the city or the distribution across neighbourhoods, depending on the variable.
+#' \code{neighbourhood profiles} contains variables describing profiles of neighbourhoods in Toronto from the 2016 census. The data set is a list, with one element for each neighbourhood. Within each neighbourhood there is one element for each variable. \code{city_aggregate} describes the city of Toronto from the 2016 census, including breakdowns for the city or the distribution across neighbourhoods, depending on the variable.
 #'
 #' The variables are:
 #'
@@ -46,16 +46,16 @@
 #' * **Household tenure**: Households by tenure provides data on the number and proportion of private households that own or rent their dwelling. A third tenure type, which is not present in the City of Toronto, is whether the dwelling is band housing (on an Indian reserve or settlement).
 #' * **Average shelter cost for rentals**: Shelter cost refers to the average monthly total of all shelter expenses paid by households that rent their dwelling. Shelter costs include, where applicable, the rent and the costs of electricity, heat, water and other municipal services. The reference period for shelter cost data is 2016, while household total income is reported for the year 2015.
 #'
-#' @rdname profiles
+#' @rdname aggregates
 #' @md
 #' @examples
-#' neighbourhood_profiles[["Danforth"]]
+#' neighbourhood_aggregate[["Danforth"]]
 #'
-#' city_profile[["average_total_income"]]
-"neighbourhood_profiles"
+#' city_aggregate[["average_total_income"]]
+"neighbourhood_aggregate"
 
-#' @rdname profiles
-"city_profile"
+#' @rdname aggregates
+"city_aggregate"
 
 #' Amenity density by neighbourhood
 #'

@@ -5,7 +5,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-proximity_measures_toronto_raw <- readRDS(here::here("data-raw", "proximity_measures", "extract", "proximity_measures_toronto.rds"))
+proximity_measures_toronto_raw <- readRDS(here::here("data-raw", "aggregate_data", "proximity_measures", "extract", "proximity_measures_toronto.rds"))
 
 # Convert to long ----
 proximity_measures_toronto <- proximity_measures_toronto_raw %>%
@@ -66,4 +66,4 @@ proximity_measures_toronto <- proximity_measures_toronto %>%
   select(dbuid, population = dbpop, amenity_dense, proximity_measure, index_original, index)
 
 # Save -----
-saveRDS(proximity_measures_toronto, here::here("data-raw", "proximity_measures", "clean", "proximity_measures_toronto.rds"))
+saveRDS(proximity_measures_toronto, here::here("data-raw", "aggregate_data", "proximity_measures", "clean", "proximity_measures_toronto.rds"))

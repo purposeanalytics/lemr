@@ -5,12 +5,12 @@ library(dplyr)
 library(readr)
 library(janitor)
 
-proximity_measures_raw <- read_csv(here::here("data-raw", "proximity_measures", "raw", "PMD_en", "PMD-en.csv"))
+proximity_measures_raw <- read_csv(here::here("data-raw", "aggregate_data", "proximity_measures", "raw", "PMD_en", "PMD-en.csv"))
 
 # Select relevant columns, filter to Toronto
-proximity_measures_toronto <- proximity_measures %>%
+proximity_measures_toronto <- proximity_measures_raw %>%
   clean_names() %>%
   filter(csdname == "Toronto") %>%
   select(dbuid, dbpop, starts_with("prox_idx"), transit_na, amenity_dense, suppressed)
 
-saveRDS(proximity_measures_toronto, here::here("data-raw", "proximity_measures", "extract", "proximity_measures_toronto.rds"))
+saveRDS(proximity_measures_toronto, here::here("data-raw", "aggregate_data", "proximity_measures", "extract", "proximity_measures_toronto.rds"))

@@ -19,8 +19,8 @@ library(janitor)
 
 ### Set up paths for data sets ------
 
-cts_apartments_path <- here::here("data-raw", "primary_market_universe", "raw", "primary_rental_apartments_by_ct_2020.csv")
-cts_row_houses_path <- here::here("data-raw", "primary_market_universe", "raw", "primary_rental_row_houses_by_ct_2020.csv")
+cts_apartments_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_apartments_by_ct_2020.csv")
+cts_row_houses_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_row_houses_by_ct_2020.csv")
 
 ### Get Toronto census tracts -----
 
@@ -47,6 +47,5 @@ row_houses_cts <- row_houses_cts %>%
 
 # ### Save Toronto census tracts
 
-saveRDS(apartments_cts, here::here("data-raw", "primary_market_universe", "extract", "apartments.rds"))
-saveRDS(row_houses_cts, here::here("data-raw", "primary_market_universe", "extract", "row_houses.rds"))
-
+saveRDS(apartments_cts, here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "extract", "apartments.rds"))
+saveRDS(row_houses_cts, here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "extract", "row_houses.rds"))

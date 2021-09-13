@@ -9,7 +9,7 @@ library(progress)
 library(tidyr)
 devtools::load_all()
 
-rental_data <- readRDS(here::here("data-raw", "affordable-rental-market", "extract", "rental_data.rds"))
+rental_data <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "extract", "rental_data.rds"))
 
 missing_market_type <- rental_data %>%
   filter(is.na(market_type))
@@ -60,4 +60,4 @@ rental_data <- rental_data %>%
     TRUE ~ "Non-Condo Secondary Rental"
   ))
 
-saveRDS(rental_data, here::here("data-raw", "affordable-rental-market", "geocode", "rental_data.rds"))
+saveRDS(rental_data, here::here("data-raw", "aggregate_data", "affordable_rental_market", "geocode", "rental_data.rds"))

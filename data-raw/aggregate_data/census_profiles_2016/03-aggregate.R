@@ -29,8 +29,8 @@ library(readr)
 library(forcats)
 
 #### Read data ----
-census_profiles_toronto_cts <- readRDS(here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
-census_profiles_toronto <- readRDS(here::here("data-raw", "census_profiles_2016", "clean", "census_profiles_toronto.rds"))
+census_profiles_toronto_cts <- readRDS(here::here("data-raw", "aggregate_data", "census_profiles_2016", "clean", "census_profiles_toronto_cts.rds"))
+census_profiles_toronto <- readRDS(here::here("data-raw", "aggregate_data", "census_profiles_2016", "clean", "census_profiles_toronto.rds"))
 
 neighbourhood <- list()
 city <- list()
@@ -412,71 +412,11 @@ city <- append(city, list(visible_minority = visible_minority_city))
 
 ### Private dwellings by structure -----
 
-structure_type_clean <- tribble(
-  ~original, ~clean,
-  "Apartment in a building that has fewer than five storeys", "Apartment, < 5 storeys",
-  "Apartment in a building that has five or more storeys", "Apartment, 5+ storeys",
-  "Apartment or flat in a duplex", "Duplex",
-  "Row house", "Row house",
-  "Semi-detached house", "Single- or Semi-detached house",
-  "Single-detached house", "Single- or Semi-detached house"
-)
-
-structure_type_by_neighbourhood <- census_profiles_toronto_cts %>%
-  left_join(structure_type_clean, by = c("dimension" = "original")) %>%
-  mutate(dimension = coalesce(clean, dimension)) %>%
-  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
-  filter(!group %in% c("Movable dwelling", "Other single-attached house"))
-
-# Remove "moveable dwelling" because the percentage is so low in Toronto (0.03%)
-
-structure_type_by_neighbourhood <- structure_type_by_neighbourhood
-
-neighbourhood <- append(neighbourhood, list(structure_type = structure_type_by_neighbourhood))
-
-# Compare to city with breakdown
-
-structure_type_city <- census_profiles_toronto %>%
-  left_join(structure_type_clean, by = c("dimension" = "original")) %>%
-  mutate(dimension = coalesce(clean, dimension)) %>%
-  aggregate_prop_city("Total - Occupied private dwellings by structural type of dwelling - 100% data") %>%
-  filter(!group %in% c("Movable dwelling", "Other single-attached house"))
-
-city <- append(city, list(structure_type = structure_type_city))
+# Retrieved from rental_supply > census_custom_tab_2016_table1
 
 ### Number of bedrooms ----
 
-bedrooms_by_neighbourhood <- census_profiles_toronto_cts %>%
-  mutate(dimension = case_when(
-    dimension == "No bedrooms" ~ "0 bedrooms",
-    dimension == "4 or more bedrooms" ~ "4+ bedrooms",
-    TRUE ~ dimension
-  )) %>%
-  aggregate_prop_by_neighbourhood("Total - Occupied private dwellings by number of bedrooms - 25% sample data") %>%
-  mutate(
-    size = parse_number(group),
-    group = fct_reorder(group, size)
-  ) %>%
-  select(-size)
-
-neighbourhood <- append(neighbourhood, list(bedrooms = bedrooms_by_neighbourhood))
-
-# Compare to city with breakdown
-
-bedrooms_city <- census_profiles_toronto %>%
-  mutate(dimension = case_when(
-    dimension == "No bedrooms" ~ "0 bedrooms",
-    dimension == "4 or more bedrooms" ~ "4+ bedrooms",
-    TRUE ~ dimension
-  )) %>%
-  aggregate_prop_city("Total - Occupied private dwellings by number of bedrooms - 25% sample data") %>%
-  mutate(
-    size = parse_number(group),
-    group = fct_reorder(group, size)
-  ) %>%
-  select(-size)
-
-city <- append(city, list(bedrooms = bedrooms_city))
+# Retrieved from rental_supply > census_custom_tab_2016_table2
 
 ### Household tenure -----
 # Variable: "Total - Private households by tenure - 25% sample data"
@@ -558,7 +498,7 @@ neighbourhood_profiles[["visible_minority"]] <- neighbourhood_profiles[["visible
 neighbourhood_profiles <- neighbourhood_profiles %>%
   transpose()
 
-usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+# Save as RDS, aggregate into package dataset at top level of aggregate_data folder
+saveRDS(neighbourhood_profiles, here::here("data-raw", "aggregate_data", "census_profiles_2016", "aggregate", "neighbourhood_profiles.rds"))
 
-city_profile <- city
-usethis::use_data(city_profile, overwrite = TRUE)
+saveRDS(city, here::here("data-raw", "aggregate_data", "census_profiles_2016", "aggregate", "city_profile.rds"))

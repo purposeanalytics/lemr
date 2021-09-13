@@ -8,7 +8,7 @@ library(purrr)
 library(forcats)
 library(sf)
 
-proximity_measures <- readRDS(here::here("data-raw", "proximity_measures", "final", "proximity_measures.rds"))
+proximity_measures <- readRDS(here::here("data-raw", "aggregate_data", "proximity_measures", "final", "proximity_measures.rds"))
 
 amenity_density <- proximity_measures %>%
   as_tibble() %>%
@@ -30,19 +30,12 @@ amenity_density_by_neighbourhood <- amenity_density %>%
   arrange(neighbourhood) %>%
   split(.$neighbourhood)
 
-for (i in seq_along(neighbourhood_profiles)) {
-  neighbourhood_profiles[[i]][["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
-}
-
-usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
-
-# Aggregate by city and add to profile
+# Aggregate by city
 amenity_density_city <- amenity_density %>%
   group_by(group = amenity_dense) %>%
   summarise(population = sum(population), .groups = "drop_last") %>%
   mutate(prop = population / sum(population)) %>%
   select(group, prop)
 
-city_profile[["amenity_density"]] <- amenity_density_city
-
-usethis::use_data(city_profile, overwrite = TRUE)
+saveRDS(amenity_density_by_neighbourhood, here::here("data-raw", "aggregate_data", "proximity_measures", "aggregate", "amenity_density_by_neighbourhood.rds"))
+saveRDS(amenity_density_city, here::here("data-raw", "aggregate_data", "proximity_measures", "aggregate", "amenity_density_city.rds"))

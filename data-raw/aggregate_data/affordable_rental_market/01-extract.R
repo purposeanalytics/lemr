@@ -2,7 +2,7 @@ library(dplyr)
 library(readr)
 library(janitor)
 
-rental_data <- read_csv(here::here("data-raw", "affordable-rental-market", "raw", "Rental Market Listings Full Dataset, 20190228.csv")) %>%
+rental_data <- read_csv(here::here("data-raw", "aggregate_data", "affordable_rental_market", "raw", "Rental Market Listings Full Dataset, 20190228.csv")) %>%
   clean_names()
 
 # Keep relevant columns
@@ -13,4 +13,4 @@ rental_data <- rental_data %>%
 rental_data <- rental_data %>%
   mutate(id = row_number())
 
-saveRDS(rental_data, here::here("data-raw", "affordable-rental-market", "extract", "rental_data.rds"))
+saveRDS(rental_data, here::here("data-raw", "aggregate_data", "affordable_rental_market", "extract", "rental_data.rds"))

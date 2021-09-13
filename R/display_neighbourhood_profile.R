@@ -1,6 +1,6 @@
 #' Plot a neighbourhood profile variable
 #'
-#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}, or for the city, from \link{city_profile}
+#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_aggregate}, or for the city, from \link{city_aggregate}
 #' @param variable Variable to visualize.
 #' @param compare Whether to compare to City of Toronto values. Defaults to TRUE. FALSE is useful when you want to plot *just* the values for as neighbourhood or *just* the values for the city.
 #' @param width Passed along to str_wrap for wrapping y-axis labels. Defaults to a width of 20.
@@ -10,10 +10,10 @@
 #' @export
 #'
 #' @examples {
-#'   neighbourhood_profiles[["Danforth"]] %>%
+#'   neighbourhood_aggregate[["Danforth"]] %>%
 #'     display_neighbourhood_profile("household_size")
 #'
-#'   neighbourhood_profiles[["Danforth"]] %>%
+#'   neighbourhood_aggregate[["Danforth"]] %>%
 #'     display_neighbourhood_profile("average_total_income")
 #' }
 display_neighbourhood_profile <- function(data, variable, compare = TRUE, width = 20, dollar = FALSE, type = "plot", static = FALSE) {
@@ -34,14 +34,14 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
       unique()
 
     if (prop_variable) {
-      city_data <- lemur::city_profile[[variable]] %>%
+      city_data <- lemur::city_aggregate[[variable]] %>%
         dplyr::rename(toronto = .data$prop)
 
       data <- data %>%
         dplyr::select(-.data$neighbourhood) %>%
         dplyr::rename(neighbourhood = .data$prop)
     } else {
-      city_data <- lemur::city_profile[[variable]] %>%
+      city_data <- lemur::city_aggregate[[variable]] %>%
         dplyr::rename(toronto = .data$value)
 
       data <- data %>%
@@ -193,7 +193,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
   }
 
   if (compare) {
-    city_data <- lemur::city_profile[[variable]]
+    city_data <- lemur::city_aggregate[[variable]]
 
     if (variable == "amenity_density") {
       city_data <- city_data %>%
@@ -290,7 +290,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
 #'
 #' Plot the distribution of a variable, across neighbourhoods, with an optional line showing the current neighbourhood's value
 #'
-#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.
+#' @param data Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_aggregate}.
 #' @param variable Variable to visualize
 #' @param binwidth Bin width for geom_histogram
 #' @param compare Whether to show a line with the current neighbourhood's value. Defaults to TRUE - FALSE is useful in the City of Toronto view.
@@ -298,24 +298,24 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
 #' @export
 #'
 #' @examples
-#' neighbourhood_profiles[["Danforth"]] %>%
+#' neighbourhood_aggregate[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_density", binwidth = 1000)
 #'
-#' neighbourhood_profiles[["Danforth"]] %>%
+#' neighbourhood_aggregate[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("population_change", binwidth = 0.025)
 #'
-#' neighbourhood_profiles[["Danforth"]] %>%
+#' neighbourhood_aggregate[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.025)
 #'
-#' neighbourhood_profiles[["Danforth"]] %>%
+#' neighbourhood_aggregate[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("average_renter_shelter_cost", binwidth = 50)
 #'
-#' neighbourhood_profiles[["Danforth"]] %>%
+#' neighbourhood_aggregate[["Danforth"]] %>%
 #'   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, height = NULL, width = NULL, static = FALSE) {
   # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
-    ggplot2::geom_histogram(data = lemur::city_profile[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
+    ggplot2::geom_histogram(data = lemur::city_aggregate[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
   plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
     dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax)

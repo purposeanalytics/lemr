@@ -12,16 +12,16 @@ library(janitor)
 
 ### Set up paths for data sets ------
 
-cts_census_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_CSV_data.csv")
-toronto_census_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "98-401-X2016060_English_CSV_data.csv")
+cts_census_path <- here::here("data-raw", "aggregate_data", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_CSV_data.csv")
+toronto_census_path <- here::here("data-raw", "aggregate_data", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "98-401-X2016060_English_CSV_data.csv")
 
 # Variables are the same between geographies / data sets, so we can just use/parse one
-variables_path <- here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_meta.txt")
+variables_path <- here::here("data-raw", "aggregate_data", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "98-401-X2016043_English_meta.txt")
 
 # ### Get starting and ending row of Toronto -----
 
-cts_starting_row <- read_csv(here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "Geo_starting_row_CSV.csv"))
-toronto_starting_row <- read_csv(here::here("data-raw", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "Geo_starting_row_CSV.csv"))
+cts_starting_row <- read_csv(here::here("data-raw", "aggregate_data", "census_profiles_2016", "raw", "98-401-X2016043_eng_CSV", "Geo_starting_row_CSV.csv"))
+toronto_starting_row <- read_csv(here::here("data-raw", "aggregate_data", "census_profiles_2016", "raw", "98-401-X2016060_eng_CSV", "Geo_starting_row_CSV.csv"))
 
 # For CTs, the Geo Names seem to be numeric, unless they are a city - then everything between cities is for that city. So look for Toronto, then look for the next city, and everything between is Toronto.
 
@@ -237,7 +237,7 @@ toronto_cts <- toronto_cts %>%
 
 # ### Save Toronto census tracts
 
-saveRDS(toronto_cts, here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
+saveRDS(toronto_cts, here::here("data-raw", "aggregate_data", "census_profiles_2016", "extract", "toronto_census_tracts.rds"))
 
 ### Get Toronto CD -----
 # Load only from the start to the end of Toronto
@@ -268,4 +268,4 @@ toronto_cd <- toronto_cd %>%
 
 # ### Save Toronto census tracts
 
-saveRDS(toronto_cd, here::here("data-raw", "census_profiles_2016", "extract", "toronto_census_division.rds"))
+saveRDS(toronto_cd, here::here("data-raw", "aggregate_data", "census_profiles_2016", "extract", "toronto_census_division.rds"))

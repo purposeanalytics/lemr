@@ -7,7 +7,7 @@ library(janitor)
 library(purrr)
 devtools::load_all()
 
-affordable_by_neighbourhood_and_bedrooms <- readRDS(here::here("data-raw", "affordable-rental-market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
+affordable_by_neighbourhood_and_bedrooms <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
 
 lem <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Very", "Deeply")) %>%
@@ -28,9 +28,6 @@ lem_city <- lem %>%
   pivot_wider(names_from = affordable, values_from = n) %>%
   adorn_totals(where = c("row", "col"))
 
-city_profile[["lem"]] <- lem_city
-usethis::use_data(city_profile, overwrite = TRUE)
-
 lem_neighbourhood <- lem %>%
   group_by(neighbourhood, Bedrooms, affordable) %>%
   summarise(n = sum(n), .groups = "drop") %>%
@@ -44,8 +41,5 @@ lem_neighbourhood <- lem_neighbourhood %>%
       adorn_totals(where = c("row", "col"))
   })
 
-for (i in seq_along(neighbourhood_profiles)) {
-  neighbourhood_profiles[[i]][["lem"]] <- lem_neighbourhood[[i]]
-}
-
-usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+saveRDS(lem_city, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
+saveRDS(lem_neighbourhood, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))

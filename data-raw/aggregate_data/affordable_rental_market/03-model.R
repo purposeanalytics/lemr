@@ -9,7 +9,7 @@ library(stringr)
 
 set.seed(1234)
 
-rental_data <- readRDS(here::here("data-raw", "affordable-rental-market", "geocode", "rental_data.rds"))
+rental_data <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "geocode", "rental_data.rds"))
 
 # Get postal code (really FSA) for modelling)
 rental_data <- rental_data %>%
@@ -238,4 +238,4 @@ rental_data_combined %>%
 rental_data <- rental_data_combined %>%
   select(id, latitude, longitude, bedrooms, market_type, total_rent, estimated)
 
-saveRDS(rental_data, here::here("data-raw", "affordable-rental-market", "model", "rental_data.rds"))
+saveRDS(rental_data, here::here("data-raw", "aggregate_data", "affordable_rental_market", "model", "rental_data.rds"))

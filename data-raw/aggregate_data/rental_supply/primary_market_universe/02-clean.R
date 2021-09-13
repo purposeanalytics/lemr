@@ -7,8 +7,8 @@ devtools::load_all()
 
 ## CTs Data ----
 
-apartments_cts <- readRDS(here::here("data-raw", "primary_market_universe", "extract", "apartments.rds"))
-row_houses_cts <- readRDS(here::here("data-raw", "primary_market_universe", "extract", "row_houses.rds"))
+apartments_cts <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "extract", "apartments.rds"))
+row_houses_cts <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "extract", "row_houses.rds"))
 
 # Read file for converting census tract to neighbourhood
 geo_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg"))
@@ -37,7 +37,6 @@ primary_rental <- primary_rental %>%
   mutate(ct = paste0("535", ct),
          across(c(everything(), -ct), as.numeric))
 
-
 ### Clean neighbourhoods names -----
 
 ct_to_neighbourhood <- ct_to_neighbourhood %>%
@@ -49,5 +48,5 @@ primary_rental <- primary_rental %>%
   full_join(ct_to_neighbourhood, by = "ct")
 
 ### Save data ----
-saveRDS(primary_rental, here::here("data-raw", "primary_market_universe", "clean", "primary_market_universe.rds"))
+saveRDS(primary_rental, here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "clean", "primary_market_universe.rds"))
 

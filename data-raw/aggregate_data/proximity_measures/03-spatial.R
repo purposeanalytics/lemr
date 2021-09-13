@@ -9,10 +9,10 @@ devtools::load_all()
 
 # Read / clean data and geos ----
 
-proximity_measures_toronto <- readRDS(here::here("data-raw", "proximity_measures", "clean", "proximity_measures_toronto.rds")) %>%
+proximity_measures_toronto <- readRDS(here::here("data-raw", "aggregate_data", "proximity_measures", "clean", "proximity_measures_toronto.rds")) %>%
   mutate(dbuid = as.character(dbuid))
 
-dissemination_block_geo <- st_read(here::here("data-raw", "proximity_measures", "raw", "ldb_000b16a_e", "ldb_000b16a_e.shp"))
+dissemination_block_geo <- st_read(here::here("data-raw", "aggregate_data", "proximity_measures", "raw", "ldb_000b16a_e", "ldb_000b16a_e.shp"))
 
 dissemination_block_geo_toronto <- dissemination_block_geo %>%
   clean_names() %>%
@@ -35,7 +35,7 @@ proximity_measures <- proximity_measures_toronto %>%
   relocate(geometry, .after = last_col()) %>%
   st_sf()
 
-saveRDS(proximity_measures, here::here("data-raw", "proximity_measures", "final", "proximity_measures.rds"))
+saveRDS(proximity_measures, here::here("data-raw", "aggregate_data", "proximity_measures", "final", "proximity_measures.rds"))
 
 # The geometry makes the file huge - 6+ MB versus 400kb. Don't save for now until we decide what to actually do with this data, especially since we might just map the amenity density.
 
@@ -96,4 +96,4 @@ amenity_density <- amenity_density %>%
 
 # Save final file, not in package but as geojson for a mapbox layer
 
-st_write(amenity_density, here::here("data-raw", "proximity_measures", "final", "amenity_density.geojson"))
+st_write(amenity_density, here::here("data-raw", "aggregate_data", "proximity_measures", "final", "amenity_density.geojson"))

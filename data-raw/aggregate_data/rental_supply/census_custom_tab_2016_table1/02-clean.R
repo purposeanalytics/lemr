@@ -7,7 +7,7 @@ devtools::load_all()
 
 ## CTs Data ----
 
-toronto_census_tracts <- readRDS(here::here("data-raw", "rental_supply", "census_custom_tab_2016_table1", "extract", "custom_tab_toronto_table1.rds"))
+toronto_census_tracts <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "census_custom_tab_2016_table1", "extract", "custom_tab_toronto_table1.rds"))
 
 # Read file for converting census tract to neighbourhood
 geo_to_neighbourhood <- st_read(here::here("data-raw", "shared", "Census Geographies to TO Neighbourhoods.gpkg"))
@@ -40,4 +40,4 @@ toronto_census_tracts <- toronto_census_tracts %>%
   select(-one_bedroom, -two_plus_bedrooms)
 
 ### Save data ----
-saveRDS(toronto_census_tracts, here::here("data-raw", "rental_supply", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_table1.rds"))
+saveRDS(toronto_census_tracts, here::here("data-raw", "aggregate_data", "rental_supply", "census_custom_tab_2016_table1", "clean", "custom_tab_toronto_table1.rds"))
