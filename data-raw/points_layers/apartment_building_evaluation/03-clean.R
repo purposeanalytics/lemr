@@ -85,5 +85,5 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
   rename(address = site_address) %>%
   select(-id)
 
-# Save final dataset
-usethis::use_data(apartment_building_evaluation, overwrite = TRUE)
+# Save clean dataset
+saveRDS(apartment_building_evaluation, here::here("data-raw", "points_layers", "apartment_building_evaluation", "clean", "apartment_building_evaluation.rds"))

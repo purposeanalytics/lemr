@@ -6,6 +6,12 @@ library(sf)
 library(tidyr)
 devtools::load_all()
 
+apartment_building_registry <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
+
+apartment_building_evaluation <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "clean", "apartment_building_evaluation.rds"))
+
+agi_applications_and_tdf <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))
+
 # Join registry and RentSafeTO -----
 
 buildings <- apartment_building_registry %>%
@@ -36,7 +42,7 @@ buildings <- buildings %>%
 # For now, just take property management if it's there, and if not, use landlord
 
 # Combine multiple AGI dates, and take the latest non-NA landlord
-latest_agi_landlord <- lemur::agi_applications_and_tdf %>%
+latest_agi_landlord <- agi_applications_and_tdf %>%
   as_tibble() %>%
   filter(!is.na(landlord)) %>%
   group_by(bing_address) %>%
@@ -45,7 +51,7 @@ latest_agi_landlord <- lemur::agi_applications_and_tdf %>%
   distinct(bing_address, landlord) %>%
   ungroup()
 
-agi_applications <- lemur::agi_applications_and_tdf %>%
+agi_applications <- agi_applications_and_tdf %>%
   mutate(agi = TRUE) %>%
   as_tibble() %>%
   mutate(reduced_increase_by = case_when(
@@ -87,54 +93,54 @@ buildings <- buildings %>%
 
 # Add evictions hearings -----
 
-eviction_hearings <- lemur::eviction_hearings %>%
-  group_by(bing_address) %>%
-  fill(landlord, .direction = "downup") %>%
-  group_by(bing_address, neighbourhood, landlord) %>%
-  summarise(
-    geometry = geometry,
-    hearings = sum(hearings),
-    .groups = "drop"
-  )
-
-eviction_hearings_coords <- eviction_hearings %>%
-  group_by(bing_address) %>%
-  slice(1) %>%
-  ungroup() %>%
-  st_coordinates() %>%
-  as_tibble()
-
-eviction_hearings <- eviction_hearings %>%
-  as_tibble() %>%
-  select(-geometry) %>%
-  distinct() %>%
-  bind_cols(eviction_hearings_coords) %>%
-  rename_at(vars(landlord, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
-
-buildings <- buildings %>%
-  left_join(eviction_hearings %>%
-    mutate(eviction_hearing = TRUE), by = "bing_address", suffix = c("_apt_agi", "_evictions"))
+# eviction_hearings <- lemur::eviction_hearings %>%
+#   group_by(bing_address) %>%
+#   fill(landlord, .direction = "downup") %>%
+#   group_by(bing_address, neighbourhood, landlord) %>%
+#   summarise(
+#     geometry = geometry,
+#     hearings = sum(hearings),
+#     .groups = "drop"
+#   )
+#
+# eviction_hearings_coords <- eviction_hearings %>%
+#   group_by(bing_address) %>%
+#   slice(1) %>%
+#   ungroup() %>%
+#   st_coordinates() %>%
+#   as_tibble()
+#
+# eviction_hearings <- eviction_hearings %>%
+#   as_tibble() %>%
+#   select(-geometry) %>%
+#   distinct() %>%
+#   bind_cols(eviction_hearings_coords) %>%
+#   rename_at(vars(landlord, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
+#
+# buildings <- buildings %>%
+#   left_join(eviction_hearings %>%
+#     mutate(eviction_hearing = TRUE), by = "bing_address", suffix = c("_apt_agi", "_evictions"))
 
 # Fill in columns, prioritizing apt -> agi -> evictions
 
 buildings <- buildings %>%
   mutate(
-    property_management_or_landlord = coalesce(landlord_apt, landlord_agi, landlord_evictions),
-    X = coalesce(X_apt, X_agi, X_evictions),
-    Y = coalesce(Y_apt, Y_agi, Y_evictions),
-    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_evictions),
+    property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
+    X = coalesce(X_apt, X_agi),
+    Y = coalesce(Y_apt, Y_agi),
+    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi),
     apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
     tdf_year = na_if(tdf_year, ""),
-    reduced_increase_by = na_if(reduced_increase_by, ""),
-    eviction_hearing = coalesce(eviction_hearing, FALSE)
+    reduced_increase_by = na_if(reduced_increase_by, "")
+    # eviction_hearing = coalesce(eviction_hearing, FALSE)
   )
 
 # Select columns -----
 
 buildings <- buildings %>%
-  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, eviction_hearing, hearings)
+  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by)
 
 # Convert to spatial -----
 
@@ -150,7 +156,7 @@ generate_tooltip <- function(data) {
     "Landlord/Management", "property_management_or_landlord",
     "Units", "units",
     "RentSafeTO Evaluation", "score_percent",
-    "Eviction Hearings", "hearings",
+    # "Eviction Hearings", "hearings",
     "AGI Application", "date_agi_initiated",
     "Tenant Defence Fund Received", "tdf_year",
     "TDF Reduced Increase By", "reduced_increase_by"

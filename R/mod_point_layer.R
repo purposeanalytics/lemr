@@ -98,6 +98,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) 
     })
 
     output$median_score <- shiny::renderUI({
+      browser()
       score <- dataset()[["apartment_building_evaluation"]]
 
       if (level() == "city") {
