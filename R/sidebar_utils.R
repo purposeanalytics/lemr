@@ -18,7 +18,7 @@ format_measure <- function(data, measure) {
     sign <- ifelse(data > 0, "+", "-")
 
     glue::glue("{sign}{pop_change_percent}")
-  } else if (measure %in% c("population_density", "number_of_apartments", "number_of_units")) {
+  } else if (measure %in% c("population_density", "number_of_buildings", "number_of_units")) {
     scales::comma(round(data))
   } else if (measure %in% c("unaffordable_housing", "lim_at")) {
     scales::percent(data, accuracy = 0.1)
@@ -72,7 +72,7 @@ number_of_apartments_number <- function(number_of_apartments_formatted, number_o
 
 number_of_apartments_description <- function(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) {
   if (level == "neighbourhood") {
-    value_distribution <- stats::ecdf(lemur::city_aggregate[["number_of_apartments_distribution"]][["value"]])
+    value_distribution <- stats::ecdf(lemur::city_aggregate[["number_of_buildings_distribution"]][["value"]])
     value_percentile <- value_distribution(number_of_apartments)
   }
 
@@ -89,7 +89,7 @@ number_of_apartments_description <- function(level, neighbourhood, number_of_apa
 }
 
 number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
-  values <- lemur::city_aggregate[["number_of_apartments_distribution"]][["value"]]
+  values <- lemur::city_aggregate[["number_of_buildings_distribution"]][["value"]]
 
   alt_text <- glue::glue("Histogram showing the distribution of number of apartment buildings for each of Toronto's neighbourhoods. The values range from {min} to {max} apartment buildings and the distribution is heavily skewed left with most values between {skew_min} and {skew_max}.",
     min = min(values),
@@ -108,7 +108,7 @@ number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
 
 number_of_apartments_plot <- function(data, compare, static = FALSE) {
   data %>%
-    plot_neighbourhood_profile_distribution("number_of_apartments", compare = compare, binwidth = 5, static = static)
+    plot_neighbourhood_profile_distribution("number_of_buildings", compare = compare, binwidth = 5, static = static)
 }
 
 number_of_units_description <- function(level, neighbourhood, number_of_units, number_of_units_formatted) {

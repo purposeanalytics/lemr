@@ -101,10 +101,10 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
               shiny::uiOutput(ns("household_tenure_plot_ui")),
               shiny::htmlOutput(ns("household_tenure_table")),
               shiny::hr(),
-              shiny::h3("Number of bedrooms"),
-              shiny::textOutput(ns("bedrooms_description")),
-              shiny::uiOutput(ns("bedrooms_plot_ui")),
-              shiny::htmlOutput(ns("bedrooms_table")),
+              # shiny::h3("Number of bedrooms"),
+              # shiny::textOutput(ns("bedrooms_description")),
+              # shiny::uiOutput(ns("bedrooms_plot_ui")),
+              # shiny::htmlOutput(ns("bedrooms_table")),
               shiny::hr()
             ),
             shiny::div(
@@ -195,11 +195,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       # Number of apartments -----
 
       number_of_apartments <- shiny::reactive({
-        get_measure(dataset(), "number_of_apartments")
+        get_measure(dataset(), "number_of_buildings")
       })
 
       number_of_apartments_formatted <- shiny::reactive({
-        format_measure(number_of_apartments(), "number_of_apartments")
+        format_measure(number_of_apartments(), "number_of_buildings")
       })
 
       number_of_units <- shiny::reactive({
