@@ -16,11 +16,12 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(janitor)
+library(purrr)
 
 ### Set up paths for data sets ------
 
-cts_core_housing_need_path <- here::here("data-raw", "core_housing_need", "raw", "renter_core_housing_need_by_ct_2016.csv")
-cts_households_tested_for_chn_path <- here::here("data-raw", "core_housing_need", "raw", "renter_households_tested_for_chn_by_ct_2016.csv")
+cts_core_housing_need_path <- here::here("data-raw", "aggregate_data", "core_housing_need", "raw", "renter_core_housing_need_by_ct_2016.csv")
+cts_households_tested_for_chn_path <- here::here("data-raw", "aggregate_data",  "core_housing_need", "raw", "renter_households_tested_for_chn_by_ct_2016.csv")
 
 ### Get Toronto census tracts -----
 
@@ -47,6 +48,6 @@ households_tested_for_chn_cts <- households_tested_for_chn_cts %>%
 
 # ### Save Toronto census tracts
 
-saveRDS(core_housing_need_cts, here::here("data-raw", "core_housing_need", "extract", "core_housing_need.rds"))
-saveRDS(households_tested_for_chn_cts, here::here("data-raw", "core_housing_need", "extract", "households_tested_for_chn.rds"))
+saveRDS(core_housing_need_cts, here::here("data-raw", "aggregate_data", "core_housing_need", "extract", "core_housing_need.rds"))
+saveRDS(households_tested_for_chn_cts, here::here("data-raw", "aggregate_data", "core_housing_need", "extract", "households_tested_for_chn.rds"))
 

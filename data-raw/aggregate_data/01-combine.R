@@ -7,6 +7,7 @@
 # Bedrooms for renters via census_custom_tab_2016_table2/
 # Proximity measures / amenity density via proximity_measures/
 # LEM via affordable_rental_market/
+# Core housing need via core_housing_need/
 
 # Point data aggregated
 # Apartment buildings / units via points_layers/apartment_building_registry/
@@ -56,6 +57,11 @@ lem_by_neighbourhood <- readRDS( here::here("data-raw", "aggregate_data", "affor
 
 lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
 
+# Core housing need -----
+
+core_housing_need_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood.rds"))
+core_housing_need_city <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_city.rds"))
+
 # Apartment buildings -----
 
 number_of_apartments_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "number_of_apartments_city.rds"))
@@ -99,6 +105,7 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["core_housing_need"]] <- core_housing_need_by_neighbourhood[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["number_of_units"]] <- units_by_neighbourhood[[i]]
@@ -114,6 +121,7 @@ city_aggregate[["bedrooms"]] <- bedrooms_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
+city_aggregate[["core_housing_need"]] <- core_housing_need_city
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution
