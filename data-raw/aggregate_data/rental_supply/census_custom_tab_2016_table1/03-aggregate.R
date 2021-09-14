@@ -105,7 +105,10 @@ structure_type_clean <- tribble(
 )
 
 structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
+  filter(
+    tenure_including_subsidy == "Renter",
+    condominium_status != "Total - Condominium status"
+  ) %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
   mutate(structural_type = coalesce(clean, structural_type)) %>%
   aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling")
