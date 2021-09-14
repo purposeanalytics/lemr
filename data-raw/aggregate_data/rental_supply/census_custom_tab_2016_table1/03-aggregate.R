@@ -74,14 +74,20 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
 # Switched from non-subsidized units because other custom tab is all renters and all renters may also be easier to explain
 
 secondary_condo_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
+  filter(
+    tenure_including_subsidy == "Renter",
+    structural_type != "Total - Structural type of dwelling" # Remove "Total" row to avoid double counting!
+  ) %>%
   aggregate_prop_by_neighbourhood("condominium_status", "Total - Condominium status") %>%
   filter(group == "Condominium") %>%
   select(-group)
 
 # City
 secondary_condo_city <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
+  filter(
+    tenure_including_subsidy == "Renter",
+    structural_type != "Total - Structural type of dwelling"
+  ) %>%
   aggregate_prop_city("condominium_status", "Total - Condominium status") %>%
   filter(group == "Condominium") %>%
   select(value, prop)
