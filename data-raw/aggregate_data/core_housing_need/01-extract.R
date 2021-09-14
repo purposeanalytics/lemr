@@ -50,4 +50,3 @@ households_tested_for_chn_cts <- households_tested_for_chn_cts %>%
 
 saveRDS(core_housing_need_cts, here::here("data-raw", "aggregate_data", "core_housing_need", "extract", "core_housing_need.rds"))
 saveRDS(households_tested_for_chn_cts, here::here("data-raw", "aggregate_data", "core_housing_need", "extract", "households_tested_for_chn.rds"))
-
