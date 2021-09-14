@@ -48,8 +48,6 @@ secondary_condo_city <- readRDS(here::here("data-raw", "aggregate_data", "rental
 
 ## Non-condo -----
 
-# TODO - this is not right yet, but just continue the pipeline to sort out the code
-
 secondary_non_condo_by_neighbourhood <- renters_by_neighbourhood %>%
   left_join(primary_market_by_neighbourhood %>%
     filter(group == "primary_rental") %>%

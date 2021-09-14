@@ -19,8 +19,8 @@ library(janitor)
 
 ### Set up paths for data sets ------
 
-cts_apartments_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_apartments_by_ct_2020.csv")
-cts_row_houses_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_row_houses_by_ct_2020.csv")
+cts_apartments_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_apartments_by_ct_2016.csv")
+cts_row_houses_path <- here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "raw", "primary_rental_row_houses_by_ct_2016.csv")
 
 ### Get Toronto census tracts -----
 

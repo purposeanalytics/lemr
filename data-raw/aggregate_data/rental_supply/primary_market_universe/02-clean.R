@@ -24,18 +24,21 @@ ct_to_neighbourhood <- geo_to_neighbourhood %>%
 primary_rental <- apartments_cts %>%
   select(ct, total_apartments) %>%
   full_join(row_houses_cts %>%
-               select(ct, total_row_houses), by = "ct") %>%
-  mutate(total_apartments = coalesce(total_apartments, 0),
-         total_row_houses = coalesce(total_row_houses, 0),
-         total_primary_rental = total_apartments + total_row_houses)
-
+    select(ct, total_row_houses), by = "ct") %>%
+  mutate(
+    total_apartments = coalesce(total_apartments, 0),
+    total_row_houses = coalesce(total_row_houses, 0),
+    total_primary_rental = total_apartments + total_row_houses
+  )
 
 # ### Selecting columns ----
 
 # Add 535 to ct id
 primary_rental <- primary_rental %>%
-  mutate(ct = paste0("535", ct),
-         across(c(everything(), -ct), as.numeric))
+  mutate(
+    ct = paste0("535", ct),
+    across(c(everything(), -ct), as.numeric)
+  )
 
 ### Clean neighbourhoods names -----
 
@@ -45,8 +48,7 @@ ct_to_neighbourhood <- ct_to_neighbourhood %>%
 ### Only keep CTs in Toronto proper -----
 
 primary_rental <- primary_rental %>%
-  full_join(ct_to_neighbourhood, by = "ct")
+  inner_join(ct_to_neighbourhood, by = "ct")
 
 ### Save data ----
 saveRDS(primary_rental, here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "clean", "primary_market_universe.rds"))
-
