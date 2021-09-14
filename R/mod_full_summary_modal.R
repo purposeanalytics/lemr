@@ -101,10 +101,10 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
               shiny::uiOutput(ns("household_tenure_plot_ui")),
               shiny::htmlOutput(ns("household_tenure_table")),
               shiny::hr(),
-              # shiny::h3("Number of bedrooms"),
-              # shiny::textOutput(ns("bedrooms_description")),
-              # shiny::uiOutput(ns("bedrooms_plot_ui")),
-              # shiny::htmlOutput(ns("bedrooms_table")),
+              shiny::h3("Number of bedrooms"),
+              shiny::textOutput(ns("bedrooms_description")),
+              shiny::uiOutput(ns("bedrooms_plot_ui")),
+              shiny::htmlOutput(ns("bedrooms_table")),
               shiny::hr()
             ),
             shiny::div(
