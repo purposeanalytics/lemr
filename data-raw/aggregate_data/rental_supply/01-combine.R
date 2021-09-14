@@ -94,6 +94,24 @@ rental_supply_by_neighbourhood <- primary_market_by_neighbourhood %>%
   select(neighbourhood, total, market, market_value, group, value) %>%
   mutate(prop = value / total)
 
+# Need to fix one issue, for Forest Hill South, # apartments > # renters
+# Probably due to the time offset of the data - census in May 2016, housing market survey in October 2016
+# Rather than overwrite any census data, just treat it as the source of truth - and set # apartments = # renters, everything else = 0
+# Since the area is largely just apartment buildings anyways
+
+# It causes some confusion with structure type, since there are semi-detached houses there for the neighbourhood - but that's a fun easter egg if anyone finds issues with our data :~)
+
+rental_supply_forest_hill_south <- rental_supply_by_neighbourhood %>%
+  filter(neighbourhood == "Forest Hill South") %>%
+  mutate(
+    market_value = ifelse(market == "Secondary", 0, total),
+    value = ifelse(group == "Apartment", total, 0),
+    prop = ifelse(group == "Apartment", 1, 0)
+  )
+
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  rows_update(rental_supply_forest_hill_south, by = c("neighbourhood", "market", "group"))
+
 rental_supply_city <- primary_market_city %>%
   filter(group != "primary_rental") %>%
   bind_rows(secondary_condo_city %>%
