@@ -120,3 +120,4 @@ rental_supply_city <- primary_market_city %>%
 
 saveRDS(rental_supply_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood.rds"))
 saveRDS(rental_supply_city, here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_city.rds"))
+
