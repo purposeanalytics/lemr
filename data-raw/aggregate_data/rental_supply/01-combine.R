@@ -14,6 +14,7 @@
 
 library(dplyr)
 library(purrr)
+library(tidyr)
 
 # Total renters ----
 
@@ -49,13 +50,14 @@ secondary_condo_city <- readRDS(here::here("data-raw", "aggregate_data", "rental
 ## Non-condo -----
 
 secondary_non_condo_by_neighbourhood <- renters_by_neighbourhood %>%
-  left_join(primary_market_by_neighbourhood %>%
+  full_join(primary_market_by_neighbourhood %>%
     filter(group == "primary_rental") %>%
     select(neighbourhood, primary_rental = value),
   by = "neighbourhood"
   ) %>%
   full_join(secondary_condo_by_neighbourhood %>%
     select(neighbourhood, secondary_condo = value), by = "neighbourhood") %>%
+  mutate(across(c(primary_rental, secondary_condo), coalesce, 0)) %>%
   mutate(value = renters - primary_rental - secondary_condo) %>%
   select(neighbourhood, value) %>%
   mutate(group = "secondary non-condo")
@@ -86,9 +88,9 @@ rental_supply_by_neighbourhood <- primary_market_by_neighbourhood %>%
     )
   ) %>%
   group_by(neighbourhood, market) %>%
-  mutate(market_value = sum(value)) %>%
+  mutate(market_value = sum(value, na.rm = TRUE)) %>%
   group_by(neighbourhood) %>%
-  mutate(total = sum(value)) %>%
+  mutate(total = sum(value, na.rm = TRUE)) %>%
   ungroup() %>%
   arrange(neighbourhood, market, group) %>%
   select(neighbourhood, total, market, market_value, group, value) %>%
@@ -138,3 +140,14 @@ rental_supply_city <- primary_market_city %>%
 
 saveRDS(rental_supply_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood.rds"))
 saveRDS(rental_supply_city, here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_city.rds"))
+
+# Version for mapping ----
+
+# Add groups for colour, then make wide
+# 6 groups in c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  select(neighbourhood, group, prop) %>% complete(neighbourhood, group, fill = list(prop = 0)) %>%
+  mutate(prop_group = cut(prop, seq(0, 1, length.out = 7), include.lowest = TRUE, labels = FALSE))
+
+usethis::use_data(rental_supply_by_neighbourhood, overwrite = TRUE)

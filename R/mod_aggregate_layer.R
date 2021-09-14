@@ -12,6 +12,12 @@ mod_aggregate_layer_ui <- function(id) {
 
   lem_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0", "1,500", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 1500 (dark blue).")
 
+  rental_supply_apartment_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "primary market apartment"))
+
+  rental_supply_condo_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market condominium"))
+
+  rental_supply_non_condo_legend <- generate_layers_legend(c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A"), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
+
   amenity_density_legend <- create_square_legend(c(low_colour, mid_colour, high_colour), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 
   lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
@@ -27,6 +33,27 @@ mod_aggregate_layer_ui <- function(id) {
           shiny::h2(
             "Select aggregate layer",
             lem_tooltip
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_apartment'",
+          shiny::h2(
+            "Select aggregate layer"
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_condo'",
+          shiny::h2(
+            "Select aggregate layer"
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_non_condo'",
+          shiny::h2(
+            "Select aggregate layer"
           ),
           ns = ns
         ),
@@ -53,6 +80,21 @@ mod_aggregate_layer_ui <- function(id) {
         shiny::conditionalPanel(
           "input.layer == 'lem'",
           lem_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_apartment'",
+          rental_supply_apartment_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_condo'",
+          rental_supply_condo_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_non_condo'",
+          rental_supply_non_condo_legend,
           ns = ns
         ),
         shiny::conditionalPanel(
@@ -167,7 +209,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", amenity_density = "Proximity to amenities")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_apartment = "Rental supply: Apartment rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", amenity_density = "Proximity to amenities")
 
 popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon", style = "color: var(--grey-color);")
 
