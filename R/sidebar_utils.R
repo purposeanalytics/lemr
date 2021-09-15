@@ -95,12 +95,20 @@ rental_supply_colors <- function() {
 rental_supply_table <- function(data, market) {
   data[["rental_supply"]] %>%
     dplyr::filter(market == !!market) %>%
-    dplyr::select(group, value) %>%
+    dplyr::select(group, value, prop) %>%
     dplyr::mutate(group = purrr::map_chr(group, function(x) {
       create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
     })) %>%
     janitor::adorn_totals(name = paste(market, "market units:")) %>%
-    dplyr::mutate(group = forcats::fct_relevel(group, paste(market, "market units:"), after = 0), value = scales::comma(value)) %>%
+    dplyr::mutate(
+      group = forcats::fct_relevel(group, paste(market, "market units:"), after = 0),
+      value = scales::comma(value),
+      percent = scales::percent(prop, accuracy = 0.1),
+      value_percent = glue::glue("{value}{space}({percent})",
+        space = ifelse(prop < 0.1, " &nbsp; &nbsp;", " ")
+      )
+    ) %>%
+    dplyr::select(group, value_percent) %>%
     dplyr::arrange(group) %>%
     knitr::kable(col.names = NULL, align = "lr", escape = FALSE) %>%
     kableExtra::kable_minimal(
