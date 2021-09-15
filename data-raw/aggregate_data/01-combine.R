@@ -53,7 +53,7 @@ amenity_density_city <- readRDS(here::here("data-raw", "aggregate_data", "proxim
 
 # LEM -----
 
-lem_by_neighbourhood <- readRDS( here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
+lem_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
 
 lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
 
@@ -97,7 +97,6 @@ neighbourhood_aggregate <- neighbourhood_profiles
 city_aggregate <- city_profile
 
 for (i in names(neighbourhood_aggregate)) {
-
   neighbourhood_aggregate_i <- neighbourhood_aggregate[[i]]
 
   neighbourhood_aggregate_i[["structure_type"]] <- structure_type_by_neighbourhood[[i]]

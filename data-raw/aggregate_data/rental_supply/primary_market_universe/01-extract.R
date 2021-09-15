@@ -35,7 +35,7 @@ apartments_cts <- apartments_cts %>%
     ct = x1,
     total_apartments = total
   ) %>%
-  discard(~all(is.na(.) | . ==""))
+  discard(~ all(is.na(.) | . == ""))
 
 row_houses_cts <- row_houses_cts %>%
   clean_names() %>%
@@ -43,7 +43,7 @@ row_houses_cts <- row_houses_cts %>%
     ct = x1,
     total_row_houses = total
   ) %>%
-  discard(~all(is.na(.) | . ==""))
+  discard(~ all(is.na(.) | . == ""))
 
 # ### Save Toronto census tracts
 

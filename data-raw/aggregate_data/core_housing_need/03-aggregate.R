@@ -14,13 +14,13 @@ core_housing_need_cts <- readRDS(here::here("data-raw", "aggregate_data", "core_
 
 core_housing_need_by_neighbourhood <- core_housing_need_cts %>%
   group_by(neighbourhood) %>%
-  summarize(value = sum(total_in_core_housing_need, na.rm = TRUE), prop = value/sum(households_tested_for_core_housing_need, na.rm = TRUE))
+  summarize(value = sum(total_in_core_housing_need, na.rm = TRUE), prop = value / sum(households_tested_for_core_housing_need, na.rm = TRUE))
 
 core_housing_need_by_neighbourhood <- core_housing_need_by_neighbourhood %>%
   split(.$neighbourhood)
 
 core_housing_need_city <- core_housing_need_cts %>%
-  summarize(value = sum(total_in_core_housing_need, na.rm = TRUE), prop = value/sum(households_tested_for_core_housing_need, na.rm = TRUE))
+  summarize(value = sum(total_in_core_housing_need, na.rm = TRUE), prop = value / sum(households_tested_for_core_housing_need, na.rm = TRUE))
 
 # Save
 

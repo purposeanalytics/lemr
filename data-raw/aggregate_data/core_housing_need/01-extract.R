@@ -21,7 +21,7 @@ library(purrr)
 ### Set up paths for data sets ------
 
 cts_core_housing_need_path <- here::here("data-raw", "aggregate_data", "core_housing_need", "raw", "renter_core_housing_need_by_ct_2016.csv")
-cts_households_tested_for_chn_path <- here::here("data-raw", "aggregate_data",  "core_housing_need", "raw", "renter_households_tested_for_chn_by_ct_2016.csv")
+cts_households_tested_for_chn_path <- here::here("data-raw", "aggregate_data", "core_housing_need", "raw", "renter_households_tested_for_chn_by_ct_2016.csv")
 
 ### Get Toronto census tracts -----
 
@@ -36,15 +36,15 @@ core_housing_need_cts <- core_housing_need_cts %>%
     ct = x1,
     total_in_core_housing_need = total
   ) %>%
-  discard(~all(is.na(.) | . ==""))
+  discard(~ all(is.na(.) | . == ""))
 
 households_tested_for_chn_cts <- households_tested_for_chn_cts %>%
   clean_names() %>%
   rename(
     ct = x1,
     households_tested_for_core_housing_need = total
-  )  %>%
-  discard(~all(is.na(.) | . ==""))
+  ) %>%
+  discard(~ all(is.na(.) | . == ""))
 
 # ### Save Toronto census tracts
 

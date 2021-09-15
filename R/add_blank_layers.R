@@ -289,7 +289,6 @@ add_blank_neighbourhood_layer <- function(map) {
 #'   add_blank_rental_supply_layers() %>%
 #'   toggle_layer_visible("rental_supply_condo")
 add_blank_rental_supply_layers <- function(map) {
-
   colors <- dplyr::tibble(color = c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")) %>%
     dplyr::mutate(id = dplyr::row_number())
 
@@ -324,7 +323,6 @@ add_blank_rental_supply_layers <- function(map) {
 #'   add_blank_core_housing_need_layer() %>%
 #'   toggle_layer_visible("core_housing_need")
 add_blank_core_housing_need_layer <- function(map) {
-
   colors <- dplyr::tibble(color = c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")) %>%
     dplyr::mutate(id = dplyr::row_number())
 
@@ -339,4 +337,3 @@ add_blank_core_housing_need_layer <- function(map) {
     # Apartment
     mapboxer::add_fill_layer(source = "core_housing_need_data", fill_color = c("get", "color"), fill_opacity = 0.65, id = "core_housing_need", visibility = FALSE)
 }
-

@@ -8,40 +8,40 @@
 mod_sidebar_header_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-      shiny::column(
-        width = 8,
-        shiny::h1(shiny::textOutput(ns("header")))
-      ),
-      shiny::column(
-        width = 4, align = "right",
-        mod_full_summary_modal_ui(ns("full_summary"))
-      ),
-      shiny::column(
-        width = 12,
-        shiny::h2("Summary statistics")
-      ),
-      shiny::column(
-        width = 6,
-        shiny::htmlOutput(ns("summary_statistics"))
-      ),
-      shiny::column(
-        width = 12,
-        shiny::h2("Estimated rental supply"),
-        shiny::uiOutput(ns("rental_supply_plot_ui"))
-      ),
-      shiny::column(
-        width = 6,
-        shiny::uiOutput(ns("rental_supply_primary_table"))
-      ),
-      shiny::column(
-        width = 6,
-        shiny::uiOutput(ns("rental_supply_secondary_table"))
-      ),
-      shiny::column(
-        width = 12,
-        shiny::h2("Estimated annual availability of low-end of market rental"),
-        shiny::htmlOutput(ns("lem_table"))
-      )
+    shiny::column(
+      width = 8,
+      shiny::h1(shiny::textOutput(ns("header")))
+    ),
+    shiny::column(
+      width = 4, align = "right",
+      mod_full_summary_modal_ui(ns("full_summary"))
+    ),
+    shiny::column(
+      width = 12,
+      shiny::h2("Summary statistics")
+    ),
+    shiny::column(
+      width = 6,
+      shiny::htmlOutput(ns("summary_statistics"))
+    ),
+    shiny::column(
+      width = 12,
+      shiny::h2("Estimated rental supply"),
+      shiny::uiOutput(ns("rental_supply_plot_ui"))
+    ),
+    shiny::column(
+      width = 6,
+      shiny::uiOutput(ns("rental_supply_primary_table"))
+    ),
+    shiny::column(
+      width = 6,
+      shiny::uiOutput(ns("rental_supply_secondary_table"))
+    ),
+    shiny::column(
+      width = 12,
+      shiny::h2("Estimated annual availability of low-end of market rental"),
+      shiny::htmlOutput(ns("lem_table"))
+    )
   )
 }
 
