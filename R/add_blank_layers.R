@@ -309,3 +309,34 @@ add_blank_rental_supply_layers <- function(map) {
     # Non-condo secondary
     mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-Condo"), fill_opacity = 0.65, id = "rental_supply_non_condo", visibility = FALSE)
 }
+
+#' Add blank core housing need layer
+#'
+#' Add a blank layers of \link{core_housing_need_by_neighbourhood} to a map (created via \link{map_toronto}).The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with id "core_housing_need).
+#'
+#' @param map Map created via \link{map_toronto}
+#'
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' map_toronto() %>%
+#'   add_blank_core_housing_need_layer() %>%
+#'   toggle_layer_visible("core_housing_need")
+add_blank_core_housing_need_layer <- function(map) {
+
+  colors <- dplyr::tibble(color = c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")) %>%
+    dplyr::mutate(id = dplyr::row_number())
+
+  core_housing_need <- lemur::core_housing_need_by_neighbourhood %>%
+    dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
+    dplyr::select(-prop, -prop_group) %>%
+    dplyr::left_join(lemur::neighbourhoods, by = "neighbourhood") %>%
+    sf::st_as_sf(crs = 4326)
+
+  map %>%
+    mapboxer::add_source(mapboxer::as_mapbox_source(core_housing_need), id = "core_housing_need_data") %>%
+    # Apartment
+    mapboxer::add_fill_layer(source = "core_housing_need_data", fill_color = c("get", "color"), fill_opacity = 0.65, id = "core_housing_need", visibility = FALSE)
+}
+
