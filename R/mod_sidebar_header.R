@@ -31,10 +31,12 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 6,
+      class = "summary-statistics padded",
       shiny::uiOutput(ns("rental_supply_primary_table"))
     ),
     shiny::column(
       width = 6,
+      class = "summary-statistics padded",
       shiny::uiOutput(ns("rental_supply_secondary_table"))
     ),
     shiny::column(

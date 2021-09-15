@@ -529,6 +529,11 @@ ul {
   .content-page {
     margin: 1em !important;
   }
+
+  /* Summary statistics not in modal, but in sidebar*/
+  .summary-statistics {
+    width: 100% !important;
+  }
 }
 
 /* Large devices (desktops, 992px to 1200px) */
@@ -544,6 +549,10 @@ ul {
 
   /* Allow summary statistics to take up full width */
   .modal-summary-statistics {
+    width: 100% !important;
+  }
+
+  .summary-statistics {
     width: 100% !important;
   }
 }
