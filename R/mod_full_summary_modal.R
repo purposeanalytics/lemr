@@ -25,12 +25,12 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
           shiny::column(
             width = 12,
             shiny::modalButton("Close"),
-            shiny::h1(shiny::textOutput(ns("header"))
-            )
+            shiny::h1(shiny::textOutput(ns("header")))
           )
         ),
         shiny::fluidRow(
-          shiny::column(width = 12,
+          shiny::column(
+            width = 12,
             shiny::hr(),
             shiny::div(
               class = "modal-col",
@@ -45,8 +45,21 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 shiny::column(
                   width = 12,
                   shiny::hr(),
-                  shiny::h3("Estimated rental supply"),
-                  shiny::tags$i("Coming soon"),
+                  shiny::h2("Estimated rental supply"),
+                  shiny::uiOutput(ns("rental_supply_plot_ui"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_primary_table"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_secondary_table"))
+                ),
+                shiny::column(
+                  width = 12,
                   shiny::hr(),
                   shiny::h3("Estimated annual availability of low-end of market rental"),
                   shiny::htmlOutput(ns("lem_table")),
@@ -178,6 +191,27 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
             html_font = "\"Lato\", sans-serif",
             full_width = TRUE
           )
+      })
+
+
+      output$rental_supply_plot <- plotly::renderPlotly({
+        rental_supply_plot(dataset())
+      })
+
+      output$rental_supply_plot_ui <- shiny::renderUI({
+        shiny::div(
+          role = "img",
+          `aria-label` = rental_supply_plot_alt_text(level(), neighbourhood()),
+          plotly::plotlyOutput(ns("rental_supply_plot"), height = "50px")
+        )
+      })
+
+      output$rental_supply_primary_table <- shiny::renderText({
+        rental_supply_primary_table(dataset())
+      })
+
+      output$rental_supply_secondary_table <- shiny::renderText({
+        rental_supply_secondary_table(dataset())
       })
 
       output$lem_table <- shiny::renderText({

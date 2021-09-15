@@ -65,6 +65,14 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
 }
 
 # Rental supply -----
+
+rental_supply_plot_alt_text <- function(level, neighbourhood) {
+  switch(level,
+    "city" = "Bar chart showing the breakdown of the rental market supply in the City of Toronto. The data is in the table that follows.",
+    "neighbourhood" = glue::glue("Bar chart showing the breakdown of the rental market supply in {neighbourhood}. The data is in the table that follows.")
+  )
+}
+
 rental_supply_plot <- function(data) {
   data[["rental_supply"]] %>%
     dplyr::mutate(group = forcats::fct_inorder(group)) %>%
@@ -72,8 +80,8 @@ rental_supply_plot <- function(data) {
     plotly::layout(barmode = "stack") %>%
     plotly::layout(
       yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
-      xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE),
-      margin = list(t = 5, r = 5, b = 5, l = 25),
+      xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE, range = c(0, 1)),
+      margin = list(t = 5, r = 5, b = 5, l = 5),
       showlegend = FALSE,
       font = list(family = "Lato", size = 12, color = "black")
     ) %>%
@@ -82,6 +90,32 @@ rental_supply_plot <- function(data) {
 
 rental_supply_colors <- function() {
   setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo"))
+}
+
+rental_supply_table <- function(data, market) {
+  data[["rental_supply"]] %>%
+    dplyr::filter(market == !!market) %>%
+    dplyr::select(group, value) %>%
+    dplyr::mutate(group = purrr::map_chr(group, function(x) {
+      create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
+    })) %>%
+    janitor::adorn_totals(name = paste(market, "market units:")) %>%
+    dplyr::mutate(group = forcats::fct_relevel(group, paste(market, "market units:"), after = 0), value = scales::comma(value)) %>%
+    dplyr::arrange(group) %>%
+    knitr::kable(col.names = NULL, align = "lr", escape = FALSE) %>%
+    kableExtra::kable_minimal(
+      html_font = "\"Lato\", sans-serif",
+      full_width = TRUE
+    ) %>%
+    kableExtra::row_spec(row = 1, bold = TRUE)
+}
+
+rental_supply_primary_table <- function(data) {
+  rental_supply_table(data, "Primary")
+}
+
+rental_supply_secondary_table <- function(data) {
+  rental_supply_table(data, "Secondary")
 }
 
 # Number of apartments ----
