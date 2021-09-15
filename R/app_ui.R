@@ -9,7 +9,8 @@ app_ui <- function(request) {
     shiny::tags$script(shiny::HTML(
       'function link(page) {
       Shiny.onInputChange("page_link", page)
-      }')),
+      }'
+    )),
     shiny::navbarPage(
       shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
       collapsible = TRUE,

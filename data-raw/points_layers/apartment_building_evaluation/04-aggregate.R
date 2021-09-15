@@ -4,7 +4,7 @@ library(dplyr)
 library(purrr)
 devtools::load_all()
 
-median_score_by_neighbourhood <- apartment_building_evaluation %>%
+median_score_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "clean", "apartment_building_evaluation.rds")) %>%
   group_by(neighbourhood) %>%
   summarise(value = median(score, na.rm = TRUE))
 
@@ -15,32 +15,24 @@ neighbourhoods <- tibble(neighbourhood = names(neighbourhood_profiles))
 median_score_by_neighbourhood <- median_score_by_neighbourhood %>%
   right_join(neighbourhoods, by = "neighbourhood")
 
-# Add to city profile
-
 # Median score for the city
 
 median_score_city <- apartment_building_evaluation %>%
   summarise(value = median(score, na.rm = TRUE))
 
-city_profile[["apartment_building_evaluation"]] <- median_score_city
-
 apartment_building_evaluation_distribution <- median_score_by_neighbourhood %>%
   select(value) %>%
   filter(!is.na(value))
 
-city_profile[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution
-
-usethis::use_data(city_profile, overwrite = TRUE)
-
-# Add to neighbourhood profile
+# And by neighbourhood
 
 median_score_by_neighbourhood <- median_score_by_neighbourhood %>%
   arrange(neighbourhood) %>%
   split(.$neighbourhood) %>%
   map("value")
 
-for (i in seq_along(neighbourhood_profiles)) {
-  neighbourhood_profiles[[i]][["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
-}
+# Save
 
-usethis::use_data(neighbourhood_profiles, overwrite = TRUE)
+saveRDS(median_score_city, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_city.rds"))
+saveRDS(apartment_building_evaluation_distribution, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "apartment_building_evaluation_distribution.rds"))
+saveRDS(median_score_by_neighbourhood, here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_by_neighbourhood.rds"))

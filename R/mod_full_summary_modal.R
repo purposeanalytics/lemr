@@ -25,12 +25,12 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
           shiny::column(
             width = 12,
             shiny::modalButton("Close"),
-            shiny::h1(shiny::textOutput(ns("header"))
-            )
+            shiny::h1(shiny::textOutput(ns("header")))
           )
         ),
         shiny::fluidRow(
-          shiny::column(width = 12,
+          shiny::column(
+            width = 12,
             shiny::hr(),
             shiny::div(
               class = "modal-col",
@@ -40,16 +40,26 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 shiny::column(
                   width = 6,
                   class = "modal-summary-statistics",
-                  shiny::htmlOutput(ns("households")),
-                  shiny::htmlOutput(ns("population")),
-                  shiny::htmlOutput(ns("renters")),
-                  shiny::htmlOutput(ns("core_housing_need")),
+                  shiny::htmlOutput(ns("summary_statistics"))
                 ),
                 shiny::column(
                   width = 12,
                   shiny::hr(),
-                  shiny::h3("Estimated rental supply"),
-                  shiny::tags$i("Coming soon"),
+                  shiny::h2("Estimated rental supply"),
+                  shiny::uiOutput(ns("rental_supply_plot_ui"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_primary_table"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_secondary_table"))
+                ),
+                shiny::column(
+                  width = 12,
                   shiny::hr(),
                   shiny::h3("Estimated annual availability of low-end of market rental"),
                   shiny::htmlOutput(ns("lem_table")),
@@ -165,22 +175,43 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
 
       ## Summary statistics -----
 
-      output$households <- shiny::renderText({
-        glue::glue('Total households: <span style = "float: right;">{scales::comma(dataset()[["households"]])}</span>')
+      output$summary_statistics <- shiny::renderText({
+        dplyr::tibble(
+          `Total households` = dataset()[["households"]] %>% scales::comma(),
+          `Total population` = scales::comma(dataset()[["population"]]),
+          `Proportion renters` = dataset()[["household_tenure"]] %>%
+            dplyr::filter(group == "Renter") %>%
+            dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
+          `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
+            scales::percent(accuracy = 0.1)
+        ) %>%
+          tidyr::pivot_longer(cols = dplyr::everything()) %>%
+          knitr::kable(col.names = NULL, align = "lr") %>%
+          kableExtra::kable_minimal(
+            html_font = "\"Lato\", sans-serif",
+            full_width = TRUE
+          )
       })
 
-      output$renters <- shiny::renderText({
-        glue::glue('Proportion renters: <span style = "float: right;">{scales::percent(renters, accuracy = 0.1)}</span>', renters = dataset()[["household_tenure"]] %>%
-          dplyr::filter(group == "Renter") %>%
-          dplyr::pull(prop))
+
+      output$rental_supply_plot <- plotly::renderPlotly({
+        rental_supply_plot(dataset())
       })
 
-      output$core_housing_need <- shiny::renderText({
-        glue::glue('In core housing need: <span style = "float: right;"><i>Coming soon</i></span>')
+      output$rental_supply_plot_ui <- shiny::renderUI({
+        shiny::div(
+          role = "img",
+          `aria-label` = rental_supply_plot_alt_text(level(), neighbourhood()),
+          plotly::plotlyOutput(ns("rental_supply_plot"), height = "50px")
+        )
       })
 
-      output$population <- shiny::renderText({
-        glue::glue('Total population: <span style = "float: right;">{scales::comma(dataset()[["population"]])}</span>')
+      output$rental_supply_primary_table <- shiny::renderText({
+        rental_supply_primary_table(dataset())
+      })
+
+      output$rental_supply_secondary_table <- shiny::renderText({
+        rental_supply_secondary_table(dataset())
       })
 
       output$lem_table <- shiny::renderText({
@@ -195,11 +226,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       # Number of apartments -----
 
       number_of_apartments <- shiny::reactive({
-        get_measure(dataset(), "number_of_apartments")
+        get_measure(dataset(), "number_of_buildings")
       })
 
       number_of_apartments_formatted <- shiny::reactive({
-        format_measure(number_of_apartments(), "number_of_apartments")
+        format_measure(number_of_apartments(), "number_of_buildings")
       })
 
       number_of_units <- shiny::reactive({

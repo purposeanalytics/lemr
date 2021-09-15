@@ -15,7 +15,7 @@ display_neighbourhood_profile(
 )
 }
 \arguments{
-\item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}, or for the city, from \link{city_profile}}
+\item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_aggregate}, or for the city, from \link{city_aggregate}}
 
 \item{variable}{Variable to visualize.}
 
@@ -32,10 +32,10 @@ Plot a neighbourhood profile variable
 }
 \examples{
 {
-  neighbourhood_profiles[["Danforth"]] \%>\%
+  neighbourhood_aggregate[["Danforth"]] \%>\%
     display_neighbourhood_profile("household_size")
 
-  neighbourhood_profiles[["Danforth"]] \%>\%
+  neighbourhood_aggregate[["Danforth"]] \%>\%
     display_neighbourhood_profile("average_total_income")
 }
 }
