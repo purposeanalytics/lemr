@@ -4,12 +4,12 @@
 #' @examples
 #' library(sf)
 #' apartment_building_registry
-"apartment_building_registry"
+# "apartment_building_registry"
 
 #' Apartment building evaluation
 #'
 #' Apartment building evaluation scores, retreieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-evaluation/}{Apartmenr Building Evaluation dataset}. This data set contains the results from \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/}{RentSafeTO: Apartment Building Standards}, a bylaw enforcement program established to ensure owners and operators of apartment buildings comply with building maintenance standards. This data set contains the building evaluation scores for buildings registered with RentSafeTO, which require evaluation at least once every three years. \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-building-owners/rentsafeto-building-evaluations-and-audits/}{Various items} are inspected and assigned a score from 1 to 5, which is then aggregated for the building. If a building scores less than 50 per cent, the building must undergo an audit. Otherwise, the score determines whether another evaluation needs to take place in one, two, or three years.
-"apartment_building_evaluation"
+# "apartment_building_evaluation"
 
 #' City of Toronto boundaries
 #'
@@ -70,12 +70,12 @@
 #' Above Guideline Increase applications and Tenant Defense Fund grants
 #'
 #' The locations of \href{https://www.torontotenants.org/above_guideline_rent_increases}{Above Guideline Increase applications} along with their dates, and whether tenants at those locations received a \href{https://www.toronto.ca/community-people/employment-social-support/housing-support/financial-support-for-renters/}{Tenant Defense Fund} grant to fight the increase. If so, the record also includes how much they were able to reduce the increase by.
-"agi_applications_and_tdf"
+# "agi_applications_and_tdf"
 
 #' Evictions Hearings
 #'
 #' Locations (and number) of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021.
-"eviction_hearings"
+# "eviction_hearings"
 
 #' Buildings
 #'

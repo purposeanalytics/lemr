@@ -89,7 +89,7 @@ rental_supply_plot <- function(data) {
 }
 
 rental_supply_colors <- function() {
-  setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo"))
+  stats::setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo"))
 }
 
 rental_supply_table <- function(data, market) {

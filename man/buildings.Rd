@@ -3,14 +3,21 @@
 \docType{data}
 \name{buildings}
 \alias{buildings}
-\title{Buildings}
+\title{Above Guideline Increase applications and Tenant Defense Fund grants}
 \format{
-An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3480 rows and 23 columns.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3480 rows and 25 columns.
 }
 \usage{
 buildings
 }
 \description{
+The locations of \href{https://www.torontotenants.org/above_guideline_rent_increases}{Above Guideline Increase applications} along with their dates, and whether tenants at those locations received a \href{https://www.toronto.ca/community-people/employment-social-support/housing-support/financial-support-for-renters/}{Tenant Defense Fund} grant to fight the increase. If so, the record also includes how much they were able to reduce the increase by.
+Evictions Hearings
+}
+\details{
+Locations (and number) of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021.
+Buildings
+
 A building-level data set combining: apartment building registry, RentSafeTO scores, Above Guideline Increase applications, tenant defense fund grants, and eviction hearings. Used primarily as a data source for the map, in \link{add_blank_points_layers}.
 }
 \keyword{datasets}

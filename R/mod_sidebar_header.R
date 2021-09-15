@@ -94,7 +94,7 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
         `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
           scales::percent(accuracy = 0.1)
       ) %>%
-        tidyr::pivot_longer(cols = everything()) %>%
+        tidyr::pivot_longer(cols = dplyr::everything()) %>%
         knitr::kable(col.names = NULL, align = "lr") %>%
         kableExtra::kable_minimal(
           html_font = "\"Lato\", sans-serif",
