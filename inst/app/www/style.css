@@ -410,6 +410,12 @@ ul {
   margin-bottom: 0;
 }
 
+/* Lightweight tables */
+.lightable-minimal {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Extra small devices (portrait phones, up to 575px) */

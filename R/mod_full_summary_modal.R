@@ -40,10 +40,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 shiny::column(
                   width = 6,
                   class = "modal-summary-statistics",
-                  shiny::htmlOutput(ns("households")),
-                  shiny::htmlOutput(ns("population")),
-                  shiny::htmlOutput(ns("renters")),
-                  shiny::htmlOutput(ns("core_housing_need")),
+                  shiny::htmlOutput(ns("summary_statistics"))
                 ),
                 shiny::column(
                   width = 12,
@@ -165,22 +162,22 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
 
       ## Summary statistics -----
 
-      output$households <- shiny::renderText({
-        glue::glue('Total households: <span style = "float: right;">{scales::comma(dataset()[["households"]])}</span>')
-      })
-
-      output$renters <- shiny::renderText({
-        glue::glue('Proportion renters: <span style = "float: right;">{scales::percent(renters, accuracy = 0.1)}</span>', renters = dataset()[["household_tenure"]] %>%
-          dplyr::filter(group == "Renter") %>%
-          dplyr::pull(prop))
-      })
-
-      output$core_housing_need <- shiny::renderText({
-        glue::glue('In core housing need: <span style = "float: right;"><i>Coming soon</i></span>')
-      })
-
-      output$population <- shiny::renderText({
-        glue::glue('Total population: <span style = "float: right;">{scales::comma(dataset()[["population"]])}</span>')
+      output$summary_statistics <- shiny::renderText({
+        dplyr::tibble(
+          `Total households` = dataset()[["households"]] %>% scales::comma(),
+          `Total population` = scales::comma(dataset()[["population"]]),
+          `Proportion renters` = dataset()[["household_tenure"]] %>%
+            dplyr::filter(group == "Renter") %>%
+            dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
+          `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
+            scales::percent(accuracy = 0.1)
+        ) %>%
+          tidyr::pivot_longer(cols = everything()) %>%
+          knitr::kable(col.names = NULL, align = "lr") %>%
+          kableExtra::kable_minimal(
+            html_font = "\"Lato\", sans-serif",
+            full_width = TRUE
+          )
       })
 
       output$lem_table <- shiny::renderText({

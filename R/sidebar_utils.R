@@ -64,6 +64,26 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
     kableExtra::kable_styling(bootstrap_options = "condensed")
 }
 
+# Rental supply -----
+rental_supply_plot <- function(data) {
+  data[["rental_supply"]] %>%
+    dplyr::mutate(group = forcats::fct_inorder(group)) %>%
+    plotly::plot_ly(x = ~prop, y = 1, color = ~group, type = "bar", orientation = "h", hoverinfo = "skip", colors = rental_supply_colors()) %>%
+    plotly::layout(barmode = "stack") %>%
+    plotly::layout(
+      yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+      xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE),
+      margin = list(t = 5, r = 5, b = 5, l = 25),
+      showlegend = FALSE,
+      font = list(family = "Lato", size = 12, color = "black")
+    ) %>%
+    plotly::config(displayModeBar = FALSE)
+}
+
+rental_supply_colors <- function() {
+  setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo"))
+}
+
 # Number of apartments ----
 
 number_of_apartments_number <- function(number_of_apartments_formatted, number_of_units_formatted) {
