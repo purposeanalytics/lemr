@@ -19,9 +19,35 @@ neighbourhoods <- neighbourhoods %>%
   map_depth(.depth = 2, as_tibble) %>%
   map(bind_rows, .id = "neighbourhood")
 
+# Select city elements by the same name, and combine with neighbourhoods ----
+
+city <- city[names(neighbourhoods)]
+
+## If single values, convert to tibble with neighbourhood = "City of Toronto"
+
+city <- city %>%
+  map(function(x) {
+    if (!inherits(x, "tbl")) {
+      tibble(neighbourhood = "City of Toronto",
+             value = x)
+    } else {
+      x %>%
+        mutate(neighbourhood = "City of Toronto")
+    }
+  })
+
+## Combine with neighbourhoods ----
+
+for(i in names(neighbourhoods)) {
+  neighbourhoods[[i]] <- neighbourhoods[[i]] %>%
+    bind_rows(city[[i]])
+}
+
+# Clean up data for combining into a single table -----
+
 ## First restructure LEM since it's inconsistently formatted, oops ----
 
-## Make a separate element for Deeply / Very affordable ----
+# Make a separate element for Deeply / Very affordable
 lem <- neighbourhoods[["lem"]] %>%
   filter(`Bedrooms` != "Total") %>%
   select(-Total) %>%
@@ -93,8 +119,11 @@ neighbourhoods <- neighbourhoods %>%
 neighbourhoods <- neighbourhoods %>%
   pivot_wider(names_from = neighbourhood, values_from = value)
 
+# Reorganize data -----
+
+neighbourhoods <- neighbourhoods %>%
+  select(Variable = variable_clean, Units = units, Group = group, `City of Toronto`, everything())
+
 # Save data ----
 
 write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
-
-# TODO: handle city data!

@@ -109,8 +109,8 @@ aggregate_prop_city <- function(df, dimension_full_start) {
 
   df_children %>%
     bind_cols(df_parent) %>%
-    mutate(prop = value / total) %>%
-    select(group, value, prop)
+    mutate(prop = round(value / total, 3)) %>%
+    select(group, prop)
 }
 
 ## People ---------------------------------------------------------------- -----
