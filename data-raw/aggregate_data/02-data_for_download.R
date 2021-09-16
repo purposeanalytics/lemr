@@ -86,7 +86,8 @@ clean_variable_names <- tribble(
 
 neighbourhoods <- neighbourhoods %>%
   left_join(clean_variable_names, by = "variable") %>%
-  select(variable_clean, units, group, value, neighbourhood)
+  select(variable_clean, units, group, value, neighbourhood) %>%
+  mutate(group = coalesce(group, ""))
 
 # Widen data ----
 neighbourhoods <- neighbourhoods %>%
