@@ -8,3 +8,7 @@ base_size <- 14
 bearing <- -17
 
 layer_colours <- c(apartment_buildings = "#27a167", evictions_hearings = accent_colour, agi = "#fc8d59", tdf = "#ffffbf")
+
+amenity_density_colours <- function() {
+  stats::setNames(c("#3C95E3", accent_colour, "#FB6B27"), c("Low", "Medium", "High"))
+}

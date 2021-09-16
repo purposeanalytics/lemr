@@ -54,19 +54,7 @@ amenity_density <- proximity_measures_toronto %>%
 amenity_density <- amenity_density %>%
   ms_simplify(keep = 0.1, keep_shapes = TRUE)
 
-# Add colour and opacity
-
-# Colours
-amenity_density_colours <- tibble::tribble(
-  ~amenity_dense, ~colour,
-  "Low", low_colour,
-  "Medium", accent_colour,
-  "High", high_colour,
-  "Unknown", "white"
-)
-
-amenity_density <- amenity_density %>%
-  dplyr::left_join(amenity_density_colours, by = "amenity_dense")
+# Add opacity - don't need to add colours, just add those directly in mapbox call
 
 # Alphas / opacity
 n <- 20

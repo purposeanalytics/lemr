@@ -156,7 +156,8 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
           dplyr::filter(.data$group != "Unknown") %>%
           dplyr::mutate(res = glue::glue("{group}: {scales::percent(prop)}")) %>%
           dplyr::pull(res) %>%
-          glue::glue_collapse(sep = "; "),
+          glue::glue_collapse(sep = "; ") %>%
+          paste0(" of population"),
         rental_supply_apartment = glue::glue("Apartment households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Apartment") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         rental_supply_condo = glue::glue("Condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         rental_supply_non_condo = glue::glue("Secondary market non-condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Non-Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
@@ -229,7 +230,7 @@ create_popover <- function(icon = popup_icon, title, content) {
 }
 
 amenity_density_legend <- function() {
-  create_square_legend(c(lemur:::low_colour, lemur:::mid_colour, lemur:::high_colour), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
+  create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 }
 
 low_high_legend_colors <- c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
