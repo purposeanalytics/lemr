@@ -4,6 +4,7 @@ library(dplyr)
 library(stringr)
 library(sf)
 library(readr)
+devtools::load_all()
 
 data <- lemur::buildings %>%
   mutate(id = row_number())

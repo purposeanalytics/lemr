@@ -1,4 +1,4 @@
-# Prep data for download
+# Prep aggregate data for download
 
 library(dplyr)
 library(purrr)
@@ -7,6 +7,7 @@ library(janitor)
 library(stringr)
 library(sf)
 library(readr)
+devtools::load_all()
 
 city <- lemur::city_aggregate
 neighbourhoods <- lemur::neighbourhood_aggregate
@@ -39,6 +40,17 @@ neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
 ## Remove total, market, and market value in rental supply ----
 neighbourhoods["rental_supply"] <- neighbourhoods["rental_supply"] %>%
   map(select, -total, -market, -market_value)
+
+## Rename "prop" to value in others -----
+neighbourhoods <- neighbourhoods %>%
+  map(function(x) {
+    if ("prop" %in% names(x) & !"value" %in% names(x)) {
+      x %>%
+        rename(value = prop)
+    } else {
+      x
+    }
+  })
 
 ## Combine ----
 neighbourhoods <- neighbourhoods %>%
@@ -74,18 +86,10 @@ clean_variable_names <- tribble(
 
 neighbourhoods <- neighbourhoods %>%
   left_join(clean_variable_names, by = "variable") %>%
-  select(variable_clean, units, group, value, prop, neighbourhood)
-
-# For now, just widen the value column
-# Need to figure out how to deal with prop and values both -> TODO
-# Only amenity density doesn't have value, so set value to be prop
-neighbourhoods <- neighbourhoods %>%
-  mutate(value = case_when(variable_clean == "Proximity to amenities" ~ coalesce(value, prop),
-            TRUE ~ value))
+  select(variable_clean, units, group, value, neighbourhood)
 
 # Widen data ----
 neighbourhoods <- neighbourhoods %>%
-  select(-prop) %>%
   pivot_wider(names_from = neighbourhood, values_from = value)
 
 # Save data ----
