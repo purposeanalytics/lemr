@@ -16,7 +16,6 @@ app_ui <- function(request) {
       collapsible = TRUE,
       id = "page",
       selected = "Home",
-      cicerone::use_cicerone(),
       shiny::tabPanel(
         "Home",
         mod_home_ui("home")

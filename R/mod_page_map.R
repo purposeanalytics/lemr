@@ -67,6 +67,8 @@ mod_page_map_server <- function(id){
     mod_point_layer_server("agi", address_and_neighbourhood, point_layers, "agi")
     mod_point_layer_server("tdf", address_and_neighbourhood, point_layers, "tdf")
 
+    # Tour
+    map_guide()$init()$start()
   })
 }
 
@@ -75,3 +77,14 @@ mod_page_map_server <- function(id){
 
 ## To be copied in the server
 # mod_page_map_server("map")
+
+
+map_guide <- function() {
+    cicerone::Cicerone$
+      new()$
+      step(
+        "map-aggregate-layer",
+        title = "Zoom map",
+        description = "Search by address or neighbourhood to zoom in"
+      )
+}
