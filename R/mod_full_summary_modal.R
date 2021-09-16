@@ -613,7 +613,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         shiny::div(
           role = "img",
           `aria-label` = average_total_household_income_alt_text(),
-          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px")
+          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "125px")
         )
       })
 

@@ -209,72 +209,8 @@ city <- append(city, list(population_density = population_density_city, populati
 # Retrieved from rental_supply > census_custom_tab_2016_table2
 
 ### Average total income ----
-# Variable "Total - Income statistics in 2015 for private households by household size - 25% sample data"
-# And narrow in on average total income for one and two+ person households
 
-average_total_income_by_ct <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Income statistics in 2015 for private households by household size - 25% sample data") %>%
-  filter(dimension %in% c("Average total income of one-person households in 2015 ($)", "Average total income of two-or-more-person households in 2015 ($)")) %>%
-  select(dimension, geo_code, avg_total_income = total) %>%
-  mutate(size = case_when(
-    str_detect(dimension, "one-person") ~ 1,
-    str_detect(dimension, "two-or-more-person") ~ 2
-  )) %>%
-  select(-dimension)
-
-# Need to average out for the whole neighbourhood:
-# Get the household size and multiply with average total income to get the TOTAL income for that census tract
-# Then sum that across census tracts and divide by the number of households to get the average income for the neighbourhood
-
-household_size_agg_by_ct <- census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Private households by household size - 100% data") %>%
-  mutate(size = ifelse(dimension == "1 person", 1, 2)) %>%
-  group_by(neighbourhood, geo_code, size) %>%
-  summarise(total_households = sum(total, na.rm = TRUE), .groups = "drop")
-
-total_income_by_household_size_by_ct <- average_total_income_by_ct %>%
-  left_join(household_size_agg_by_ct, by = c("geo_code", "size")) %>%
-  mutate(total_income = avg_total_income * total_households) %>%
-  select(neighbourhood, geo_code, size, avg_total_income, total_households, total_income)
-
-average_total_income_by_neighbourhood <- total_income_by_household_size_by_ct %>%
-  group_by(neighbourhood, size) %>%
-  summarise(
-    value = sum(total_income, na.rm = TRUE) / sum(total_households, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    group = case_when(
-      size == 1 ~ "1 person households",
-      size == 2 ~ "2+ person households"
-    ),
-    group = fct_reorder(group, size),
-    value = round(value)
-  ) %>%
-  select(neighbourhood, group, value)
-
-# This is not 100% right - TODO
-# Danforth has 44,139 and 135,109 in the report
-average_total_income_by_neighbourhood %>%
-  filter(neighbourhood == "Danforth")
-# Versus 43648 and 135290 here
-
-neighbourhood <- append(neighbourhood, list(average_total_income = average_total_income_by_neighbourhood))
-
-# Compare to city with breakdown
-
-average_total_income_city <- census_profiles_toronto %>%
-  keep_most_detailed_dimension("Total - Income statistics in 2015 for private households by household size - 25% sample data") %>%
-  filter(dimension %in% c("Average total income of one-person households in 2015 ($)", "Average total income of two-or-more-person households in 2015 ($)")) %>%
-  select(dimension, value = total) %>%
-  mutate(group = case_when(
-    str_detect(dimension, "one-person") ~ "1 person households",
-    str_detect(dimension, "two-or-more-person") ~ "2+ person households"
-  ),
-  value = round(value)) %>%
-  select(group, value)
-
-city <- append(city, list(average_total_income = average_total_income_city))
+# Retrieved from census_custom_tab_2016_table1_income/
 
 ### Unaffordable housing ----
 # Variable: "Total - Tenant households in non-farm, non-reserve private dwellings - 25% sample data"
