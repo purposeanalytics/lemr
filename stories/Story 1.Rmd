@@ -1,5 +1,6 @@
 ---
 title: "Stories1"
+date: "9/16/2021"
 output: html_document
 ---
 
@@ -7,22 +8,69 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r library, warning=FALSE, message=FALSE}
+library(dplyr)
+library(readr)
+library(ggplot2)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+buildings_layers <- read_csv(here::here('stories/data/buildings_layers.csv'))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+agi_tdf <- buildings_layers %>% 
+  select(bing_address, neighbourhood, agi, tdf, tdf_year, reduced_increase_by) %>% 
+  separate_rows(tdf_year, reduced_increase_by, sep = ',') %>% 
+  group_by(neighbourhood) %>% mutate(reduced_increase_by = as.numeric(gsub("%", "", reduced_increase_by, fixed = TRUE))/100) %>%  
+  summarise(Count = n_distinct(bing_address), AGI = sum(agi, na.rm = TRUE), 
+            TDF = sum(tdf, na.rm = TRUE), 
+            reduced_increase_by_avg = mean(reduced_increase_by, na.rm = TRUE)) %>%  
+  mutate(agi_ratio = AGI/Count, tdf_ratio = TDF/AGI) %>% 
+  mutate_at(vars(reduced_increase_by_avg), ~replace(., is.nan(.), 0)) %>% 
+  filter(Count > 10 & AGI > 8) %>% arrange(desc(reduced_increase_by_avg)) 
+agi_tdf
+```
+
+```{r}
+plotly::ggplotly(
+  ggplot(agi_tdf, aes(agi_ratio, tdf_ratio, fill = neighbourhood)) +
+    geom_point(size = agi_tdf$reduced_increase_by_avg * 300) +
+    theme_bw()+
+    theme(legend.position = 'None')
+    )
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
