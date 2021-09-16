@@ -90,9 +90,9 @@ aggregate_prop_by_neighbourhood <- function(df, dimension_full_start) {
 
   df_children_summary %>%
     left_join(df_parent_summary, by = "neighbourhood") %>%
-    mutate(prop = value / total) %>%
-    select(neighbourhood, group, value, prop) %>%
-    complete(neighbourhood, group, fill = list(value = 0, prop = 0))
+    mutate(prop = round(value / total, 3)) %>%
+    select(neighbourhood, group, prop) %>%
+    complete(neighbourhood, group, fill = list(prop = 0))
 }
 
 aggregate_prop_city <- function(df, dimension_full_start) {
@@ -109,8 +109,8 @@ aggregate_prop_city <- function(df, dimension_full_start) {
 
   df_children %>%
     bind_cols(df_parent) %>%
-    mutate(prop = value / total) %>%
-    select(group, value, prop)
+    mutate(prop = round(value / total, 3)) %>%
+    select(group, prop)
 }
 
 ## People ---------------------------------------------------------------- -----
@@ -188,7 +188,7 @@ population_density_by_neighbourhood <- census_profiles_toronto_cts %>%
   pivot_wider(names_from = dimension, values_from = total) %>%
   group_by(neighbourhood) %>%
   summarize(across(c(population, area), sum, na.rm = TRUE)) %>%
-  mutate(population_density = population / area) %>%
+  mutate(population_density = round(population / area)) %>%
   select(neighbourhood, value = population_density)
 
 neighbourhood <- append(neighbourhood, list(population_density = population_density_by_neighbourhood))
@@ -196,7 +196,8 @@ neighbourhood <- append(neighbourhood, list(population_density = population_dens
 # Compare to city with value and distribution
 population_density_city <- census_profiles_toronto %>%
   filter(dimension == "Population density per square kilometre") %>%
-  pull(total)
+  pull(total) %>%
+  round()
 
 population_density_city_distribution <- population_density_by_neighbourhood["value"]
 
@@ -280,7 +281,8 @@ average_total_income_by_neighbourhood <- total_income_by_household_size_by_ct %>
       size == 1 ~ "1 person households",
       size == 2 ~ "2+ person households"
     ),
-    group = fct_reorder(group, size)
+    group = fct_reorder(group, size),
+    value = round(value)
   ) %>%
   select(neighbourhood, group, value)
 
@@ -301,7 +303,8 @@ average_total_income_city <- census_profiles_toronto %>%
   mutate(group = case_when(
     str_detect(dimension, "one-person") ~ "1 person households",
     str_detect(dimension, "two-or-more-person") ~ "2+ person households"
-  )) %>%
+  ),
+  value = round(value)) %>%
   select(group, value)
 
 city <- append(city, list(average_total_income = average_total_income_city))
@@ -327,7 +330,8 @@ unaffordable_housing_by_neighbourhood <- census_profiles_toronto_cts %>%
   left_join(renter_by_ct, by = "geo_code") %>%
   mutate(number_unaffordable = round(renter * percent_unaffordable / 100)) %>%
   group_by(neighbourhood) %>%
-  summarise(value = sum(number_unaffordable, na.rm = TRUE) / sum(renter, na.rm = TRUE))
+  summarise(value = sum(number_unaffordable, na.rm = TRUE) / sum(renter, na.rm = TRUE),
+            value = round(value, 3))
 
 # TODO not quite right
 # Danforth shows 49.6
@@ -341,7 +345,7 @@ neighbourhood <- append(neighbourhood, list(unaffordable_housing = unaffordable_
 unaffordable_housing_city <- census_profiles_toronto %>%
   filter(dimension == "% of tenant households spending 30% or more of its income on shelter costs") %>%
   pull(total)
-unaffordable_housing_city <- unaffordable_housing_city / 100
+unaffordable_housing_city <- round(unaffordable_housing_city / 100, 3)
 
 unaffordable_housing_city_distribution <- unaffordable_housing_by_neighbourhood["value"]
 
@@ -357,7 +361,8 @@ lim_at_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
   aggregate_total_by_neighbourhood() %>%
   left_join(private_households_by_neighbourhood, by = "neighbourhood", suffix = c("_poverty", "_population")) %>%
-  mutate(value = value_poverty / value_population) %>%
+  mutate(value = value_poverty / value_population,
+         value = round(value, 3)) %>%
   select(neighbourhood, value)
 
 neighbourhood <- append(neighbourhood, list(lim_at = lim_at_by_neighbourhood))
@@ -371,7 +376,7 @@ persons_city <- census_profiles_toronto %>%
   filter(dimension == "Number of persons in private households") %>%
   pull(total)
 
-lim_at_city <- lim_at_city / persons_city
+lim_at_city <- round(lim_at_city / persons_city, 3)
 
 city <- append(city, list(lim_at = lim_at_city, lim_at_distribution = lim_at_by_neighbourhood["value"]))
 
@@ -447,7 +452,8 @@ renter_shelter_cost_by_neighbourhood <- average_renter_shelter_cost_by_ct %>%
   left_join(renter_by_ct, by = "geo_code") %>%
   mutate(total_shelter_cost = avg_shelter_cost * renter) %>%
   group_by(neighbourhood) %>%
-  summarise(value = sum(total_shelter_cost, na.rm = TRUE) / sum(renter, na.rm = TRUE))
+  summarise(value = sum(total_shelter_cost, na.rm = TRUE) / sum(renter, na.rm = TRUE),
+            value = round(value))
 
 neighbourhood <- append(neighbourhood, list(average_renter_shelter_cost = renter_shelter_cost_by_neighbourhood))
 
@@ -455,7 +461,8 @@ neighbourhood <- append(neighbourhood, list(average_renter_shelter_cost = renter
 
 average_renter_shelter_cost_city <- census_profiles_toronto %>%
   filter(dimension == "Average monthly shelter costs for rented dwellings ($)") %>%
-  pull(total)
+  pull(total) %>%
+  round()
 
 average_renter_shelter_cost_distribution <- renter_shelter_cost_by_neighbourhood["value"]
 

@@ -23,7 +23,7 @@ amenity_density <- proximity_measures %>%
 amenity_density_by_neighbourhood <- amenity_density %>%
   group_by(neighbourhood, group = amenity_dense) %>%
   summarise(population = sum(population), .groups = "drop_last") %>%
-  mutate(prop = population / sum(population)) %>%
+  mutate(prop = round(population / sum(population), 3)) %>%
   ungroup() %>%
   complete(neighbourhood, group, fill = list(prop = 0)) %>%
   select(neighbourhood, group, prop) %>%
@@ -34,7 +34,7 @@ amenity_density_by_neighbourhood <- amenity_density %>%
 amenity_density_city <- amenity_density %>%
   group_by(group = amenity_dense) %>%
   summarise(population = sum(population), .groups = "drop_last") %>%
-  mutate(prop = population / sum(population)) %>%
+  mutate(prop = round(population / sum(population), 3)) %>%
   select(group, prop)
 
 saveRDS(amenity_density_by_neighbourhood, here::here("data-raw", "aggregate_data", "proximity_measures", "aggregate", "amenity_density_by_neighbourhood.rds"))

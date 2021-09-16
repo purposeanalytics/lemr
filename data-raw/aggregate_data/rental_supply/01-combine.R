@@ -25,13 +25,27 @@ renters_by_neighbourhood <- neighbourhood_profile %>%
   pluck("household_tenure") %>%
   bind_rows() %>%
   filter(group == "Renter") %>%
-  select(neighbourhood, renters = value)
+  select(neighbourhood, renters_prop = prop)
+
+households_by_neighbourhood <- neighbourhood_profile %>%
+  transpose() %>%
+  pluck("households") %>%
+  map(as_tibble) %>%
+  bind_rows(.id = "neighbourhood")
+
+renters_by_neighbourhood <- renters_by_neighbourhood %>%
+  left_join(households_by_neighbourhood, by = "neighbourhood") %>%
+  mutate(renters = round(value * renters_prop))
 
 city_profile <- readRDS(here::here("data-raw", "aggregate_data", "census_profiles_2016", "aggregate", "city_profile.rds"))
 
 renters_city <- city_profile[["household_tenure"]] %>%
   filter(group == "Renter") %>%
-  select(renters = value)
+  pull(prop)
+
+households_city <- city_profile[["households"]]
+
+renters_city <- tibble(renters = round(households_city * renters_city))
 
 # Primary market -----
 

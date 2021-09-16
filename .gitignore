@@ -4,7 +4,6 @@
 .Ruserdata
 .DS_Store
 *.rds
-*.csv
 rsconnect/
 README_cache/
 *.html
