@@ -98,7 +98,6 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     } else {
       if (prop_variable) {
         data <- data %>%
-          dplyr::select(-.data$value) %>%
           dplyr::rename(value = .data$prop) %>%
           dplyr::mutate(label = scales::percent(.data$value, accuracy = 0.1))
       } else if (dollar) {
@@ -263,12 +262,12 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
       lemur::theme_lemur() +
       ggplot2::labs(x = NULL, y = NULL) +
       ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
-      ggplot2::scale_fill_manual(values = c(low_colour, mid_colour, high_colour)) +
+      ggplot2::scale_fill_manual(values = amenity_density_colours()) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank())
   } else {
     plotly::plot_ly(data,
       x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",
-      marker = list(color = c(low_colour, mid_colour, high_colour)),
+      marker = list(color = amenity_density_colours()),
       text = ~label, textposition = "outside", cliponaxis = FALSE,
       textfont = list(color = "black")
     ) %>%
