@@ -156,7 +156,8 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
           dplyr::filter(.data$group != "Unknown") %>%
           dplyr::mutate(res = glue::glue("{group}: {scales::percent(prop)}")) %>%
           dplyr::pull(res) %>%
-          glue::glue_collapse(sep = "; "),
+          glue::glue_collapse(sep = "; ") %>%
+          paste0(" of population"),
         rental_supply_apartment = glue::glue("Apartment households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Apartment") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         rental_supply_condo = glue::glue("Condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         rental_supply_non_condo = glue::glue("Secondary market non-condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Non-Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
