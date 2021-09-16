@@ -81,21 +81,22 @@ number_of_bedrooms_city <- custom_tab_toronto_cts %>%
   aggregate_prop_city("number_of_bedrooms") %>%
   mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
 
-
-## Rental households by hosuehold size -----
+## Rental households by household size -----
 
 household_size_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & household_size == "Total - Household size") %>%
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & number_of_bedrooms == "Total - Number of bedrooms") %>%
   aggregate_prop_by_neighbourhood("household_size") %>%
-  mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
+  arrange(group) %>%
+  mutate(group = fct_inorder(group))
 
 household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
   split(.$neighbourhood)
 
 household_size_city <- custom_tab_toronto_cts %>%
-  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & household_size == "Total - Household size") %>%
-  aggregate_prop_city("number_of_bedrooms") %>%
-  mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & number_of_bedrooms == "Total - Number of bedrooms") %>%
+  aggregate_prop_city("household_size") %>%
+  arrange(group) %>%
+  mutate(group = fct_inorder(group))
 
 # Save -----
 

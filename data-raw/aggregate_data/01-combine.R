@@ -5,6 +5,7 @@
 # Rental supply via rental_supply/
 # Structure type for renters via rental_supply/census_custom_tab_2016_table1/
 # Bedrooms for renters via census_custom_tab_2016_table2/
+# Household size for renters via census_custom_tab_2016_table2/
 # Proximity measures / amenity density via proximity_measures/
 # LEM via affordable_rental_market/
 # Core housing need via core_housing_need/
@@ -35,6 +36,11 @@ structure_type_city <- readRDS(here::here("data-raw", "aggregate_data", "rental_
 
 bedrooms_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_by_neighbourhood.rds"))
 bedrooms_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_city.rds"))
+
+# Household size for renters ----
+
+household_size_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_by_neighbourhood.rds"))
+household_size_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_city.rds"))
 
 # Rental supply -----
 
@@ -101,6 +107,7 @@ for (i in names(neighbourhood_aggregate)) {
 
   neighbourhood_aggregate_i[["structure_type"]] <- structure_type_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["household_size"]] <- household_size_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
@@ -117,6 +124,7 @@ for (i in names(neighbourhood_aggregate)) {
 
 city_aggregate[["structure_type"]] <- structure_type_city
 city_aggregate[["bedrooms"]] <- bedrooms_city
+city_aggregate[["household_size"]] <- household_size_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city

@@ -206,40 +206,7 @@ city <- append(city, list(population_density = population_density_city, populati
 ### Household size ----
 # Variable: "Total - Private households by household size - 100% data"
 
-household_size_by_neighbourhood <- census_profiles_toronto_cts %>%
-  aggregate_prop_by_neighbourhood("Total - Private households by household size - 100% data")
-
-# TODO: These are a bit off compared to the Toronto profiles, but... I think theirs are wrong? e.g.
-
-census_profiles_toronto_cts %>%
-  keep_most_detailed_dimension("Total - Private households by household size - 100% data") %>%
-  filter(neighbourhood == "Danforth", dimension == "1 person") %>%
-  pull(total) %>%
-  sum()
-
-# But the city's says 1185
-# Every one is off by 5 or 10, in different directions
-
-# Ensure ordering of dimensions
-household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
-  mutate(
-    group = ifelse(group == "5 or more persons", "5+ persons", group),
-    dimension_num = parse_number(group),
-    group = fct_reorder(group, dimension_num)
-  ) %>%
-  select(-dimension_num)
-
-neighbourhood <- append(neighbourhood, list(household_size = household_size_by_neighbourhood))
-
-# Compare to city with breakdown
-
-household_size_city <- census_profiles_toronto %>%
-  aggregate_prop_city("Total - Private households by household size - 100% data") %>%
-  mutate(
-    group = ifelse(group == "5 or more persons", "5+ persons", group)
-  )
-
-city <- append(city, list(household_size = household_size_city))
+# Retrieved from rental_supply > census_custom_tab_2016_table2
 
 ### Average total income ----
 # Variable "Total - Income statistics in 2015 for private households by household size - 25% sample data"
