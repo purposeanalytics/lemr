@@ -41,9 +41,9 @@ aggregate_prop_by_neighbourhood <- function(df, column_name, parent_dimension) {
 
   df_children_summary %>%
     left_join(df_parent_summary, by = "neighbourhood") %>%
-    mutate(prop = value / total) %>%
-    select(neighbourhood, group, value, prop) %>%
-    complete(neighbourhood, group, fill = list(value = 0, prop = 0))
+    mutate(prop = round(value / total, 3)) %>%
+    select(neighbourhood, group, prop) %>%
+    complete(neighbourhood, group, fill = list(prop = 0))
 }
 
 aggregate_prop_city <- function(df, column_name, parent_dimension) {
@@ -62,8 +62,8 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
     pull(value)
 
   df_children_summary %>%
-    mutate(prop = value / parent_summary) %>%
-    select(group, value, prop)
+    mutate(prop = round(value / parent_summary, 3)) %>%
+    select(group, prop)
 }
 
 ## Rental households by number of bedrooms -----
