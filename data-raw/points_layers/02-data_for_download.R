@@ -25,7 +25,7 @@ data_coords <- data_coords %>%
 # Remove columns that won't be used -----
 
 data <- data %>%
-  select(-rsn, -address, -score_percent, -score_bucket, -eviction_hearing, -hearings, -tooltip)
+  select(-rsn, -address, -score_percent, -score_bucket, -score_colour, -eviction_hearing, -hearings, -tooltip)
 
 # Convert names to Title Case ----
 names(data) <- str_replace_all(names(data), "_", " ")
@@ -53,6 +53,11 @@ data <- data %>%
   left_join(data_coords, by = c("Id" = "id")) %>%
   relocate(Longitude, Latitude, .after = Address) %>%
   select(-Id)
+
+# Convert NA to ""
+data <- data %>%
+  mutate_if(~ is.numeric(.x) | inherits(.x, "Date"), as.character) %>%
+  mutate_if(is.character, coalesce, "")
 
 # Save data -----
 write_csv(data, here::here("inst", "extdata", "Points Layers.csv"))
