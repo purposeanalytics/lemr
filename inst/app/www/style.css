@@ -30,9 +30,9 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
-  padding-top: 10px;
+  padding-top: 0.75em;
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 1em;
 }
 
 h1 {
@@ -410,6 +410,12 @@ ul {
   margin-bottom: 0;
 }
 
+/* Lightweight tables */
+.lightable-minimal {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Extra small devices (portrait phones, up to 575px) */
@@ -523,6 +529,11 @@ ul {
   .content-page {
     margin: 1em !important;
   }
+
+  /* Summary statistics not in modal, but in sidebar*/
+  .summary-statistics {
+    width: 100% !important;
+  }
 }
 
 /* Large devices (desktops, 992px to 1200px) */
@@ -538,6 +549,10 @@ ul {
 
   /* Allow summary statistics to take up full width */
   .modal-summary-statistics {
+    width: 100% !important;
+  }
+
+  .summary-statistics {
     width: 100% !important;
   }
 }

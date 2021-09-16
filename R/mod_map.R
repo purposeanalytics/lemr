@@ -23,6 +23,8 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
         add_blank_lem_layer() %>%
+        add_blank_rental_supply_layers() %>%
+        add_blank_core_housing_need_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
@@ -41,6 +43,8 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       let hoveredNghdId = null;
       // When the user moves their mouse over the neighbourhood_click layer, we'll update the
       // feature state for the feature under the mouse.
+      // Note that the mouse is observed on neighbourhood_click, which is a fill layer, so it's observed when their mouse is inside the neighbourhood
+      // But the layer that is actually updated is neighbourhood_hover_line, in order to just update the border of the neighbourhood
       map.on('mousemove', 'neighbourhood_click', (e) => {
         map.getCanvas().style.cursor = 'pointer';
         if (e.features.length > 0) {

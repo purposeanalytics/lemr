@@ -64,4 +64,4 @@ agi_applications_and_tdf <- agi_applications_and_tdf %>%
 agi_applications_and_tdf <- agi_applications_and_tdf %>%
   filter(date_agi_initiated >= "2016-01-01")
 
-usethis::use_data(agi_applications_and_tdf, overwrite = TRUE)
+saveRDS(agi_applications_and_tdf, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))

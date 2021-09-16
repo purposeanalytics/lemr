@@ -10,7 +10,8 @@ app_server <- function(input, output, session) {
 
   # Check for link click on home page to change page
   shiny::observeEvent(
-    input$page_link, {
+    input$page_link,
+    {
       shiny::updateTabsetPanel(session, inputId = "page", selected = input$page_link)
     }
   )

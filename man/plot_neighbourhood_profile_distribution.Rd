@@ -15,7 +15,7 @@ plot_neighbourhood_profile_distribution(
 )
 }
 \arguments{
-\item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_profiles}.}
+\item{data}{Neighbourhood profiles data for a given neighbourhood, from \link{neighbourhood_aggregate}.}
 
 \item{variable}{Variable to visualize}
 
@@ -27,18 +27,18 @@ plot_neighbourhood_profile_distribution(
 Plot the distribution of a variable, across neighbourhoods, with an optional line showing the current neighbourhood's value
 }
 \examples{
-neighbourhood_profiles[["Danforth"]] \%>\%
+neighbourhood_aggregate[["Danforth"]] \%>\%
   plot_neighbourhood_profile_distribution("population_density", binwidth = 1000)
 
-neighbourhood_profiles[["Danforth"]] \%>\%
+neighbourhood_aggregate[["Danforth"]] \%>\%
   plot_neighbourhood_profile_distribution("population_change", binwidth = 0.025)
 
-neighbourhood_profiles[["Danforth"]] \%>\%
+neighbourhood_aggregate[["Danforth"]] \%>\%
   plot_neighbourhood_profile_distribution("unaffordable_housing", binwidth = 0.025)
 
-neighbourhood_profiles[["Danforth"]] \%>\%
+neighbourhood_aggregate[["Danforth"]] \%>\%
   plot_neighbourhood_profile_distribution("average_renter_shelter_cost", binwidth = 50)
 
-neighbourhood_profiles[["Danforth"]] \%>\%
+neighbourhood_aggregate[["Danforth"]] \%>\%
   plot_neighbourhood_profile_distribution("lim_at", binwidth = 0.025)
 }

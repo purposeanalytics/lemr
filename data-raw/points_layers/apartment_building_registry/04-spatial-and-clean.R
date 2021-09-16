@@ -134,5 +134,5 @@ apartment_building_registry <- apartment_building_registry %>%
     }
   ))
 
-# Save as data set in package
-usethis::use_data(apartment_building_registry, overwrite = TRUE)
+# Save
+saveRDS(apartment_building_registry, here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
