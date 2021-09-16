@@ -229,7 +229,7 @@ create_popover <- function(icon = popup_icon, title, content) {
 }
 
 amenity_density_legend <- function() {
-  create_square_legend(c(lemur:::low_colour, lemur:::mid_colour, lemur:::high_colour), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
+  create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 }
 
 low_high_legend_colors <- c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")

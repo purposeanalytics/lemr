@@ -157,7 +157,14 @@ add_blank_amenity_density_layer <- function(map) {
           "visibility" = "none"
         ),
         "paint" = list(
-          "fill-color" = c("get", "colour"),
+          "fill-color" = list(
+            "case",
+            list("==", c("get", "amenity_dense"), "Low"), amenity_density_colours()[["Low"]],
+            list("==", c("get", "amenity_dense"), "Medium"), amenity_density_colours()[["Medium"]],
+            list("==", c("get", "amenity_dense"), "High"), amenity_density_colours()[["High"]],
+            # Defaults to 'white'
+            "white"
+          ),
           "fill-opacity" = c("get", "alpha"),
           "fill-outline-color" = "black"
         )
