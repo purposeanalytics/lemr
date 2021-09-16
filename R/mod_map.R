@@ -7,7 +7,8 @@
 #' @noRd
 mod_map_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
+  shiny::div(
+    style = "calc(100vh - 120px) !important;",
     mapboxer::mapboxerOutput(ns("map"))
   )
 }

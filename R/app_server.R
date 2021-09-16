@@ -16,34 +16,7 @@ app_server <- function(input, output, session) {
     }
   )
 
-  address_and_neighbourhood <- shiny::reactiveValues()
-  search_method <- shiny::reactiveVal()
-
-  mod_search_server("search", address_and_neighbourhood, search_method)
-
-  mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
-
-  # Header
-
-  mod_sidebar_header_server("header", address_and_neighbourhood, search_method)
-
-  # Layers
-
-  ## Aggregate layers
-
-  aggregate_layers <- shiny::reactiveVal()
-
-  mod_aggregate_layer_server("aggregate", address_and_neighbourhood, aggregate_layers)
-
-  ## Points layers
-
-  point_layers <- shiny::reactiveVal()
-
-  mod_point_layer_server("apartment_buildings", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("apartment_evaluation", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("evictions_hearings", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("agi", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("tdf", address_and_neighbourhood, point_layers)
+  mod_page_map_server("map")
 
   # Tour
   # gen_guide()$init()$start()
