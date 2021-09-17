@@ -24,16 +24,16 @@ aggregate_total_by_neighbourhood <- function(df) {
 }
 
 # When we calculate proportion we can't just sum the totals - we need to use the parent dimension because of rounding / non-response
-aggregate_prop_by_neighbourhood <- function(df, column_name, parent_dimension) {
+aggregate_prop_by_neighbourhood <- function(df, column_name) {
   df_children <- df %>%
-    filter(!!sym(column_name) != parent_dimension)
+    filter(!str_detect(!!sym(column_name), "Total"))
 
   df_children_summary <- df_children %>%
     group_by(neighbourhood, group = !!sym(column_name)) %>%
     summarise(value = sum(total, na.rm = TRUE), .groups = "drop")
 
   df_parent <- df %>%
-    filter(!!sym(column_name) == parent_dimension)
+    filter(str_detect(!!sym(column_name), "Total"))
 
   df_parent_summary <- df_parent %>%
     aggregate_total_by_neighbourhood() %>%
@@ -46,16 +46,16 @@ aggregate_prop_by_neighbourhood <- function(df, column_name, parent_dimension) {
     complete(neighbourhood, group, fill = list(prop = 0))
 }
 
-aggregate_prop_city <- function(df, column_name, parent_dimension) {
+aggregate_prop_city <- function(df, column_name) {
   df_children <- df %>%
-    filter(!!sym(column_name) != parent_dimension)
+    filter(!str_detect(!!sym(column_name), "Total"))
 
   df_children_summary <- df_children %>%
     group_by(group = !!sym(column_name)) %>%
     summarise(value = sum(total, na.rm = TRUE), .groups = "drop")
 
   df_parent <- df %>%
-    filter(!!sym(column_name) == parent_dimension)
+    filter(str_detect(!!sym(column_name), "Total"))
 
   parent_summary <- df_parent %>%
     summarise(value = sum(total, na.rm = TRUE)) %>%
@@ -69,19 +69,39 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
 ## Rental households by number of bedrooms -----
 
 number_of_bedrooms_by_neighbourhood <- custom_tab_toronto_cts %>%
-  filter(tenure == "Renter") %>%
-  aggregate_prop_by_neighbourhood("number_of_bedrooms", "Total - Number of bedrooms") %>%
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & household_size == "Total - Household size") %>%
+  aggregate_prop_by_neighbourhood("number_of_bedrooms") %>%
   mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
 
 number_of_bedrooms_by_neighbourhood <- number_of_bedrooms_by_neighbourhood %>%
   split(.$neighbourhood)
 
 number_of_bedrooms_city <- custom_tab_toronto_cts %>%
-  filter(tenure == "Renter") %>%
-  aggregate_prop_city("number_of_bedrooms", "Total - Number of bedrooms") %>%
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & household_size == "Total - Household size") %>%
+  aggregate_prop_city("number_of_bedrooms") %>%
   mutate(group = fct_relevel(group, "No bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 or more bedrooms"))
+
+## Rental households by household size -----
+
+household_size_by_neighbourhood <- custom_tab_toronto_cts %>%
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & number_of_bedrooms == "Total - Number of bedrooms") %>%
+  aggregate_prop_by_neighbourhood("household_size") %>%
+  arrange(group) %>%
+  mutate(group = fct_inorder(group))
+
+household_size_by_neighbourhood <- household_size_by_neighbourhood %>%
+  split(.$neighbourhood)
+
+household_size_city <- custom_tab_toronto_cts %>%
+  filter(tenure == "Renter" & condominium_status == "Total - Condominium status" & number_of_bedrooms == "Total - Number of bedrooms") %>%
+  aggregate_prop_city("household_size") %>%
+  arrange(group) %>%
+  mutate(group = fct_inorder(group))
 
 # Save -----
 
 saveRDS(number_of_bedrooms_by_neighbourhood, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_by_neighbourhood.rds"))
 saveRDS(number_of_bedrooms_city, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_city.rds"))
+
+saveRDS(household_size_by_neighbourhood, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_by_neighbourhood.rds"))
+saveRDS(household_size_city, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_city.rds"))

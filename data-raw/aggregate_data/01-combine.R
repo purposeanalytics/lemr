@@ -5,9 +5,12 @@
 # Rental supply via rental_supply/
 # Structure type for renters via rental_supply/census_custom_tab_2016_table1/
 # Bedrooms for renters via census_custom_tab_2016_table2/
+# Household size for renters via census_custom_tab_2016_table2/
+# Household income via census_custom_tab_2016_table1_income/
 # Proximity measures / amenity density via proximity_measures/
 # LEM via affordable_rental_market/
 # Core housing need via core_housing_need/
+# Evictions data via evictions_by_neighbourhood/
 
 # Point data aggregated
 # Apartment buildings / units via points_layers/apartment_building_registry/
@@ -36,6 +39,18 @@ structure_type_city <- readRDS(here::here("data-raw", "aggregate_data", "rental_
 bedrooms_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_by_neighbourhood.rds"))
 bedrooms_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "number_of_bedrooms_city.rds"))
 
+# Household size for renters ----
+
+household_size_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_by_neighbourhood.rds"))
+household_size_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "aggregate", "household_size_city.rds"))
+
+# Household income for renters ----
+
+average_income_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table1_income", "aggregate", "average_income_by_neighbourhood.rds")) %>%
+  split(.$neighbourhood)
+
+average_income_city <- readRDS(here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table1_income", "aggregate", "average_income_city.rds"))
+
 # Rental supply -----
 
 rental_supply_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood.rds"))
@@ -61,6 +76,11 @@ lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_
 
 core_housing_need_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood.rds"))
 core_housing_need_city <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_city.rds"))
+
+# Evictions -----
+
+evictions_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_by_neighbourhood.rds"))
+evictions_city <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_city.rds"))
 
 # Apartment buildings -----
 
@@ -101,10 +121,13 @@ for (i in names(neighbourhood_aggregate)) {
 
   neighbourhood_aggregate_i[["structure_type"]] <- structure_type_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["bedrooms"]] <- bedrooms_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["household_size"]] <- household_size_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["average_total_income"]] <- average_income_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["core_housing_need"]] <- core_housing_need_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["evictions"]] <- evictions_by_neighbourhood[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["number_of_units"]] <- units_by_neighbourhood[[i]]
@@ -117,10 +140,13 @@ for (i in names(neighbourhood_aggregate)) {
 
 city_aggregate[["structure_type"]] <- structure_type_city
 city_aggregate[["bedrooms"]] <- bedrooms_city
+city_aggregate[["household_size"]] <- household_size_city
+city_aggregate[["average_total_income"]] <- average_income_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
 city_aggregate[["core_housing_need"]] <- core_housing_need_city
+city_aggregate[["evictions"]] <- evictions_city
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution

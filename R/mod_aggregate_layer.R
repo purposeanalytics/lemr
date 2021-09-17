@@ -56,6 +56,14 @@ mod_aggregate_layer_ui <- function(id) {
           ns = ns
         ),
         shiny::conditionalPanel(
+          "input.layer == 'evictions'",
+          shiny::h2(
+            "Select aggregate layer",
+            evictions_tooltip
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
           "input.layer == 'amenity_density'",
           shiny::h2(
             "Select aggregate layer",
@@ -98,6 +106,11 @@ mod_aggregate_layer_ui <- function(id) {
         shiny::conditionalPanel(
           "input.layer == 'core_housing_need'",
           core_housing_need_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'evictions'",
+          evictions_legend,
           ns = ns
         ),
         shiny::conditionalPanel(
@@ -164,6 +177,10 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
         core_housing_need = glue::glue("Core housing need: {percent}",
           percent = dataset()[["core_housing_need"]][["prop"]] %>%
             scales::percent(accuracy = 0.1)
+        ),
+        evictions = glue::glue("Eviction rate: {percent}",
+          percent = dataset()[["evictions"]][["prop"]] %>%
+            scales::percent(accuracy = 0.1)
         )
       )
     })
@@ -220,7 +237,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_apartment = "Rental supply: Apartment rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", core_housing_need = "Core housing need", amenity_density = "Proximity to amenities")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_apartment = "Rental supply: Apartment rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to amenities")
 
 popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon", style = "color: var(--grey-color);")
 
@@ -245,6 +262,8 @@ rental_supply_non_condo_legend <- generate_layers_legend(low_high_legend_colors,
 
 core_housing_need_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
 
+evictions_legend <- generate_layers_legend(low_high_legend_colors, "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
+
 lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
 
 amenity_density_tooltip <- create_popover(title = "Proximity to amenities", content = "This layer shows the proximity to amenities of each census block. An area has low proximity to amenities (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
@@ -256,6 +275,8 @@ rental_supply_condo_tooltip <- create_popover(title = "Rental supply: Condominiu
 rental_supply_non_condo_tooltip <- create_popover(title = "Rental supply: Secondary market non-condominium rentals", content = NULL)
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
+
+evictions_tooltip <- create_popover(title = "Eviction rate", content = NULL)
 
 ## To be copied in the UI
 # mod_aggregate_layer_ui("layer_lem_ui_1")
