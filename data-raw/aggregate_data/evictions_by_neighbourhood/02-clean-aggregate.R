@@ -24,14 +24,29 @@ evictions_by_neighbourhood <- evictions_rate %>%
 # Evictions for the whole city
 evictions_city <- evictions_by_neighbourhood %>%
   summarise(
-    evictions = sum(evictions),
-    renter_households = sum(renter_households),
-    eviction_rate = evictions / renter_households
-  )
+    value = sum(evictions),
+    renter_households = sum(renter_households)
+  ) %>%
+  mutate(prop = value / renter_households) %>%
+  select(prop)
 
 evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
-  select(-renter_households)
+  select(neighbourhood, prop = eviction_rate)
 
 # Save
-saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "extract", "evictions_by_neighbourhood.rds"))
-saveRDS(evictions_city, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "extract", "evictions_city.rds"))
+saveRDS(evictions_city, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_city.rds"))
+
+# Version for mapping ----
+
+# Add groups for colour, then make wide
+# 6 groups in c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+
+evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
+  select(neighbourhood, prop) %>%
+  mutate(prop_group = cut(prop, seq(0, 0.20, length.out = 7), include.lowest = TRUE, labels = FALSE))
+
+usethis::use_data(evictions_by_neighbourhood, overwrite = TRUE)
+
+evictions_by_neighbourhood <- evictions_by_neighbourhood %>% select(-prop_group) %>% split(.$neighbourhood)
+
+saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_by_neighbourhood.rds"))

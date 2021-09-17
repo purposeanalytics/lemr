@@ -183,6 +183,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
             dplyr::filter(group == "Renter") %>%
             dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
           `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
+            scales::percent(accuracy = 0.1),
+          `Eviction rate` = dataset()[["evictions"]][["prop"]] %>%
             scales::percent(accuracy = 0.1)
         ) %>%
           tidyr::pivot_longer(cols = dplyr::everything()) %>%

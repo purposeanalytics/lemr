@@ -4,10 +4,10 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noR
+#' @noRd
 mod_home_ui <- function(id) {
-  ns <- NS(id)
-  tagList(
+  ns <- shiny::NS(id)
+  shiny::tagList(
     shiny::div(
       class = "content-page",
       shiny::includeMarkdown(app_sys("app", "home.md"))
