@@ -35,5 +35,5 @@ toronto_community_housing <- toronto_community_housing %>%
   )
 
 # ### Save Toronto Community Housing buildings
-fs::dir_create(here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "extract"))
-saveRDS(toronto_community_housing, here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "extract", "toronto_community_housing.rds"))
+fs::dir_create(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "extract"))
+saveRDS(toronto_community_housing, here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "extract", "toronto_community_housing.rds"))

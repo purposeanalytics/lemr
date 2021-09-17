@@ -7,7 +7,7 @@ devtools::load_all()
 
 ## read TCH buildings ----
 
-toronto_community_housing <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "extract", "toronto_community_housing.rds"))
+toronto_community_housing <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "extract", "toronto_community_housing.rds"))
 
 # remove geometry so that we can join by id rather than spatial coords
 toronto_community_housing <- toronto_community_housing %>%
@@ -26,5 +26,5 @@ tch_by_neighbourhood <- lemur::neighbourhoods %>%
   ungroup()
 
 ### Save data ----
-fs::dir_create(here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "aggregate"))
-saveRDS(tch_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "aggregate", "toronto_community_housing.rds"))
+fs::dir_create(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "aggregate"))
+saveRDS(tch_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "aggregate", "toronto_community_housing.rds"))

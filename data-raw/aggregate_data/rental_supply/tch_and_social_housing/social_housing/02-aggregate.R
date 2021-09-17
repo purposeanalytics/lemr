@@ -7,10 +7,10 @@ devtools::load_all()
 
 ## read social housing unit counts ----
 
-social_housing <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "social_housing", "extract", "social_housing.rds"))
+social_housing <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract", "social_housing.rds"))
 
 ## read tch housing unit counts
-tch_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "toronto_community_housing", "aggregate", "toronto_community_housing.rds"))
+tch_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "toronto_community_housing", "aggregate", "toronto_community_housing.rds"))
 
 # remove geometry for regular join
 tch_by_neighbourhood <- tch_by_neighbourhood %>%
@@ -56,4 +56,4 @@ social_housing_by_neighbourhood <- social_housing_by_neighbourhood %>%
   )
 
 ### Save data ----
-saveRDS(social_housing_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "social_housing", "aggregate", "social_housing.rds"))
+saveRDS(social_housing_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "aggregate", "social_housing.rds"))

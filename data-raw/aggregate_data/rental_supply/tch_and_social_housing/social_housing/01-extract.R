@@ -31,6 +31,6 @@ social_housing <- social_housing %>%
   mutate(social_units_market = social_units_total - social_units_rgi)
 
 # ### Save data
-fs::dir_create( here::here("data-raw", "aggregate_data", "rental_supply", "social_housing", "extract"))
-saveRDS(social_housing, here::here("data-raw", "aggregate_data", "rental_supply", "social_housing", "extract", "social_housing.rds"))
+fs::dir_create( here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract"))
+saveRDS(social_housing, here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract", "social_housing.rds"))
 
