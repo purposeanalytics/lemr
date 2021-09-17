@@ -6,11 +6,11 @@
 # - Non-apartment (row-houses)
 # Secondary:
 # - Condo
-# - Non-condo (diff of total renters - primary - condo)
+# - Non-condo (diff of total renters - primary - condo - non-market)
 
-# Non-market -> TBD ******
-# - Social housing
-# - Supportive housing
+# Non-market
+# - Toronto Community Housing
+# - Other non-market
 
 library(dplyr)
 library(purrr)
@@ -53,6 +53,14 @@ primary_market_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_dat
 
 primary_market_city <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "primary_market_universe", "aggregate", "primary_market_city.rds"))
 
+# Non-market
+
+social_housing_and_tch_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "aggregate", "social_housing_and_tch_by_neighbourhood.rds")) %>%
+  select(neighbourhood, tch = tch_units_rgi, other_non_market = other_social_units_rgi)
+
+social_housing_and_tch_city <- social_housing_and_tch_by_neighbourhood %>%
+  summarise(across(c(tch, other_non_market), sum))
+
 # Secondary market -----
 
 ## Condos -----
@@ -71,8 +79,9 @@ secondary_non_condo_by_neighbourhood <- renters_by_neighbourhood %>%
   ) %>%
   full_join(secondary_condo_by_neighbourhood %>%
     select(neighbourhood, secondary_condo = value), by = "neighbourhood") %>%
-  mutate(across(c(primary_rental, secondary_condo), coalesce, 0)) %>%
-  mutate(value = renters - primary_rental - secondary_condo) %>%
+  full_join(social_housing_and_tch_by_neighbourhood, by = "neighbourhood") %>%
+  mutate(across(c(primary_rental, secondary_condo, tch, other_non_market), coalesce, 0)) %>%
+  mutate(value = renters - primary_rental - secondary_condo - tch - other_non_market) %>%
   select(neighbourhood, value) %>%
   mutate(group = "secondary non-condo")
 
