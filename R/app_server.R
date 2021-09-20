@@ -21,8 +21,17 @@ app_server <- function(input, output, session) {
   # Trigger tour when map is loaded
   shiny::observeEvent(input$mapLoaded, {
     if (input$mapLoaded) {
+
       Sys.sleep(1.5)
-      map_guide()$init()$start()
+
+      # Get cookie
+      visited <- glouton::fetch_cookies()
+
+      # If cookie is null, set to "yes" then show the tour
+      if (is.null(visited$visited_site)){
+        glouton::add_cookie("visited_site", "yes")
+        map_guide()$init()$start()
+      }
     }
   })
 
@@ -34,7 +43,6 @@ app_server <- function(input, output, session) {
   #   }
   # })
 }
-
 
 map_guide <- function() {
   cicerone::Cicerone$
@@ -54,10 +62,12 @@ map_guide <- function() {
       position = "left",
       title = "Dive into the specifics",
       description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
-    )#$
-    # step(
-    #   "data_definitions_div",
-    #   title = "Learn more",
-    #   description = "Find data sources and key terms in <b>Data & Definitions</b>."
-    # )
+    )$
+    step(
+      "[data-value='Data & Definitions']",
+      is_id = FALSE,
+      position = "left",
+      title = "Learn more",
+      description = "Find data sources and key terms in <b>Data & Definitions</b>."
+    )
 }

@@ -47,7 +47,8 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "Low-end of Market Rental Monitor"
     ),
-    cicerone::use_cicerone()
+    cicerone::use_cicerone(),
+    glouton::use_glouton()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )

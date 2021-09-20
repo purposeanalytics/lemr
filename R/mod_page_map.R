@@ -36,7 +36,7 @@ mod_page_map_ui <- function(id){
 #'
 #' @noRd
 mod_page_map_server <- function(id){
-  moduleServer( id, function(input, output, session){
+  shiny::moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     address_and_neighbourhood <- shiny::reactiveValues()
