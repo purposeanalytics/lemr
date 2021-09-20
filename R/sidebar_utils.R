@@ -20,7 +20,7 @@ format_measure <- function(data, measure) {
     glue::glue("{sign}{pop_change_percent}")
   } else if (measure %in% c("population_density", "number_of_buildings", "number_of_units")) {
     scales::comma(round(data))
-  } else if (measure %in% c("unaffordable_housing", "lim_at")) {
+  } else if (measure %in% c("unaffordable_housing", "lim_at", "evictions", "core_housing_need")) {
     scales::percent(data, accuracy = 0.1)
   } else if (measure == "average_renter_shelter_cost") {
     scales::dollar(data, accuracy = 1)
@@ -62,6 +62,26 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
     kableExtra::kable(format = "html", align = c("l", rep("r", ncol(res) - 1))) %>%
     kableExtra::kable_styling() %>%
     kableExtra::kable_styling(bootstrap_options = "condensed")
+}
+
+# Summary statistics
+
+summary_statistics_table <- function(data) {
+  dplyr::tibble(
+    `Total households` = data[["households"]] %>% scales::comma(),
+    `Total population` = scales::comma(data[["population"]]),
+    `Proportion renters` = data[["household_tenure"]] %>%
+      dplyr::filter(group == "Renter") %>%
+      dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
+    `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
+    `Eviction rate` = format_measure(data[["evictions"]], "evictions")
+  ) %>%
+    tidyr::pivot_longer(cols = dplyr::everything()) %>%
+    knitr::kable(col.names = NULL, align = "lr") %>%
+    kableExtra::kable_minimal(
+      html_font = "\"Lato\", sans-serif",
+      full_width = TRUE
+    )
 }
 
 # Rental supply -----
@@ -316,6 +336,104 @@ amenity_density_plot_alt_text <- function(level, neighbourhood) {
 amenity_density_plot <- function(data, compare, static = FALSE) {
   data %>%
     display_neighbourhood_profile("amenity_density", compare = compare, width = 25, static = static)
+}
+
+# Core housing need ----
+
+
+core_housing_need_number <- function(core_housing_need_formatted) {
+  glue::glue("Percent of renters in core housing need: {core_housing_need_formatted}")
+}
+
+core_housing_need_description <- function(level, neighbourhood, core_housing_need, core_housing_need_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_aggregate[["core_housing_need_distribution"]][["value"]])
+    value_percentile <- value_distribution(core_housing_need)
+  }
+
+  switch(level,
+    "city" = "Distribution of percent of renters in core housing need for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of percent of renters in core housing need for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {core_housing_need_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+  )
+}
+
+core_housing_need_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_aggregate[["core_housing_need_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of percent of renters in core housing need for each of the City of Toronto neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} in core housing need with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+    min = min(values),
+    max = max(values),
+    skew_min = stats::quantile(values, 0.1),
+    skew_max = stats::quantile(values, 0.9)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood}'s core housing need percent is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+core_housing_need_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("core_housing_need", compare = compare, binwidth = 0.025, static = static)
+
+  if (static) {
+    p + ggplot2::scale_x_continuous(labels = scales::percent)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
+}
+
+# Evictions -----
+
+
+evictions_number <- function(evictions_formatted) {
+  glue::glue("Percent of units with evictions: {evictions_formatted}")
+}
+
+evictions_description <- function(level, neighbourhood, evictions, evictions_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_aggregate[["evictions_distribution"]][["value"]])
+    value_percentile <- value_distribution(evictions)
+  }
+
+  switch(level,
+         "city" = "Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods.",
+         "neighbourhood" = glue::glue("Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {evictions_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+  )
+}
+
+evictions_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_aggregate[["evictions_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} evictions, and the distribution is heavily skewed with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+                         min = min(values),
+                         max = max(values),
+                         skew_min = stats::quantile(values, 0.1),
+                         skew_max = stats::quantile(values, 0.9)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood}'s evictions is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+evictions_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("evictions", compare = compare, binwidth = 0.0075, static = static)
+
+  if (static) {
+    p + ggplot2::scale_x_continuous(labels = scales::percent)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
 }
 
 

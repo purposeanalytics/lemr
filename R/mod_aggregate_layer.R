@@ -184,12 +184,12 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
         rental_supply_condo = glue::glue("Condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         rental_supply_non_condo = glue::glue("Secondary market non-condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(group == "Non-Condo") %>% dplyr::pull(prop) %>% scales::percent(accuracy = 0.1)),
         core_housing_need = glue::glue("Core housing need: {percent}",
-          percent = dataset()[["core_housing_need"]][["prop"]] %>%
+          percent = dataset()[["core_housing_need"]] %>%
             scales::percent(accuracy = 0.1)
         ),
         rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(market == "Non-market") %>% dplyr::pull(prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
         evictions = glue::glue("Eviction rate: {percent}",
-          percent = dataset()[["evictions"]][["prop"]] %>%
+          percent = dataset()[["evictions"]] %>%
             scales::percent(accuracy = 0.1)
         )
       )

@@ -18,6 +18,7 @@
 # AGI and Tenant Defense Fund via points_layers/agi_and_tenant_defense_fund/
 
 library(dplyr)
+library(purrr)
 
 # Census profiles -----
 
@@ -76,11 +77,17 @@ lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_
 
 core_housing_need_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood.rds"))
 core_housing_need_city <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_city.rds"))
+core_housing_need_distribution <- core_housing_need_by_neighbourhood %>%
+  map(as_tibble) %>%
+  bind_rows()
 
 # Evictions -----
 
 evictions_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_by_neighbourhood.rds"))
 evictions_city <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_city.rds"))
+evictions_distribution <- evictions_by_neighbourhood %>%
+  map(as_tibble) %>%
+  bind_rows()
 
 # Apartment buildings -----
 
@@ -146,7 +153,9 @@ city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
 city_aggregate[["core_housing_need"]] <- core_housing_need_city
+city_aggregate[["core_housing_need_distribution"]] <- core_housing_need_distribution
 city_aggregate[["evictions"]] <- evictions_city
+city_aggregate[["evictions_distribution"]] <- evictions_distribution
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution
