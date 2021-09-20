@@ -284,7 +284,7 @@ add_blank_neighbourhood_layer <- function(map) {
 
 #' Add blank rental supply layers
 #'
-#' Add a blank layers of \link{rental_supply_by_neighbourhood} to a map (created via \link{map_toronto}). There is one layer for apartments (rental_supply_apartment), condo (rental_supply_condo), and secondary (rental_supply_non_condo). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
+#' Add a blank layers of \link{rental_supply_by_neighbourhood} to a map (created via \link{map_toronto}). There is one layer for primary market (rental_supply_primary), condo (rental_supply_condo), secondary (rental_supply_non_condo), and non-market (rental_supply_non_market). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -296,6 +296,7 @@ add_blank_neighbourhood_layer <- function(map) {
 #'   add_blank_rental_supply_layers() %>%
 #'   toggle_layer_visible("rental_supply_condo")
 add_blank_rental_supply_layers <- function(map) {
+
   colors <- dplyr::tibble(color = c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")) %>%
     dplyr::mutate(id = dplyr::row_number())
 
@@ -308,12 +309,14 @@ add_blank_rental_supply_layers <- function(map) {
 
   map %>%
     mapboxer::add_source(mapboxer::as_mapbox_source(rental_supply), id = "rental_supply") %>%
-    # Apartment
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Apartment"), fill_opacity = 0.65, id = "rental_supply_apartment", visibility = FALSE) %>%
+    # Primary
+    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Primary"), fill_opacity = 0.65, id = "rental_supply_primary", visibility = FALSE) %>%
     # Condo
     mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Condo"), fill_opacity = 0.65, id = "rental_supply_condo", visibility = FALSE) %>%
     # Non-condo secondary
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-Condo"), fill_opacity = 0.65, id = "rental_supply_non_condo", visibility = FALSE)
+    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-Condo"), fill_opacity = 0.65, id = "rental_supply_non_condo", visibility = FALSE) %>%
+    # Non-market
+    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-market"), fill_opacity = 0.65, id = "rental_supply_non_market", visibility = FALSE)
 }
 
 #' Add blank core housing need layer
