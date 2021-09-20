@@ -18,9 +18,10 @@ app_server <- function(input, output, session) {
 
   mod_page_map_server("map")
 
-  # Trigger tour when map page is selected
-  shiny::observeEvent(input$page, ignoreInit = TRUE, {
-    if (input$page == "Map"){
+  # Trigger tour when map is loaded
+  shiny::observeEvent(input$mapLoaded, {
+    if (input$mapLoaded) {
+      Sys.sleep(1.5)
       map_guide()$init()$start()
     }
   })
