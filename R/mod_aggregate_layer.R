@@ -48,6 +48,14 @@ mod_aggregate_layer_ui <- function(id) {
           ns = ns
         ),
         shiny::conditionalPanel(
+          "input.layer == 'rental_supply_non_market'",
+          shiny::h2(
+            "Select aggregate layer",
+            rental_supply_non_market_tooltip
+          ),
+          ns = ns
+        ),
+        shiny::conditionalPanel(
           "input.layer == 'core_housing_need'",
           shiny::h2(
             "Select aggregate layer",
@@ -101,6 +109,11 @@ mod_aggregate_layer_ui <- function(id) {
         shiny::conditionalPanel(
           "input.layer == 'rental_supply_non_condo'",
           rental_supply_non_condo_legend,
+          ns = ns
+        ),
+        shiny::conditionalPanel(
+          "input.layer == 'rental_supply_non_market'",
+          rental_supply_non_market_legend,
           ns = ns
         ),
         shiny::conditionalPanel(
@@ -178,6 +191,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
           percent = dataset()[["core_housing_need"]][["prop"]] %>%
             scales::percent(accuracy = 0.1)
         ),
+        rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(market == "Non-market") %>% dplyr::pull(prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
         evictions = glue::glue("Eviction rate: {percent}",
           percent = dataset()[["evictions"]][["prop"]] %>%
             scales::percent(accuracy = 0.1)
@@ -237,7 +251,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Rental supply: Primary market rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to amenities")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Rental supply: Primary market rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", rental_supply_non_market = "Rental supply: Non market rentals", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to amenities")
 
 popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon", style = "color: var(--grey-color);")
 
@@ -260,6 +274,8 @@ rental_supply_condo_legend <- generate_layers_legend(low_high_legend_colors, "0%
 
 rental_supply_non_condo_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
 
+rental_supply_non_market_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "non-market"))
+
 core_housing_need_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
 
 evictions_legend <- generate_layers_legend(low_high_legend_colors, "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
@@ -273,6 +289,8 @@ rental_supply_primary_tooltip <- create_popover(title = "Rental supply: Primary 
 rental_supply_condo_tooltip <- create_popover(title = "Rental supply: Condominium rentals", content = NULL)
 
 rental_supply_non_condo_tooltip <- create_popover(title = "Rental supply: Secondary market non-condominium rentals", content = NULL)
+
+rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non market rentals", content = NULL)
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
 
