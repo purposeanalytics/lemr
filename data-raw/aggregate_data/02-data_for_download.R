@@ -65,7 +65,7 @@ neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
 
 ## Remove total, market, and market value in rental supply ----
 neighbourhoods["rental_supply"] <- neighbourhoods["rental_supply"] %>%
-  map(select, -renters, -market, -market_value)
+  map(select, -renters, -market, -market_value, -value, -market_prop)
 
 ## Rename "prop" to value in others -----
 neighbourhoods <- neighbourhoods %>%
@@ -127,3 +127,4 @@ neighbourhoods <- neighbourhoods %>%
 # Save data ----
 
 write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
+
