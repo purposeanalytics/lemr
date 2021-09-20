@@ -16,37 +16,24 @@ app_server <- function(input, output, session) {
     }
   )
 
-  address_and_neighbourhood <- shiny::reactiveValues()
-  search_method <- shiny::reactiveVal()
+  mod_page_map_server("map")
 
-  mod_search_server("search", address_and_neighbourhood, search_method)
+  # Trigger tour when map is loaded
+  shiny::observeEvent(input$mapLoaded, {
+    if (input$mapLoaded) {
 
-  mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
+      Sys.sleep(1.5)
 
-  # Header
+      # Get cookie
+      visited <- glouton::fetch_cookies()
 
-  mod_sidebar_header_server("header", address_and_neighbourhood, search_method)
-
-  # Layers
-
-  ## Aggregate layers
-
-  aggregate_layers <- shiny::reactiveVal()
-
-  mod_aggregate_layer_server("aggregate", address_and_neighbourhood, aggregate_layers)
-
-  ## Points layers
-
-  point_layers <- shiny::reactiveVal()
-
-  mod_point_layer_server("apartment_buildings", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("apartment_evaluation", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("evictions_hearings", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("agi", address_and_neighbourhood, point_layers)
-  mod_point_layer_server("tdf", address_and_neighbourhood, point_layers)
-
-  # Tour
-  # gen_guide()$init()$start()
+      # If cookie is null, set to "yes" then show the tour
+      if (is.null(visited$visited_site)){
+        glouton::add_cookie("visited_site", "yes")
+        map_guide()$init()$start()
+      }
+    }
+  })
 
   # shiny::observeEvent(input$mapZoom, ignoreInit = TRUE, {
   #   if (input$mapZoom < 12.5 & input$mapZoom != 11) {
@@ -57,12 +44,30 @@ app_server <- function(input, output, session) {
   # })
 }
 
-gen_guide <- function() {
+map_guide <- function() {
   cicerone::Cicerone$
     new()$
     step(
-    "search-address",
-    title = "Zoom map",
-    description = "Search by address or neighbourhood to zoom in"
-  )
+      "aggregate_layer_div",
+      title = "See the big picture",
+      description = "Choose a base layer to see aspects of Toronto's rentals."
+    )$
+    step(
+      "points_layer_div",
+      title = "Spot the details",
+      description = "Enable point layers to identify and compare specific locations of interest."
+    )$
+    step(
+      "map-header-full_summary-modal",
+      position = "left",
+      title = "Dive into the specifics",
+      description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
+    )$
+    step(
+      "[data-value='Data & Definitions']",
+      is_id = FALSE,
+      position = "left",
+      title = "Learn more",
+      description = "Find data sources and key terms in <b>Data & Definitions</b>."
+    )
 }

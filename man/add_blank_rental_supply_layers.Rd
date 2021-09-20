@@ -10,7 +10,7 @@ add_blank_rental_supply_layers(map)
 \item{map}{Map created via \link{map_toronto}}
 }
 \description{
-Add a blank layers of \link{rental_supply_by_neighbourhood} to a map (created via \link{map_toronto}). There is one layer for apartments (rental_supply_apartment), condo (rental_supply_condo), and secondary (rental_supply_non_condo). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
+Add a blank layers of \link{rental_supply_by_neighbourhood} to a map (created via \link{map_toronto}). There is one layer for primary market (rental_supply_primary), condo (rental_supply_condo), secondary (rental_supply_non_condo), and non-market (rental_supply_non_market). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
 }
 \examples{
 library(sf)

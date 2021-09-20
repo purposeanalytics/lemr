@@ -15,6 +15,7 @@ mod_aggregate_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
+          id = "aggregate_layer_div",
         shiny::conditionalPanel(
           "input.layer == 'lem'",
           shiny::h2(
@@ -78,12 +79,7 @@ mod_aggregate_layer_ui <- function(id) {
             amenity_density_tooltip
           ),
           ns = ns
-        )
-      )
-    ),
-    shiny::fluidRow(
-      shiny::column(
-        width = 12,
+        ),
         shiny::selectInput(inputId = ns("layer"), label = NULL, choices = stats::setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
       )
     ),

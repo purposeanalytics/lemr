@@ -5,10 +5,10 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-mod_point_layer_ui <- function(id) {
+mod_point_layer_ui <- function(id, layer) {
   ns <- shiny::NS(id)
 
-  tooltip <- switch(id,
+  tooltip <- switch(layer,
     apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
     apartment_evaluation = create_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Light yellow indicates a failing score (50% or lower) while dark red indicates 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
     evictions_hearings = create_popover(title = "Evictions Hearings", content = "This layer shows the locations of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021."),
@@ -20,10 +20,9 @@ mod_point_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        bsplus::use_bs_popover(),
         shinyWidgets::prettyCheckbox(
           inputId = ns("layer"),
-          label = point_layers_choices[[id]],
+          label = point_layers_choices[[layer]],
           value = FALSE,
           status = "primary",
           inline = TRUE # Ensures tooltip appears beside, since elements are inline
@@ -44,16 +43,16 @@ mod_point_layer_ui <- function(id) {
 #' Point Layer Server Functions
 #'
 #' @noRd
-mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) {
+mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, layer) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Update reactive with value, mod_map handles what's shown
     shiny::observeEvent(input$layer, ignoreInit = TRUE, {
       if (!input$layer) {
-        active_layers <- setdiff(point_layers(), id)
+        active_layers <- setdiff(point_layers(), layer)
       } else {
-        active_layers <- c(point_layers(), id)
+        active_layers <- c(point_layers(), layer)
       }
 
       # Update reactive with value from input - then mod_map handles what's shown
@@ -79,7 +78,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers) 
     })
 
     output$layer_summary <- shiny::renderUI({
-      switch(id,
+      switch(layer,
         apartment_buildings = create_circle_legend(layer_colours[["apartment_buildings"]], glue::glue("{scales::comma(units)} units ({scales::comma(buildings)} apartment {buildings_word})", units = dataset()[["number_of_units"]], buildings = dataset()[["number_of_buildings"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of apartment buildings."),
         apartment_evaluation = shiny::div(
           generate_apartment_evaluation_legend(),

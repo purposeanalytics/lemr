@@ -16,35 +16,13 @@ app_ui <- function(request) {
       collapsible = TRUE,
       id = "page",
       selected = "Home",
-      cicerone::use_cicerone(),
       shiny::tabPanel(
         "Home",
         mod_home_ui("home")
       ),
       shiny::tabPanel(
         "Map",
-        shiny::div(
-          class = "map-col",
-          mod_map_ui("map")
-        ),
-        shiny::div(
-          class = "sidebar-col",
-          shiny::wellPanel(
-            id = "sidebar",
-            style = "margin-left: 15px; padding-right: 30px;",
-            mod_search_ui("search"),
-            shiny::hr(),
-            mod_aggregate_layer_ui("aggregate"),
-            shiny::h2("Select point(s) layers"),
-            mod_point_layer_ui("apartment_buildings"),
-            mod_point_layer_ui("apartment_evaluation"),
-            # mod_point_layer_ui("evictions_hearings"),
-            mod_point_layer_ui("agi"),
-            mod_point_layer_ui("tdf"),
-            shiny::hr(),
-            mod_sidebar_header_ui("header")
-          )
-        )
+        mod_page_map_ui("map")
       ),
       shiny::tabPanel(
         "Data & Definitions",
@@ -69,7 +47,8 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "Low-end of Market Rental Monitor"
     ),
-    cicerone::use_cicerone()
+    cicerone::use_cicerone(),
+    glouton::use_glouton()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )

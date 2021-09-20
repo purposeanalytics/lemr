@@ -45,7 +45,8 @@ Imports:
     cicerone,
     extrafont,
     janitor,
-    tidyselect
+    tidyselect,
+    glouton
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no
@@ -56,5 +57,6 @@ Suggests:
     testthat (>= 3.0.0)
 Remotes:
     benmarwick/words2number,
-    rstudio/shinyvalidate
+    rstudio/shinyvalidate,
+    ColinFay/glouton
 Config/testthat/edition: 3
