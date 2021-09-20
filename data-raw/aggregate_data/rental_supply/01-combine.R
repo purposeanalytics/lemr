@@ -81,7 +81,10 @@ secondary_non_condo_by_neighbourhood <- renters_by_neighbourhood %>%
     select(neighbourhood, secondary_condo = value), by = "neighbourhood") %>%
   full_join(social_housing_and_tch_by_neighbourhood, by = "neighbourhood") %>%
   mutate(across(c(primary_rental, secondary_condo, tch, other_non_market), coalesce, 0)) %>%
-  mutate(value = renters - primary_rental - secondary_condo - tch - other_non_market) %>%
+  mutate(
+    value = renters - primary_rental - secondary_condo - tch - other_non_market,
+    value = ifelse(value < 0, 0, value)
+  ) %>%
   select(neighbourhood, value) %>%
   mutate(group = "secondary non-condo")
 
@@ -103,23 +106,20 @@ rental_supply_by_neighbourhood <- primary_market_by_neighbourhood %>%
     select(neighbourhood, value) %>%
     mutate(group = "condo")) %>%
   bind_rows(secondary_non_condo_by_neighbourhood) %>%
-  mutate(
-    group = recode(group, apartments = "Apartment", row_houses = "Non-Apartment", condo = "Condo", "secondary non-condo" = "Non-Condo"),
-    market = case_when(
-      group %in% c("Apartment", "Non-Apartment") ~ "Primary",
-      group %in% c("Condo", "Non-Condo") ~ "Secondary"
-    )
+  bind_rows(
+    social_housing_and_tch_by_neighbourhood %>%
+      pivot_longer(-neighbourhood, names_to = "group", values_to = "value")
   ) %>%
-  group_by(neighbourhood, market) %>%
-  mutate(market_value = sum(value, na.rm = TRUE)) %>%
-  group_by(neighbourhood) %>%
-  mutate(total = sum(value, na.rm = TRUE)) %>%
-  ungroup() %>%
-  arrange(neighbourhood, market, group) %>%
-  select(neighbourhood, total, market, market_value, group, value) %>%
-  mutate(prop = value / total)
+  mutate(
+    group = recode(group, apartments = "Apartment", row_houses = "Non-Apartment", condo = "Condo", "secondary non-condo" = "Non-Condo", tch = "Toronto Community Housing", other_non_market = "Other Non-Market")
+  ) %>%
+  arrange(neighbourhood, group) %>%
+  select(neighbourhood, group, value) %>%
+  left_join(renters_by_neighbourhood %>%
+    select(neighbourhood, renters), by = "neighbourhood")
 
-# Need to fix one issue, for Forest Hill South, # apartments > # renters
+# Need to fix some issues
+# For Forest Hill South, # apartments > # renters
 # Probably due to the time offset of the data - census in May 2016, housing market survey in October 2016
 # Rather than overwrite any census data, just treat it as the source of truth - and set # apartments = # renters, everything else = 0
 # Since the area is largely just apartment buildings anyways
@@ -129,35 +129,60 @@ rental_supply_by_neighbourhood <- primary_market_by_neighbourhood %>%
 rental_supply_forest_hill_south <- rental_supply_by_neighbourhood %>%
   filter(neighbourhood == "Forest Hill South") %>%
   mutate(
-    market_value = ifelse(market == "Secondary", 0, total),
-    value = ifelse(group == "Apartment", total, 0),
-    prop = ifelse(group == "Apartment", 1, 0)
+    value = ifelse(group == "Apartment", renters, 0)
   )
 
 rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
-  rows_update(rental_supply_forest_hill_south, by = c("neighbourhood", "market", "group"))
+  rows_update(rental_supply_forest_hill_south, by = c("neighbourhood", "group"))
 
-rental_supply_city <- primary_market_city %>%
-  filter(group != "primary_rental") %>%
-  bind_rows(secondary_condo_city %>%
-    select(value) %>%
-    mutate(group = "condo")) %>%
-  bind_rows(secondary_non_condo_city) %>%
+# Some other issues where primary + secondary + non-market > total renters
+# Likely due to TCH having vacancies/demolition and reconstruction of units
+# So clip from there first, then other non-market if still over
+
+rental_supply_fix_social_housing <- rental_supply_by_neighbourhood %>%
+  group_by(neighbourhood) %>%
+  filter(sum(value) > renters) %>%
+  mutate(diff = sum(value) - renters) %>%
+  ungroup() %>%
+  pivot_wider(names_from = group, values_from = value) %>%
   mutate(
-    group = recode(group, apartments = "Apartment", row_houses = "Non-Apartment", condo = "Condo", "secondary non-condo" = "Non-Condo"),
-    market = case_when(
-      group %in% c("Apartment", "Non-Apartment") ~ "Primary",
-      group %in% c("Condo", "Non-Condo") ~ "Secondary"
-    )
+    `Toronto Community Housing` = `Toronto Community Housing` - diff,
+    `Other Non-Market` = ifelse(`Toronto Community Housing` < 0, `Other Non-Market` - abs(`Toronto Community Housing`), `Other Non-Market`),
+    `Toronto Community Housing` = ifelse(`Toronto Community Housing` < 0, 0, `Toronto Community Housing`)
   ) %>%
-  group_by(market) %>%
+  select(-diff) %>%
+  pivot_longer(-c(neighbourhood, renters), names_to = "group", values_to = "value")
+
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  rows_update(rental_supply_fix_social_housing, by = c("neighbourhood", "renters", "group"))
+
+# Add market info and proportion
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  mutate(market = case_when(
+    group %in% c("Apartment", "Non-Apartment") ~ "Primary",
+    group %in% c("Condo", "Non-Condo") ~ "Secondary",
+    group %in% c("Toronto Community Housing", "Other Non-Market") ~ "Non-market"
+  )) %>%
+  group_by(neighbourhood, market) %>%
+  mutate(market_value = sum(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(
+    prop = round(value / renters, 3),
+    market_prop = round(market_value / renters, 3)
+  )
+
+# Aggregate for city
+
+rental_supply_city <- rental_supply_by_neighbourhood %>%
+  group_by(market, group) %>%
+  summarise(value = sum(value), .groups = "drop_last") %>%
   mutate(market_value = sum(value)) %>%
   ungroup() %>%
-  mutate(total = sum(value)) %>%
-  ungroup() %>%
-  arrange(market, group) %>%
-  select(total, market, market_value, group, value) %>%
-  mutate(prop = value / total)
+  mutate(renters = sum(value)) %>%
+  mutate(
+    prop = round(value / renters, 3),
+    market_prop = round(market_value / renters, 3)
+  )
 
 # Save -----
 

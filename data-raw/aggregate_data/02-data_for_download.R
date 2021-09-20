@@ -65,7 +65,7 @@ neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
 
 ## Remove total, market, and market value in rental supply ----
 neighbourhoods["rental_supply"] <- neighbourhoods["rental_supply"] %>%
-  map(select, -total, -market, -market_value)
+  map(select, -renters, -market, -market_value)
 
 ## Rename "prop" to value in others -----
 neighbourhoods <- neighbourhoods %>%
