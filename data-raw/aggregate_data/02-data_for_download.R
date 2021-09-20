@@ -106,6 +106,7 @@ clean_variable_names <- tribble(
   "apartment_building_evaluation", "Median RentSafeTO score", "%",
   "agi", "Above guideline increase applications", "#",
   "tdf", "Tenant Defense Fund grants", "#",
+  "evictions", "Evictions", "%",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
 )
@@ -127,4 +128,3 @@ neighbourhoods <- neighbourhoods %>%
 # Save data ----
 
 write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
-
