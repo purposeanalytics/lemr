@@ -75,7 +75,10 @@ rental_supply_plot_alt_text <- function(level, neighbourhood) {
 
 rental_supply_plot <- function(data) {
   data[["rental_supply"]] %>%
-    dplyr::mutate(group = forcats::fct_inorder(group)) %>%
+    dplyr::mutate(
+      group = forcats::fct_expand(group, names(rental_supply_colors())),
+      group = forcats::fct_relevel(group, names(rental_supply_colors()))
+    ) %>%
     plotly::plot_ly(x = ~prop, y = 1, color = ~group, type = "bar", orientation = "h", hoverinfo = "skip", colors = rental_supply_colors()) %>%
     plotly::layout(barmode = "stack") %>%
     plotly::layout(
@@ -89,27 +92,34 @@ rental_supply_plot <- function(data) {
 }
 
 rental_supply_colors <- function() {
-  stats::setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo"))
+  stats::setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed", "#f53216", "#f77460"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo", "Toronto Community Housing", "Other Non-Market"))
 }
 
 rental_supply_table <- function(data, market) {
-  data[["rental_supply"]] %>%
+  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units"))
+
+  data <- data[["rental_supply"]] %>%
     dplyr::filter(market == !!market) %>%
-    dplyr::select(group, value, prop) %>%
+    dplyr::select(group, value, prop)
+
+  layer_order <- names(rental_supply_colors())[names(rental_supply_colors()) %in% data[["group"]]]
+
+  data %>%
+    dplyr::mutate(group_order = forcats::fct_relevel(group, layer_order)) %>%
     dplyr::mutate(group = purrr::map_chr(group, function(x) {
       create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
     })) %>%
-    janitor::adorn_totals(name = paste(market, "market units:")) %>%
+    janitor::adorn_totals(name = totals_name, fill = totals_name) %>%
     dplyr::mutate(
-      group = forcats::fct_relevel(group, paste(market, "market units:"), after = 0),
+      group_order = forcats::fct_relevel(group_order, totals_name, layer_order),
       value = scales::comma(value),
       percent = scales::percent(prop, accuracy = 0.1),
       value_percent = glue::glue("{value}{space}({percent})",
         space = ifelse(prop < 0.1, " &nbsp; &nbsp;", " ")
       )
     ) %>%
+    dplyr::arrange(group_order) %>%
     dplyr::select(group, value_percent) %>%
-    dplyr::arrange(group) %>%
     knitr::kable(col.names = NULL, align = "lr", escape = FALSE) %>%
     kableExtra::kable_minimal(
       html_font = "\"Lato\", sans-serif",
@@ -124,6 +134,10 @@ rental_supply_primary_table <- function(data) {
 
 rental_supply_secondary_table <- function(data) {
   rental_supply_table(data, "Secondary")
+}
+
+rental_supply_non_market_table <- function(data) {
+  rental_supply_table(data, "Non-market")
 }
 
 # Number of apartments ----

@@ -65,7 +65,7 @@ neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
 
 ## Remove total, market, and market value in rental supply ----
 neighbourhoods["rental_supply"] <- neighbourhoods["rental_supply"] %>%
-  map(select, -total, -market, -market_value)
+  map(select, -renters, -market, -market_value, -value, -market_prop)
 
 ## Rename "prop" to value in others -----
 neighbourhoods <- neighbourhoods %>%
@@ -106,6 +106,7 @@ clean_variable_names <- tribble(
   "apartment_building_evaluation", "Median RentSafeTO score", "%",
   "agi", "Above guideline increase applications", "#",
   "tdf", "Tenant Defense Fund grants", "#",
+  "evictions", "Evictions", "%",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
 )

@@ -56,7 +56,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 shiny::column(
                   width = 6,
                   class = "modal-summary-statistics",
-                  shiny::uiOutput(ns("rental_supply_secondary_table"))
+                  shiny::uiOutput(ns("rental_supply_secondary_table")),
+                  shiny::uiOutput(ns("rental_supply_non_market_table"))
                 ),
                 shiny::column(
                   width = 12,
@@ -214,6 +215,10 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
 
       output$rental_supply_secondary_table <- shiny::renderText({
         rental_supply_secondary_table(dataset())
+      })
+
+      output$rental_supply_non_market_table <- shiny::renderText({
+        rental_supply_non_market_table(dataset())
       })
 
       output$lem_table <- shiny::renderText({
