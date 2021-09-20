@@ -20,7 +20,7 @@ mod_page_map_ui <- function(id){
         mod_search_ui(ns("search")),
         shiny::hr(),
         mod_aggregate_layer_ui(ns("aggregate")),
-        shiny::h2("Select point(s) layers"),
+        shiny::h2("Select points layer(s)", id = "points_layer_div"),
         mod_point_layer_ui(ns("apartment_buildings"), "apartment_buildings"),
         mod_point_layer_ui(ns("apartment_evaluation"), "apartment_evaluation"),
         mod_point_layer_ui(ns("agi"), "agi"),
@@ -78,13 +78,3 @@ mod_page_map_server <- function(id){
 ## To be copied in the server
 # mod_page_map_server("map")
 
-
-map_guide <- function() {
-    cicerone::Cicerone$
-      new()$
-      step(
-        "map-aggregate-layer",
-        title = "Zoom map",
-        description = "Search by address or neighbourhood to zoom in"
-      )
-}
