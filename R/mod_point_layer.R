@@ -20,15 +20,14 @@ mod_point_layer_ui <- function(id, layer) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        # bsplus::use_bs_popover(),
         shinyWidgets::prettyCheckbox(
           inputId = ns("layer"),
           label = point_layers_choices[[layer]],
           value = FALSE,
           status = "primary",
           inline = TRUE # Ensures tooltip appears beside, since elements are inline
-        )# ,
-        # tooltip
+        ),
+        tooltip
       )
     ),
     shiny::fluidRow(
