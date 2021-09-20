@@ -105,8 +105,6 @@ rental_supply_table <- function(data, market) {
   layer_order <- names(rental_supply_colors())[names(rental_supply_colors()) %in% data[["group"]]]
 
   data %>%
-    dplyr::filter(market == !!market) %>%
-    dplyr::select(group, value, prop) %>%
     dplyr::mutate(group_order = forcats::fct_relevel(group, layer_order)) %>%
     dplyr::mutate(group = purrr::map_chr(group, function(x) {
       create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
