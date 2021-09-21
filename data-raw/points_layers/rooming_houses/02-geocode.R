@@ -56,40 +56,34 @@ rooming_houses_geocoded <- rooming_houses_geocoded %>%
   unnest(cols = c(address_geocode)) %>%
   select(-tidyselect::any_of("address_geocode"))
 
-# get missing values
-rooming_houses_missing <- rooming_houses_geocoded %>%
-  filter(is.na(bing_status_code))  %>%
-  select(!starts_with("bing"), -address_geocode_error) %>%
-  mutate(
-    address = str_sub(address, 1, -3L),
-    # Combine address, city (Toronto, ON), and FSA for better results when geocoding
-    address_geocode = map(address, function(x) {
-      safely_geocode_address(x)
-    })
-  )
 
-# Separate results from errors
-rooming_houses_missing <- rooming_houses_missing %>%
+# Sometimes the call is "successful" but nothing actually comes through
+# For ones that are missing, requery - they mostly come up again!
+geocode_missing <- rooming_houses_geocoded %>%
+  select(address, starts_with("bing")) %>%
+  filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code))
+
+geocode_missing_filled <- geocode_missing %>%
+  select(address) %>%
+  mutate(address_geocode = map(address, function(x) {
+    safely_geocode_address(x)
+  })) %>%
   mutate(
     address_geocode = map(address_geocode, "result"),
     address_geocode_error = map(address_geocode, "error")
-  )
-
-# Unnest results
-rooming_houses_missing <- rooming_houses_missing %>%
+  ) %>%
   unnest(cols = c(address_geocode)) %>%
-  select(-tidyselect::any_of("address_geocode"))
+  select(-address_geocode_error)
 
-rooming_houses_geocoded <- rooming_houses_geocoded %>%
-  filter(!is.na(bing_status_code)) %>%
-  bind_rows(rooming_houses_missing)
+geocode_missing_filled <- geocode_missing_filled %>%
+  filter(!is.na(bing_postal_code))
+
+# Update the missing ones with these
+if (nrow(geocode_missing_filled) > 0) {
+  rooming_houses_geocoded <- rooming_houses_geocoded %>%
+    rows_update(geocode_missing_filled, by = c("_id", "address_for_geocoding"))
+}
 
 
 
-# make spatial
-rooming_houses_sf <- rooming_houses_geocoded %>%
-  st_as_sf(coords = c("bing_longitude", "bing_latitude"), crs = 4326, remove = FALSE) %>%
-  st_transform(crs = 26917) %>%
-  select(-address_geocode_error, -c(bing_status_code:bing_confidence))
-
-saveRDS(rooming_houses_sf, here::here("data-raw", "points_layers", "rooming_houses", "geocoded", "rooming_houses_sf.rds"))
+saveRDS(rooming_houses_geocoded, here::here("data-raw", "points_layers", "rooming_houses", "geocode", "rooming_houses_geocoded.rds"))
