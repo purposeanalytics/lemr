@@ -291,7 +291,7 @@ add_blank_neighbourhood_layer <- function(map) {
 add_blank_rental_supply_layers <- function(map) {
 
   colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number())
+    dplyr::mutate(id = dplyr::row_number() - 1)
 
   rental_supply <- lemur::rental_supply_by_neighbourhood %>%
     dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
@@ -327,7 +327,7 @@ add_blank_rental_supply_layers <- function(map) {
 #'   toggle_layer_visible("core_housing_need")
 add_blank_core_housing_need_layer <- function(map) {
   colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number())
+    dplyr::mutate(id = dplyr::row_number() - 1)
 
   core_housing_need <- lemur::core_housing_need_by_neighbourhood %>%
     dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
@@ -355,7 +355,7 @@ add_blank_core_housing_need_layer <- function(map) {
 #'   toggle_layer_visible("evictions")
 add_blank_evictions_layer <- function(map) {
   colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number())
+    dplyr::mutate(id = dplyr::row_number() - 1)
 
   evictions <- lemur::evictions_by_neighbourhood %>%
     dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
