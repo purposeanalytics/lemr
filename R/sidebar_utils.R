@@ -162,8 +162,16 @@ rental_supply_non_market_table <- function(data) {
 
 # Number of apartments ----
 
-number_of_apartments_number <- function(number_of_apartments_formatted, number_of_units_formatted) {
-  glue::glue("Apartment buildings: {number_of_apartments_formatted} ({number_of_units_formatted} units)")
+number_of_apartments_number <- function(number_of_apartments_formatted) {
+  glue::glue("Apartment buildings: {number_of_apartments_formatted}")
+}
+
+number_of_apartments_breakdown <- function(data) {
+  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} social housing)",
+    privately_owned = data[["number_of_buildings_private"]],
+    tch = data[["number_of_buildings_tch"]],
+    social_housing = data[["number_of_buildings_social_housing"]]
+  )
 }
 
 number_of_apartments_description <- function(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) {
@@ -205,6 +213,18 @@ number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
 number_of_apartments_plot <- function(data, compare, static = FALSE) {
   data %>%
     plot_neighbourhood_profile_distribution("number_of_buildings", compare = compare, binwidth = 5, static = static)
+}
+
+number_of_units_number <- function(number_of_units_formatted) {
+  glue::glue("Apartment building units: {number_of_units_formatted}")
+}
+
+number_of_units_breakdown <- function(data) {
+  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} social housing)",
+    privately_owned = data[["number_of_units_private"]],
+    tch = data[["number_of_units_tch"]],
+    social_housing = data[["number_of_units_social_housing"]]
+  )
 }
 
 number_of_units_description <- function(level, neighbourhood, number_of_units, number_of_units_formatted) {
@@ -401,8 +421,8 @@ evictions_description <- function(level, neighbourhood, evictions, evictions_for
   }
 
   switch(level,
-         "city" = "Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods.",
-         "neighbourhood" = glue::glue("Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {evictions_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "city" = "Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {evictions_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
   )
 }
 
@@ -410,10 +430,10 @@ evictions_plot_alt_text <- function(level, neighbourhood) {
   values <- lemur::city_aggregate[["evictions_distribution"]][["value"]]
 
   alt_text <- glue::glue("Histogram showing the distribution of percent of rental households with evictions for each of the City of Toronto neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} evictions, and the distribution is heavily skewed with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
-                         min = min(values),
-                         max = max(values),
-                         skew_min = stats::quantile(values, 0.1),
-                         skew_max = stats::quantile(values, 0.9)
+    min = min(values),
+    max = max(values),
+    skew_min = stats::quantile(values, 0.1),
+    skew_max = stats::quantile(values, 0.9)
   )
 
   if (level == "neighbourhood") {
