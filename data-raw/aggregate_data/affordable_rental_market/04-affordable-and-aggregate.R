@@ -53,7 +53,7 @@ total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>
 # Add colour in
 min <- 25
 max <- max(total_affordable_by_neighbourhood[["n"]])
-colors <- c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+colors <- low_high_legend_colors()
 color_groups <- c("0", cut((min - 1):max, breaks = seq(min - 1, max, length.out = length(colors))) %>% levels())
 
 colors <- tibble(colour = colors, color_group = color_groups)

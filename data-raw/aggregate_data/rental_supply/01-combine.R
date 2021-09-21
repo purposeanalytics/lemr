@@ -197,7 +197,6 @@ saveRDS(rental_supply_city, here::here("data-raw", "aggregate_data", "rental_sup
 # Version for mapping ----
 
 # Add groups for colour, then make wide
-# 6 groups in c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
 
 # Collapse primary and non-market
 
@@ -208,6 +207,6 @@ rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   )) %>%
   group_by(neighbourhood, group = map_group) %>%
   summarise(prop = sum(prop), .groups = "drop") %>%
-  mutate(prop_group = cut(prop, seq(0, 1, length.out = 7), include.lowest = TRUE, labels = FALSE))
+  mutate(prop_group = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors()) + 1), include.lowest = TRUE, labels = FALSE))
 
 usethis::use_data(rental_supply_by_neighbourhood, overwrite = TRUE)

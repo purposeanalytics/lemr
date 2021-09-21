@@ -45,12 +45,11 @@ saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "ev
 # Version for mapping ----
 
 # Add groups for colour, then make wide
-# 6 groups in c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
 
 evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
   map(as_tibble) %>%
   bind_rows(.id = "neighbourhood") %>%
   select(neighbourhood, prop = value) %>%
-  mutate(prop_group = cut(prop, seq(0, 0.20, length.out = 7), include.lowest = TRUE, labels = FALSE))
+  mutate(prop_group = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors()) + 1), include.lowest = TRUE, labels = FALSE))
 
 usethis::use_data(evictions_by_neighbourhood, overwrite = TRUE)
