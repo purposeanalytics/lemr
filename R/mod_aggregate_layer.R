@@ -16,69 +16,11 @@ mod_aggregate_layer_ui <- function(id) {
       shiny::column(
         width = 12,
         id = "aggregate_layer_div",
-        shiny::conditionalPanel(
-          "input.layer == 'lem'",
-          shiny::h2(
-            "Select aggregate layer",
-            lem_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_primary'",
-          shiny::h2(
-            "Select aggregate layer",
-            rental_supply_primary_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_condo'",
-          shiny::h2(
-            "Select aggregate layer",
-            rental_supply_condo_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_non_condo'",
-          shiny::h2(
-            "Select aggregate layer",
-            rental_supply_non_condo_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_non_market'",
-          shiny::h2(
-            "Select aggregate layer",
-            rental_supply_non_market_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'core_housing_need'",
-          shiny::h2(
-            "Select aggregate layer",
-            core_housing_need_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'evictions'",
-          shiny::h2(
-            "Select aggregate layer",
-            evictions_tooltip
-          ),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'amenity_density'",
-          shiny::h2(
-            "Select aggregate layer",
-            amenity_density_tooltip
-          ),
-          ns = ns
+        shiny::tagList(
+          purrr::map(
+            names(aggregate_layers_choices),
+            ~ generate_conditional_tooltip(.x, ns = ns)
+          )
         ),
         shiny::selectInput(inputId = ns("layer"), label = NULL, choices = stats::setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
       )
@@ -256,6 +198,37 @@ create_popover <- function(icon = popup_icon, title, content) {
     bsplus::bs_embed_popover(title = title, content = content, placement = "right", container = "body", trigger = "hover")
 }
 
+# Tooltips ----
+
+generate_conditional_tooltip <- function(layer, ns) {
+  shiny::conditionalPanel(
+    glue::glue("input.layer == '{layer}'"),
+    shiny::h2(
+      "Select aggregate layer",
+      get(paste0(layer, "_tooltip"))
+    ),
+    ns = ns
+  )
+}
+
+lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
+
+amenity_density_tooltip <- create_popover(title = "Proximity to amenities", content = "This layer shows the proximity to amenities of each census block. An area has low proximity to amenities (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
+
+rental_supply_primary_tooltip <- create_popover(title = "Rental supply: Primary market rentals", content = NULL)
+
+rental_supply_condo_tooltip <- create_popover(title = "Rental supply: Condominium rentals", content = NULL)
+
+rental_supply_non_condo_tooltip <- create_popover(title = "Rental supply: Secondary market non-condominium rentals", content = NULL)
+
+rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non market rentals", content = NULL)
+
+core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
+
+evictions_tooltip <- create_popover(title = "Eviction rate", content = NULL)
+
+# Legends ----
+
 amenity_density_legend <- function() {
   create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 }
@@ -287,22 +260,6 @@ core_housing_need_legend <- function() {
 evictions_legend <- function() {
   generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
 }
-
-lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
-
-amenity_density_tooltip <- create_popover(title = "Proximity to amenities", content = "This layer shows the proximity to amenities of each census block. An area has low proximity to amenities (green) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (purple) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
-
-rental_supply_primary_tooltip <- create_popover(title = "Rental supply: Primary market rentals", content = NULL)
-
-rental_supply_condo_tooltip <- create_popover(title = "Rental supply: Condominium rentals", content = NULL)
-
-rental_supply_non_condo_tooltip <- create_popover(title = "Rental supply: Secondary market non-condominium rentals", content = NULL)
-
-rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non market rentals", content = NULL)
-
-core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
-
-evictions_tooltip <- create_popover(title = "Eviction rate", content = NULL)
 
 ## To be copied in the UI
 # mod_aggregate_layer_ui("layer_lem_ui_1")
