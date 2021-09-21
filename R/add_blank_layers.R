@@ -36,9 +36,9 @@ add_blank_points_layers <- function(map) {
       filter = list("==", "apartment", TRUE),
       circle_color = list(
         "case",
-        list("==", c("get", "property_type"), "PRIVATE"), layer_colours[["apartment_buildings_private"]],
-        list("==", c("get", "property_type"), "TCHC"), layer_colours[["apartment_buildings_tch"]],
-        list("==", c("get", "property_type"), "SOCIAL HOUSING"), layer_colours[["apartment_buildings_social_housing"]],
+        list("==", c("get", "property_type"), "Privately owned"), layer_colours[["apartment_buildings_private"]],
+        list("==", c("get", "property_type"), "Toronto Community Housing"), layer_colours[["apartment_buildings_tch"]],
+        list("==", c("get", "property_type"), "Social housing"), layer_colours[["apartment_buildings_social_housing"]],
         # Defaults to 'white'
         "white"
       ),
