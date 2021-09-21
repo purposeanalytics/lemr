@@ -116,6 +116,10 @@ buildings <- buildings %>%
 buildings <- buildings %>%
   st_as_sf(coords = c("X", "Y"), crs = 4326)
 
+# Recode property type
+buildings <- buildings %>%
+  mutate(property_type = recode(property_type, PRIVATE = "Privately owned", TCHC = "Toronto Community Housing", "SOCIAL HOUSING" = "Social housing"))
+
 # Generate tooltip based on information available -----
 
 generate_tooltip <- function(data) {
@@ -123,9 +127,9 @@ generate_tooltip <- function(data) {
     ~title, ~variable,
     "Built", "year_built",
     "Landlord/Management", "property_management_or_landlord",
+    "Building Type", "property_type",
     "Units", "units",
     "RentSafeTO Evaluation", "score_percent",
-    # "Eviction Hearings", "hearings",
     "AGI Application", "date_agi_initiated",
     "Tenant Defence Fund Received", "tdf_year",
     "TDF Reduced Increase By", "reduced_increase_by"

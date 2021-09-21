@@ -19,6 +19,8 @@
 
 library(dplyr)
 library(purrr)
+library(tidyr)
+library(sf)
 
 # Census profiles -----
 
@@ -98,6 +100,39 @@ units_by_neighbourhood_distribution <- readRDS(here::here("data-raw", "points_la
 apartments_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds"))
 units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "units_by_neighbourhood.rds"))
 
+## Apartment buildings by type ----
+
+apartments_by_type_by_neighbourhood <- lemur::buildings %>%
+  as_tibble() %>%
+  group_by(neighbourhood, group = property_type) %>%
+  summarise(buildings = n(),
+            units = sum(units),
+            .groups = "drop") %>%
+  complete(neighbourhood, group, fill = list(buildings = 0, units = 0)) %>%
+  filter(!is.na(group))
+
+apartments_by_type_by_neighbourhood_buildings <- apartments_by_type_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(~ split(.x, .x$group)) %>%
+  map_depth(.depth = 2, pull, "buildings")
+
+apartments_by_type_by_neighbourhood_units <- apartments_by_type_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(~ split(.x, .x$group)) %>%
+  map_depth(.depth = 2, pull, "units")
+
+apartments_by_type_city <- apartments_by_type_by_neighbourhood %>%
+  group_by(group) %>%
+  summarise(buildings = sum(buildings), units = sum(units))
+
+apartments_by_type_city_buildings <- apartments_by_type_city %>%
+  split(.$group) %>%
+  map(pull, "buildings")
+
+apartments_by_type_city_units <- apartments_by_type_city %>%
+  split(.$group) %>%
+  map(pull, "units")
+
 # RentSafeTO -----
 
 median_score_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_evaluation", "aggregate", "median_score_city.rds"))
@@ -137,7 +172,13 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["evictions"]] <- evictions_by_neighbourhood[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["number_of_buildings_private"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Private"]]
+  neighbourhood_aggregate_i[["number_of_buildings_tch"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["TCHC"]]
+  neighbourhood_aggregate_i[["number_of_buildings_social_housing"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Social Housing"]]
   neighbourhood_aggregate_i[["number_of_units"]] <- units_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["number_of_units_private"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Private"]]
+  neighbourhood_aggregate_i[["number_of_units_tch"]] <- apartments_by_type_by_neighbourhood_units[[i]][["TCHC"]]
+  neighbourhood_aggregate_i[["number_of_units_social_housing"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Social Housing"]]
   neighbourhood_aggregate_i[["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["agi"]] <- agi_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["tdf"]] <- tdf_by_neighbourhood[[i]]
@@ -159,7 +200,13 @@ city_aggregate[["evictions_distribution"]] <- evictions_distribution
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution
+city_aggregate[["number_of_buildings_private"]] <- apartments_by_type_city_buildings[["Private"]]
+city_aggregate[["number_of_buildings_tch"]] <- apartments_by_type_city_buildings[["TCHC"]]
+city_aggregate[["number_of_buildings_social_housing"]] <- apartments_by_type_city_buildings[["Social Housing"]]
 city_aggregate[["number_of_units"]] <- number_of_units_city
+city_aggregate[["number_of_units_private"]] <- apartments_by_type_city_units[["Private"]]
+city_aggregate[["number_of_units_tch"]] <- apartments_by_type_city_units[["TCHC"]]
+city_aggregate[["number_of_units_social_housing"]] <- apartments_by_type_city_units[["Social Housing"]]
 city_aggregate[["number_of_units_distribution"]] <- units_by_neighbourhood_distribution
 city_aggregate[["apartment_building_evaluation"]] <- median_score_city[["value"]]
 city_aggregate[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution

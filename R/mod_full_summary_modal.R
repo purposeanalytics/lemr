@@ -65,10 +65,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                   shiny::h3("Estimated annual availability of low-end of market rental"),
                   shiny::htmlOutput(ns("lem_table")),
                   shiny::hr(),
-                  shiny::h3("Apartment buildings"),
-                  bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
-                  shiny::textOutput(ns("number_of_apartments_description")),
-                  shiny::uiOutput(ns("number_of_apartments_plot_ui")),
+                  shiny::h3("Apartment units"),
+                  bigger_padded(shiny::textOutput(ns("number_of_units_number"))),
+                  padded(shiny::textOutput(ns("number_of_units_breakdown"))),
+                  shiny::textOutput(ns("number_of_units_description")),
+                  shiny::uiOutput(ns("number_of_units_plot_ui")),
                   shiny::hr(),
                   shiny::h3("RentSafeTO evaluation scores"),
                   bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
@@ -96,9 +97,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
             shiny::div(
               class = "modal-col middle",
               shiny::h2("Housing characteristics"),
-              shiny::h3("Apartment units"),
-              shiny::textOutput(ns("number_of_units_description")),
-              shiny::uiOutput(ns("number_of_units_plot_ui")),
+              shiny::h3("Apartment buildings"),
+              bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
+              padded(shiny::textOutput(ns("number_of_apartments_breakdown"))),
+              shiny::textOutput(ns("number_of_apartments_description")),
+              shiny::uiOutput(ns("number_of_apartments_plot_ui")),
               shiny::hr(),
               shiny::h3("Housing structure type"),
               shiny::textOutput(ns("structure_type_description")),
@@ -316,7 +319,12 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       })
 
       output$number_of_apartments_number <- shiny::renderText({
-        number_of_apartments_number(number_of_apartments_formatted(), number_of_units_formatted())
+        number_of_apartments_number(number_of_apartments_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$number_of_apartments_breakdown <- shiny::renderText({
+        number_of_apartments_breakdown(dataset())
       }) %>%
         shiny::bindCache(level(), neighbourhood())
 
@@ -341,6 +349,16 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
           plotly::plotlyOutput(ns("number_of_apartments_plot"), height = "100px")
         )
       })
+
+      output$number_of_units_number <- shiny::renderText({
+        number_of_units_number(number_of_units_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$number_of_units_breakdown <- shiny::renderText({
+        number_of_units_breakdown(dataset())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
 
       output$number_of_units_description <- shiny::renderText({
         number_of_units_description(level(), neighbourhood(), number_of_units(), number_of_units_formatted())

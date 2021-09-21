@@ -34,7 +34,14 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "apartment_buildings",
       filter = list("==", "apartment", TRUE),
-      circle_color = layer_colours[["apartment_buildings"]],
+      circle_color = list(
+        "case",
+        list("==", c("get", "property_type"), "Privately owned"), layer_colours[["apartment_buildings_private"]],
+        list("==", c("get", "property_type"), "Toronto Community Housing"), layer_colours[["apartment_buildings_tch"]],
+        list("==", c("get", "property_type"), "Social housing"), layer_colours[["apartment_buildings_social_housing"]],
+        # Defaults to 'white'
+        "white"
+      ),
       circle_blur = blur,
       circle_opacity = opacity,
       circle_radius = radius,
@@ -49,20 +56,6 @@ add_blank_points_layers <- function(map) {
       id = "apartment_evaluation",
       filter = list("!=", "score_colour", "none"),
       circle_color = c("get", "score_colour"),
-      circle_blur = blur,
-      circle_opacity = opacity,
-      circle_radius = radius,
-      circle_stroke_color = stroke_colour,
-      circle_stroke_width = stroke_width,
-      visibility = FALSE,
-      popup = "{{{tooltip}}}"
-    ) %>%
-    # Evictions hearings ----
-    mapboxer::add_circle_layer(
-      source = "points_data_source",
-      id = "evictions_hearings",
-      filter = list("==", "eviction_hearing", TRUE),
-      circle_color = layer_colours[["evictions_hearings"]],
       circle_blur = blur,
       circle_opacity = opacity,
       circle_radius = radius,
