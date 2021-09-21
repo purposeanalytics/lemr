@@ -3,6 +3,7 @@
 
 library(dplyr)
 library(sf)
+library(purrr)
 
 # Read data
 evictions_rate <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "extract", "evictions_rate.rds"))
@@ -28,13 +29,18 @@ evictions_city <- evictions_by_neighbourhood %>%
     renter_households = sum(renter_households)
   ) %>%
   mutate(prop = value / renter_households) %>%
-  select(prop)
+  pull(prop) %>%
+  round(3)
 
 evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
-  select(neighbourhood, prop = eviction_rate)
+  select(neighbourhood, prop = eviction_rate) %>%
+  split(.$neighbourhood) %>%
+  map(pull, prop) %>%
+  map(round, 3)
 
 # Save
 saveRDS(evictions_city, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_city.rds"))
+saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_by_neighbourhood.rds"))
 
 # Version for mapping ----
 
@@ -42,11 +48,9 @@ saveRDS(evictions_city, here::here("data-raw", "aggregate_data", "evictions_by_n
 # 6 groups in c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
 
 evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
-  select(neighbourhood, prop) %>%
+  map(as_tibble) %>%
+  bind_rows(.id = "neighbourhood") %>%
+  select(neighbourhood, prop = value) %>%
   mutate(prop_group = cut(prop, seq(0, 0.20, length.out = 7), include.lowest = TRUE, labels = FALSE))
 
 usethis::use_data(evictions_by_neighbourhood, overwrite = TRUE)
-
-evictions_by_neighbourhood <- evictions_by_neighbourhood %>% select(-prop_group) %>% split(.$neighbourhood)
-
-saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "evictions_by_neighbourhood.rds"))
