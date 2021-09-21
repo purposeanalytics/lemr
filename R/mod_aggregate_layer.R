@@ -15,7 +15,7 @@ mod_aggregate_layer_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-          id = "aggregate_layer_div",
+        id = "aggregate_layer_div",
         shiny::conditionalPanel(
           "input.layer == 'lem'",
           shiny::h2(

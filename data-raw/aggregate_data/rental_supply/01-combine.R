@@ -175,7 +175,8 @@ rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
 # Complete data
 rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   complete(nesting(market, group), neighbourhood,
-           fill = list(value = 0, market_value = 0, prop = 0, market_prop = 0))
+    fill = list(value = 0, market_value = 0, prop = 0, market_prop = 0)
+  )
 
 # Aggregate for city
 
@@ -208,8 +209,9 @@ rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   )) %>%
   group_by(neighbourhood, group = map_group) %>%
   summarise(prop = sum(prop), .groups = "drop") %>%
-  mutate(prop_group = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
-         prop_group = ifelse(prop == 0, 0, prop_group)
+  mutate(
+    prop_group = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    prop_group = ifelse(prop == 0, 0, prop_group)
   )
 
 usethis::use_data(rental_supply_by_neighbourhood, overwrite = TRUE)

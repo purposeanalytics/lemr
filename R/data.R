@@ -2,18 +2,6 @@
 #'
 #' Apartment building registry retrieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-registration/}{Apartment Building Registration dataset}, and geocoded using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}. Contains the address of all rental apartment buildings in the city with 3 or more storeys and 10 or more units, the neighbourhood that each apartment is in, and many attributes about the apartment.
 #' @examples
-#' library(sf)
-#' apartment_building_registry
-# "apartment_building_registry"
-
-#' Apartment building evaluation
-#'
-#' Apartment building evaluation scores, retreieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-evaluation/}{Apartmenr Building Evaluation dataset}. This data set contains the results from \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/}{RentSafeTO: Apartment Building Standards}, a bylaw enforcement program established to ensure owners and operators of apartment buildings comply with building maintenance standards. This data set contains the building evaluation scores for buildings registered with RentSafeTO, which require evaluation at least once every three years. \href{https://www.toronto.ca/community-people/housing-shelter/rental-housing-tenant-information/rental-housing-standards/apartment-building-standards/rentsafeto-for-building-owners/rentsafeto-building-evaluations-and-audits/}{Various items} are inspected and assigned a score from 1 to 5, which is then aggregated for the building. If a building scores less than 50 per cent, the building must undergo an audit. Otherwise, the score determines whether another evaluation needs to take place in one, two, or three years.
-# "apartment_building_evaluation"
-
-#' City of Toronto boundaries
-#'
-#' City of Toronto boundaries, retrieved from the \href{https://open.toronto.ca/dataset/regional-municipal-boundary/}{Regional Municipal Boundary dataset}
 #' @examples
 #' library(sf)
 #' toronto

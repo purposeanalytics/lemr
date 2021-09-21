@@ -49,4 +49,3 @@ average_income_city <- custom_tab_toronto_cts %>%
 ### Save aggregates ----
 saveRDS(average_income_by_neighbourhood, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table1_income", "aggregate", "average_income_by_neighbourhood.rds"))
 saveRDS(average_income_city, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table1_income", "aggregate", "average_income_city.rds"))
-

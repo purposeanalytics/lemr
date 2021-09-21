@@ -289,7 +289,6 @@ add_blank_neighbourhood_layer <- function(map) {
 #'   add_blank_rental_supply_layers() %>%
 #'   toggle_layer_visible("rental_supply_condo")
 add_blank_rental_supply_layers <- function(map) {
-
   colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
     dplyr::mutate(id = dplyr::row_number() - 1)
 
