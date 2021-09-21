@@ -29,46 +29,12 @@ mod_aggregate_layer_ui <- function(id) {
       shiny::column(
         width = 6,
         class = "summary-legend padded",
-        shiny::conditionalPanel(
-          "input.layer == 'lem'",
-          lem_legend(),
-          ns = ns
+        shiny::tagList(
+          purrr::map(
+            names(aggregate_layers_choices),
+            ~ generate_conditional_legend(.x, ns = ns)
+          )
         ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_primary'",
-          rental_supply_primary_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_condo'",
-          rental_supply_condo_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_non_condo'",
-          rental_supply_non_condo_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'rental_supply_non_market'",
-          rental_supply_non_market_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'core_housing_need'",
-          core_housing_need_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'evictions'",
-          evictions_legend(),
-          ns = ns
-        ),
-        shiny::conditionalPanel(
-          "input.layer == 'amenity_density'",
-          amenity_density_legend(),
-          ns = ns
-        )
       )
     ),
     shiny::fluidRow(
@@ -228,6 +194,14 @@ core_housing_need_tooltip <- create_popover(title = "Core housing need", content
 evictions_tooltip <- create_popover(title = "Eviction rate", content = NULL)
 
 # Legends ----
+
+generate_conditional_legend <- function(layer, ns) {
+  shiny::conditionalPanel(
+    glue::glue("input.layer == '{layer}'"),
+    rlang::exec(paste0(layer, "_legend")),
+    ns = ns
+  )
+}
 
 amenity_density_legend <- function() {
   create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
