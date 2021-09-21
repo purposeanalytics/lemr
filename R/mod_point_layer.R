@@ -83,7 +83,9 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           create_circle_legend(layer_colours[["apartment_buildings_private"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>privately owned</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_private"]],
+              units = ifelse(is.null(units), 0, units),
               buildings = dataset()[["number_of_buildings_private"]],
+              buildings = ifelse(is.null(buildings), 0, buildings),
               buildings_word = ifelse(buildings == 1, "building", "buildings")
             ),
             alt_text = "A legend showing the colour of the points of apartment buildings."
@@ -91,7 +93,9 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           create_circle_legend(layer_colours[["apartment_buildings_tch"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>Toronto Community Housing</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_tch"]],
+              units = ifelse(is.null(units), 0, units),
               buildings = dataset()[["number_of_buildings_tch"]],
+              buildings = ifelse(is.null(buildings), 0, buildings),
               buildings_word = ifelse(buildings == 1, "building", "buildings")
             ),
             alt_text = "A legend showing the colour of the points of apartment buildings."
@@ -99,7 +103,9 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           create_circle_legend(layer_colours[["apartment_buildings_social_housing"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>social housing</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_social_housing"]],
+              units = ifelse(is.null(units), 0, units),
               buildings = dataset()[["number_of_buildings_social_housing"]],
+              buildings = ifelse(is.null(buildings), 0, buildings),
               buildings_word = ifelse(buildings == 1, "building", "buildings")
             ),
             alt_text = "A legend showing the colour of the points of apartment buildings."
