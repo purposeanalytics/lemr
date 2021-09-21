@@ -1,20 +1,23 @@
 ---
 title: "Stories1"
 date: "9/16/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
 ```
 
-```{r library, warning=FALSE, message=FALSE}
+```{r library}
 library(dplyr)
 library(readr)
 library(ggplot2)
 ```
 
-```{r}
+```{r load}
 buildings_layers <- read_csv(here::here('stories/data/buildings_layers.csv'))
 ```
 
@@ -22,7 +25,7 @@ buildings_layers <- read_csv(here::here('stories/data/buildings_layers.csv'))
 ```{r}
 agi_tdf <- buildings_layers %>% 
   select(bing_address, neighbourhood, agi, tdf, tdf_year, reduced_increase_by) %>% 
-  separate_rows(tdf_year, reduced_increase_by, sep = ',') %>% 
+  #tidyr::separate_rows(tdf_year, reduced_increase_by, sep = ',') %>% 
   group_by(neighbourhood) %>% mutate(reduced_increase_by = as.numeric(gsub("%", "", reduced_increase_by, fixed = TRUE))/100) %>%  
   summarise(Count = n_distinct(bing_address), AGI = sum(agi, na.rm = TRUE), 
             TDF = sum(tdf, na.rm = TRUE), 
@@ -34,12 +37,36 @@ agi_tdf
 ```
 
 ```{r}
+agi_tdf <- mutate(agi_tdf, top3 = rank(-agi_ratio) %in% 1:5)
+
 plotly::ggplotly(
-  ggplot(agi_tdf, aes(agi_ratio, tdf_ratio, fill = neighbourhood)) +
-    geom_point(size = agi_tdf$reduced_increase_by_avg * 300) +
+  ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
+    geom_point(size = agi_tdf$reduced_increase_by_avg * 300, aes(color = top3, fill = neighbourhood)) +
+    ggrepel::geom_label_repel(data = agi_tdf %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+    scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
     theme_bw()+
     theme(legend.position = 'None')
     )
+```
+
+
+```{r}
+
+agi_tdf <- agi_tdf %>% mutate(top3 = case_when(neighbourhood == 'Yonge-St.Clair' ~ TRUE,
+                                               neighbourhood == 'Broadview North' ~ TRUE,
+                                               neighbourhood == 'Mimico (includes Humber Bay Shores)' ~ TRUE,
+                                               TRUE ~ FALSE))
+
+
+#plotly::ggplotly(
+  ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
+    geom_point(size = 3, aes(color = top3, fill = neighbourhood)) +
+    ggrepel::geom_label_repel(data = agi_tdf %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+    scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    theme_bw()+
+    theme(legend.position = 'None')
+    #)
+
 ```
 
 
