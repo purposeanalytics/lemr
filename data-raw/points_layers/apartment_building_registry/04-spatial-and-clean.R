@@ -107,7 +107,7 @@ apartment_building_registry <- apartment_building_registry_sf %>%
 # Keep relevant columns
 
 apartment_building_registry <- apartment_building_registry %>%
-  select(id, rsn, address = site_address, bing_address, neighbourhood, units = confirmed_units, storeys = confirmed_storeys, year_built, property_management = property_management, geometry)
+  select(id, rsn, address = site_address, bing_address, neighbourhood, units = confirmed_units, storeys = confirmed_storeys, year_built, property_management = property_management, property_type, geometry)
 
 # Check values
 apartment_building_registry %>%
@@ -133,6 +133,15 @@ apartment_building_registry <- apartment_building_registry %>%
       )
     }
   ))
+
+# Check property type
+
+apartment_building_registry %>%
+  as_tibble() %>%
+  count(property_type)
+
+apartment_building_registry %>%
+  filter(is.na(property_type))
 
 # Save
 saveRDS(apartment_building_registry, here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
