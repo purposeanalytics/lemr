@@ -89,37 +89,37 @@ mod_aggregate_layer_ui <- function(id) {
         class = "summary-legend padded",
         shiny::conditionalPanel(
           "input.layer == 'lem'",
-          lem_legend,
+          lem_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'rental_supply_primary'",
-          rental_supply_primary_legend,
+          rental_supply_primary_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'rental_supply_condo'",
-          rental_supply_condo_legend,
+          rental_supply_condo_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'rental_supply_non_condo'",
-          rental_supply_non_condo_legend,
+          rental_supply_non_condo_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'rental_supply_non_market'",
-          rental_supply_non_market_legend,
+          rental_supply_non_market_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'core_housing_need'",
-          core_housing_need_legend,
+          core_housing_need_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
           "input.layer == 'evictions'",
-          evictions_legend,
+          evictions_legend(),
           ns = ns
         ),
         shiny::conditionalPanel(
@@ -260,21 +260,33 @@ amenity_density_legend <- function() {
   create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for amenity density: low (green), medium (yellow), and high (purple).")
 }
 
-low_high_legend_colors <- c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+lem_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0", "1,500", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 1500 (dark blue).")
+}
 
-lem_legend <- generate_layers_legend(low_high_legend_colors, "0", "1,500", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 1500 (dark blue).")
+rental_supply_primary_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "primary market"))
+}
 
-rental_supply_primary_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "primary market"))
+rental_supply_condo_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market condominium"))
+}
 
-rental_supply_condo_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market condominium"))
+rental_supply_non_condo_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
+}
 
-rental_supply_non_condo_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
+rental_supply_non_market_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "non-market"))
+}
 
-rental_supply_non_market_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "non-market"))
+core_housing_need_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
+}
 
-core_housing_need_legend <- generate_layers_legend(low_high_legend_colors, "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
-
-evictions_legend <- generate_layers_legend(low_high_legend_colors, "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
+evictions_legend <- function() {
+  generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
+}
 
 lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
 

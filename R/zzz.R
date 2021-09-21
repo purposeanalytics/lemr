@@ -15,6 +15,10 @@ layer_colours <- c(
   tdf = "#ffffbf"
 )
 
+low_high_legend_colors <- function() {
+  c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+}
+
 amenity_density_colours <- function() {
   stats::setNames(c("#3C95E3", accent_colour, "#FB6B27"), c("Low", "Medium", "High"))
 }
