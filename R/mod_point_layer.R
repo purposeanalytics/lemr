@@ -79,7 +79,32 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 
     output$layer_summary <- shiny::renderUI({
       switch(layer,
-        apartment_buildings = create_circle_legend(layer_colours[["apartment_buildings"]], glue::glue("{scales::comma(units)} units ({scales::comma(buildings)} apartment {buildings_word})", units = dataset()[["number_of_units"]], buildings = dataset()[["number_of_buildings"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of apartment buildings."),
+        apartment_buildings = shiny::div(
+          create_circle_legend(layer_colours[["apartment_buildings"]],
+            glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>privately owned</b> apartment {buildings_word}",
+              units = dataset()[["number_of_units_private"]],
+              buildings = dataset()[["number_of_buildings_private"]],
+              buildings_word = ifelse(buildings == 1, "building", "buildings")
+            ),
+            alt_text = "A legend showing the colour of the points of apartment buildings."
+          ),
+          create_circle_legend(layer_colours[["apartment_buildings"]],
+            glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>Toronto Community Housing</b> apartment {buildings_word}",
+              units = dataset()[["number_of_units_tch"]],
+              buildings = dataset()[["number_of_buildings_tch"]],
+              buildings_word = ifelse(buildings == 1, "building", "buildings")
+            ),
+            alt_text = "A legend showing the colour of the points of apartment buildings."
+          ),
+          create_circle_legend(layer_colours[["apartment_buildings"]],
+            glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>social housing</b> apartment {buildings_word}",
+              units = dataset()[["number_of_units_social_housing"]],
+              buildings = dataset()[["number_of_buildings_social_housing"]],
+              buildings_word = ifelse(buildings == 1, "building", "buildings")
+            ),
+            alt_text = "A legend showing the colour of the points of apartment buildings."
+          ),
+        ),
         apartment_evaluation = shiny::div(
           generate_apartment_evaluation_legend(),
           shiny::uiOutput(ns("median_score"))
