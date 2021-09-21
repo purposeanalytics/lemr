@@ -17,7 +17,7 @@ agi_applications_and_tdf <- readRDS(here::here("data-raw", "points_layers", "agi
 buildings <- apartment_building_registry %>%
   mutate(apartment = TRUE) %>%
   # Only joining by RSN, because the registry addresses have ranges but the evaluation addresses do not - use the addresses from registry
-  full_join(apartment_building_evaluation, by = "rsn", suffix = c("", "_evaluation")) %>%
+  inner_join(apartment_building_evaluation, by = "rsn", suffix = c("", "_evaluation")) %>%
   mutate(
     address = coalesce(address, address_evaluation),
     bing_address = coalesce(bing_address, bing_address_evaluation),

@@ -115,33 +115,27 @@ apartment_building_registry %>%
 
 # Can't really find data on year built, so will have to go with "Unknown"
 
+# Check units / storeys
+
 apartment_building_registry %>%
   filter(units < 10 | is.na(units))
 
 apartment_building_registry %>%
   filter(storeys < 3 | is.na(storeys))
 
-# Flag as NA
+# Remove the two offenders - we don't have enough info for 'em!
+
+all(apartment_building_registry %>% filter(units == 0 & storeys == 0) %>%
+  pull(rsn) %in% c(4820405, 4904686))
 
 apartment_building_registry <- apartment_building_registry %>%
-  mutate(across(
-    c(units, storeys),
-    function(x) {
-      case_when(
-        cur_data()[["rsn"]] %in% c(4820405, 4904686) ~ NA_real_,
-        TRUE ~ x
-      )
-    }
-  ))
+  filter(!rsn %in% c(4820405, 4904686))
 
 # Check property type
 
 apartment_building_registry %>%
   as_tibble() %>%
   count(property_type)
-
-apartment_building_registry %>%
-  filter(is.na(property_type))
 
 # Save
 saveRDS(apartment_building_registry, here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))

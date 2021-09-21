@@ -21,6 +21,7 @@ library(dplyr)
 library(purrr)
 library(tidyr)
 library(sf)
+devtools::load_all()
 
 # Census profiles -----
 
@@ -174,13 +175,13 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["evictions"]] <- evictions_by_neighbourhood[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
-  neighbourhood_aggregate_i[["number_of_buildings_private"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Private"]]
-  neighbourhood_aggregate_i[["number_of_buildings_tch"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["TCHC"]]
-  neighbourhood_aggregate_i[["number_of_buildings_social_housing"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Social Housing"]]
+  neighbourhood_aggregate_i[["number_of_buildings_private"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Privately owned"]]
+  neighbourhood_aggregate_i[["number_of_buildings_tch"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Toronto Community Housing"]]
+  neighbourhood_aggregate_i[["number_of_buildings_social_housing"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Social housing"]]
   neighbourhood_aggregate_i[["number_of_units"]] <- units_by_neighbourhood[[i]]
-  neighbourhood_aggregate_i[["number_of_units_private"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Private"]]
-  neighbourhood_aggregate_i[["number_of_units_tch"]] <- apartments_by_type_by_neighbourhood_units[[i]][["TCHC"]]
-  neighbourhood_aggregate_i[["number_of_units_social_housing"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Social Housing"]]
+  neighbourhood_aggregate_i[["number_of_units_private"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Privately owned"]]
+  neighbourhood_aggregate_i[["number_of_units_tch"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Toronto Community Housing"]]
+  neighbourhood_aggregate_i[["number_of_units_social_housing"]] <- apartments_by_type_by_neighbourhood_units[[i]][["Social housing"]]
   neighbourhood_aggregate_i[["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["agi"]] <- agi_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["tdf"]] <- tdf_by_neighbourhood[[i]]
@@ -202,13 +203,13 @@ city_aggregate[["evictions_distribution"]] <- evictions_distribution
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution
-city_aggregate[["number_of_buildings_private"]] <- apartments_by_type_city_buildings[["Private"]]
-city_aggregate[["number_of_buildings_tch"]] <- apartments_by_type_city_buildings[["TCHC"]]
-city_aggregate[["number_of_buildings_social_housing"]] <- apartments_by_type_city_buildings[["Social Housing"]]
+city_aggregate[["number_of_buildings_private"]] <- apartments_by_type_city_buildings[["Privately owned"]]
+city_aggregate[["number_of_buildings_tch"]] <- apartments_by_type_city_buildings[["Toronto Community Housing"]]
+city_aggregate[["number_of_buildings_social_housing"]] <- apartments_by_type_city_buildings[["Social housing"]]
 city_aggregate[["number_of_units"]] <- number_of_units_city
-city_aggregate[["number_of_units_private"]] <- apartments_by_type_city_units[["Private"]]
-city_aggregate[["number_of_units_tch"]] <- apartments_by_type_city_units[["TCHC"]]
-city_aggregate[["number_of_units_social_housing"]] <- apartments_by_type_city_units[["Social Housing"]]
+city_aggregate[["number_of_units_private"]] <- apartments_by_type_city_units[["Privately owned"]]
+city_aggregate[["number_of_units_tch"]] <- apartments_by_type_city_units[["Toronto Community Housing"]]
+city_aggregate[["number_of_units_social_housing"]] <- apartments_by_type_city_units[["Social housing"]]
 city_aggregate[["number_of_units_distribution"]] <- units_by_neighbourhood_distribution
 city_aggregate[["apartment_building_evaluation"]] <- median_score_city[["value"]]
 city_aggregate[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution

@@ -17,7 +17,7 @@ units_by_neighbourhood <- apartment_building_registry %>%
 
 # Not all neighbourhoods have apartments, so need to complete the data set
 
-neighbourhoods <- tibble(neighbourhood = names(neighbourhood_profiles))
+neighbourhoods <- tibble(neighbourhood = lemur::neighbourhoods[["neighbourhood"]])
 
 apartments_by_neighbourhood <- apartments_by_neighbourhood %>%
   right_join(neighbourhoods, by = "neighbourhood") %>%
