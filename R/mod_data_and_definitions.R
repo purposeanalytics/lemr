@@ -10,6 +10,8 @@ mod_data_and_definitions_ui <- function(id) {
   shiny::div(
     class = "content-page",
     shiny::h1("Data & Definitions"),
+    shiny::downloadButton(ns("download_aggregate"), label = "Aggregate data"),
+    shiny::downloadButton(ns("download_points"), label = "Points data"),
     collapse_definitions(
       title = "Low-end of market",
       content = shiny::tags$i("Coming soon")
@@ -52,6 +54,28 @@ mod_data_and_definitions_ui <- function(id) {
 mod_data_and_definitions_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    output$download_aggregate <- shiny::downloadHandler(
+      filename <- function() {
+        "Aggregate Data.csv"
+      },
+
+      content <- function(file) {
+        file.copy(app_sys("extdata/Aggregate Data.csv"), file)
+      }
+    )
+
+    output$download_points <- shiny::downloadHandler(
+      filename <- function() {
+        "Points Layers.csv"
+      },
+
+      content <- function(file) {
+        file.copy(app_sys("extdata/Points Layers.csv"), file)
+      },
+      contentType = "text/csv"
+    )
+
   })
 }
 
