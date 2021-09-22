@@ -5,7 +5,6 @@
 # The licenses themselves sometimes span multiple years. The "In date" "Final ldate" fields can be used to determine the continuous
 # period with which the license was kept.
 
-library(dplyr)
 library(readxl)
 
 rooming_houses <- read_excel(here::here("data-raw", "points_layers", "rooming_houses", "raw", "2021-00260 original COT licensed rooming houses .xlsx"), sheet = 2, skip = 4)
