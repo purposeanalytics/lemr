@@ -56,8 +56,6 @@ agi_tdf <- agi_tdf %>% mutate(top3 = case_when(neighbourhood == 'Yonge-St.Clair'
                                                neighbourhood == 'Broadview North' ~ TRUE,
                                                neighbourhood == 'Mimico (includes Humber Bay Shores)' ~ TRUE,
                                                TRUE ~ FALSE))
-
-
 #plotly::ggplotly(
   ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
     geom_point(size = 3, aes(color = top3, fill = neighbourhood)) +
@@ -71,6 +69,11 @@ agi_tdf <- agi_tdf %>% mutate(top3 = case_when(neighbourhood == 'Yonge-St.Clair'
 
 
 ```{r}
+
+kableExtra::kable(agi_tdf %>% filter(top3 == TRUE) %>% select(-top3, -reduced_increase_by_avg) %>% 
+                    mutate(agi_ratio = sprintf("%0.1f%%", agi_ratio * 100), tdf_ratio = sprintf("%0.1f%%", tdf_ratio * 100))
+                  , caption="Highlighted Neighbourhoods", booktabs = TRUE, linesep= "") %>% 
+  kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 ```
 
 
