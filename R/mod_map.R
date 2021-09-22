@@ -7,7 +7,8 @@
 #' @noRd
 mod_map_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
+  shiny::div(
+    style = "calc(100vh - 120px) !important;",
     mapboxer::mapboxerOutput(ns("map"))
   )
 }
@@ -25,12 +26,16 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         add_blank_lem_layer() %>%
         add_blank_rental_supply_layers() %>%
         add_blank_core_housing_need_layer() %>%
+        add_blank_evictions_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
         add_blank_neighbourhood_layer() %>%
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
+      // Send variable that map is loaded in order to trigger tour
+      Shiny.onInputChange('mapLoaded', true);
+
       var map = mapboxer._widget['map-map'].map;
       // Get zoom level on zoom out, to know when to reset to city view
       map.on('zoomend', function () {

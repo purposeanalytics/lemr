@@ -91,37 +91,7 @@ buildings <- buildings %>%
   as_tibble() %>%
   left_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
-# Add evictions hearings -----
-
-# eviction_hearings <- lemur::eviction_hearings %>%
-#   group_by(bing_address) %>%
-#   fill(landlord, .direction = "downup") %>%
-#   group_by(bing_address, neighbourhood, landlord) %>%
-#   summarise(
-#     geometry = geometry,
-#     hearings = sum(hearings),
-#     .groups = "drop"
-#   )
-#
-# eviction_hearings_coords <- eviction_hearings %>%
-#   group_by(bing_address) %>%
-#   slice(1) %>%
-#   ungroup() %>%
-#   st_coordinates() %>%
-#   as_tibble()
-#
-# eviction_hearings <- eviction_hearings %>%
-#   as_tibble() %>%
-#   select(-geometry) %>%
-#   distinct() %>%
-#   bind_cols(eviction_hearings_coords) %>%
-#   rename_at(vars(landlord, X, Y, neighbourhood), ~ paste0(.x, "_evictions"))
-#
-# buildings <- buildings %>%
-#   left_join(eviction_hearings %>%
-#     mutate(eviction_hearing = TRUE), by = "bing_address", suffix = c("_apt_agi", "_evictions"))
-
-# Fill in columns, prioritizing apt -> agi -> evictions
+# Fill in columns, prioritizing apt -> agi
 
 buildings <- buildings %>%
   mutate(
@@ -134,7 +104,6 @@ buildings <- buildings %>%
     tdf = coalesce(tdf, FALSE),
     tdf_year = na_if(tdf_year, ""),
     reduced_increase_by = na_if(reduced_increase_by, "")
-    # eviction_hearing = coalesce(eviction_hearing, FALSE)
   )
 
 # Select columns -----
@@ -147,6 +116,10 @@ buildings <- buildings %>%
 buildings <- buildings %>%
   st_as_sf(coords = c("X", "Y"), crs = 4326)
 
+# Recode property type
+buildings <- buildings %>%
+  mutate(property_type = recode(property_type, PRIVATE = "Privately owned", TCHC = "Toronto Community Housing", "SOCIAL HOUSING" = "Social housing"))
+
 # Generate tooltip based on information available -----
 
 generate_tooltip <- function(data) {
@@ -154,9 +127,9 @@ generate_tooltip <- function(data) {
     ~title, ~variable,
     "Built", "year_built",
     "Landlord/Management", "property_management_or_landlord",
+    "Building Type", "property_type",
     "Units", "units",
     "RentSafeTO Evaluation", "score_percent",
-    # "Eviction Hearings", "hearings",
     "AGI Application", "date_agi_initiated",
     "Tenant Defence Fund Received", "tdf_year",
     "TDF Reduced Increase By", "reduced_increase_by"

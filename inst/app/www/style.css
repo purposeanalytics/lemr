@@ -367,16 +367,15 @@ ul {
 
 /* ------ Map sizes ------ */
 
-#map-map, #sidebar {
+.mapboxer, .map-sidebar {
   height: calc(100vh - 120px) !important;
 }
 
-#sidebar {
+.map-sidebar {
   overflow-y: auto;
 }
 
 /* ------ Tabs ------ */
-
 
 .nav-tabs {
   border-bottom: 1px solid black;

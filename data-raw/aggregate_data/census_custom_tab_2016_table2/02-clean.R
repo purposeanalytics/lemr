@@ -3,6 +3,7 @@
 library(sf)
 library(dplyr)
 library(stringr)
+library(tidyr)
 devtools::load_all()
 
 ## CTs Data ----
@@ -34,9 +35,18 @@ ct_to_neighbourhood <- ct_to_neighbourhood %>%
 toronto_census_tracts <- toronto_census_tracts %>%
   inner_join(ct_to_neighbourhood, by = c("geography" = "ct"))
 
-### Order variables ----
-toronto_census_tracts <- toronto_census_tracts %>%
-  select(-c(one_person:five_or_more_person))
+### Order variables and turn household size value back into human-readable text----
+toronto_census_tracts_clean <- toronto_census_tracts %>%
+  pivot_longer(c(total:five_or_more_person), names_to = "household_size", values_to = "total") %>%
+  relocate(average_household_size, .after = total) %>%
+  mutate(household_size = recode(household_size,
+    "one_person" = "1 person",
+    "two_person" = "2 person",
+    "three_person" = "3 person",
+    "four_person" = "4 person",
+    "five_or_more_person" = "5+ persons",
+    "total" = "Total - Household size"
+  ))
 
 ### Save data ----
-saveRDS(toronto_census_tracts, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))
+saveRDS(toronto_census_tracts_clean, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table2", "clean", "custom_tab_toronto_table2.rds"))

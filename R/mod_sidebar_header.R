@@ -37,7 +37,8 @@ mod_sidebar_header_ui <- function(id) {
     shiny::column(
       width = 6,
       class = "summary-statistics padded",
-      shiny::uiOutput(ns("rental_supply_secondary_table"))
+      shiny::uiOutput(ns("rental_supply_secondary_table")),
+      shiny::uiOutput(ns("rental_supply_non_market_table"))
     ),
     shiny::column(
       width = 12,
@@ -87,21 +88,7 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
     mod_full_summary_modal_server("full_summary", level, neighbourhood, dataset)
 
     output$summary_statistics <- shiny::renderText({
-      dplyr::tibble(
-        `Total households` = dataset()[["households"]] %>% scales::comma(),
-        `Total population` = scales::comma(dataset()[["population"]]),
-        `Proportion renters` = dataset()[["household_tenure"]] %>%
-          dplyr::filter(group == "Renter") %>%
-          dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
-        `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
-          scales::percent(accuracy = 0.1)
-      ) %>%
-        tidyr::pivot_longer(cols = dplyr::everything()) %>%
-        knitr::kable(col.names = NULL, align = "lr") %>%
-        kableExtra::kable_minimal(
-          html_font = "\"Lato\", sans-serif",
-          full_width = TRUE
-        )
+      summary_statistics_table(dataset())
     })
 
     output$rental_supply_plot <- plotly::renderPlotly({
@@ -122,6 +109,10 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
 
     output$rental_supply_secondary_table <- shiny::renderText({
       rental_supply_secondary_table(dataset())
+    })
+
+    output$rental_supply_non_market_table <- shiny::renderText({
+      rental_supply_non_market_table(dataset())
     })
 
     output$lem_table <- shiny::renderText({

@@ -7,4 +7,18 @@ grey_colour <- "#B8B8B8"
 base_size <- 14
 bearing <- -17
 
-layer_colours <- c(apartment_buildings = "#27a167", evictions_hearings = accent_colour, agi = "#fc8d59", tdf = "#ffffbf")
+layer_colours <- c(
+  apartment_buildings_private = "#27a167",
+  apartment_buildings_tch = "#7dc6a3",
+  apartment_buildings_social_housing = "#d3ece0",
+  agi = "#fc8d59",
+  tdf = "#ffffbf"
+)
+
+low_high_legend_colors <- function() {
+  c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+}
+
+amenity_density_colours <- function() {
+  stats::setNames(c("#3C95E3", accent_colour, "#FB6B27"), c("Low", "Medium", "High"))
+}

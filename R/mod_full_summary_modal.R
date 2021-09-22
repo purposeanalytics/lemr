@@ -56,7 +56,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                 shiny::column(
                   width = 6,
                   class = "modal-summary-statistics",
-                  shiny::uiOutput(ns("rental_supply_secondary_table"))
+                  shiny::uiOutput(ns("rental_supply_secondary_table")),
+                  shiny::uiOutput(ns("rental_supply_non_market_table"))
                 ),
                 shiny::column(
                   width = 12,
@@ -64,15 +65,26 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                   shiny::h3("Estimated annual availability of low-end of market rental"),
                   shiny::htmlOutput(ns("lem_table")),
                   shiny::hr(),
-                  shiny::h3("Apartment buildings"),
-                  bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
-                  shiny::textOutput(ns("number_of_apartments_description")),
-                  shiny::uiOutput(ns("number_of_apartments_plot_ui")),
+                  shiny::h3("Apartment units"),
+                  bigger_padded(shiny::textOutput(ns("number_of_units_number"))),
+                  padded(shiny::textOutput(ns("number_of_units_breakdown"))),
+                  shiny::textOutput(ns("number_of_units_description")),
+                  shiny::uiOutput(ns("number_of_units_plot_ui")),
                   shiny::hr(),
                   shiny::h3("RentSafeTO evaluation scores"),
                   bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
                   shiny::textOutput(ns("apartment_building_evaluation_description")),
                   shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("Core housing need"),
+                  bigger_padded(shiny::textOutput(ns("core_housing_need_number"))),
+                  shiny::textOutput(ns("core_housing_need_description")),
+                  shiny::uiOutput(ns("core_housing_need_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("Evictions"),
+                  bigger_padded(shiny::textOutput(ns("evictions_number"))),
+                  shiny::textOutput(ns("evictions_description")),
+                  shiny::uiOutput(ns("evictions_plot_ui")),
                   shiny::hr(),
                   shiny::h3("Amenity density"),
                   shiny::textOutput(ns("amenity_density_description")),
@@ -85,9 +97,11 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
             shiny::div(
               class = "modal-col middle",
               shiny::h2("Housing characteristics"),
-              shiny::h3("Apartment units"),
-              shiny::textOutput(ns("number_of_units_description")),
-              shiny::uiOutput(ns("number_of_units_plot_ui")),
+              shiny::h3("Apartment buildings"),
+              bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
+              padded(shiny::textOutput(ns("number_of_apartments_breakdown"))),
+              shiny::textOutput(ns("number_of_apartments_description")),
+              shiny::uiOutput(ns("number_of_apartments_plot_ui")),
               shiny::hr(),
               shiny::h3("Housing structure type"),
               shiny::textOutput(ns("structure_type_description")),
@@ -176,23 +190,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       ## Summary statistics -----
 
       output$summary_statistics <- shiny::renderText({
-        dplyr::tibble(
-          `Total households` = dataset()[["households"]] %>% scales::comma(),
-          `Total population` = scales::comma(dataset()[["population"]]),
-          `Proportion renters` = dataset()[["household_tenure"]] %>%
-            dplyr::filter(group == "Renter") %>%
-            dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
-          `In core housing need` = dataset()[["core_housing_need"]][["prop"]] %>%
-            scales::percent(accuracy = 0.1)
-        ) %>%
-          tidyr::pivot_longer(cols = dplyr::everything()) %>%
-          knitr::kable(col.names = NULL, align = "lr") %>%
-          kableExtra::kable_minimal(
-            html_font = "\"Lato\", sans-serif",
-            full_width = TRUE
-          )
+        summary_statistics_table(dataset())
       })
-
 
       output$rental_supply_plot <- plotly::renderPlotly({
         rental_supply_plot(dataset())
@@ -214,6 +213,10 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         rental_supply_secondary_table(dataset())
       })
 
+      output$rental_supply_non_market_table <- shiny::renderText({
+        rental_supply_non_market_table(dataset())
+      })
+
       output$lem_table <- shiny::renderText({
         dataset()[["lem"]] %>%
           dplyr::mutate(dplyr::across(-Bedrooms, scales::comma)) %>%
@@ -221,6 +224,80 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
           kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
           kableExtra::column_spec(1, width = "30%") %>%
           kableExtra::column_spec(2:4, width = "20%")
+      })
+
+      # Core housing need -----
+
+      core_housing_need <- shiny::reactive({
+        get_measure(dataset(), "core_housing_need")
+      })
+
+      core_housing_need_formatted <- shiny::reactive({
+        format_measure(core_housing_need(), "core_housing_need")
+      })
+
+      output$core_housing_need_number <- shiny::renderText({
+        core_housing_need_number(core_housing_need_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$core_housing_need_description <- shiny::renderText({
+        core_housing_need_description(level(), neighbourhood(), core_housing_need(), core_housing_need_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      core_housing_need_alt_text <- shiny::reactive({
+        core_housing_need_plot_alt_text(level(), neighbourhood())
+      })
+
+      output$core_housing_need_plot <- plotly::renderPlotly({
+        core_housing_need_plot(dataset(), compare())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$core_housing_need_plot_ui <- shiny::renderUI({
+        shiny::div(
+          role = "img",
+          `aria-label` = core_housing_need_alt_text(),
+          plotly::plotlyOutput(ns("core_housing_need_plot"), height = "100px")
+        )
+      })
+
+      # Evictions -----
+
+      evictions <- shiny::reactive({
+        get_measure(dataset(), "evictions")
+      })
+
+      evictions_formatted <- shiny::reactive({
+        format_measure(evictions(), "evictions")
+      })
+
+      output$evictions_number <- shiny::renderText({
+        evictions_number(evictions_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$evictions_description <- shiny::renderText({
+        evictions_description(level(), neighbourhood(), evictions(), evictions_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      evictions_alt_text <- shiny::reactive({
+        evictions_plot_alt_text(level(), neighbourhood())
+      })
+
+      output$evictions_plot <- plotly::renderPlotly({
+        evictions_plot(dataset(), compare())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$evictions_plot_ui <- shiny::renderUI({
+        shiny::div(
+          role = "img",
+          `aria-label` = evictions_alt_text(),
+          plotly::plotlyOutput(ns("evictions_plot"), height = "100px")
+        )
       })
 
       # Number of apartments -----
@@ -242,7 +319,12 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       })
 
       output$number_of_apartments_number <- shiny::renderText({
-        number_of_apartments_number(number_of_apartments_formatted(), number_of_units_formatted())
+        number_of_apartments_number(number_of_apartments_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$number_of_apartments_breakdown <- shiny::renderText({
+        number_of_apartments_breakdown(dataset())
       }) %>%
         shiny::bindCache(level(), neighbourhood())
 
@@ -267,6 +349,16 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
           plotly::plotlyOutput(ns("number_of_apartments_plot"), height = "100px")
         )
       })
+
+      output$number_of_units_number <- shiny::renderText({
+        number_of_units_number(number_of_units_formatted())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
+
+      output$number_of_units_breakdown <- shiny::renderText({
+        number_of_units_breakdown(dataset())
+      }) %>%
+        shiny::bindCache(level(), neighbourhood())
 
       output$number_of_units_description <- shiny::renderText({
         number_of_units_description(level(), neighbourhood(), number_of_units(), number_of_units_formatted())
@@ -613,7 +705,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         shiny::div(
           role = "img",
           `aria-label` = average_total_household_income_alt_text(),
-          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "100px")
+          plotly::plotlyOutput(ns("average_total_household_income_plot"), height = "125px")
         )
       })
 

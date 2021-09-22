@@ -9,7 +9,8 @@ neighbourhoods_raw <- read_latest_file(directory = here::here("data-raw", "neigh
 
 # Only keep needed columns
 neighbourhoods <- neighbourhoods_raw %>%
-  select(neighbourhood = AREA_NAME, geometry)
+  select(neighbourhood = AREA_NAME, geometry, id = AREA_SHORT_CODE) %>%
+  mutate(id = as.numeric(id))
 
 # Clean up neighbourhood names
 neighbourhoods <- neighbourhoods %>%
@@ -17,10 +18,6 @@ neighbourhoods <- neighbourhoods %>%
 
 # Projection is already 4326, so good to go
 st_crs(neighbourhoods)
-
-# Add a numeric ID to use for toggling hover
-neighbourhoods <- neighbourhoods %>%
-  mutate(id = row_number())
 
 # Save dataset - as geojson for mapbox
 st_write(neighbourhoods, here::here("data-raw", "neighbourhoods", "final", "neighbourhoods.geojson"))

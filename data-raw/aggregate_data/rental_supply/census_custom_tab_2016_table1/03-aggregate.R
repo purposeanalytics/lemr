@@ -45,7 +45,7 @@ aggregate_prop_by_neighbourhood <- function(df, column_name, parent_dimension) {
 
   df_children_summary %>%
     left_join(df_parent_summary, by = "neighbourhood") %>%
-    mutate(prop = value / total) %>%
+    mutate(prop = round(value / total, 3)) %>%
     select(neighbourhood, group, value, prop) %>%
     complete(neighbourhood, group, fill = list(value = 0, prop = 0))
 }
@@ -66,7 +66,7 @@ aggregate_prop_city <- function(df, column_name, parent_dimension) {
     pull(value)
 
   df_children_summary %>%
-    mutate(prop = value / parent_summary) %>%
+    mutate(prop = round(value / parent_summary, 3)) %>%
     select(group, value, prop)
 }
 
@@ -111,13 +111,15 @@ structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
   ) %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
   mutate(structural_type = coalesce(clean, structural_type)) %>%
-  aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling")
+  aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling") %>%
+  select(-value)
 
 structure_type_city <- custom_tab_toronto_cts %>%
   filter(tenure_including_subsidy == "Renter") %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
   mutate(structural_type = coalesce(clean, structural_type)) %>%
-  aggregate_prop_city("structural_type", "Total - Structural type of dwelling")
+  aggregate_prop_city("structural_type", "Total - Structural type of dwelling") %>%
+  select(-value)
 
 ### Save aggregates ----
 saveRDS(secondary_condo_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "census_custom_tab_2016_table1", "aggregate", "secondary_condo_by_neighbourhood.rds"))

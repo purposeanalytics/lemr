@@ -10,7 +10,7 @@ add_blank_core_housing_need_layer(map)
 \item{map}{Map created via \link{map_toronto}}
 }
 \description{
-Add a blank layers of \link{core_housing_need_by_neighbourhood} to a map (created via \link{map_toronto}).The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with id "core_housing_need).
+Add a blank layers of \link{core_housing_need_by_neighbourhood} to a map (created via \link{map_toronto}).The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with id "core_housing_need").
 }
 \examples{
 library(sf)
