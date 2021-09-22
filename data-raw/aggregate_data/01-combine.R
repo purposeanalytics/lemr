@@ -16,6 +16,7 @@
 # Apartment buildings / units via points_layers/apartment_building_registry/
 # RentSafeTO Scores via points_layers/apartment_building_evaluation/
 # AGI and Tenant Defense Fund via points_layers/agi_and_tenant_defense_fund/
+# Rooming houses via points_layers/rooming_houses/
 
 library(dplyr)
 library(purrr)
@@ -155,6 +156,29 @@ agi_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and
 agi_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))
 tdf_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_city.rds"))
 
+# Rooming houses ----
+
+rooming_houses_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "rooming_houses", "aggregate", "rooming_houses_by_neighbourhood.rds"))
+
+rooming_houses_city <- rooming_houses_by_neighbourhood %>%
+  summarise(across(-neighbourhood, sum))
+
+rooming_houses_city_licensed <- rooming_houses_city[["Licensed"]]
+rooming_houses_city_licensed_after_2018 <- rooming_houses_city[["Licensed after 2018"]]
+rooming_houses_city_lapsed <- rooming_houses_city[["Lapsed"]]
+
+rooming_houses_by_neighbourhood_licensed <- rooming_houses_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(pull, "Licensed")
+
+rooming_houses_by_neighbourhood_licensed_after_2018 <- rooming_houses_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(pull, "Licensed after 2018")
+
+rooming_houses_by_neighbourhood_lapsed <- rooming_houses_by_neighbourhood %>%
+  split(.$neighbourhood) %>%
+  map(pull, "Lapsed")
+
 # Make aggregate data set ----
 
 neighbourhood_aggregate <- neighbourhood_profiles
@@ -185,6 +209,9 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["agi"]] <- agi_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["tdf"]] <- tdf_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["rooming_houses_licensed"]] <- rooming_houses_by_neighbourhood_licensed[[i]]
+  neighbourhood_aggregate_i[["rooming_houses_licensed_after_2018"]] <- rooming_houses_by_neighbourhood_licensed_after_2018[[i]]
+  neighbourhood_aggregate_i[["rooming_houses_lapsed"]] <- rooming_houses_by_neighbourhood_lapsed[[i]]
 
   neighbourhood_aggregate[[i]] <- neighbourhood_aggregate_i
 }
@@ -215,6 +242,9 @@ city_aggregate[["apartment_building_evaluation"]] <- median_score_city[["value"]
 city_aggregate[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution
 city_aggregate[["agi"]] <- agi_city
 city_aggregate[["tdf"]] <- tdf_city
+city_aggregate[["rooming_houses_licensed"]] <- rooming_houses_city_licensed
+city_aggregate[["rooming_houses_licensed_after_2018"]] <- rooming_houses_city_licensed_after_2018
+city_aggregate[["rooming_houses_lapsed"]] <- rooming_houses_city_lapsed
 
 # Save data sets ----
 
