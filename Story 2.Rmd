@@ -77,14 +77,17 @@ proximity_layers <- adn %>%
 ```
 
 ```{r}
-test <- proximity_layers %>% select(neighbourhood, High, Medium, Low,average_renter_shelter_cost,Condo) %>% 
+test <- proximity_layers %>% select(neighbourhood, High, Medium, Low,number_of_buildings,`Total_Total`) %>% 
   pivot_longer(cols = c(High, Medium, Low))
 ```
 
 
 ```{r}
+test <- test %>% filter(Total_Total > 250, number_of_buildings >= 10)
+
+
 plotly::ggplotly(
-  ggplot(test, aes(value, Condo, colour = average_renter_shelter_cost)) +
+  ggplot(test, aes(value, `Total_Total`, colour = number_of_buildings)) +
     geom_point(size = 3) +
     ggrepel::geom_label_repel(data = test, aes(label=neighbourhood), size= 2.5) +
     #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
@@ -96,5 +99,6 @@ plotly::ggplotly(
 
 
 ```{r}
+test %>% filter(Total_Total == 400)
 ```
 
