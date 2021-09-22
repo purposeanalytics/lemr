@@ -106,6 +106,7 @@ units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apart
 
 apartments_by_type_by_neighbourhood <- lemur::buildings %>%
   as_tibble() %>%
+  filter(apartment) %>%
   group_by(neighbourhood, group = property_type) %>%
   summarise(
     buildings = n(),

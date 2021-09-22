@@ -125,11 +125,11 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
         ),
         evictions_hearings = create_circle_legend(layer_colours[["evictions_hearings"]], "Location of evictions hearings schedules November 2020 to January 2021", alt_text = "A legend showing the yellow colour of the points of eviction hearings."),
         agi = shiny::div(
-          create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+          create_circle_legend(layer_colours[["agi_apartment"]], glue::glue("{scales::comma(buildings)} privately owned apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
           shiny::uiOutput(ns("agi_prop")),
           shiny::div(
             style = "margin-top: 0.5em;",
-            create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
+            create_circle_legend(layer_colours[["agi_other"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
           )
         ),
         tdf = shiny::div(

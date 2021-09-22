@@ -61,8 +61,8 @@ lem <- neighbourhoods[["lem"]] %>%
 neighbourhoods$lem <- NULL
 neighbourhoods <- append(neighbourhoods, lem)
 
-## Rename n to value in agi and tdf ----
-neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
+## Rename n to value tdf ----
+neighbourhoods["tdf"] <- neighbourhoods["tdf"] %>%
   map(rename, value = n)
 
 ## Remove total, market, and market value in rental supply ----

@@ -108,7 +108,7 @@ agi_applications <- agi_applications %>%
 
 buildings <- buildings %>%
   as_tibble() %>%
-  left_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
+  full_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
 # Fill in columns, prioritizing apt -> agi -> rooming houses
 buildings <- buildings %>%
