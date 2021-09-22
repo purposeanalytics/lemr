@@ -29,7 +29,7 @@ rooming_houses_continuity <- rooming_houses_geocoded %>%
     first_month_licensed = min(months_licensed)
   ) %>%
   ungroup() %>%
-  select(address, months_licensed, last_month_licensed, first_month_licensed, bing_latitude, bing_longitude) %>%
+  select(address, bing_address, months_licensed, last_month_licensed, first_month_licensed, bing_latitude, bing_longitude) %>%
   distinct() %>%
   arrange(last_month_licensed, first_month_licensed, address)
 
@@ -39,11 +39,11 @@ rooming_houses_clean <- rooming_houses_continuity %>%
   filter(months_licensed <= "2020-01-01") %>%
   group_by(address) %>%
   mutate(
-    status = if_else(max(months_licensed) == "2020-01-01", "licensed", "lapsed"),
-    status = if_else(min(months_licensed) >= "2018-01-01" & status == "licensed", "licensed after 2018", status)
+    status = if_else(max(months_licensed) == "2020-01-01", "Licensed", "Lapsed"),
+    status = if_else(min(months_licensed) >= "2018-01-01" & status == "licensed", "Licensed after 2018", status)
   ) %>%
   ungroup() %>%
-  select(address, first_month_licensed, last_month_licensed, status, bing_latitude, bing_longitude) %>%
+  select(address, bing_address, first_month_licensed, last_month_licensed, status, bing_latitude, bing_longitude) %>%
   distinct()
 
 # Convert to SF
@@ -53,7 +53,12 @@ rooming_houses_sf <- rooming_houses_clean %>%
 # Get neighbourhood for each building
 rooming_houses_with_neighbourhood <- rooming_houses_sf %>%
   st_join(lemur::neighbourhoods) %>%
-  select(address, neighbourhood_id = id, neighbourhood, status, first_month_licensed, last_month_licensed)
+  select(address, bing_address, neighbourhood, status, first_month_licensed, last_month_licensed)
+
+# Clean up address
+rooming_houses_with_neighbourhood <- rooming_houses_with_neighbourhood %>%
+  separate(address, into = "address", sep = ",", extra = "drop") %>%
+  mutate(address = str_to_title(address))
 
 saveRDS(rooming_houses_with_neighbourhood, here::here("data-raw", "points_layers", "rooming_houses", "clean", "rooming_houses.rds"))
 
