@@ -651,6 +651,18 @@
       "Repository": "CRAN",
       "Hash": "eca8023ed5ca6372479ebb9b3207f5ae"
     },
+    "glouton": {
+      "Package": "glouton",
+      "Version": "0.0.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "glouton",
+      "RemoteUsername": "ColinFay",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "1c49d32466816fa12f5052f49090cea6bb56c990",
+      "Hash": "163396f869c7cc6d3d1a7f2aa88f391c"
+    },
     "glue": {
       "Package": "glue",
       "Version": "1.4.2",

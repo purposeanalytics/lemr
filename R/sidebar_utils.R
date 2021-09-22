@@ -111,10 +111,6 @@ rental_supply_plot <- function(data) {
     plotly::config(displayModeBar = FALSE)
 }
 
-rental_supply_colors <- function() {
-  stats::setNames(c("#27a167", "#2ded92", "#0642a1", "#1569ed", "#f53216", "#f77460"), c("Apartment", "Non-Apartment", "Condo", "Non-Condo", "Toronto Community Housing", "Other Non-Market"))
-}
-
 rental_supply_table <- function(data, market) {
   totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units"))
 

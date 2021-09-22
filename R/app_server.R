@@ -5,6 +5,7 @@
 #' @noRd
 app_server <- function(input, output, session) {
   requireNamespace("sf")
+  options(knitr.kable.NA = "—")
 
   mod_home_server("home")
 
@@ -21,14 +22,13 @@ app_server <- function(input, output, session) {
   # Trigger tour when map is loaded
   shiny::observeEvent(input$mapLoaded, {
     if (input$mapLoaded) {
-
       Sys.sleep(1.5)
 
       # Get cookie
       visited <- glouton::fetch_cookies()
 
       # If cookie is null, set to "yes" then show the tour
-      if (is.null(visited$visited_site)){
+      if (is.null(visited$visited_site)) {
         glouton::add_cookie("visited_site", "yes")
         map_guide()$init()$start()
       }
@@ -48,26 +48,26 @@ map_guide <- function() {
   cicerone::Cicerone$
     new()$
     step(
-      "aggregate_layer_div",
-      title = "See the big picture",
-      description = "Choose a base layer to see aspects of Toronto's rentals."
-    )$
+    "aggregate_layer_div",
+    title = "See the big picture",
+    description = "Choose a base layer to see aspects of Toronto's rentals."
+  )$
     step(
-      "points_layer_div",
-      title = "Spot the details",
-      description = "Enable point layers to identify and compare specific locations of interest."
-    )$
+    "points_layer_div",
+    title = "Spot the details",
+    description = "Enable point layers to identify and compare specific locations of interest."
+  )$
     step(
-      "map-header-full_summary-modal",
-      position = "left",
-      title = "Dive into the specifics",
-      description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
-    )$
+    "map-header-full_summary-modal",
+    position = "left",
+    title = "Dive into the specifics",
+    description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
+  )$
     step(
-      "[data-value='Data & Definitions']",
-      is_id = FALSE,
-      position = "left",
-      title = "Learn more",
-      description = "Find data sources and key terms in <b>Data & Definitions</b>."
-    )
+    "[data-value='Data & Definitions']",
+    is_id = FALSE,
+    position = "left",
+    title = "Learn more",
+    description = "Find data sources and key terms in <b>Data & Definitions</b>."
+  )
 }

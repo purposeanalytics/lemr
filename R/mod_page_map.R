@@ -5,7 +5,7 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-mod_page_map_ui <- function(id){
+mod_page_map_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::div(
@@ -35,8 +35,8 @@ mod_page_map_ui <- function(id){
 #' page_map Server Functions
 #'
 #' @noRd
-mod_page_map_server <- function(id){
-  shiny::moduleServer( id, function(input, output, session){
+mod_page_map_server <- function(id) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     address_and_neighbourhood <- shiny::reactiveValues()
@@ -77,4 +77,3 @@ mod_page_map_server <- function(id){
 
 ## To be copied in the server
 # mod_page_map_server("map")
-

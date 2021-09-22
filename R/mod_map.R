@@ -36,7 +36,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       // Send variable that map is loaded in order to trigger tour
       Shiny.onInputChange('mapLoaded', true);
 
-      var map = mapboxer._widget['map-map'].map;
+      var map = mapboxer._widget['map-map-map'].map;
       // Get zoom level on zoom out, to know when to reset to city view
       map.on('zoomend', function () {
       var mapZoom = map.getZoom();

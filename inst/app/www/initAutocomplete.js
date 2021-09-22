@@ -1,6 +1,6 @@
 function initAutocomplete() {
 
-    var searchText = document.getElementById('search-address');
+    var searchText = document.getElementById('map-search-address');
 
     // Limit search to Toronto bounding box - not perfect, but should work?
     var torontoBounds = new google.maps.LatLngBounds(
@@ -35,9 +35,9 @@ function initAutocomplete() {
         address_number = [(place.address_components[0] && place.address_components[0].short_name || '')]
         var coords = place.geometry.location;
         //console.log(address);
-        Shiny.onInputChange('search-jsValue', address);
-        Shiny.onInputChange('search-jsValueAddressNumber', address_number);
-        Shiny.onInputChange('search-jsValuePretty', addressPretty);
-        Shiny.onInputChange('search-jsValueCoords', coords);
+        Shiny.onInputChange('map-search-jsValue', address);
+        Shiny.onInputChange('map-search-jsValueAddressNumber', address_number);
+        Shiny.onInputChange('map-search-jsValuePretty', addressPretty);
+        Shiny.onInputChange('map-search-jsValueCoords', coords);
     });
 }

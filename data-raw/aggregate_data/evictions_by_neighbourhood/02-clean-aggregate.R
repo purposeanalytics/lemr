@@ -51,8 +51,9 @@ evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
   map(as_tibble) %>%
   bind_rows(.id = "neighbourhood") %>%
   select(neighbourhood, prop = value) %>%
-  mutate(prop_group = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
-         prop_group = ifelse(prop == 0, 0, prop_group)
+  mutate(
+    prop_group = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    prop_group = ifelse(prop == 0, 0, prop_group)
   )
 
 usethis::use_data(evictions_by_neighbourhood, overwrite = TRUE)

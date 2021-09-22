@@ -80,7 +80,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
     output$layer_summary <- shiny::renderUI({
       switch(layer,
         apartment_buildings = shiny::div(
-          create_circle_legend(layer_colours[["apartment_buildings_private"]],
+          create_circle_legend(rental_supply_colors()[["Apartment"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>privately owned</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_private"]],
               units = ifelse(is.null(units), 0, units),
@@ -90,7 +90,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             ),
             alt_text = "A legend showing the colour of the points of apartment buildings."
           ),
-          create_circle_legend(layer_colours[["apartment_buildings_tch"]],
+          create_circle_legend(rental_supply_colors()[["Toronto Community Housing"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>Toronto Community Housing</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_tch"]],
               units = ifelse(is.null(units), 0, units),
@@ -100,7 +100,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             ),
             alt_text = "A legend showing the colour of the points of apartment buildings."
           ),
-          create_circle_legend(layer_colours[["apartment_buildings_social_housing"]],
+          create_circle_legend(rental_supply_colors()[["Other Non-Market"]],
             glue::glue("{scales::comma(units)} units in {scales::comma(buildings)} <b>social housing</b> apartment {buildings_word}",
               units = dataset()[["number_of_units_social_housing"]],
               units = ifelse(is.null(units), 0, units),
@@ -167,7 +167,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 }
 
 point_layers_choices <- list(
-  apartment_buildings = "Apartment Buildings", apartment_evaluation = "RentSafeTO Evaluation Scores", evictions_hearings = "Evictions Hearings", agi = "Above guideline increase applications",
+  apartment_buildings = "Apartment Buildings", apartment_evaluation = "RentSafeTO Evaluation Scores", agi = "Above guideline increase applications",
   tdf = "Tenant Defence Fund grants"
 )
 
