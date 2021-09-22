@@ -115,9 +115,7 @@ clean_variable_names <- tribble(
   "agi", "Above guideline increase applications", "#",
   "tdf", "Tenant Defense Fund grants", "#",
   "evictions", "Evictions", "%",
-  "rooming_houses_licensed", "Rooming houses - Licensed", "#",
-  "rooming_houses_licensed_after_2018", "Rooming houses - Licensed after 2018", "#",
-  "rooming_houses_lapsed", "Rooming houses - Lapsed", "#",
+  "rooming_houses", "Rooming houses", "#",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
 )
