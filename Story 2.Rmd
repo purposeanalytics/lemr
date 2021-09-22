@@ -27,8 +27,15 @@ adn <- amenity_density_by_neighbourhood %>% pivot_wider(names_from = amenity_den
 ```
 
 ```{r}
+# core housing needs density
+chn <- core_housing_need_by_neighbourhood %>% rename(core_housing_need = prop) %>% select(-prop_group)
+```
+
+```{r}
 # rental supply
-rsn <- rental_supply_by_neighbourhood %>% select(-prop_group) %>% pivot_wider(names_from = group, values_from = c(prop))
+rsn <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("rental_supply") %>% 
+  bind_rows(.id = "neighbourhood") %>% select(group, neighbourhood, value, prop, market_prop) %>% 
+  pivot_wider(names_from = group, values_from = c(value, prop, market_prop))
 ```
 
 ```{r}
@@ -52,6 +59,7 @@ ati <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("average_
   pivot_wider(names_from = group, values_from = c(value))
 ```
 
+
 ```{r}
 # unaffordable percent
 uh <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("unaffordable_housing") %>% 
@@ -66,6 +74,14 @@ arsc <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("average
   pivot_longer(cols = everything()) %>% rename(neighbourhood = name, average_renter_shelter_cost = value) 
 ```
 
+```{r}
+# eviction rate
+ev <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("evictions") %>% 
+  bind_rows(.id = "neighbourhood") %>% 
+  pivot_longer(cols = everything()) %>% rename(neighbourhood = name, eviction_rate = value)
+```
+
+
 ```{r dataset}
 proximity_layers <- adn %>% 
   inner_join(arsc, by = 'neighbourhood') %>% 
@@ -73,25 +89,63 @@ proximity_layers <- adn %>%
   inner_join(lem, by = 'neighbourhood') %>% 
   inner_join(nb, by = 'neighbourhood') %>% 
   inner_join(rsn, by = 'neighbourhood') %>% 
-  inner_join(uh, by = 'neighbourhood')
+  inner_join(uh, by = 'neighbourhood') %>% 
+  inner_join(ev, by = 'neighbourhood') %>% 
+  inner_join(chn, by = 'neighbourhood')
 ```
 
+#lowend similarities
+
 ```{r}
-test <- proximity_layers %>% select(neighbourhood, High, Medium, Low,number_of_buildings,`Total_Total`) %>% 
+proximity_layers %>% filter(neighbourhood == 'West Hill')
+
+```
+
+
+```{r}
+reinf_shap <- proximity_layers %>% 
+  select(neighbourhood, Total_Total, eviction_rate, unaffordable_housing, `market_prop_Other Non-Market`, core_housing_need) %>%
+  arrange(desc(Total_Total))
+```
+ 
+```{r}
+plotly::ggplotly(
+  ggplot(reinf_shap, aes(core_housing_need, `market_prop_Other Non-Market`, colour = `eviction_rate`)) +
+    geom_point(aes(size = Total_Total, text = neighbourhood)) +
+    ggrepel::geom_label_repel(data = reinf_shap, aes(label=neighbourhood), size= 2.5) +
+    #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    geom_vline(xintercept = .365) +
+    geom_hline(yintercept = .128) +
+    xlim(0, .7) +
+    ylim(0, .7) +
+    #geom_abline(a = 1) +
+    theme_bw()+
+    theme(legend.position = 'None'),
+    )
+```
+ 
+
+
+#proximity
+
+```{r}
+prox_pick <- proximity_layers %>% 
+  select(neighbourhood, High, Medium, Low, number_of_buildings, `Total_Total`, `prop_Toronto Community Housing`, eviction_rate) %>% 
   pivot_longer(cols = c(High, Medium, Low))
 ```
 
-
 ```{r}
-test <- test %>% filter(Total_Total > 250, number_of_buildings >= 10)
+graph_prox <- prox_pick %>% filter(Total_Total > 100, number_of_buildings >= 10)
 
 
 plotly::ggplotly(
-  ggplot(test, aes(value, `Total_Total`, colour = number_of_buildings)) +
+  ggplot(graph_prox, aes(value, `Total_Total`, colour = eviction_rate)) +
     geom_point(size = 3) +
-    ggrepel::geom_label_repel(data = test, aes(label=neighbourhood), size= 2.5) +
+    ggrepel::geom_label_repel(data = graph_prox, aes(label=neighbourhood), size= 2.5) +
     #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    geom_hline(yintercept = 250) +
     facet_wrap(~name) +
+    
     theme_bw()+
     theme(legend.position = 'None')
     )
@@ -99,6 +153,6 @@ plotly::ggplotly(
 
 
 ```{r}
-test %>% filter(Total_Total == 400)
+prox_pick %>% filter(Total_Total == 400)
 ```
 
