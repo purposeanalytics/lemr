@@ -3539,12 +3539,12 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 613 Parliament St,-79.3693098,43.6683631,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
 273 Wellesley St E,-79.3703506,43.6677957,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
 66 Cowan Ave,-79.4315122,43.6363526,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
-2815 Danforth Ave,-79.2954605,43.6893864,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+2815 Danforth Ave,-79.2954605,43.6893864,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
 1417 Dundas St W,-79.4291845,43.6493565,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 408 Dovercourt Rd,-79.4263803,43.6528467,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 81 Shuter St,-79.3745784,43.6550384,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 363 Palmerston Blvd,-79.4108398,43.6583872,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-14 McCormack St,-79.4726538,43.6770775,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+14 McCormack St,-79.4726538,43.6770775,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
 190 Dunn Ave,-79.4338331,43.6383105,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 504 Parliament St,-79.3686303,43.6652958,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 508 Parliament St,-79.3687086,43.6653961,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3595,7 +3595,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 198 Dunn Ave,-79.433984,43.6386241,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 544 Parliament St,-79.369183,43.6666798,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1518 King St W,-79.4412251,43.6367427,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-275 Wellesley St E,-79.3703257,43.6678104,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+275 Wellesley St E,-79.3703257,43.6678104,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
 242 Church St,-79.3771991,43.6559046,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 879 Broadview Ave,-79.3576342,43.6803089,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 118 Dowling Ave,-79.4386872,43.6362527,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3899,19 +3899,19 @@ Parliament St,-79.3690941999922,43.6670540000008,Cabbagetown-South St.James Town
 580 Queen St W,-79.403841,43.647415,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 60 Harvard Ave,-79.4455472,43.6406373,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1097 Dufferin St,-79.4361575,43.6624007,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28 Langley Ave,-79.3516117,43.6683879,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-11 Spadina Rd,-79.4038891,43.6676155,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-116 Spencer Ave,-79.4309453,43.6375348,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-287 Jarvis St,-79.3748513,43.6586439,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-75 Northcote Ave,-79.4265643,43.6450189,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-732 Queen St W,-79.409747,43.646141,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-63 Spencer Ave,-79.4297973,43.636487,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-51 Winnifred Ave,-79.335577,43.6607047,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-184 Sherbourne St,-79.3705095,43.6564568,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-384 Bathurst St,-79.406786,43.653531,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-213 Carlton St,-79.3695392,43.6637648,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-124 Spencer Ave,-79.4310113,43.6380326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-760 Gerrard St E,-79.346146,43.6670643,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-Lindsey Ave,-79.4306966310098,43.654063656404,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-33 Beaty Ave,-79.4400493,43.6374834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-67 Pembroke St,-79.3723781,43.6586335,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+28 Langley Ave,-79.3516117,43.6683879,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+11 Spadina Rd,-79.4038891,43.6676155,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+116 Spencer Ave,-79.4309453,43.6375348,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+287 Jarvis St,-79.3748513,43.6586439,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+75 Northcote Ave,-79.4265643,43.6450189,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+732 Queen St W,-79.409747,43.646141,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+63 Spencer Ave,-79.4297973,43.636487,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+51 Winnifred Ave,-79.335577,43.6607047,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+184 Sherbourne St,-79.3705095,43.6564568,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+384 Bathurst St,-79.406786,43.653531,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+213 Carlton St,-79.3695392,43.6637648,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+124 Spencer Ave,-79.4310113,43.6380326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+760 Gerrard St E,-79.346146,43.6670643,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+Lindsey Ave,-79.4306966310098,43.654063656404,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+33 Beaty Ave,-79.4400493,43.6374834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+67 Pembroke St,-79.3723781,43.6586335,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
