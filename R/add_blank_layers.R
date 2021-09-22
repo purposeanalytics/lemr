@@ -50,6 +50,27 @@ add_blank_points_layers <- function(map) {
       visibility = FALSE,
       popup = "{{{tooltip}}}"
     ) %>%
+    # Rooming houses ----
+    mapboxer::add_circle_layer(
+      source = "points_data_source",
+      id = "rooming_houses",
+      filter = list("==", "rooming_house", TRUE),
+      circle_color = list(
+        "case",
+        list("==", c("get", "rooming_house_status"), "Licensed"), amenity_density_colours()[["Low"]],
+        list("==", c("get", "rooming_house_status"), "Licensed after 2018"), amenity_density_colours()[["Medium"]],
+        list("==", c("get", "rooming_house_status"), "Lapsed"), amenity_density_colours()[["High"]],
+        # Defaults to 'white'
+        "white"
+      ),
+      circle_blur = blur,
+      circle_opacity = opacity,
+      circle_radius = radius,
+      circle_stroke_color = stroke_colour,
+      circle_stroke_width = stroke_width,
+      visibility = FALSE,
+      popup = "{{{tooltip}}}"
+    ) %>%
     # RentSafeTO Evaluation Scores -----
     mapboxer::add_circle_layer(
       source = "points_data_source",

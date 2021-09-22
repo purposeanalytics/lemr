@@ -22,6 +22,7 @@ mod_page_map_ui <- function(id) {
         mod_aggregate_layer_ui(ns("aggregate")),
         shiny::h2("Select points layer(s)", id = "points_layer_div"),
         mod_point_layer_ui(ns("apartment_buildings"), "apartment_buildings"),
+        mod_point_layer_ui(ns("rooming_houses"), "rooming_houses"),
         mod_point_layer_ui(ns("apartment_evaluation"), "apartment_evaluation"),
         mod_point_layer_ui(ns("agi"), "agi"),
         mod_point_layer_ui(ns("tdf"), "tdf"),
@@ -63,6 +64,7 @@ mod_page_map_server <- function(id) {
     point_layers <- shiny::reactiveVal()
 
     mod_point_layer_server("apartment_buildings", address_and_neighbourhood, point_layers, "apartment_buildings")
+    mod_point_layer_server("rooming_houses", address_and_neighbourhood, point_layers, "rooming_houses")
     mod_point_layer_server("apartment_evaluation", address_and_neighbourhood, point_layers, "apartment_evaluation")
     mod_point_layer_server("agi", address_and_neighbourhood, point_layers, "agi")
     mod_point_layer_server("tdf", address_and_neighbourhood, point_layers, "tdf")
