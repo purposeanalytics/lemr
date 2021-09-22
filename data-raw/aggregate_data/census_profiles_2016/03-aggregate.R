@@ -233,8 +233,10 @@ unaffordable_housing_by_neighbourhood <- census_profiles_toronto_cts %>%
   left_join(renter_by_ct, by = "geo_code") %>%
   mutate(number_unaffordable = round(renter * percent_unaffordable / 100)) %>%
   group_by(neighbourhood) %>%
-  summarise(value = sum(number_unaffordable, na.rm = TRUE) / sum(renter, na.rm = TRUE),
-            value = round(value, 3))
+  summarise(
+    value = sum(number_unaffordable, na.rm = TRUE) / sum(renter, na.rm = TRUE),
+    value = round(value, 3)
+  )
 
 # TODO not quite right
 # Danforth shows 49.6
@@ -264,8 +266,10 @@ lim_at_by_neighbourhood <- census_profiles_toronto_cts %>%
   filter(dimension == "In low income based on the Low-income measure, after tax (LIM-AT)") %>%
   aggregate_total_by_neighbourhood() %>%
   left_join(private_households_by_neighbourhood, by = "neighbourhood", suffix = c("_poverty", "_population")) %>%
-  mutate(value = value_poverty / value_population,
-         value = round(value, 3)) %>%
+  mutate(
+    value = value_poverty / value_population,
+    value = round(value, 3)
+  ) %>%
   select(neighbourhood, value)
 
 neighbourhood <- append(neighbourhood, list(lim_at = lim_at_by_neighbourhood))
@@ -355,8 +359,10 @@ renter_shelter_cost_by_neighbourhood <- average_renter_shelter_cost_by_ct %>%
   left_join(renter_by_ct, by = "geo_code") %>%
   mutate(total_shelter_cost = avg_shelter_cost * renter) %>%
   group_by(neighbourhood) %>%
-  summarise(value = sum(total_shelter_cost, na.rm = TRUE) / sum(renter, na.rm = TRUE),
-            value = round(value))
+  summarise(
+    value = sum(total_shelter_cost, na.rm = TRUE) / sum(renter, na.rm = TRUE),
+    value = round(value)
+  )
 
 neighbourhood <- append(neighbourhood, list(average_renter_shelter_cost = renter_shelter_cost_by_neighbourhood))
 

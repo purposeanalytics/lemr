@@ -26,11 +26,12 @@ social_housing <- list_package_resources("https://open.toronto.ca/dataset/social
 
 social_housing <- social_housing %>%
   clean_names() %>%
-  rename(social_units_total = units,
-         social_units_rgi = rgi) %>%
+  rename(
+    social_units_total = units,
+    social_units_rgi = rgi
+  ) %>%
   mutate(social_units_market = social_units_total - social_units_rgi)
 
 # ### Save data
-fs::dir_create( here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract"))
+fs::dir_create(here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract"))
 saveRDS(social_housing, here::here("data-raw", "aggregate_data", "rental_supply", "tch_and_social_housing", "social_housing", "extract", "social_housing.rds"))
-

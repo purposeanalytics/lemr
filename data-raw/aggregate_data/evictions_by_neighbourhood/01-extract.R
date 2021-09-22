@@ -24,6 +24,6 @@ evictions <- read_xlsx(here::here("data-raw", "aggregate_data", "evictions_by_ne
 evictions_rate <- evictions %>%
   clean_names() %>%
   select(-fid, -shape, -name, -fid2, -shape3, -id4, -name5, -c(neighb_number:neighb_number6)) %>%
-  mutate(renter_households = round(l1or_l2_2016/filing_rate2016), .after = neighbourhood)
+  mutate(renter_households = round(l1or_l2_2016 / filing_rate2016), .after = neighbourhood)
 
 writeRDS(evictions_rate, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "extract", "evictions_rate.rds"))

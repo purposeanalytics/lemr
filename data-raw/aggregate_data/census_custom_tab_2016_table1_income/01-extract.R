@@ -31,4 +31,3 @@ toronto_cts <- toronto_cts %>%
 # ### Save Toronto census tracts
 
 saveRDS(toronto_cts, here::here("data-raw", "aggregate_data", "census_custom_tab_2016_table1_income", "extract", "custom_tab_toronto_table1.rds"))
-

@@ -28,8 +28,10 @@ city <- city[names(neighbourhoods)]
 city <- city %>%
   map(function(x) {
     if (!inherits(x, "tbl")) {
-      tibble(neighbourhood = "City of Toronto",
-             value = x)
+      tibble(
+        neighbourhood = "City of Toronto",
+        value = x
+      )
     } else {
       x %>%
         mutate(neighbourhood = "City of Toronto")
@@ -38,7 +40,7 @@ city <- city %>%
 
 ## Combine with neighbourhoods ----
 
-for(i in names(neighbourhoods)) {
+for (i in names(neighbourhoods)) {
   neighbourhoods[[i]] <- neighbourhoods[[i]] %>%
     bind_rows(city[[i]])
 }
