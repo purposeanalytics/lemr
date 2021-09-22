@@ -38,8 +38,8 @@ format_definition <- function(name, description, data_source_prefix, data_source
     }
 
     data_source_full <- glue::glue("{data_source_prefix} {data_source} {data_source_suffix}",
-      data_source_prefix = coalesce(data_source_prefix, ""),
-      data_source_suffix = coalesce(data_source_suffix, "")
+      data_source_prefix = dplyr::coalesce(data_source_prefix, ""),
+      data_source_suffix = dplyr::coalesce(data_source_suffix, "")
     ) %>%
       stringr::str_squish() %>%
       shiny::HTML() %>%
