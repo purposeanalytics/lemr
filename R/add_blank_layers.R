@@ -90,7 +90,13 @@ add_blank_points_layers <- function(map) {
       source = "points_data_source",
       id = "agi",
       filter = list("==", "agi", TRUE),
-      circle_color = layer_colours[["agi"]],
+      circle_color = list(
+        "case",
+        list("==", c("get", "apartment"), TRUE), layer_colours[["agi_apartment"]],
+        list("==", c("get", "apartment"), FALSE), layer_colours[["agi_other"]],
+        # Defaults to 'white'
+        "white"
+      ),
       circle_blur = blur,
       circle_opacity = opacity,
       circle_radius = radius,

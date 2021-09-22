@@ -3,13 +3,18 @@
 library(dplyr)
 library(purrr)
 library(sf)
+library(tidyr)
+library(forcats)
 
 agi_applications_and_tdf <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))
 
 apartment_building_registry <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
 
 # AGIs ----
+# For AGIs in apartment buildings, get AGI rate
 # Unique buildings with AGIs in the last 5 years / # buildings
+
+apartment_addresses <- apartment_building_registry %>% filter(property_type == "PRIVATE") %>% pull(bing_address)
 
 agi_tdf_buildings <- agi_applications_and_tdf %>%
   as_tibble() %>%
@@ -19,25 +24,28 @@ agi_tdf_buildings <- agi_applications_and_tdf %>%
   mutate(tdf = any(tdf)) %>%
   ungroup() %>%
   distinct() %>%
-  semi_join(apartment_building_registry, by = "bing_address")
+  mutate(apartment = bing_address %in% apartment_addresses)
+
+neighbourhoods <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds")) %>%
+  names()
+
+buildings_by_neighbourhood <- apartment_building_registry %>%
+  as_tibble() %>%
+  filter(property_type == "PRIVATE") %>%
+  mutate(neighbourhood = fct_expand(neighbourhood, neighbourhoods)) %>%
+  count(neighbourhood, .drop = FALSE, name = "value")
 
 agi_by_neighbourhood <- agi_tdf_buildings %>%
-  filter(agi) %>%
-  group_by(neighbourhood) %>%
-  summarise(n = n_distinct(bing_address))
-
-buildings_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds")) %>%
-  map(as_tibble) %>%
-  bind_rows(.id = "neighbourhood")
-
-agi_by_neighbourhood <- agi_by_neighbourhood %>%
+  count(neighbourhood, apartment) %>%
+  mutate(neighbourhood = fct_expand(neighbourhood, neighbourhoods)) %>%
+  complete(neighbourhood, apartment, fill = list(n = 0)) %>%
   full_join(buildings_by_neighbourhood, by = "neighbourhood") %>%
   mutate(
-    n = coalesce(n, 0),
     prop = n / value
   )
 
 agi_city <- agi_by_neighbourhood %>%
+  group_by(apartment) %>%
   summarise(
     n = sum(n),
     value = sum(value)
@@ -49,18 +57,17 @@ agi_city <- agi_by_neighbourhood %>%
 # Buildings with TDFs / buildings with AGIs
 
 tdf_by_neighbourhood <- agi_tdf_buildings %>%
-  filter(tdf) %>%
+  filter(tdf, apartment) %>%
   group_by(neighbourhood) %>%
-  summarise(n = n_distinct(bing_address))
-
-tdf_by_neighbourhood <- tdf_by_neighbourhood %>%
-  full_join(agi_by_neighbourhood, by = "neighbourhood", suffix = c("_tdf", "_agi")) %>%
+  summarise(n = n_distinct(bing_address)) %>%
+  full_join(agi_by_neighbourhood %>% filter(apartment), by = "neighbourhood", suffix = c("_tdf", "_agi")) %>%
   mutate(
     n_tdf = coalesce(n_tdf, 0),
     prop = ifelse(n_agi == 0, NA_real_, n_tdf / n_agi)
   ) %>%
   select(-value) %>%
-  rename(n = n_tdf)
+  rename(n = n_tdf) %>%
+  select(neighbourhood, n, n_agi, prop)
 
 tdf_city <- tdf_by_neighbourhood %>%
   summarise(
@@ -68,7 +75,27 @@ tdf_city <- tdf_by_neighbourhood %>%
     value = sum(n_agi, na.rm = TRUE)
   ) %>%
   mutate(prop = n / value) %>%
-  select(-value)
+  select(n, prop)
+
+tdf_by_neighbourhood <- tdf_by_neighbourhood %>%
+  select(-n_agi)
+
+# Clean up AGIs to be more appropriate / clear on apartment building / not
+
+agi_by_neighbourhood <- agi_by_neighbourhood %>%
+  select(-value) %>%
+  mutate(
+    group = ifelse(apartment, "Apartment building", "Non-apartment building"),
+    prop = ifelse(!apartment, NA_real_, prop)
+  ) %>%
+  select(neighbourhood, group, value = n, prop)
+
+agi_city <- agi_city %>%
+  mutate(
+    group = ifelse(apartment, "Apartment building", "Non-apartment building"),
+    prop = ifelse(!apartment, NA_real_, prop)
+  ) %>%
+  select(group, value = n, prop)
 
 # Save ----
 

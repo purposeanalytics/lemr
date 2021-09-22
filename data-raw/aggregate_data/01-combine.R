@@ -106,6 +106,7 @@ units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apart
 
 apartments_by_type_by_neighbourhood <- lemur::buildings %>%
   as_tibble() %>%
+  filter(apartment) %>%
   group_by(neighbourhood, group = property_type) %>%
   summarise(
     buildings = n(),
@@ -146,11 +147,9 @@ median_score_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers",
 # AGI / TDF -----
 
 tdf_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_by_neighbourhood.rds")) %>%
-  select(-n_agi) %>%
   split(.$neighbourhood)
 
 agi_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_by_neighbourhood.rds")) %>%
-  select(-value) %>%
   split(.$neighbourhood)
 
 agi_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))

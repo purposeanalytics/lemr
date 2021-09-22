@@ -26,7 +26,7 @@ data_coords <- data_coords %>%
 # Remove columns that won't be used -----
 
 data <- data %>%
-  select(-rsn, -address, -score_percent, -score_bucket, -score_colour, -tooltip)
+  select(-rsn, -bing_address, -score_percent, -score_bucket, -score_colour, -tooltip)
 
 # Convert names to Title Case ----
 names(data) <- str_replace_all(names(data), "_", " ")
@@ -35,7 +35,6 @@ names(data) <- str_to_title(names(data))
 # Rename relevant columns ----
 data <- data %>%
   rename(
-    Address = `Bing Address`,
     `Apartment Building` = Apartment,
     `Apartment Building Property Type` = `Property Type`,
     `RentSafeTO Evaluation Completed On` = `Evaluation Completed On`,

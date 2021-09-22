@@ -62,4 +62,12 @@ agi_applications <- agi_applications %>%
   relocate(landlord, landlord_care_of, landlord_alt, .after = landlord_original) %>%
   select(-landlord_original, -landlord_care_of, -landlord_alt)
 
+# Remove one AGI
+# 4085 used to be owned by GDH Apartment Group (who own 4087, which is a private market apartment) but is now owned by Mainstay and marked as Social Housing in the registry.
+# It is unlikely that this AGI is still in effect, since it has moved from private to non-market
+# So just remove from here
+
+agi_applications <- agi_applications %>%
+  filter(address != "4085 Bathurst Street")
+
 saveRDS(agi_applications, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "clean", "agi_applications.rds"))

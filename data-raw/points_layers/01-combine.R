@@ -76,7 +76,7 @@ agi_applications <- agi_applications_and_tdf %>%
     is.na(reduced_increase_by) ~ NA_character_,
     TRUE ~ paste0(round(reduced_increase_by, 2), "%")
   )) %>%
-  group_by(agi, bing_address, neighbourhood) %>%
+  group_by(agi, address, bing_address, neighbourhood) %>%
   arrange(desc(date_agi_initiated)) %>%
   summarise(
     geometry = geometry,
@@ -93,7 +93,7 @@ agi_applications <- agi_applications %>%
   left_join(latest_agi_landlord, by = "bing_address")
 
 agi_applications_coords <- agi_applications %>%
-  group_by(bing_address) %>%
+  group_by(address) %>%
   slice(1) %>%
   ungroup() %>%
   st_coordinates() %>%
@@ -104,16 +104,16 @@ agi_applications <- agi_applications %>%
   select(-geometry) %>%
   distinct() %>%
   bind_cols(agi_applications_coords) %>%
-  rename(X_agi = X, Y_agi = Y, neighbourhood_agi = neighbourhood)
+  rename(X_agi = X, Y_agi = Y, neighbourhood_agi = neighbourhood, address_agi = address)
 
 buildings <- buildings %>%
   as_tibble() %>%
-  left_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
+  full_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
 # Fill in columns, prioritizing apt -> agi -> rooming houses
 buildings <- buildings %>%
   mutate(
-    address = coalesce(address_apt, address_rooming_houses),
+    address = coalesce(address_apt, address_agi, address_rooming_houses),
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
     X = coalesce(X_apt, X_agi, X_rooming_houses),
     Y = coalesce(Y_apt, Y_agi, Y_rooming_houses),
