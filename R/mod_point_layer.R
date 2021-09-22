@@ -125,7 +125,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
         ),
         evictions_hearings = create_circle_legend(layer_colours[["evictions_hearings"]], "Location of evictions hearings schedules November 2020 to January 2021", alt_text = "A legend showing the yellow colour of the points of eviction hearings."),
         agi = shiny::div(
-          create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]][["n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications."),
+          create_circle_legend(layer_colours[["agi"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications."),
           shiny::uiOutput(ns("agi_prop"))
         ),
         tdf = shiny::div(
@@ -149,7 +149,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
     })
 
     output$agi_prop <- shiny::renderUI({
-      value <- dataset()[["agi"]][["prop"]]
+      value <- dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(prop)
       text <- glue::glue("AGI rate by building: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value)) {
@@ -164,7 +164,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
       value <- dataset()[["tdf"]][["prop"]]
       text <- glue::glue("TDF rate by AGIs: {scales::percent(value, accuracy = 0.1)}")
 
-      if (!is.na(value) & dataset()[["agi"]][["prop"]] != 0) {
+      if (!is.na(value) & dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value) != 0) {
         shiny::div(
           style = "margin-left: 0.33em; margin-top: 0.5em;",
           text
