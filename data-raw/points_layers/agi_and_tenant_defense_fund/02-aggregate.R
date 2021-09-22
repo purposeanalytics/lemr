@@ -14,6 +14,8 @@ apartment_building_registry <- readRDS(here::here("data-raw", "points_layers", "
 # For AGIs in apartment buildings, get AGI rate
 # Unique buildings with AGIs in the last 5 years / # buildings
 
+apartment_addresses <- apartment_building_registry %>% filter(property_type == "PRIVATE") %>% pull(bing_address)
+
 agi_tdf_buildings <- agi_applications_and_tdf %>%
   as_tibble() %>%
   select(bing_address, neighbourhood, tdf) %>%
@@ -22,15 +24,20 @@ agi_tdf_buildings <- agi_applications_and_tdf %>%
   mutate(tdf = any(tdf)) %>%
   ungroup() %>%
   distinct() %>%
-  mutate(apartment = bing_address %in% apartment_building_registry[["bing_address"]])
+  mutate(apartment = bing_address %in% apartment_addresses)
 
-buildings_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds")) %>%
-  map(as_tibble) %>%
-  bind_rows(.id = "neighbourhood")
+neighbourhoods <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "apartments_by_neighbourhood.rds")) %>%
+  names()
+
+buildings_by_neighbourhood <- apartment_building_registry %>%
+  as_tibble() %>%
+  filter(property_type == "PRIVATE") %>%
+  mutate(neighbourhood = fct_expand(neighbourhood, neighbourhoods)) %>%
+  count(neighbourhood, .drop = FALSE, name = "value")
 
 agi_by_neighbourhood <- agi_tdf_buildings %>%
   count(neighbourhood, apartment) %>%
-  mutate(neighbourhood = fct_expand(neighbourhood, buildings_by_neighbourhood[["neighbourhood"]])) %>%
+  mutate(neighbourhood = fct_expand(neighbourhood, neighbourhoods)) %>%
   complete(neighbourhood, apartment, fill = list(n = 0)) %>%
   full_join(buildings_by_neighbourhood, by = "neighbourhood") %>%
   mutate(
