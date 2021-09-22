@@ -10,38 +10,10 @@ mod_data_and_definitions_ui <- function(id) {
   shiny::div(
     class = "content-page",
     shiny::h1("Data & Definitions"),
-    collapse_definitions(
-      title = "Low-end of market",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Amenity Density",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Apartment Buildings",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "RentSafeTO Evaluation Scores",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Eviction Hearings",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Above Guideline Increase applications",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Tenant Defense Fund grants",
-      content = shiny::tags$i("Coming soon")
-    ),
-    collapse_definitions(
-      title = "Neighbourhood Profiles",
-      show = FALSE,
-      content = shiny::includeMarkdown(system.file("app", "data_and_definitions", "neighbourhood_profiles.md", package = "lemur"))
+    shiny::tagList(
+      data_and_definitions %>%
+        dplyr::mutate(definition_full = purrr::pmap(list(name, description, data_source_prefix, data_source_suffix, data_source, data_source_link), format_definition)) %>%
+        dplyr::pull(definition_full)
     )
   )
 }
@@ -55,19 +27,34 @@ mod_data_and_definitions_server <- function(id) {
   })
 }
 
-collapse_definitions <- function(title, content, show = TRUE) {
-  id <- janitor::make_clean_names(title)
+format_definition <- function(name, description, data_source_prefix, data_source_suffix, data_source, data_source_link) {
+  includes_data_source <- !is.na(data_source)
 
-  shiny::tagList(
-    shiny::h2(shiny::tags$b(title), shiny::icon("chevron-down")) %>%
-      bsplus::bs_attach_collapse(id),
-    bsplus::bs_collapse(
-      id = id,
-      content = shiny::tagList(
-        content
-      ),
-      show = show
-    ),
-    shiny::hr()
-  )
+  if (includes_data_source) {
+    data_source_is_link <- !is.na(data_source_link)
+
+    if (data_source_is_link) {
+      data_source <- glue::glue("<a href = '{data_source_link}' target = '_blank'>{data_source}</a>")
+    }
+
+    data_source_full <- glue::glue("{data_source_prefix} {data_source} {data_source_suffix}",
+      data_source_prefix = coalesce(data_source_prefix, ""),
+      data_source_suffix = coalesce(data_source_suffix, "")
+    ) %>%
+      stringr::str_squish() %>%
+      shiny::HTML() %>%
+      shiny::p(shiny::tags$i("Data Source:"), .)
+  } else {
+    data_source_full <- NULL
+  }
+
+  data_source <-
+    definition <- shiny::tagList(
+      bigger_padded(shiny::tags$b(name)),
+      shiny::p(shiny::tags$i("Description:"), shiny::HTML(description)),
+      data_source_full,
+      shiny::hr()
+    )
+
+  definition
 }
