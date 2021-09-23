@@ -68,9 +68,6 @@ mod_page_map_server <- function(id) {
     mod_point_layer_server("apartment_evaluation", address_and_neighbourhood, point_layers, "apartment_evaluation")
     mod_point_layer_server("agi", address_and_neighbourhood, point_layers, "agi")
     mod_point_layer_server("tdf", address_and_neighbourhood, point_layers, "tdf")
-
-    # Tour
-    map_guide()$init()$start()
   })
 }
 

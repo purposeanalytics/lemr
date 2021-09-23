@@ -28,10 +28,10 @@ app_server <- function(input, output, session) {
       visited <- glouton::fetch_cookies()
 
       # If cookie is null, set to "yes" then show the tour
-      if (is.null(visited$visited_site)) {
+      # if (is.null(visited$visited_site)) {
         glouton::add_cookie("visited_site", "yes")
         map_guide()$init()$start()
-      }
+      # }
     }
   })
 
@@ -47,6 +47,16 @@ app_server <- function(input, output, session) {
 map_guide <- function() {
   cicerone::Cicerone$
     new()$
+    step(
+      "body",
+      is_id = FALSE,
+      position = "mid-center",
+      "Welcome to the Low-end of Market Rental Monitor Map",
+      shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
+      on_highlighted = "function(e){
+			e.stage.node.style.display = (e.node == document.body) ? 'none' : 'block';
+		}"
+    )$
     step(
     "aggregate_layer_div",
     title = "See the big picture",
