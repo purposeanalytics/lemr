@@ -7,7 +7,7 @@ always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
 ```{r library}
@@ -15,26 +15,100 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(sf)
+library(purrr)
+library(tidyr)
+library(stringr)
+library(ggrepel)
+devtools::load_all()
 ```
 
 ```{r load}
-buildings_layers <- lemur::buildings %>% as_tibble() %>% 
-  filter(apartment, property_type == 'Privately owned')
+buildings_layers <- lemur::buildings %>%
+  as_tibble() %>%
+  filter(apartment, property_type == "Privately owned")
 ```
 
-
 ```{r}
-agi_tdf <- buildings_layers %>% 
-  select(bing_address, neighbourhood, agi, tdf, tdf_year, reduced_increase_by) %>% 
-  #tidyr::separate_rows(tdf_year, reduced_increase_by, sep = ',') %>% 
-  group_by(neighbourhood) %>% mutate(reduced_increase_by = as.numeric(gsub("%", "", reduced_increase_by, fixed = TRUE))/100) %>%  
-  summarise(Count = n_distinct(bing_address), AGI = sum(agi, na.rm = TRUE), 
-            TDF = sum(tdf, na.rm = TRUE), 
-            reduced_increase_by_avg = mean(reduced_increase_by, na.rm = TRUE)) %>%  
-  mutate(agi_ratio = AGI/Count, tdf_ratio = TDF/AGI) %>% 
-  mutate_at(vars(reduced_increase_by_avg), ~replace(., is.nan(.), 0)) %>% 
-  filter(Count > 10 & AGI > 8) %>% arrange(desc(reduced_increase_by_avg)) 
+agi_tdf <- buildings_layers %>%
+  select(bing_address, neighbourhood, agi, tdf, tdf_year, reduced_increase_by) %>%
+  group_by(neighbourhood) %>%
+  mutate(reduced_increase_by = as.numeric(gsub("%", "", reduced_increase_by, fixed = TRUE)) / 100) %>%
+  summarise(
+    # Do n() instead of n_distinct() - there may be duplicate addresses, but only if they are apartment buildings with multiple buildings. AGI / TDF are counted this way, so buildings should be too
+    Count = n(),
+    AGI = sum(agi, na.rm = TRUE),
+    TDF = sum(tdf, na.rm = TRUE),
+    reduced_increase_by_avg = mean(reduced_increase_by, na.rm = TRUE)
+  ) %>%
+  mutate(
+    agi_ratio = AGI / Count,
+    tdf_ratio = TDF / AGI
+  ) %>%
+  mutate_at(vars(reduced_increase_by_avg), ~ replace(., is.nan(.), 0)) %>%
+  filter(Count > 10 & AGI > 8) %>%
+  arrange(desc(reduced_increase_by_avg))
+
 agi_tdf
+```
+
+```{r data-alternative}
+# Note that you can just use AGI / TDF ratios which are already calculated:
+
+buildings <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("number_of_buildings_private") %>%
+  map(as_tibble) %>%
+  bind_rows(.id = "neighbourhood") %>%
+  rename(Count = value)
+
+agi <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("agi") %>%
+  bind_rows() %>%
+  filter(group == "Apartment building") %>%
+  rename(AGI = value, agi_ratio = prop) %>%
+  select(-group)
+
+tdf <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("tdf") %>%
+  bind_rows() %>%
+  rename(TDF = n, tdf_ratio = prop)
+
+reduced_increase <- lemur::buildings %>%
+  filter(tdf, apartment) %>%
+  as_tibble() %>%
+  separate_rows(reduced_increase_by, sep = ", ") %>%
+  select(neighbourhood, reduced_increase_by) %>%
+  mutate(
+    reduced_increase_by = str_remove(reduced_increase_by, "%"),
+    reduced_increase_by = as.numeric(reduced_increase_by) / 100
+  ) %>%
+  filter(!is.na(reduced_increase_by)) %>%
+  group_by(neighbourhood) %>%
+  summarise(
+    reduced_increase_by_avg = mean(reduced_increase_by),
+    reduced_increase_by_median = median(reduced_increase_by)
+  )
+
+buildings_agi_tdf <- buildings %>%
+  left_join(agi, by = "neighbourhood") %>%
+  left_join(tdf, by = "neighbourhood") %>%
+  left_join(reduced_increase, by = "neighbourhood")
+
+# Check for discrepancies between methods
+buildings_agi_tdf_long <- buildings_agi_tdf %>%
+  pivot_longer(-neighbourhood)
+
+agi_tdf_long <- agi_tdf %>%
+  pivot_longer(-neighbourhood)
+
+agi_tdf_long %>%
+  full_join(buildings_agi_tdf_long, by = c("neighbourhood", "name"), suffix = c("_thomas", "_sharla")) %>%
+  filter(value_thomas != value_sharla)
+
+# Phew! This might just be from ones that got removed before because there were multiple in one line, e.g. with a comma so they couldn't be coerced to numeric
+# Just a sanity check to make sure _I've_ calculated these things right!
 ```
 
 ```{r eval = FALSE}
@@ -42,66 +116,38 @@ agi_tdf <- mutate(agi_tdf, top3 = rank(-agi_ratio) %in% 1:5)
 
 plotly::ggplotly(
   ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
-    geom_point(size = agi_tdf$Count /10, aes(color = top3, fill = neighbourhood)) +
-    ggrepel::geom_label_repel(data = agi_tdf %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+    geom_point(size = agi_tdf$Count / 10, aes(color = top3, fill = neighbourhood)) +
+    geom_label_repel(data = agi_tdf %>% filter(top3), aes(label = neighbourhood), size = 2.5) +
     scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
-    theme_bw()+
-    theme(legend.position = 'None')
-    )
+    theme_bw() +
+    theme(legend.position = "None")
+)
 ```
-
 
 ```{r dpi = 300}
+agi_tdf <- agi_tdf %>% 
+  mutate(top3 = neighbourhood %in% c("Yonge-St.Clair", "Broadview North", "Mimico (includes Humber Bay Shores)"))
 
-agi_tdf <- agi_tdf %>% mutate(top3 = case_when(neighbourhood == 'Yonge-St.Clair' ~ TRUE,
-                                               neighbourhood == 'Broadview North' ~ TRUE,
-                                               neighbourhood == 'Mimico (includes Humber Bay Shores)' ~ TRUE,
-                                               TRUE ~ FALSE))
-#plotly::ggplotly(
-  ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
-    geom_point(size = 3, aes(color = top3, fill = neighbourhood)) +
-    ggrepel::geom_label_repel(data = agi_tdf %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
-    scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
-    theme_bw()+
-    theme(legend.position = 'None')
-    #)
-
+# plotly::ggplotly(
+ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
+  geom_point(size = 3, aes(color = top3)) +
+  geom_label_repel(data = agi_tdf %>% filter(top3), aes(label = neighbourhood), size = 2.5, seed = 1234, family = "Lato") +
+  scale_color_manual(values = c("TRUE" = main_colour, "FALSE" = grey_colour)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1), name = "% of AGI buildings with Tenant Defence Fund grant") + 
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of buildings with Above Guideline Increase application") + 
+  labs(title = "Percent of buildings that received an Above Guideline Increase application in the last 5 years \nversus percent of those buildings that received a Tenant Defence Fund grant, by neighbourhood") + 
+  theme_minimal(base_family = "Lato") +
+  theme(legend.position = "none",
+        plot.title.position = "plot")
+# )
 ```
 
 
 ```{r}
-
-kableExtra::kable(agi_tdf %>% filter(top3 == TRUE) %>% select(-top3, -reduced_increase_by_avg) %>% 
-                    mutate(agi_ratio = sprintf("%0.1f%%", agi_ratio * 100), tdf_ratio = sprintf("%0.1f%%", tdf_ratio * 100))
-                  , caption="Highlighted Neighbourhoods", booktabs = TRUE, linesep= "") %>% 
+kableExtra::kable(agi_tdf %>% filter(top3 == TRUE) %>% select(-top3, -reduced_increase_by_avg) %>%
+  mutate(agi_ratio = scales::percent(agi_ratio, accuracy = 0.1), 
+         tdf_ratio = scales::percent(tdf_ratio, accuracy = 0.1)),
+caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = ""
+) %>%
   kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 ```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
