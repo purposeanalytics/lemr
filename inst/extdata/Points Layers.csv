@@ -189,8 +189,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 773 The Queensway,-79.5051243,43.6254584,Stonegate-Queensway,TRUE,Social housing,1993,2017,63,3,Greenwin Inc.,2019-10-29,87,FALSE,,FALSE,,,FALSE,
 800 Royal York Rd,-79.5079028168117,43.6380579329283,Stonegate-Queensway,TRUE,Privately owned,1965,2017,60,6,Summa Property Management,2019-10-29,76,FALSE,,FALSE,,,FALSE,
 8 Lomond Dr,-79.5227557,43.6463479,Islington-City Centre West,TRUE,Privately owned,1973,2017,183,24,E. Manson Investments Limited,2020-11-12,79,FALSE,,FALSE,,,FALSE,
-2493 Lake Shore Blvd W,-79.4879244,43.6123826,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1961,2017,151,8,Homestead Land Holdings,2019-11-01,84,TRUE,2020-01-03,FALSE,,,FALSE,
-2493 Lake Shore Blvd W,-79.4879244,43.6123826,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1961,2017,151,8,Homestead Land Holdings,2019-11-01,84,TRUE,,TRUE,2017,0.3%,FALSE,
+2493 Lake Shore Blvd W,-79.4879244,43.6123826,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1961,2017,151,8,Homestead Land Holdings,2019-11-01,84,TRUE,2020-01-03,TRUE,2017,0.3%,FALSE,
 121 Parkway Forest Dr,-79.3407071,43.775379,Henry Farm,TRUE,Privately owned,2006,2017,232,14,Greenwin Inc.,2019-11-18,91,FALSE,,FALSE,,,FALSE,
 2323 Lake Shore Blvd W,-79.4866754,43.616938,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1960,2017,133,10,Shoreline Towers,2019-11-01,81,TRUE,2019-04-08,FALSE,,,FALSE,
 35 Cedarcroft Blvd,-79.448233,43.782863,Westminster-Branson,TRUE,Privately owned,1967,2017,207,13,35 Cedarcroft Boulevard Ltd,2020-10-28,71,FALSE,,FALSE,,,FALSE,
@@ -317,8 +316,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 25 Widdicombe Hill,-79.54835,43.679108,Willowridge-Martingrove-Richview,TRUE,Privately owned,1968,2018,122,11,Orion Group Properties Ltd,2019-10-28,80,FALSE,,FALSE,,,FALSE,
 345 Dixon Rd,-79.556481,43.694365,Kingsview Village-The Westway,TRUE,Privately owned,1969,2017,95,10,Fieldgate Properties,2020-12-03,72,FALSE,,FALSE,,,FALSE,
 2525 Lake Shore Blvd W,-79.4890122,43.6103343,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1952,2017,34,3,Capreit Limited Partnership,2020-01-17,84,TRUE,2016-11-30,TRUE,2019,2.55%,FALSE,
-1360 Danforth Rd,-79.2454445,43.7449781,Eglinton East,TRUE,Privately owned,1963,2017,172,15,Metcap Living Management Inc,2021-04-12,76,TRUE,,TRUE,2017,0.7%,FALSE,
-1360 Danforth Rd,-79.2454445,43.7449781,Eglinton East,TRUE,Privately owned,1963,2017,172,15,Metcap Living Management Inc,2021-04-12,76,TRUE,2018-03-15,FALSE,,,FALSE,
+1360 Danforth Rd,-79.2454445,43.7449781,Eglinton East,TRUE,Privately owned,1963,2017,172,15,Metcap Living Management Inc,2021-04-12,76,TRUE,2018-03-15,TRUE,2017,0.7%,FALSE,
 25 Trudelle St,-79.2438709,43.7394089,Eglinton East,TRUE,Privately owned,1963,2018,66,6,Golden Equity Properties,2021-04-19,60,TRUE,,TRUE,2017,1%,FALSE,
 123 Bellamy Rd N,-79.2316537,43.7414425,Eglinton East,TRUE,Privately owned,1964,2017,250,12,,2020-12-15,82,FALSE,,FALSE,,,FALSE,
 88 Wellesley St E,-79.3798666,43.6662525,Church-Yonge Corridor,TRUE,Privately owned,1960,2017,71,8,Navy&Jim Wellesley,2019-12-03,82,TRUE,2016-06-08,FALSE,,,FALSE,
@@ -490,13 +488,11 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 2015 Lawrence Ave E,-79.2949784,43.7449617,Wexford/Maryvale,TRUE,Social housing,1994,2017,158,11,,2019-11-25,84,FALSE,,FALSE,,,FALSE,
 41 Warrender Ave,-79.5530522,43.6750757,Princess-Rosethorn,TRUE,Privately owned,1971,2017,105,7,Princess Management,2020-11-06,81,TRUE,2019-04-23,FALSE,,,FALSE,
 490 Sherbourne St,-79.3754011,43.6676023,North St.James Town,TRUE,Social housing,2008,2017,112,11,,2019-12-03,85,FALSE,,FALSE,,,FALSE,
-2702 Lawrence Ave E,-79.2604453,43.7526991,Bendale,TRUE,Privately owned,1957,2017,96,7,Metcap Living Management Inc,2019-11-26,72,TRUE,,TRUE,2017,0.68%,FALSE,
-2702 Lawrence Ave E,-79.2604453,43.7526991,Bendale,TRUE,Privately owned,1957,2017,96,7,Metcap Living Management Inc,2019-11-26,72,TRUE,2018-12-12,FALSE,,,FALSE,
+2702 Lawrence Ave E,-79.2604453,43.7526991,Bendale,TRUE,Privately owned,1957,2017,96,7,Metcap Living Management Inc,2019-11-26,72,TRUE,2018-12-12,TRUE,2017,0.68%,FALSE,
 27 Bergamot Ave,-79.5566535,43.7152742,Rexdale-Kipling,TRUE,Privately owned,1960,2017,130,7,Pinedale Properties Ltd,2020-11-09,69,FALSE,,FALSE,,,FALSE,
 1798 Eglinton Ave W,-79.4492937,43.6961351,Briar Hill-Belgravia,TRUE,Privately owned,1937,2017,34,3,,2020-12-11,63,FALSE,,FALSE,,,FALSE,
 255 Glenlake Ave,-79.464362,43.657342,High Park North,TRUE,Privately owned,1986,2017,336,23,Minto Properties Inc.,2019-11-04,91,FALSE,,FALSE,,,FALSE,
-19 Rosemount Dr,-79.274435,43.73257,Ionview,TRUE,Privately owned,1960,2017,71,7,Northview Apartment Reit,2019-11-25,84,TRUE,2017-05-02,TRUE,2018,0.71%,FALSE,
-19 Rosemount Dr,-79.274435,43.73257,Ionview,TRUE,Privately owned,1960,2017,71,7,Northview Apartment Reit,2019-11-25,84,TRUE,"2017-12-29, 2017-05-02",TRUE,2019,0.35%,FALSE,
+19 Rosemount Dr,-79.274435,43.73257,Ionview,TRUE,Privately owned,1960,2017,71,7,Northview Apartment Reit,2019-11-25,84,TRUE,"2017-12-29, 2017-05-02",TRUE,"2019, 2018","0.35%, 0.71%",FALSE,
 1169 Birchmount Rd,-79.2820266,43.7418257,Dorset Park,TRUE,Privately owned,1960,2017,18,4,Kovacs Investments Ltd,2019-11-25,82,TRUE,2017-04-06,FALSE,,,FALSE,
 1191 Birchmount Rd,-79.2825114,43.743044,Dorset Park,TRUE,Privately owned,1955,2017,41,4,1191 Birchmond Rd Inc,2020-12-14,73,FALSE,,FALSE,,,FALSE,
 2647 Keele St,-79.4808146,43.7218577,Maple Leaf,TRUE,Privately owned,1960,2017,33,3,,2021-04-23,79,FALSE,,FALSE,,,FALSE,
@@ -511,8 +507,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 39 Richview Rd,-79.515183,43.684191,Edenbridge-Humber Valley,TRUE,Privately owned,1972,2017,234,20,H&R Property Management,2020-10-08,82,TRUE,2017-03-28,TRUE,2018,0.57%,FALSE,
 34 Dixington Cres,-79.5419359,43.6964225,Kingsview Village-The Westway,TRUE,Privately owned,1970,2017,60,5,Equity Builders,2020-11-10,68,FALSE,,FALSE,,,FALSE,
 2523 Lake Shore Blvd W,-79.4892482,43.610208,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1910,2017,10,3,Capreit Limited Partnership,2020-12-01,79,TRUE,2016-11-30,TRUE,2019,2.55%,FALSE,
-207 Morningside Ave,-79.1851126,43.7660399,West Hill,TRUE,Privately owned,1961,2017,107,5,Cogir Real Estate,2020-12-15,78,TRUE,2017-07-31,TRUE,2018,0.58%,FALSE,
-207 Morningside Ave,-79.1851126,43.7660399,West Hill,TRUE,Privately owned,1961,2017,107,5,Cogir Real Estate,2020-12-15,78,TRUE,2019-10-11,FALSE,,,FALSE,
+207 Morningside Ave,-79.1851126,43.7660399,West Hill,TRUE,Privately owned,1961,2017,107,5,Cogir Real Estate,2020-12-15,78,TRUE,"2019-10-11, 2017-07-31",TRUE,2018,0.58%,FALSE,
 55 Oakmount Rd,-79.463065,43.657175,High Park North,TRUE,Privately owned,1965,2017,221,16,Beaux Properties Management,2019-10-31,67,TRUE,2016-05-09,TRUE,2018,1%,FALSE,
 2260 Lawrence Ave E,-79.2779436,43.749403,Dorset Park,TRUE,Privately owned,1960,2017,26,5,De Sei Investments Limited,2020-12-17,83,FALSE,,FALSE,,,FALSE,
 3010 Lawrence Ave E,-79.250038,43.756055,Bendale,TRUE,Social housing,1989,2017,170,11,,2020-11-04,92,FALSE,,FALSE,,,FALSE,
@@ -676,8 +671,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 16 Rosseau Rd,-79.4377251,43.742278,Clanton Park,TRUE,Privately owned,1949,2018,11,3,Dms Property Management Ltd,2021-04-19,78,TRUE,"2021-04-08, 2019-04-05",FALSE,,,FALSE,
 36 Maitland St,-79.382305,43.664539,Church-Yonge Corridor,TRUE,Privately owned,1920,,27,4,,2021-04-28,76,FALSE,,FALSE,,,FALSE,
 2511 Gerrard St E,-79.2836205,43.6873978,Birchcliffe-Cliffside,TRUE,Privately owned,1954,,11,3,,2020-11-25,73,FALSE,,FALSE,,,FALSE,
-21 Vaughan Rd,-79.418313,43.682479,Wychwood,TRUE,Privately owned,1975,,173,23,Bathurst Vaughan Mall,2020-12-15,81,TRUE,,TRUE,2017,5.75%,FALSE,
-21 Vaughan Rd,-79.418313,43.682479,Wychwood,TRUE,Privately owned,1975,,173,23,Bathurst Vaughan Mall,2020-12-15,81,TRUE,2016-08-22,TRUE,2018,1%,FALSE,
+21 Vaughan Rd,-79.418313,43.682479,Wychwood,TRUE,Privately owned,1975,,173,23,Bathurst Vaughan Mall,2020-12-15,81,TRUE,2016-08-22,TRUE,"2018, 2017","1%, 5.75%",FALSE,
 1157 O'connor Dr,-79.307565,43.711849,O'Connor-Parkview,TRUE,Privately owned,1953,2019,11,3,Nivist Developments Ltd,2020-12-03,80,FALSE,,FALSE,,,FALSE,
 15 Roehampton Ave,-79.3978607,43.7079427,Mount Pleasant West,TRUE,Privately owned,2019,2019,466,36,,2019-12-18,100,FALSE,,FALSE,,,FALSE,
 120 Maitland St,-79.3786209,43.6652981,Church-Yonge Corridor,TRUE,Privately owned,1928,2019,24,3,Gowan Property Management,2020-12-16,72,FALSE,,FALSE,,,FALSE,
@@ -1074,7 +1068,6 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 33 Coatsworth Cres,-79.3201506,43.6792651,Woodbine Corridor,TRUE,Toronto Community Housing,1989,2017,128,5,TCH,2021-04-22,65,FALSE,,FALSE,,,FALSE,
 318 Clinton St,-79.417005,43.662522,Palmerston-Little Italy,TRUE,Privately owned,1970,2018,12,3,,2021-04-27,69,FALSE,,FALSE,,,FALSE,
 3015-3017 Queen St E,-79.277653,43.6746687,Birchcliffe-Cliffside,TRUE,Privately owned,1954,2017,16,4,Greenwin Corp.,2018-02-12,79,FALSE,,FALSE,,,FALSE,
-40-50 Alexander St,-79.382059,43.663579,Church-Yonge Corridor,TRUE,Privately owned,1963,2017,244,19,Greenrock,2019-12-03,91,TRUE,"2020-05-05, 2018-11-09",FALSE,,,FALSE,
 5 Needle Firway,-79.5187527,43.7521783,Glenfield-Jane Heights,TRUE,Toronto Community Housing,1980,2017,137,12,TCH,2020-10-20,79,FALSE,,FALSE,,,FALSE,
 544 Birchmount Rd,-79.2705279,43.7111037,Clairlea-Birchmount,TRUE,Privately owned,1969,2017,131,11,Medallion Corporation,2020-11-18,79,FALSE,,FALSE,,,FALSE,
 710 Trethewey Dr,-79.5003747,43.6976973,Brookhaven-Amesbury,TRUE,Toronto Community Housing,1974,2017,165,19,Del Managment,2020-10-22,78,FALSE,,FALSE,,,FALSE,
@@ -1321,8 +1314,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 20 Sanagan Rd,-79.5771082,43.7384995,Thistletown-Beaumond Heights,TRUE,Privately owned,1965,2017,86,5,Zev Investments,2020-11-04,62,TRUE,"2020-10-08, 2019-04-05",FALSE,,,FALSE,
 2737 Kipling Ave,-79.5865684,43.7533123,Mount Olive-Silverstone-Jamestown,TRUE,Privately owned,1976,2018,416,23,Metcap Living Management Inc,2020-10-21,72,TRUE,2020-12-10,FALSE,,,FALSE,
 101 Humber Blvd,-79.482,43.679433,Rockcliffe-Smythe,TRUE,Toronto Community Housing,1969,2017,246,14,TCH,2020-11-17,67,FALSE,,FALSE,,,FALSE,
-10 Roanoke Rd,-79.3292344,43.7414426,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,101,12,Quadreal Property Group,2019-11-04,95,TRUE,2017-06-01,TRUE,2018,0.5%,FALSE,
-10 Roanoke Rd,-79.3292344,43.7414426,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,101,12,Quadreal Property Group,2019-11-04,95,TRUE,2019-04-26,FALSE,,,FALSE,
+10 Roanoke Rd,-79.3292344,43.7414426,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,101,12,Quadreal Property Group,2019-11-04,95,TRUE,"2019-04-26, 2017-06-01",TRUE,2018,0.5%,FALSE,
 550 Scarborough Golf Club Rd,-79.2171132,43.760751,Woburn,TRUE,Privately owned,1960,2017,200,12,Greenwin Inc.,2020-12-14,81,TRUE,2018-05-07,TRUE,2019,0.04%,FALSE,
 45 Greencrest Crct,-79.222317,43.758745,Woburn,TRUE,Privately owned,1962,2017,100,6,Metcap Living Management Inc,2020-11-15,79,FALSE,,FALSE,,,FALSE,
 55 Pape Ave,-79.3369841,43.6605803,South Riverdale,TRUE,Social housing,1996,2017,60,5,,2021-04-29,64,FALSE,,FALSE,,,FALSE,
@@ -1533,8 +1525,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 265 Cassandra Blvd,-79.315626,43.753635,Parkwoods-Donalda,TRUE,Privately owned,1965,2017,164,12,M&R Property Management,2019-11-04,80,TRUE,2017-06-01,FALSE,,,FALSE,
 4750 Jane St,-79.5214085,43.7705714,Black Creek,TRUE,Privately owned,1974,2017,131,15,Elmpark Manor Apartments,2020-10-29,85,FALSE,,FALSE,,,FALSE,
 75-85 Silver Springs Blvd,-79.303842,43.800234,L'Amoreaux,TRUE,Privately owned,1978,2017,133,9,Metcap Living Management Inc.,2019-11-26,87,TRUE,2020-11-16,FALSE,,,FALSE,
-45 Dunfield Ave,-79.394358,43.706259,Mount Pleasant West,TRUE,Privately owned,1966,2017,575,30,Shiplake Properties,2019-12-02,91,TRUE,,TRUE,2019,2.8%,FALSE,
-45 Dunfield Ave,-79.394358,43.706259,Mount Pleasant West,TRUE,Privately owned,1966,2017,575,30,Shiplake Properties,2019-12-02,91,TRUE,"2020-01-07, 2018-12-13",FALSE,,,FALSE,
+45 Dunfield Ave,-79.394358,43.706259,Mount Pleasant West,TRUE,Privately owned,1966,2017,575,30,Shiplake Properties,2019-12-02,91,TRUE,"2020-01-07, 2018-12-13",TRUE,2019,2.8%,FALSE,
 220 Eglinton Ave E,-79.39161,43.708419,Mount Pleasant West,TRUE,Toronto Community Housing,1972,2017,99,10,,2019-12-09,66,FALSE,,FALSE,,,FALSE,
 196 Eglinton Ave E,-79.3923001,43.7083486,Mount Pleasant West,TRUE,Privately owned,1930,2017,25,4,Megapro Properties,2020-12-02,70,FALSE,,FALSE,,,FALSE,
 65 Wasdale Cres,-79.4376326,43.7301236,Englemount-Lawrence,TRUE,Privately owned,1956,2020,11,3,,2019-12-03,83,FALSE,,FALSE,,,FALSE,
@@ -2176,8 +2167,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 124 Tyndall Ave,-79.4293822,43.6377177,South Parkdale,TRUE,Privately owned,1956,2017,28,4,,2021-04-21,73,FALSE,,FALSE,,,FALSE,
 112 Tyndall Ave,-79.4291915,43.6370734,South Parkdale,TRUE,Privately owned,1960,2017,27,3,Property Services Inc.,2021-04-16,75,FALSE,,FALSE,,,FALSE,
 91 Jameson Ave,-79.4348835,43.6351258,South Parkdale,TRUE,Privately owned,1967,2017,76,11,Metcap Living Management Inc.,2019-11-04,83,FALSE,,FALSE,,,FALSE,
-135 Rose Ave,-79.3716116,43.6704994,North St.James Town,TRUE,Privately owned,1964,2017,239,15,Medallion Corporation,2019-01-30,80,TRUE,,TRUE,2017,0.88%,FALSE,
-135 Rose Ave,-79.3716116,43.6704994,North St.James Town,TRUE,Privately owned,1964,2017,239,15,Medallion Corporation,2019-01-30,80,TRUE,"2019-06-06, 2017-06-22",TRUE,2019,0.04%,FALSE,
+135 Rose Ave,-79.3716116,43.6704994,North St.James Town,TRUE,Privately owned,1964,2017,239,15,Medallion Corporation,2019-01-30,80,TRUE,"2019-06-06, 2017-06-22",TRUE,"2019, 2017","0.04%, 0.88%",FALSE,
 85 Laing St,-79.3270463,43.6638435,Greenwood-Coxwell,TRUE,Privately owned,1921,,13,3,,2020-12-14,66,FALSE,,FALSE,,,FALSE,
 1475 King St W,-79.4396064,43.6361329,South Parkdale,TRUE,Privately owned,1960,2017,44,3,Golden Equity Properties,2021-04-20,74,FALSE,,FALSE,,,FALSE,
 1502 King St W,-79.4403348,43.6365901,South Parkdale,TRUE,Privately owned,1952,2017,15,3,Pegasus Group,2020-11-20,61,TRUE,2018-08-13,FALSE,,,FALSE,
@@ -2301,17 +2291,13 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 3 Eccleston Dr,-79.3147048,43.7269139,Victoria Village,TRUE,Privately owned,1960,2017,61,4,Pinedale Properties Ltd,2020-11-27,92,TRUE,2018-05-11,FALSE,,,FALSE,
 1698 Victoria Park Ave,-79.3068912,43.7337557,Victoria Village,TRUE,Privately owned,1966,2017,52,5,Ellsbirch Limited,2020-11-28,73,FALSE,,FALSE,,,FALSE,
 265 Markland Dr,-79.5796402,43.6284768,Markland Wood,TRUE,Privately owned,1965,2017,149,13,E. Manson Investments Limited,2019-10-29,82,FALSE,,FALSE,,,FALSE,
-15 Eva Rd,-79.5620213,43.6384478,Etobicoke West Mall,TRUE,Privately owned,1974,2017,195,18,Metcap Living Management Inc.,2019-10-29,84,TRUE,,TRUE,2017,2.7%,FALSE,
-15 Eva Rd,-79.5620213,43.6384478,Etobicoke West Mall,TRUE,Privately owned,1974,2017,195,18,Metcap Living Management Inc.,2019-10-29,84,TRUE,"2017-03-02, 2016-09-07",FALSE,,,FALSE,
+15 Eva Rd,-79.5620213,43.6384478,Etobicoke West Mall,TRUE,Privately owned,1974,2017,195,18,Metcap Living Management Inc.,2019-10-29,84,TRUE,"2017-03-02, 2016-09-07",TRUE,2017,2.7%,FALSE,
 350 The West Mall,-79.5649969,43.6390458,Etobicoke West Mall,TRUE,Privately owned,1962,2017,55,6,E. Manson Investments Limited,2020-11-24,83,FALSE,,FALSE,,,FALSE,
-12 Bexhill Crt,-79.5204004,43.6624713,Edenbridge-Humber Valley,TRUE,Privately owned,1952,2017,14,4,Clairhaven,2020-12-02,79,TRUE,"2020-12-23, 2019-04-05",FALSE,,,FALSE,
-12 Bexhill Crt,-79.5204004,43.6624713,Edenbridge-Humber Valley,TRUE,Privately owned,1952,2017,14,4,Clairhaven,2020-12-02,79,TRUE,2017-03-10,TRUE,2018,0.2%,FALSE,
+12 Bexhill Crt,-79.5204004,43.6624713,Edenbridge-Humber Valley,TRUE,Privately owned,1952,2017,14,4,Clairhaven,2020-12-02,79,TRUE,"2020-12-23, 2019-04-05, 2017-03-10",TRUE,2018,0.2%,FALSE,
 143 Arlington Ave,-79.428916,43.681938,Humewood-Cedarvale,TRUE,Privately owned,1930,2019,28,4,Akelius Canada Ltd,2019-11-28,79,TRUE,2017-04-04,TRUE,2019,6.11%,FALSE,
 21 Durnford Rd,-79.1500957,43.7994021,Rouge,TRUE,Social housing,1992,2018,21,4,,2021-04-13,78,FALSE,,FALSE,,,FALSE,
-1340 Danforth Rd,-79.245716,43.743475,Eglinton East,TRUE,Privately owned,1962,2017,173,15,Metcap Living Management Inc,2021-04-12,86,TRUE,,TRUE,2017,1.53%,FALSE,
-1340 Danforth Rd,-79.245716,43.743475,Eglinton East,TRUE,Privately owned,1962,2017,173,15,Metcap Living Management Inc,2021-04-12,86,TRUE,2018-03-15,FALSE,,,FALSE,
-1350 Danforth Rd,-79.245971,43.7442765,Eglinton East,TRUE,Privately owned,1965,2017,225,15,Metcap Living Management Inc.,2021-04-12,89,TRUE,,TRUE,2017,0.32%,FALSE,
-1350 Danforth Rd,-79.245971,43.7442765,Eglinton East,TRUE,Privately owned,1965,2017,225,15,Metcap Living Management Inc.,2021-04-12,89,TRUE,2018-03-15,FALSE,,,FALSE,
+1340 Danforth Rd,-79.245716,43.743475,Eglinton East,TRUE,Privately owned,1962,2017,173,15,Metcap Living Management Inc,2021-04-12,86,TRUE,2018-03-15,TRUE,2017,1.53%,FALSE,
+1350 Danforth Rd,-79.245971,43.7442765,Eglinton East,TRUE,Privately owned,1965,2017,225,15,Metcap Living Management Inc.,2021-04-12,89,TRUE,2018-03-15,TRUE,2017,0.32%,FALSE,
 50 Trudelle St,-79.2404098,43.7407322,Eglinton East,TRUE,Privately owned,1969,2017,131,7,The Brown Group Of Companies,2019-11-26,80,TRUE,2018-12-31,FALSE,,,FALSE,
 3750 St Clair Ave E,-79.2423007,43.7212225,Cliffcrest,TRUE,Privately owned,1965,2017,55,7,Amaz Property Management,2020-12-16,79,FALSE,,FALSE,,,FALSE,
 933-937 Wilson Ave,-79.4709254,43.7295288,Downsview-Roding-CFB,TRUE,Privately owned,1960,2017,36,3,592182 Ontario Limited,2020-10-15,76,FALSE,,FALSE,,,FALSE,
@@ -2410,8 +2396,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 2 Arrowsmith Ave,-79.4774941,43.7044268,Brookhaven-Amesbury,TRUE,Privately owned,1960,2017,11,3,Mpm Inc.,2020-11-23,61,FALSE,,FALSE,,,FALSE,
 1252 Lawrence Ave W,-79.4707251,43.7108596,Maple Leaf,TRUE,Privately owned,1958,2017,10,3,,2019-11-05,73,FALSE,,FALSE,,,FALSE,
 50 Graydon Hall Dr,-79.345593,43.764671,Parkwoods-Donalda,TRUE,Privately owned,1970,2017,304,20,,2020-11-20,84,FALSE,,FALSE,,,FALSE,
-3000 Victoria Park Ave,-79.331977,43.792499,Pleasant View,TRUE,Privately owned,1972,2017,228,6,Ranee Management,2019-11-18,82,TRUE,2017-11-29,TRUE,2018,0.36%,FALSE,
-3000 Victoria Park Ave,-79.331977,43.792499,Pleasant View,TRUE,Privately owned,1972,2017,228,6,Ranee Management,2019-11-18,82,TRUE,2017-11-24,FALSE,,,FALSE,
+3000 Victoria Park Ave,-79.331977,43.792499,Pleasant View,TRUE,Privately owned,1972,2017,228,6,Ranee Management,2019-11-18,82,TRUE,"2017-11-29, 2017-11-24",TRUE,2018,0.36%,FALSE,
 2651 Bloor St W,-79.4953401,43.6492411,Stonegate-Queensway,TRUE,Privately owned,1927,2017,34,4,,2020-10-29,73,FALSE,,FALSE,,,FALSE,
 2649 Bloor St W,-79.4949755,43.6490075,Stonegate-Queensway,TRUE,Privately owned,1952,2017,48,4,Vesta Management Inc,2019-10-30,72,FALSE,,FALSE,,,FALSE,
 90 Cordova Ave,-79.523798,43.648017,Islington-City Centre West,TRUE,Privately owned,1977,2017,184,13,Ranee Management,2019-10-29,71,TRUE,2017-11-24,FALSE,,,FALSE,
@@ -2954,8 +2939,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 2623 Keele St,-79.4802346,43.7203799,Maple Leaf,TRUE,Privately owned,1965,2017,11,3,Correl Holdings Inc.,2019-11-05,79,FALSE,,FALSE,,,FALSE,
 1747-1755 Jane St,-79.5040312,43.704784,Rustic,TRUE,Privately owned,1971,2017,102,15,Medallion Corporation,2020-11-02,80,FALSE,,FALSE,,,FALSE,
 2500 Keele St,-79.4796415,43.7131136,Maple Leaf,TRUE,Privately owned,1977,2018,95,12,Golden Equity Properties,2019-11-06,66,TRUE,2017-10-27,TRUE,2019,1.31%,FALSE,
-11 Dervock Cres,-79.380495,43.766209,Bayview Village,TRUE,Privately owned,1959,2017,77,4,Capreit,2019-11-07,87,TRUE,,TRUE,2017,0.6%,FALSE,
-11 Dervock Cres,-79.380495,43.766209,Bayview Village,TRUE,Privately owned,1959,2017,77,4,Capreit,2019-11-07,87,TRUE,"2019-05-27, 2016-12-28",FALSE,,,FALSE,
+11 Dervock Cres,-79.380495,43.766209,Bayview Village,TRUE,Privately owned,1959,2017,77,4,Capreit,2019-11-07,87,TRUE,"2019-05-27, 2016-12-28",TRUE,2017,0.6%,FALSE,
 640 Sheppard Ave E,-79.382746,43.768448,Bayview Village,TRUE,Privately owned,1970,2017,128,19,Vertica Resident Services,2019-11-07,91,TRUE,"2020-04-20, 2018-05-08, 2016-08-09",FALSE,,,FALSE,
 4000 Don Mills Rd,-79.3614788,43.8103903,Hillcrest Village,TRUE,Toronto Community Housing,1980,2017,397,6,,2021-04-24,76,FALSE,,FALSE,,,FALSE,
 210 Cosburn Ave,-79.344341,43.6905466,Old East York,TRUE,Privately owned,1968,2017,33,4,,2020-11-25,72,FALSE,,FALSE,,,FALSE,
@@ -3095,8 +3079,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 1441 Lawrence Ave E,-79.3130373,43.741081,Victoria Village,TRUE,Privately owned,1961,2017,251,14,Cogir Real Estate,2020-12-01,83,FALSE,,FALSE,,,FALSE,
 1840 Victoria Park Ave,-79.310215,43.740513,Victoria Village,TRUE,Privately owned,1964,2017,204,12,Falconwin Property Management,2020-12-03,79,FALSE,,FALSE,,,FALSE,
 48 Eccleston Dr,-79.3179878,43.7279687,Victoria Village,TRUE,Privately owned,1960,2017,69,4,Linwood Management Corporation,2021-04-25,76,FALSE,,FALSE,,,FALSE,
-8-10 Roanoke Rd,-79.3281707,43.7414974,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,111,13,Quadreal Property Group,2019-11-04,94,TRUE,2017-06-01,TRUE,2018,0.5%,FALSE,
-8-10 Roanoke Rd,-79.3281707,43.7414974,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,111,13,Quadreal Property Group,2019-11-04,94,TRUE,2016-06-21,FALSE,,,FALSE,
+8-10 Roanoke Rd,-79.3281707,43.7414974,Parkwoods-Donalda,TRUE,Privately owned,1962,2017,111,13,Quadreal Property Group,2019-11-04,94,TRUE,"2017-06-01, 2016-06-21",TRUE,2018,0.5%,FALSE,
 42 Glen Elm Ave,-79.392653,43.692017,Rosedale-Moore Park,TRUE,Privately owned,1960,2017,39,3,O'shanter Development Company,2019-03-18,96,TRUE,"2017-06-06, 2016-02-02",FALSE,,,FALSE,
 730 Dovercourt Rd,-79.429252,43.659711,Dufferin Grove,TRUE,Privately owned,1967,2017,356,20,,2019-11-21,79,FALSE,,FALSE,,,FALSE,
 532 Palmerston Blvd,-79.4136038,43.6637912,Palmerston-Little Italy,TRUE,Privately owned,1911,2018,21,4,,2020-11-26,85,FALSE,,FALSE,,,FALSE,
@@ -3245,8 +3228,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 1560 Bathurst St,-79.4197621,43.6857371,Humewood-Cedarvale,TRUE,Privately owned,1926,2017,36,4,Greenwin Corp.,2019-11-28,73,FALSE,,FALSE,,,FALSE,
 402-444 Lumsden Ave,-79.3029887,43.6954706,Taylor-Massey,TRUE,Toronto Community Housing,1969,2017,183,25,Del Management,2020-12-01,63,FALSE,,FALSE,,,FALSE,
 55 Lee Ave,-79.2971582,43.6691984,The Beaches,TRUE,Privately owned,1955,2018,12,3,Olive Corp.,2019-12-05,78,FALSE,,FALSE,,,FALSE,
-2700 Lawrence Ave E,-79.2607172,43.7527003,Bendale,TRUE,Privately owned,1957,2017,111,7,Metcap Living Management Inc,2019-11-26,72,TRUE,,TRUE,2017,0.68%,FALSE,
-2700 Lawrence Ave E,-79.2607172,43.7527003,Bendale,TRUE,Privately owned,1957,2017,111,7,Metcap Living Management Inc,2019-11-26,72,TRUE,2018-12-12,FALSE,,,FALSE,
+2700 Lawrence Ave E,-79.2607172,43.7527003,Bendale,TRUE,Privately owned,1957,2017,111,7,Metcap Living Management Inc,2019-11-26,72,TRUE,2018-12-12,TRUE,2017,0.68%,FALSE,
 841 Millwood Rd,-79.3670641,43.7043574,Leaside-Bennington,TRUE,Privately owned,1960,2017,18,3,,2020-12-16,75,FALSE,,FALSE,,,FALSE,
 1 A Vermont Ave,-79.4145466,43.6718323,Annex,TRUE,Privately owned,1913,2017,22,3,Mantler Management Ltd.,2021-04-27,70,FALSE,,FALSE,,,FALSE,
 111 Lawton Blvd,-79.396693,43.694092,Yonge-St.Clair,TRUE,Privately owned,1957,2019,152,13,Akelius Canada Ltd.,2019-11-28,79,FALSE,,FALSE,,,FALSE,
@@ -3378,8 +3360,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 1315 Neilson Rd,-79.2188121,43.8077894,Malvern,TRUE,Toronto Community Housing,1991,2017,126,5,,2021-04-21,78,FALSE,,FALSE,,,FALSE,
 93 Lavinia Ave,-79.4777132,43.6473106,High Park-Swansea,TRUE,Social housing,1993,2017,68,5,,2019-10-31,87,FALSE,,FALSE,,,FALSE,
 2 Kennedy Ave,-79.4735713,43.6462436,High Park-Swansea,TRUE,Privately owned,1967,2017,25,4,,2021-04-23,66,FALSE,,FALSE,,,FALSE,
-2001 Bloor St W,-79.4714443,43.6518245,High Park-Swansea,TRUE,Privately owned,1930,2017,60,4,Travi Inc.,2021-04-21,81,TRUE,,TRUE,2017,0.79%,FALSE,
-2001 Bloor St W,-79.4714443,43.6518245,High Park-Swansea,TRUE,Privately owned,1930,2017,60,4,Travi Inc.,2021-04-21,81,TRUE,2019-11-14,FALSE,,,FALSE,
+2001 Bloor St W,-79.4714443,43.6518245,High Park-Swansea,TRUE,Privately owned,1930,2017,60,4,Travi Inc.,2021-04-21,81,TRUE,2019-11-14,TRUE,2017,0.79%,FALSE,
 91 Neptune Dr,-79.4381694,43.7317437,Englemount-Lawrence,TRUE,Privately owned,1957,2019,12,3,Knrs Properties Inc,2019-11-21,78,FALSE,,FALSE,,,FALSE,
 61 Neptune Dr,-79.4374655,43.7318712,Englemount-Lawrence,TRUE,Privately owned,1959,2017,34,3,Dms Property Management Ltd,2021-04-14,73,FALSE,,FALSE,,,FALSE,
 32 Wasdale Cres,-79.4370611,43.7308286,Englemount-Lawrence,TRUE,Privately owned,1957,,10,3,,2020-12-19,67,FALSE,,FALSE,,,FALSE,
@@ -3586,7 +3567,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 13 Homewood Ave,-79.3743692,43.6636898,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 300 Sherbourne St,-79.3724327,43.6605683,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 54 Howland Ave,-79.4096118,43.6674453,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-68 Pembroke Street,-79.3727702,43.6583534,Moss Park,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
+68 Pembroke St,-79.3727702,43.6583534,Moss Park,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
 70 Melbourne Ave,-79.4321336,43.6399675,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 123 Madison Ave,-79.4043366,43.671858,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 158 Dowling Ave,-79.4395681,43.6383465,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3623,7 +3604,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 106 Beverley St,-79.3940878,43.6531823,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1330 King St W,-79.4324035,43.6381886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1335 King St W,-79.4323546,43.6376915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1371 King Street West,-79.4338479,43.6374258,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
+1371 King St W,-79.2638426,43.7506386,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
 14 Mc Kenzie Ave,-79.3698267,43.6746023,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1501 King St W,-79.4407223,43.6362669,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1510 King St W,-79.4408215,43.6367287,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
@@ -3640,7 +3621,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 262 Gerrard St E,-79.368907,43.662145,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 283 Christie St,-79.4209842,43.6710771,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 283 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-283.5 George St,-79.3746723999418,43.6602345500067,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+283.5 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 31 Homewood Ave,-79.3745912,43.6641403,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 316 St George St,-79.4036881,43.674959,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 37 Huron St,-79.3952663,43.6518992,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3651,8 +3632,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 50 Bernard Ave,-79.3988783,43.6736578,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 50-52 Metcalfe St,-79.3678343,43.6668866,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 536 Huron St,-79.4030508,43.6702246,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-536.5 Parliament St,-79.3690412499372,43.6669237000067,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-536.5 Parliament St,-79.3690941999922,43.6670540000008,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+536.5 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 620 Spadina Ave,-79.402272,43.662044,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 652 Huron St,-79.4046134,43.6743098,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 67 D'arcy St,-79.394883,43.654468,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3667,12 +3647,12 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 25 Norwood Rd,-79.3028281,43.6837951,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 27 Norwood Rd,-79.3028206,43.6838819,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 369 Sackville St,-79.364481,43.6642277,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-40 Beaty Avenue,-79.4407806,43.6377625,South Parkdale,FALSE,,,,,,2315820 Ontario,,,TRUE,2017-11-10,FALSE,,,TRUE,Licensed
+40 Beaty Ave,-79.4407806,43.6377625,South Parkdale,FALSE,,,,,,2315820 Ontario,,,TRUE,2017-11-10,FALSE,,,TRUE,Licensed
 11 Fairview Blvd,-79.3564087,43.6748916,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 118 Spadina Rd,-79.406367,43.672383,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 120 Spencer Ave,-79.4309942,43.6376749,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 122 Spencer Ave,-79.430601,43.638023,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1302 King Street West,-79.431184,43.6384007,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
+1302 King St W,-79.4942044,43.7232259,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
 149 Dundas St E,-79.3753597,43.6566717,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1516 King St W,-79.4411594,43.6367834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1524 King St W,-79.4418485,43.6371356,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3726,7 +3706,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 72 Melbourne Ave,-79.4322443,43.6399524,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 9 Albany Ave,-79.40991,43.665868,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 168 Isabella St,-79.37639,43.669883,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-930 Dundas Street East,-79.3492264,43.6631773,South Riverdale,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
+930 Dundas St E,-79.3492264,43.6631773,South Riverdale,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
 10 Sorauren Ave,-79.4413512,43.6402063,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 101 Spadina Rd,-79.4052514,43.670922,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 103 Spadina Rd,-79.4052679,43.6709724,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3849,8 +3829,8 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 544 Huron St,-79.4030921,43.6704729,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 55 Huntley St,-79.378111,43.670509,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 56 Howland Ave,-79.4097096,43.6674623,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-66 Pembroke Street,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
-66 Pembroke Street,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
+66 A Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
+66 Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
 661 Pape Ave,-79.3440808,43.6775827,Blake-Jones,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 710 Danforth Ave,-79.343373,43.679494,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 73 Mcgill St,-79.3793679,43.6603916,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3883,10 +3863,10 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 1554 King St W,-79.4433312,43.6378367,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1558 B Davenport Rd,-79.446917,43.6723555,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1298 Danforth Ave,-79.330033,43.682214,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-181 Dowling Ave,-79.4392597,43.6393493,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+181 Dowling Ave,-79.4395114111755,43.6392563581992,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 46 The Queensway,-79.4514634,43.6397962,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 536 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-151 Dunn Avenue,-79.4324889,43.6367055,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed
+151 Dunn Ave,-79.4001578,43.6694638,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed
 435 Broadview Ave,-79.3530339,43.6672652,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 9 Laxton Ave,-79.4381154,43.6391923,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 20 Maynard Ave,-79.4378303,43.6376451,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3894,7 +3874,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 344 Jarvis St,-79.377206,43.662971,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 60 Triller Ave,-79.4445069,43.6400789,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 62 Triller Ave,-79.4445362,43.6401906,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-11 Elm Grove Ave,-79.4303523,43.6391581,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed
+11 Elm Grove Ave,-79.2972101,43.7071773,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed
 136 Bedford Rd,-79.3995148,43.6728481,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 15 Thorburn Ave,-79.4267979,43.6352085,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 223 Spadina Rd,-79.4067138,43.6745456,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3935,84 +3915,83 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 67 Pembroke St,-79.3723781,43.6586335,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
 1 Hillsdale Avenue,-79.3973155,43.7033563,Mount Pleasant West,FALSE,,,,,,Csg Yonge Manor,,,TRUE,2018-02-06,FALSE,,,FALSE,
 1 Lexington Avenue,-79.5971387,43.7438292,West Humber-Clairville,FALSE,,,,,,,,,TRUE,2016-12-14,FALSE,,,FALSE,
-1 Rean Drive,-79.383277,43.7652042,Bayview Village,FALSE,,,,,,,,,TRUE,2017-06-29,FALSE,,,FALSE,
-1 Scott Street,-79.374898,43.646873,Waterfront Communities-The Island,FALSE,,,,,,,,,TRUE,2020-07-09,FALSE,,,FALSE,
-10 Donora Drive,-79.2961074,43.7009009,Taylor-Massey,FALSE,,,,,,Nidhi Joshi Janishk,,,TRUE,2020-05-05,FALSE,,,FALSE,
-10 Fashion Roseway,-79.3936083,43.7628644,Willowdale East,FALSE,,,,,,,,,TRUE,2020-09-18,FALSE,,,FALSE,
-1001 Bay Street West,-79.387098,43.66551,Bay Street Corridor,FALSE,,,,,,,,,TRUE,2018-11-20,FALSE,,,FALSE,
-1002 Lawrence Ave.,-79.461347,43.713024,Yorkdale-Glen Park,FALSE,,,,,,Monterey Park,,,TRUE,2017-10-27,TRUE,2018,0.37%,FALSE,
-101 Erskine Avenue,-79.3955007,43.7116109,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-08-02,FALSE,,,FALSE,
-102 Bloor Street West,-79.391759,43.669638,Annex,FALSE,,,,,,Avram Kohen Prominence Financial Consulting,,,TRUE,2020-02-10,FALSE,,,FALSE,
-1030 King Street West,-79.415997,43.641651,Niagara,FALSE,,,,,,,,,TRUE,2016-07-05,FALSE,,,FALSE,
-1035 Dovercourt Road,-79.4318049,43.6680859,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2018-10-12,FALSE,,,FALSE,
-107 Glen Rush Blvd,-79.4264058,43.7197527,Bedford Park-Nortown,FALSE,,,,,,,,,TRUE,2019-10-21,FALSE,,,FALSE,
-107 Glenholme Avenue,-79.4384685,43.6786304,Corso Italia-Davenport,FALSE,,,,,,Glen Campbell,,,TRUE,2019-12-20,FALSE,,,FALSE,
-107 Kenilworth Avenue,-79.3014255,43.6692647,The Beaches,FALSE,,,,,,Patrick Lau Round 5,,,TRUE,2018-10-17,FALSE,,,FALSE,
-11 Indian Valley Crescent,-79.4580828,43.651049,High Park-Swansea,FALSE,,,,,,,,,TRUE,2016-11-17,FALSE,,,FALSE,
-110 St. Clarens Avenue,-79.4384643,43.6496917,Little Portugal,FALSE,,,,,,,,,TRUE,2016-01-20,FALSE,,,FALSE,
-112 Ossington Avenue,-79.419992,43.64662,Trinity-Bellwoods,FALSE,,,,,,Venezia Bakery,,,TRUE,2018-03-13,FALSE,,,FALSE,
-113 Lake Crescent,-79.497525,43.605819,Mimico (includes Humber Bay Shores),FALSE,,,,,,,,,TRUE,2018-01-04,FALSE,,,FALSE,
-1155 Birchmount Road,-79.2816731,43.7408568,Dorset Park,FALSE,,,,,,2007932 Ontario,,,TRUE,2020-02-04,FALSE,,,FALSE,
-12 Auburndale Court,-79.5554032,43.7188707,Elms-Old Rexdale,FALSE,,,,,,Scotch Elms Investments,,,TRUE,"2020-05-05, 2018-11-08, 2016-12-15",FALSE,,,FALSE,
-12 Castlegrove Boulevard,-79.3240188,43.7454777,Parkwoods-Donalda,FALSE,,,,,,Rockport Group,,,TRUE,2020-01-03,FALSE,,,FALSE,
-12 Hugo Avenue,-79.4533081,43.6664421,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2017-12-01,FALSE,,,FALSE,
-12 Meadowbrook Road,-79.4391705,43.7150032,Englemount-Lawrence,FALSE,,,,,,Susan Menyhart,,,TRUE,2020-11-12,FALSE,,,FALSE,
-1211 Broadview Avenue,-79.3548158,43.6899774,Broadview North,FALSE,,,,,,,,,TRUE,2020-01-08,FALSE,,,FALSE,
-122 Baldwin Street,-79.3979965,43.6553079,Kensington-Chinatown,FALSE,,,,,,,,,TRUE,2020-01-27,FALSE,,,FALSE,
-123 Annette Street,-79.4648063,43.6636971,Junction Area,FALSE,,,,,,,,,TRUE,2019-04-02,FALSE,,,FALSE,
-123 Yardley Avenue,-79.2997408,43.7132874,O'Connor-Parkview,FALSE,,,,,,,,,TRUE,2017-09-01,FALSE,,,FALSE,
-1231 Yonge Street,-79.392035,43.683479,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,2018-01-26,FALSE,,,FALSE,
-1259 College Street,-79.439058,43.6511299,Dufferin Grove,FALSE,,,,,,Roberto Alvarado 5th Avenue Enterprise,,,TRUE,2019-10-08,FALSE,,,FALSE,
-1287 Queen Street West,-79.4320581,43.6413125,South Parkdale,FALSE,,,,,,,,,TRUE,2016-11-30,FALSE,,,FALSE,
-129 Arlington Avenue,-79.428813,43.6814123,Wychwood,FALSE,,,,,,Chung&Jao Development,,,TRUE,2016-10-25,FALSE,,,FALSE,
-13 Mountview,-79.4611866441897,43.6549439117567,High Park North,FALSE,,,,,,Cameus Holdings,,,TRUE,2016-05-09,TRUE,2018,1%,FALSE,
-131 Beecroft Road,-79.4137297,43.7643224,Lansing-Westgate,FALSE,,,,,,Fidelity Property Management,,,TRUE,2018-07-24,FALSE,,,FALSE,
-131 Sultana Avenue,-79.4416123,43.7264774,Englemount-Lawrence,FALSE,,,,,,,,,TRUE,2018-10-17,FALSE,,,FALSE,
-1312 King Street West,-79.4314797,43.638277,South Parkdale,FALSE,,,,,,2600546 Ontario,,,TRUE,2020-01-31,FALSE,,,FALSE,
-132 Dixon Road,-79.5373441,43.699481,Kingsview Village-The Westway,FALSE,,,,,,,,,TRUE,2020-01-07,FALSE,,,FALSE,
-1320 Kennedy Road,-79.2796991,43.7601563,Dorset Park,FALSE,,,,,,Rockport Group,,,TRUE,2018-02-07,TRUE,2019,0.17%,FALSE,
-1325 Bayview Avenue,-79.3723302,43.6990336,Leaside-Bennington,FALSE,,,,,,Realstar,,,TRUE,2018-03-15,FALSE,,,FALSE,
-137 Roncesvalles Avenue,-79.447388,43.643361,Roncesvalles,FALSE,,,,,,Andrew Ng 1676542 Ontario,,,TRUE,2019-10-15,FALSE,,,FALSE,
-14 Auburndale Court,-79.5554032,43.7188707,Elms-Old Rexdale,FALSE,,,,,,Scotch Elms Investments,,,TRUE,"2018-11-08, 2016-12-15",FALSE,,,FALSE,
-14 Bexhill Court,-79.2883268,43.7006077,Clairlea-Birchmount,FALSE,,,,,,Realstar,,,TRUE,2019-04-05,FALSE,,,FALSE,
-14 Meadowbrook Road,-79.4393443,43.7149395,Englemount-Lawrence,FALSE,,,,,,,,,TRUE,2018-11-09,FALSE,,,FALSE,
-14 Wadsworth Blvd,-79.5133445,43.7032854,Weston,FALSE,,,,,,Marton Investments,,,TRUE,2017-04-24,FALSE,,,FALSE,
-14 Washington Avenue,-79.4022947,43.6658675,University,FALSE,,,,,,University Of Toronto Housing Ancillary,,,TRUE,2019-12-10,FALSE,,,FALSE,
-140 Wellesley Street East,-79.3769591,43.6667847,North St.James Town,FALSE,,,,,,965441 Ontario,,,TRUE,2019-01-07,FALSE,,,FALSE,
-141 Roehampton Avenue,-79.3942818,43.7085529,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-04-24,FALSE,,,FALSE,
-1480 Dundas Street East,-79.3327081,43.6666568,South Riverdale,FALSE,,,,,,,,,TRUE,2016-08-15,FALSE,,,FALSE,
-1492 Dundas Street East,-79.3324466,43.666858,South Riverdale,FALSE,,,,,,,,,TRUE,2016-09-13,FALSE,,,FALSE,
-15 Cannon Road,-79.486592,43.633794,Stonegate-Queensway,FALSE,,,,,,,,,TRUE,2017-04-28,FALSE,,,FALSE,
-15 Elm Avenue,-79.378964,43.674515,Rosedale-Moore Park,FALSE,,,,,,O'shanter Development Company,,,TRUE,2021-01-11,FALSE,,,FALSE,
-150 Roehampton Avenue,-79.394328,43.709263,Mount Pleasant West,FALSE,,,,,,Minto Properties,,,TRUE,"2021-02-24, 2018-10-16, 2017-09-11",FALSE,,,FALSE,
-155 Dalhousie Street,-79.376472,43.657693,Church-Yonge Corridor,FALSE,,,,,,,,,TRUE,2019-03-06,FALSE,,,FALSE,
-155 Essex Street,-79.4265666,43.6665496,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2018-03-14,FALSE,,,FALSE,
-156 Overbrook Place North,-79.4586433,43.7627145,Bathurst Manor,FALSE,,,,,,,,,TRUE,"2019-11-22, 2018-11-22",FALSE,,,FALSE,
-1598 Bathurst St.,-79.42085,43.688107,Humewood-Cedarvale,FALSE,,,,,,Heathdale Court Apartments,,,TRUE,2016-06-14,TRUE,2017,0.4%,FALSE,
-1598A Bathurst St.,-79.42085,43.688107,Humewood-Cedarvale,FALSE,,,,,,Heathdale Court Apartments,,,TRUE,2016-06-14,TRUE,2017,0.4%,FALSE,
-16 Parkway Avenue,-79.448833,43.649631,Roncesvalles,FALSE,,,,,,,,,TRUE,"2017-08-08, 2016-07-28",FALSE,,,FALSE,
-16 Purvis Cres East,-79.2301087,43.7939309,Malvern,FALSE,,,,,,,,,TRUE,2017-10-12,FALSE,,,FALSE,
-16 Washington Avenue,-79.4023371,43.665847,University,FALSE,,,,,,University Of Toronto Housing Ancillary,,,TRUE,2019-12-10,FALSE,,,FALSE,
-161 Berry Road,-79.4863812,43.6374575,Stonegate-Queensway,FALSE,,,,,,2501990 Ontario,,,TRUE,2020-09-22,FALSE,,,FALSE,
-165 Bathurst Street,-79.403566,43.646741,Waterfront Communities-The Island,FALSE,,,,,,Timbercreek/Hazelview,,,TRUE,"2018-11-30, 2017-11-27, 2016-11-08",TRUE,2017,3.66%,FALSE,
-168 Erskine Avenue,-79.3925268,43.712694,Mount Pleasant West,FALSE,,,,,,Korvin Developments,,,TRUE,2018-01-24,FALSE,,,FALSE,
-17 Brookbanks Drive,-79.331419,43.752037,Parkwoods-Donalda,FALSE,,,,,,Hardit,,,TRUE,2019-04-09,FALSE,,,FALSE,
-1755 Jane Street,-79.5041218,43.7051807,Rustic,FALSE,,,,,,Medallion,,,TRUE,2018-08-09,FALSE,,,FALSE,
-176 Mccaul Street,-79.3922928,43.6560497,Kensington-Chinatown,FALSE,,,,,,2287468 Ontario,,,TRUE,2017-03-30,FALSE,,,FALSE,
-18 Elway Crt,-79.444331,43.713016,Yorkdale-Glen Park,FALSE,,,,,,,,,TRUE,2017-04-06,FALSE,,,FALSE,
-18 Stafford Street,-79.4105955,43.6414047,Niagara,FALSE,,,,,,,,,TRUE,2017-08-25,FALSE,,,FALSE,
-18 Twenty Eighth Street,-79.526988,43.593838,Long Branch,FALSE,,,,,,,,,TRUE,2020-09-22,FALSE,,,FALSE,
-180 Sheridan Avenue,-79.434739,43.651788,Little Portugal,FALSE,,,,,,The Bill Mcmurray Residence,,,TRUE,2017-11-06,FALSE,,,FALSE,
-1830 Gerrard Street East,-79.3142693,43.6788847,Woodbine Corridor,FALSE,,,,,,,,,TRUE,2020-08-18,FALSE,,,FALSE,
-189 Millwood Road,-79.3913074,43.7002872,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-01-09,FALSE,,,FALSE,
-19 Roseland Drive,-79.5453566,43.5996196,Alderwood,FALSE,,,,,,,,,TRUE,2018-01-08,FALSE,,,FALSE,
-190 Kingsview Blvd,-79.5651969,43.693354,Kingsview Village-The Westway,FALSE,,,,,,Capreit,,,TRUE,2016-07-08,FALSE,,,FALSE,
-190 Ossington Avenue,-79.4207061,43.6485731,Trinity-Bellwoods,FALSE,,,,,,,,,TRUE,2020-01-27,FALSE,,,FALSE,
-1908 Bloor Street West,-79.4657677,43.6537133,High Park North,FALSE,,,,,,Orest Kelebay 736963 Ontario,,,TRUE,2019-10-08,FALSE,,,FALSE,
-191 Medland Street,-79.4664062,43.6640787,Junction Area,FALSE,,,,,,,,,TRUE,2020-06-25,FALSE,,,FALSE,
-1920 Weston Road,-79.517424,43.700237,Weston,FALSE,,,,,,1906-1930 Weston Road,,,TRUE,2020-03-04,FALSE,,,FALSE,
-1993 Danforth Avenue,-79.314775,43.685058,Woodbine Corridor,FALSE,,,,,,,,,TRUE,2017-10-31,FALSE,,,FALSE,
-1A Olive Avenue,-79.4137965,43.67003,Annex,FALSE,,,,,,Bloorston Farms,,,TRUE,"2018-12-18, 2017-11-27",FALSE,,,FALSE,
+1A Olive Avenue,-79.3997306,43.6872924,Annex,FALSE,,,,,,Bloorston Farms,,,TRUE,"2018-12-18, 2017-11-27",FALSE,,,FALSE,
+1 Rean Drive,-79.2739393,43.7315328,Bayview Village,FALSE,,,,,,,,,TRUE,2017-06-29,FALSE,,,FALSE,
+1 Scott Street,-79.426077,43.634605,Waterfront Communities-The Island,FALSE,,,,,,,,,TRUE,2020-07-09,FALSE,,,FALSE,
+10 Donora Drive,-79.3936083,43.7628644,Taylor-Massey,FALSE,,,,,,Nidhi Joshi Janishk,,,TRUE,2020-05-05,FALSE,,,FALSE,
+10 Fashion Roseway,-79.593093,43.745323,Willowdale East,FALSE,,,,,,,,,TRUE,2020-09-18,FALSE,,,FALSE,
+1001 Bay Street West,-79.461347,43.713024,Bay Street Corridor,FALSE,,,,,,,,,TRUE,2018-11-20,FALSE,,,FALSE,
+1002 Lawrence Ave.,-79.4734953,43.6418206,Yorkdale-Glen Park,FALSE,,,,,,Monterey Park,,,TRUE,2017-10-27,TRUE,2018,0.37%,FALSE,
+101 Erskine Avenue,-79.4404757,43.7014719,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-08-02,FALSE,,,FALSE,
+102 Bloor Street West,-79.296131,43.695502,Annex,FALSE,,,,,,Avram Kohen Prominence Financial Consulting,,,TRUE,2020-02-10,FALSE,,,FALSE,
+1030 King Street West,-79.4318049,43.6680859,Niagara,FALSE,,,,,,,,,TRUE,2016-07-05,FALSE,,,FALSE,
+1035 Dovercourt Road,-79.295624,43.695435,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2018-10-12,FALSE,,,FALSE,
+107 Glen Rush Blvd,-79.4384685,43.6786304,Bedford Park-Nortown,FALSE,,,,,,,,,TRUE,2019-10-21,FALSE,,,FALSE,
+107 Glenholme Avenue,-79.3014255,43.6692647,Corso Italia-Davenport,FALSE,,,,,,Glen Campbell,,,TRUE,2019-12-20,FALSE,,,FALSE,
+107 Kenilworth Avenue,-79.4343514,43.6988263,The Beaches,FALSE,,,,,,Patrick Lau Round 5,,,TRUE,2018-10-17,FALSE,,,FALSE,
+11 Indian Valley Crescent,-79.4365674,43.7424109,High Park-Swansea,FALSE,,,,,,,,,TRUE,2016-11-17,FALSE,,,FALSE,
+110 St. Clarens Avenue,-79.392199,43.698762,Little Portugal,FALSE,,,,,,,,,TRUE,2016-01-20,FALSE,,,FALSE,
+112 Ossington Avenue,-79.343978,43.73788,Trinity-Bellwoods,FALSE,,,,,,Venezia Bakery,,,TRUE,2018-03-13,FALSE,,,FALSE,
+113 Lake Crescent,-79.4849202,43.7264418,Mimico (includes Humber Bay Shores),FALSE,,,,,,,,,TRUE,2018-01-04,FALSE,,,FALSE,
+1155 Birchmount Road,-79.2820266,43.7418257,Dorset Park,FALSE,,,,,,2007932 Ontario,,,TRUE,2020-02-04,FALSE,,,FALSE,
+12 Auburndale Court,-79.3548233,43.6870739,Elms-Old Rexdale,FALSE,,,,,,Scotch Elms Investments,,,TRUE,"2020-05-05, 2018-11-08, 2016-12-15",FALSE,,,FALSE,
+12 Castlegrove Boulevard,-79.450951,43.770944,Parkwoods-Donalda,FALSE,,,,,,Rockport Group,,,TRUE,2020-01-03,FALSE,,,FALSE,
+12 Hugo Avenue,-79.4921365,43.635699,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2017-12-01,FALSE,,,FALSE,
+12 Meadowbrook Road,-79.447693,43.786177,Englemount-Lawrence,FALSE,,,,,,Susan Menyhart,,,TRUE,2020-11-12,FALSE,,,FALSE,
+1211 Broadview Avenue,-79.332533,43.760122,Broadview North,FALSE,,,,,,,,,TRUE,2020-01-08,FALSE,,,FALSE,
+122 Baldwin Street,-79.4648063,43.6636971,Kensington-Chinatown,FALSE,,,,,,,,,TRUE,2020-01-27,FALSE,,,FALSE,
+123 Annette Street,-79.2997408,43.7132874,Junction Area,FALSE,,,,,,,,,TRUE,2019-04-02,FALSE,,,FALSE,
+123 Yardley Avenue,-79.392035,43.683479,O'Connor-Parkview,FALSE,,,,,,,,,TRUE,2017-09-01,FALSE,,,FALSE,
+1231 Yonge Street,-79.3925089,43.7113763,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,2018-01-26,FALSE,,,FALSE,
+1259 College Street,-79.4921011,43.7238165,Dufferin Grove,FALSE,,,,,,Roberto Alvarado 5th Avenue Enterprise,,,TRUE,2019-10-08,FALSE,,,FALSE,
+1287 Queen Street West,-79.428813,43.6814123,South Parkdale,FALSE,,,,,,,,,TRUE,2016-11-30,FALSE,,,FALSE,
+129 Arlington Avenue,-79.37155,43.697612,Wychwood,FALSE,,,,,,Chung&Jao Development,,,TRUE,2016-10-25,FALSE,,,FALSE,
+13 Mountview,-79.3476759,43.6899669,High Park North,FALSE,,,,,,Cameus Holdings,,,TRUE,2016-05-09,TRUE,2018,1%,FALSE,
+131 Beecroft Road,-79.4416123,43.7264774,Lansing-Westgate,FALSE,,,,,,Fidelity Property Management,,,TRUE,2018-07-24,FALSE,,,FALSE,
+131 Sultana Avenue,-79.4314797,43.638277,Englemount-Lawrence,FALSE,,,,,,,,,TRUE,2018-10-17,FALSE,,,FALSE,
+1312 King Street West,-79.5373441,43.699481,South Parkdale,FALSE,,,,,,2600546 Ontario,,,TRUE,2020-01-31,FALSE,,,FALSE,
+132 Dixon Road,-79.245031,43.742114,Kingsview Village-The Westway,FALSE,,,,,,,,,TRUE,2020-01-07,FALSE,,,FALSE,
+1320 Kennedy Road,-79.3723302,43.6990336,Dorset Park,FALSE,,,,,,Rockport Group,,,TRUE,2018-02-07,TRUE,2019,0.17%,FALSE,
+1325 Bayview Avenue,-79.2459574,43.7429273,Leaside-Bennington,FALSE,,,,,,Realstar,,,TRUE,2018-03-15,FALSE,,,FALSE,
+137 Roncesvalles Avenue,-79.4338479,43.6374258,Roncesvalles,FALSE,,,,,,Andrew Ng 1676542 Ontario,,,TRUE,2019-10-15,FALSE,,,FALSE,
+14 Auburndale Court,-79.2883268,43.7006077,Elms-Old Rexdale,FALSE,,,,,,Scotch Elms Investments,,,TRUE,"2018-11-08, 2016-12-15",FALSE,,,FALSE,
+14 Bexhill Court,-79.5201936,43.6627237,Clairlea-Birchmount,FALSE,,,,,,Realstar,,,TRUE,2019-04-05,FALSE,,,FALSE,
+14 Meadowbrook Road,-79.437433,43.7422166,Englemount-Lawrence,FALSE,,,,,,,,,TRUE,2018-11-09,FALSE,,,FALSE,
+14 Wadsworth Blvd,-79.4022947,43.6658675,Weston,FALSE,,,,,,Marton Investments,,,TRUE,2017-04-24,FALSE,,,FALSE,
+14 Washington Avenue,-79.374885,43.662984,University,FALSE,,,,,,University Of Toronto Housing Ancillary,,,TRUE,2019-12-10,FALSE,,,FALSE,
+140 Wellesley Street East,-79.4468796,43.6663303,North St.James Town,FALSE,,,,,,965441 Ontario,,,TRUE,2019-01-07,FALSE,,,FALSE,
+141 Roehampton Avenue,-79.2720042,43.6874645,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-04-24,FALSE,,,FALSE,
+1480 Dundas Street East,-79.4000948,43.6693099,South Riverdale,FALSE,,,,,,,,,TRUE,2016-08-15,FALSE,,,FALSE,
+1492 Dundas Street East,-79.5605523,43.6954307,South Riverdale,FALSE,,,,,,,,,TRUE,2016-09-13,FALSE,,,FALSE,
+15 Cannon Road,-79.436179,43.757212,Stonegate-Queensway,FALSE,,,,,,,,,TRUE,2017-04-28,FALSE,,,FALSE,
+15 Elm Avenue,-79.5620213,43.6384478,Rosedale-Moore Park,FALSE,,,,,,O'shanter Development Company,,,TRUE,2021-01-11,FALSE,,,FALSE,
+150 Roehampton Avenue,-79.318037,43.699899,Mount Pleasant West,FALSE,,,,,,Minto Properties,,,TRUE,"2021-02-24, 2018-10-16, 2017-09-11",FALSE,,,FALSE,
+155 Dalhousie Street,-79.4265666,43.6665496,Church-Yonge Corridor,FALSE,,,,,,,,,TRUE,2019-03-06,FALSE,,,FALSE,
+155 Essex Street,-79.4861673,43.7072259,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2018-03-14,FALSE,,,FALSE,
+156 Overbrook Place North,-79.4874995,43.7066399,Bathurst Manor,FALSE,,,,,,,,,TRUE,"2019-11-22, 2018-11-22",FALSE,,,FALSE,
+1598 Bathurst St.,-79.448833,43.649631,Humewood-Cedarvale,FALSE,,,,,,Heathdale Court Apartments,,,TRUE,2016-06-14,TRUE,"2017, 2017","0.4%, 0.4%",FALSE,
+16 Parkway Avenue,-79.2301087,43.7939309,Roncesvalles,FALSE,,,,,,,,,TRUE,"2017-08-08, 2016-07-28",FALSE,,,FALSE,
+16 Purvis Cres East,-79.4377251,43.742278,Malvern,FALSE,,,,,,,,,TRUE,2017-10-12,FALSE,,,FALSE,
+16 Washington Avenue,-79.401004,43.6844973,University,FALSE,,,,,,University Of Toronto Housing Ancillary,,,TRUE,2019-12-10,FALSE,,,FALSE,
+161 Berry Road,-79.4005497,43.6702705,Stonegate-Queensway,FALSE,,,,,,2501990 Ontario,,,TRUE,2020-09-22,FALSE,,,FALSE,
+165 Bathurst Street,-79.3055206,43.7328876,Waterfront Communities-The Island,FALSE,,,,,,Timbercreek/Hazelview,,,TRUE,"2018-11-30, 2017-11-27, 2016-11-08",TRUE,2017,3.66%,FALSE,
+168 Erskine Avenue,-79.400787,43.6708913,Mount Pleasant West,FALSE,,,,,,Korvin Developments,,,TRUE,2018-01-24,FALSE,,,FALSE,
+17 Brookbanks Drive,-79.398818,43.694965,Parkwoods-Donalda,FALSE,,,,,,Hardit,,,TRUE,2019-04-09,FALSE,,,FALSE,
+1755 Jane Street,-79.3080812,43.7396604,Rustic,FALSE,,,,,,Medallion,,,TRUE,2018-08-09,FALSE,,,FALSE,
+176 Mccaul Street,-79.4892156,43.6368242,Kensington-Chinatown,FALSE,,,,,,2287468 Ontario,,,TRUE,2017-03-30,FALSE,,,FALSE,
+18 Twenty Eighth Street,-79.444331,43.713016,Long Branch,FALSE,,,,,,,,,TRUE,2020-09-22,FALSE,,,FALSE,
+18 Elway Crt,-79.4377963,43.7424686,Yorkdale-Glen Park,FALSE,,,,,,,,,TRUE,2017-04-06,FALSE,,,FALSE,
+18 Stafford Street,-79.526988,43.593838,Niagara,FALSE,,,,,,,,,TRUE,2017-08-25,FALSE,,,FALSE,
+180 Sheridan Avenue,-79.3142693,43.6788847,Little Portugal,FALSE,,,,,,The Bill Mcmurray Residence,,,TRUE,2017-11-06,FALSE,,,FALSE,
+1830 Gerrard Street East,-79.504429,43.708091,Woodbine Corridor,FALSE,,,,,,,,,TRUE,2020-08-18,FALSE,,,FALSE,
+189 Millwood Road,-79.4219407,43.6867127,Mount Pleasant West,FALSE,,,,,,,,,TRUE,2019-01-09,FALSE,,,FALSE,
+19 Roseland Drive,-79.274435,43.73257,Alderwood,FALSE,,,,,,,,,TRUE,2018-01-08,FALSE,,,FALSE,
+190 Kingsview Blvd,-79.4207061,43.6485731,Kingsview Village-The Westway,FALSE,,,,,,Capreit,,,TRUE,2016-07-08,FALSE,,,FALSE,
+190 Ossington Avenue,-79.4657677,43.6537133,Trinity-Bellwoods,FALSE,,,,,,,,,TRUE,2020-01-27,FALSE,,,FALSE,
+1908 Bloor Street West,-79.3028381,43.6721112,High Park North,FALSE,,,,,,Orest Kelebay 736963 Ontario,,,TRUE,2019-10-08,FALSE,,,FALSE,
+191 Medland Street,-79.466404,43.653596,Junction Area,FALSE,,,,,,,,,TRUE,2020-06-25,FALSE,,,FALSE,
+1920 Weston Road,-79.422216,43.686923,Weston,FALSE,,,,,,1906-1930 Weston Road,,,TRUE,2020-03-04,FALSE,,,FALSE,
+1993 Danforth Avenue,-79.4137965,43.67003,Woodbine Corridor,FALSE,,,,,,,,,TRUE,2017-10-31,FALSE,,,FALSE,
 2 Armel Court,-79.5455131,43.7222312,Elms-Old Rexdale,FALSE,,,,,,Myriad Property Management,,,TRUE,2019-03-01,FALSE,,,FALSE,
 2 Boulton Avenue,-79.3468718,43.6596589,South Riverdale,FALSE,,,,,,Queen&Boulton,,,TRUE,"2018-11-02, 2016-08-30",FALSE,,,FALSE,
 2 Goodwood Park Crescent,-79.3001995,43.6947381,Taylor-Massey,FALSE,,,,,,Capreit,,,TRUE,2018-04-16,FALSE,,,FALSE,
@@ -4058,18 +4037,18 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 282 Silverstone Drive,-79.5997373,43.7495648,West Humber-Clairville,FALSE,,,,,,Capreit,,,TRUE,2017-02-16,FALSE,,,FALSE,
 286 Spadina Road,-79.4092969,43.6797311,Casa Loma,FALSE,,,,,,,,,TRUE,2019-11-21,FALSE,,,FALSE,
 2881 Dundas Street West,-79.46556,43.6651721,Junction Area,FALSE,,,,,,2881 Dundas Street,,,TRUE,2016-07-27,FALSE,,,FALSE,
-295 Dufferin Street,-79.427392,43.639674,South Parkdale,FALSE,,,,,,Starlight Investments,,,TRUE,2018-09-11,FALSE,,,FALSE,
-2960 Don Mills Road,-79.352584,43.781198,Don Valley Village,FALSE,,,,,,Cando Apartments,,,TRUE,2017-01-04,FALSE,,,FALSE,
-29A Alcan Avenue,-79.544411,43.5940533,Alderwood,FALSE,,,,,,,,,TRUE,2017-03-14,FALSE,,,FALSE,
+29A Alcan Avenue,-79.429215,43.7145372,Alderwood,FALSE,,,,,,,,,TRUE,2017-03-14,FALSE,,,FALSE,
+295 Dufferin Street,-79.352584,43.781198,South Parkdale,FALSE,,,,,,Starlight Investments,,,TRUE,2018-09-11,FALSE,,,FALSE,
+2960 Don Mills Road,-79.465394,43.656843,Don Valley Village,FALSE,,,,,,Cando Apartments,,,TRUE,2017-01-04,FALSE,,,FALSE,
 3 Chestnut Hills Crescent,-79.5258606,43.6531322,Edenbridge-Humber Valley,FALSE,,,,,,,,,TRUE,2016-10-31,FALSE,,,FALSE,
 3 Rean Drive,-79.382348,43.765122,Bayview Village,FALSE,,,,,,,,,TRUE,2019-05-22,FALSE,,,FALSE,
 3 Washington Avenue,-79.4016491,43.66558,University,FALSE,,,,,,,,,TRUE,2017-01-11,FALSE,,,FALSE,
-30 1/2 Macaulay Avenue,-79.4524326,43.661754,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2017-01-31,FALSE,,,FALSE,
-30 Elm Avenue,-79.3778054,43.6755537,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,"2019-04-08, 2018-12-12",FALSE,,,FALSE,
-30 Elm Street,-79.3832993159472,43.6575818705324,Bay Street Corridor,FALSE,,,,,,30 Elm Avenue Co-Ownership,,,TRUE,2018-12-12,FALSE,,,FALSE,
-30 Grand Trunk Crescent,-79.382773,43.642278,Waterfront Communities-The Island,FALSE,,,,,,,,,TRUE,2019-04-15,FALSE,,,FALSE,
-30 Harrison Garden Blvd,-79.408375,43.756296,Willowdale East,FALSE,,,,,,,,,TRUE,2018-01-19,FALSE,,,FALSE,
-30-75 Leacrest Rd,-79.3667568,43.6971461,Leaside-Bennington,FALSE,,,,,,Crestview Investment,,,TRUE,2018-02-06,TRUE,2019,0.46%,FALSE,
+30 Elm Avenue,-79.403372,43.70653,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,"2019-04-08, 2018-12-12",FALSE,,,FALSE,
+30 Elm Street,-79.3778054,43.6755537,Bay Street Corridor,FALSE,,,,,,30 Elm Avenue Co-Ownership,,,TRUE,2018-12-12,FALSE,,,FALSE,
+30 Grand Trunk Crescent,-79.2565311,43.7371482,Waterfront Communities-The Island,FALSE,,,,,,,,,TRUE,2019-04-15,FALSE,,,FALSE,
+30 Harrison Garden Blvd,-79.382773,43.642278,Willowdale East,FALSE,,,,,,,,,TRUE,2018-01-19,FALSE,,,FALSE,
+30-75 Leacrest Rd,-79.408375,43.756296,Leaside-Bennington,FALSE,,,,,,Crestview Investment,,,TRUE,2018-02-06,TRUE,2019,0.46%,FALSE,
+30 1/2 Macaulay Avenue,-79.2429313,43.7401282,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,TRUE,2017-01-31,FALSE,,,FALSE,
 300 Bloor Street East,-79.379881,43.672141,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,2017-09-20,FALSE,,,FALSE,
 300 St. Clair Ave. East,-79.3817072,43.6909751,Rosedale-Moore Park,FALSE,,,,,,Jolamar Investments And Enterprises,,,TRUE,2017-04-03,FALSE,,,FALSE,
 304 South Kingsway,-79.4852143,43.6477039,High Park-Swansea,FALSE,,,,,,,,,TRUE,"2020-10-05, 2019-01-17",FALSE,,,FALSE,
@@ -4096,8 +4075,8 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 36 Sussex Avenue,-79.4017132,43.6651004,University,FALSE,,,,,,University Of Toronto Housing Ancillary,,,TRUE,2017-12-07,FALSE,,,FALSE,
 363 Clinton Street,-79.417006,43.664049,Annex,FALSE,,,,,,,,,TRUE,2019-08-02,FALSE,,,FALSE,
 365 Church Street,-79.378677,43.661072,Church-Yonge Corridor,FALSE,,,,,,,,,TRUE,2018-11-06,FALSE,,,FALSE,
-371 St Clarens Avenue,-79.4404342,43.6562715,Dufferin Grove,FALSE,,,,,,,,,TRUE,2018-11-26,FALSE,,,FALSE,
-37A Valley Woods Road,-79.3312301,43.75488,Parkwoods-Donalda,FALSE,,,,,,Realstar,,,TRUE,2020-02-04,FALSE,,,FALSE,
+37A Valley Woods Road,-79.440825,43.704639,Parkwoods-Donalda,FALSE,,,,,,Realstar,,,TRUE,2020-02-04,FALSE,,,FALSE,
+371 St Clarens Avenue,-79.300863,43.782362,Dufferin Grove,FALSE,,,,,,,,,TRUE,2018-11-26,FALSE,,,FALSE,
 38 Avoca Avenue,-79.3899708,43.6887517,Rosedale-Moore Park,FALSE,,,,,,,,,TRUE,2018-04-20,FALSE,,,FALSE,
 38 Elm Street,-79.384219,43.657868,Bay Street Corridor,FALSE,,,,,,,,,TRUE,2018-11-28,FALSE,,,FALSE,
 38 Elway Court,-79.4447329,43.7138182,Yorkdale-Glen Park,FALSE,,,,,,,,,TRUE,2018-08-15,FALSE,,,FALSE,
@@ -4120,8 +4099,8 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 46 Romfield Drive,-79.4911365,43.7624049,York University Heights,FALSE,,,,,,Fidelity Property Management,,,TRUE,2019-02-12,FALSE,,,FALSE,
 462 Horner Avenue,-79.541587,43.6028219,Alderwood,FALSE,,,,,,,,,TRUE,2017-12-29,FALSE,,,FALSE,
 48 Emerald Crescent,-79.5038851,43.5960033,New Toronto,FALSE,,,,,,,,,TRUE,2019-06-28,FALSE,,,FALSE,
-49 Primrose Avenue,-79.4914397,43.6145336,Mimico (includes Humber Bay Shores),FALSE,,,,,,,,,TRUE,2018-10-18,FALSE,,,FALSE,
-49 Sixteenth Street West,-79.5156329,43.6006776,New Toronto,FALSE,,,,,,,,,TRUE,2018-09-04,FALSE,,,FALSE,
+49 Sixteenth Street West,-79.4914397,43.6145336,New Toronto,FALSE,,,,,,,,,TRUE,2018-09-04,FALSE,,,FALSE,
+49 Primrose Avenue,-79.5156329,43.6006776,Mimico (includes Humber Bay Shores),FALSE,,,,,,,,,TRUE,2018-10-18,FALSE,,,FALSE,
 5 Cheviot Place,-79.5498065,43.6766694,Princess-Rosethorn,FALSE,,,,,,Starlight Investments,,,TRUE,2019-04-05,FALSE,,,FALSE,
 5 Douglas Blvd,-79.4889039,43.6101881,Mimico (includes Humber Bay Shores),FALSE,,,,,,Capreit,,,TRUE,2016-11-30,TRUE,2019,2.55%,FALSE,
 5 St. Joseph Street,-79.385537,43.665799,Bay Street Corridor,FALSE,,,,,,,,,TRUE,2017-12-05,FALSE,,,FALSE,
@@ -4185,8 +4164,8 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 87 Northcliffe Blvd,-79.4402629,43.6777197,Corso Italia-Davenport,FALSE,,,,,,,,,TRUE,2018-12-04,FALSE,,,FALSE,
 874 Millwood Road,-79.3648216,43.7039552,Leaside-Bennington,FALSE,,,,,,,,,TRUE,2020-01-27,FALSE,,,FALSE,
 878 Millwood Road,-79.3645405,43.7038583,Leaside-Bennington,FALSE,,,,,,Millwood Property,,,TRUE,2017-10-04,FALSE,,,FALSE,
-88 Cassandra Blvd,-79.3319265,43.7482289,Parkwoods-Donalda,FALSE,,,,,,Capreit,,,TRUE,"2017-03-24, 2016-02-24",FALSE,,,FALSE,
-88 Thirty-eight Street,-79.539456,43.592584,Long Branch,FALSE,,,,,,,,,TRUE,2017-10-31,FALSE,,,FALSE,
+88 Thirty-eight Street,-79.3319265,43.7482289,Long Branch,FALSE,,,,,,,,,TRUE,2017-10-31,FALSE,,,FALSE,
+88 Cassandra Blvd,-79.396017,43.712343,Parkwoods-Donalda,FALSE,,,,,,Capreit,,,TRUE,"2017-03-24, 2016-02-24",FALSE,,,FALSE,
 89 Degrassi Street,-79.346501,43.6620514,South Riverdale,FALSE,,,,,,,,,TRUE,2018-02-02,FALSE,,,FALSE,
 9 Badgerow Avenue,-79.3413142,43.666172,South Riverdale,FALSE,,,,,,,,,TRUE,2018-04-26,FALSE,,,FALSE,
 9 Douglas Blvd,-79.4890921,43.6102024,Mimico (includes Humber Bay Shores),FALSE,,,,,,Capreit,,,TRUE,2016-11-30,TRUE,2019,2.55%,FALSE,
