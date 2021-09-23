@@ -17,3 +17,4 @@ README_cache/
 *.xls
 *.xlsx
 .Renviron
+!data-raw/data_and_definitions/data_and_definitions.xlsx

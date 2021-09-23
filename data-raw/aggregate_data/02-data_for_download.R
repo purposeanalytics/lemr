@@ -61,8 +61,8 @@ lem <- neighbourhoods[["lem"]] %>%
 neighbourhoods$lem <- NULL
 neighbourhoods <- append(neighbourhoods, lem)
 
-## Rename n to value in agi and tdf ----
-neighbourhoods[c("agi", "tdf")] <- neighbourhoods[c("agi", "tdf")] %>%
+## Rename n to value tdf ----
+neighbourhoods["tdf"] <- neighbourhoods["tdf"] %>%
   map(rename, value = n)
 
 ## Remove total, market, and market value in rental supply ----
@@ -115,6 +115,7 @@ clean_variable_names <- tribble(
   "agi", "Above guideline increase applications", "#",
   "tdf", "Tenant Defense Fund grants", "#",
   "evictions", "Evictions", "%",
+  "rooming_houses", "Rooming houses", "#",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
 )

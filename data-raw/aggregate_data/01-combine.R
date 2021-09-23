@@ -16,6 +16,7 @@
 # Apartment buildings / units via points_layers/apartment_building_registry/
 # RentSafeTO Scores via points_layers/apartment_building_evaluation/
 # AGI and Tenant Defense Fund via points_layers/agi_and_tenant_defense_fund/
+# Rooming houses via points_layers/rooming_houses/
 
 library(dplyr)
 library(purrr)
@@ -105,6 +106,7 @@ units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apart
 
 apartments_by_type_by_neighbourhood <- lemur::buildings %>%
   as_tibble() %>%
+  filter(apartment) %>%
   group_by(neighbourhood, group = property_type) %>%
   summarise(
     buildings = n(),
@@ -145,15 +147,24 @@ median_score_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers",
 # AGI / TDF -----
 
 tdf_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_by_neighbourhood.rds")) %>%
-  select(-n_agi) %>%
   split(.$neighbourhood)
 
 agi_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_by_neighbourhood.rds")) %>%
-  select(-value) %>%
   split(.$neighbourhood)
 
 agi_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))
 tdf_city <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_city.rds"))
+
+# Rooming houses ----
+
+rooming_houses_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "rooming_houses", "aggregate", "rooming_houses_by_neighbourhood.rds"))
+
+rooming_houses_city <- rooming_houses_by_neighbourhood %>%
+  group_by(group) %>%
+  summarise(value = sum(value))
+
+rooming_houses_by_neighbourhood <- rooming_houses_by_neighbourhood %>%
+  split(.$neighbourhood)
 
 # Make aggregate data set ----
 
@@ -185,6 +196,7 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["apartment_building_evaluation"]] <- median_score_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["agi"]] <- agi_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["tdf"]] <- tdf_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["rooming_houses"]] <- rooming_houses_by_neighbourhood[[i]]
 
   neighbourhood_aggregate[[i]] <- neighbourhood_aggregate_i
 }
@@ -215,6 +227,7 @@ city_aggregate[["apartment_building_evaluation"]] <- median_score_city[["value"]
 city_aggregate[["apartment_building_evaluation_distribution"]] <- apartment_building_evaluation_distribution
 city_aggregate[["agi"]] <- agi_city
 city_aggregate[["tdf"]] <- tdf_city
+city_aggregate[["rooming_houses"]] <- rooming_houses_city
 
 # Save data sets ----
 
