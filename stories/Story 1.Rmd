@@ -37,7 +37,7 @@ agi_tdf <- buildings_layers %>%
 agi_tdf
 ```
 
-```{r}
+```{r eval = FALSE}
 agi_tdf <- mutate(agi_tdf, top3 = rank(-agi_ratio) %in% 1:5)
 
 plotly::ggplotly(
@@ -51,7 +51,7 @@ plotly::ggplotly(
 ```
 
 
-```{r}
+```{r dpi = 300}
 
 agi_tdf <- agi_tdf %>% mutate(top3 = case_when(neighbourhood == 'Yonge-St.Clair' ~ TRUE,
                                                neighbourhood == 'Broadview North' ~ TRUE,
