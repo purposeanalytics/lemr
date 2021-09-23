@@ -110,14 +110,14 @@ reinf_shap <- proximity_layers %>%
  
 ```{r}
 plotly::ggplotly(
-  ggplot(reinf_shap, aes(core_housing_need, `market_prop_Other Non-Market`, colour = `eviction_rate`)) +
+  ggplot(reinf_shap, aes(core_housing_need, `eviction_rate`, colour = `market_prop_Other Non-Market`)) +
     geom_point(aes(size = Total_Total, text = neighbourhood)) +
     ggrepel::geom_label_repel(data = reinf_shap, aes(label=neighbourhood), size= 2.5) +
     #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
     geom_vline(xintercept = .365) +
-    geom_hline(yintercept = .128) +
-    xlim(0, .7) +
-    ylim(0, .7) +
+    geom_hline(yintercept = .043) +
+    #xlim(0, .7) +
+    #ylim(0, .7) +
     #geom_abline(a = 1) +
     theme_bw()+
     theme(legend.position = 'None'),
@@ -140,7 +140,7 @@ graph_prox <- prox_pick %>% filter(Total_Total > 100, number_of_buildings >= 10)
 
 plotly::ggplotly(
   ggplot(graph_prox, aes(value, `Total_Total`, colour = eviction_rate)) +
-    geom_point(size = 3) +
+    geom_point(aes(size = 2, text = neighbourhood)) +
     ggrepel::geom_label_repel(data = graph_prox, aes(label=neighbourhood), size= 2.5) +
     #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
     geom_hline(yintercept = 250) +
@@ -154,5 +154,42 @@ plotly::ggplotly(
 
 ```{r}
 prox_pick %>% filter(Total_Total == 400)
+```
+
+
+```{r}
+triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0,1))
+texts <- tibble(
+  x = c(-.025,1.05,.5),
+  y = c(0,0,1.025),
+  text = c("Low", "Medium","High"))
+
+woburn <- prox_pick %>% filter(neighbourhood == 'Annex')
+
+#woburn <- tibble(name =  c('High','Medium','Low'),
+#  value = c(1,0,0),
+#  neighbourhood  = c('Annex','Annex','Annex'))
+
+
+
+pos <-  woburn %>% select("name","value", "neighbourhood")
+pos <- pos %>% mutate(loc = value*sin(0.5236)/sin(1.0472))
+
+
+positions <- tibble(
+         neighbourhood = pos$neighbourhood,
+         x = as.numeric(1 - (pos[which(pos$name == "Low"),"loc"]*-1 
+                  + pos[which(pos$name == "Medium"),"loc"] + pos[which(pos$name == "High"),"loc"])),
+         y = as.numeric(pos[which(pos$name == "High"),"value"]))
+
+ggplot(positions, aes(x = x, y = y)) +
+  geom_point(size = 2) +
+  geom_text(label = positions$neighbourhood) +
+  geom_text(data = texts, aes(label = text)) +
+  geom_polygon(data = triangle,aes(x = polygon_x, y=polygon_y), fill = NA,colour = 'black') +
+  xlim(-.1,1.1) +
+  ylim(-.1,1.1) +
+  theme_void()
+  
 ```
 
