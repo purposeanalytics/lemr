@@ -158,38 +158,78 @@ prox_pick %>% filter(Total_Total == 400)
 
 
 ```{r}
-triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0,1))
+triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0, sqrt(3)/2))
 texts <- tibble(
   x = c(-.025,1.05,.5),
-  y = c(0,0,1.025),
+  y = c(0,0,sqrt(3)/2 + .03),
   text = c("Low", "Medium","High"))
 
 woburn <- prox_pick %>% filter(neighbourhood == 'Annex')
 
-#woburn <- tibble(name =  c('High','Medium','Low'),
-#  value = c(1,0,0),
-#  neighbourhood  = c('Annex','Annex','Annex'))
-
-
-
-pos <-  woburn %>% select("name","value", "neighbourhood")
-pos <- pos %>% mutate(loc = value*sin(0.5236)/sin(1.0472))
+pos <-  woburn %>% select("name","value", "neighbourhood", "Total_Total")
 
 
 positions <- tibble(
-         neighbourhood = pos$neighbourhood,
-         x = as.numeric(1 - (pos[which(pos$name == "Low"),"loc"]*-1 
-                  + pos[which(pos$name == "Medium"),"loc"] + pos[which(pos$name == "High"),"loc"])),
-         y = as.numeric(pos[which(pos$name == "High"),"value"]))
-
+  neighbourhood = pos$neighbourhood,
+  Total_Total = pos$Total_Total,
+  x = as.numeric((1/2) * (((2*pos[which(pos$name == "Medium"),"value"]) + pos[which(pos$name == "High"),"value"])/
+                            (pos[which(pos$name == "Low"),"value"] + pos[which(pos$name == "Medium"),"value"]
+                             + pos[which(pos$name == "High"),"value"]))),
+  y = as.numeric(((sqrt(3)/2) * (pos[which(pos$name == "High"),"value"] / 
+                            (pos[which(pos$name == "Low"),"value"] + pos[which(pos$name == "Medium"),"value"]
+                             + pos[which(pos$name == "High"),"value"])))))
+           
 ggplot(positions, aes(x = x, y = y)) +
-  geom_point(size = 2) +
+  geom_point(aes(size = Total_Total/100)) +
   geom_text(label = positions$neighbourhood) +
   geom_text(data = texts, aes(label = text)) +
   geom_polygon(data = triangle,aes(x = polygon_x, y=polygon_y), fill = NA,colour = 'black') +
   xlim(-.1,1.1) +
   ylim(-.1,1.1) +
   theme_void()
-  
+
+```
+
+```{r}
+triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0, sqrt(3)/2))
+texts <- tibble(
+  x = c(-.025,1.05,.5),
+  y = c(0,0,sqrt(3)/2 + .03),
+  text = c("Low", "Medium","High"))
+
+woburn <- proximity_layers %>% 
+  select(neighbourhood, High, Medium, Low, `Total_Total`, number_of_buildings) #%>% filter(neighbourhood == 'Annex')
+
+pos <-  woburn 
+
+ternary <- as_tibble()
+for (i in seq(from = 1, to = nrow(pos))){
+  positions <- tibble(
+    neighbourhood = pos$neighbourhood[i],
+    number_of_buildings = pos$number_of_buildings[i],
+    Total_Total = pos$Total_Total[i],
+    x = as.numeric((1/2) * (((2*pos$Medium[i]) + pos$High[i])/
+                              (pos$Low[i] + pos$Medium[i] + pos$High[i]))),
+    y = as.numeric(((sqrt(3)/2) * (pos$High[i] / 
+                              (pos$Low[i] + pos$Medium[i] + pos$High[i]))))
+    )
+  for (i in nrow(positions)) {
+    ternary <- rbind(ternary, positions)}
+}
+ternary
+```
+
+```{r}
+ternary_plot <- ternary %>% filter(number_of_buildings > 20)
+
+ggplot(ternary_plot, aes(x = x, y = y)) +
+  geom_point(aes(size = Total_Total/100)) +
+  geom_text(label = ternary_plot$neighbourhood, size = 1) +
+  geom_text(data = texts, aes(label = text)) +
+  geom_polygon(data = triangle,aes(x = polygon_x, y=polygon_y), fill = NA,colour = 'black') +
+  xlim(-.1,1.1) +
+  ylim(-.1,1.1) +
+  theme_void()
+
 ```
 
