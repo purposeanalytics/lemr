@@ -23,7 +23,7 @@ agi_tdf_buildings <- agi_applications_and_tdf %>%
   as_tibble() %>%
   select(address, bing_address, neighbourhood, tdf) %>%
   mutate(agi = TRUE) %>%
-  group_by(bing_address) %>%
+  group_by(address) %>%
   mutate(tdf = any(tdf)) %>%
   ungroup() %>%
   distinct() %>%
@@ -125,3 +125,4 @@ saveRDS(tdf_by_neighbourhood, here::here("data-raw", "points_layers", "agi_and_t
 saveRDS(agi_by_neighbourhood, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_by_neighbourhood.rds"))
 saveRDS(agi_city, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))
 saveRDS(tdf_city, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_city.rds"))
+

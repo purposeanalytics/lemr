@@ -3,6 +3,7 @@
 library(dplyr)
 library(tidyr)
 library(sf)
+library(janitor)
 devtools::load_all()
 
 agi_applications <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "clean", "agi_applications.rds"))
@@ -45,6 +46,35 @@ agi_applications_tdf <- agi_applications_tdf %>%
     bing_longitude = coalesce(bing_longitude_agi, bing_longitude_tdf)
   ) %>%
   select(-ends_with("_agi"), -ends_with("_tdf"))
+
+# Combine some inconsistent addresses
+agi_applications_tdf %>%
+  distinct(address, bing_address) %>%
+  get_dupes(bing_address) %>%
+  arrange(bing_address)
+
+agi_applications_tdf <- agi_applications_tdf %>%
+  mutate(address = case_when(
+    address == "10 Roanoke" ~ "10 Roanoke Road",
+    address == "11 Dervock Crescent" ~ "11 Dervock Cresc.",
+    address == "12 Bexhill Court" ~ "12 Bexhill Crt.",
+    address == "1340 Danforth Road" ~ "1340 Danforth Rd.",
+    address == "135 Rose Avenue" ~ "135 Rose Ave.",
+    address == "1350 Danforth Road" ~ "1350 Danforth Rd.",
+    address == "1360 Danforth Road" ~ "1360 Danforth Rd.",
+    address == "15 Eva Road" ~ "15 Eva Rd.",
+    address == "19 Rosemount" ~ "19 Rosemount Drive",
+    address == "2001 Bloor Street West" ~ "2001 Bloor St. W.",
+    address == "207 Morningside Avenue" ~ "207 Morningside Ave.",
+    address == "21 Vaughan rd." ~ "21 Vaughan Road",
+    address == "2493 Lakeshore Blvd" ~ "2493 Lakeshore Blvd W",
+    address %in% c("2700 Lawrence Avenue East", "2700 Lawrence Ave. E.") ~ "2700 Lawrence Ave. E",
+    address == "2702 Lawrence Avenue East" ~ "2702 Lawrence Ave. E",
+    address == "3000 Victoria Park Avenue" ~ "3000 Victoria Park Ave.",
+    address == "45 Dunfield Avenue" ~ "45 Dunfield Ave.",
+    address == "8 Roanoke" ~ "8 Roanoke Road",
+    TRUE ~ address
+  ))
 
 # Make spatial
 agi_applications_and_tdf <- agi_applications_tdf %>%

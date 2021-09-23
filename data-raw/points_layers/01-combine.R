@@ -90,8 +90,8 @@ agi_applications <- agi_applications_and_tdf %>%
   summarise(
     geometry = geometry,
     date_agi_initiated = paste(na.omit(unique(date_agi_initiated)), collapse = ", "),
-    tdf_year = paste(na.omit(tdf_year), collapse = ", "),
-    reduced_increase_by = paste(na.omit(reduced_increase_by), collapse = ", "),
+    tdf_year = paste(na.omit(unique(tdf_year)), collapse = ", "),
+    reduced_increase_by = paste(na.omit(unique(reduced_increase_by)), collapse = ", "),
     .groups = "drop"
   ) %>%
   distinct() %>%
@@ -124,7 +124,8 @@ buildings <- buildings %>%
 # Except for address, since different addresses may be geocoded to the same place - prefer to keep them distinct
 buildings <- buildings %>%
   mutate(
-    address = coalesce(address_rooming_houses, address_apt, address_agi),
+    address = case_when(apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
+                        TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)),
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
     X = coalesce(X_apt, X_agi, X_rooming_houses),
     Y = coalesce(Y_apt, Y_agi, Y_rooming_houses),

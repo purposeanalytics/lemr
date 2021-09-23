@@ -55,7 +55,7 @@ agi_applications_addresses_geocoded <- agi_applications_addresses %>%
     })
   )
 
-# Separate results from errors
+ # Separate results from errors
 agi_applications_addresses_geocoded <- agi_applications_addresses_geocoded %>%
   mutate(
     address_geocode = map(address_geocode, "result"),
