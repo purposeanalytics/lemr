@@ -26,6 +26,8 @@ agi_tdf_buildings <- agi_applications_and_tdf %>%
   group_by(address) %>%
   mutate(tdf = any(tdf)) %>%
   ungroup() %>%
+  # One exception! 65A Hillside Drive in AGI, but only appears once, as 65 Hillside Drive, in registry
+  mutate(address = recode(address, "65A Hillside Drive" = "65 Hillside Drive")) %>%
   distinct() %>%
   # Left join instead of flagging based on address to account for multiple buildings at an address
   left_join(apartment_building_registry, by = c("bing_address", "neighbourhood")) %>%
