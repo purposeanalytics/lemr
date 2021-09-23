@@ -22,7 +22,7 @@ mod_aggregate_layer_ui <- function(id) {
             ~ generate_conditional_tooltip(.x, ns = ns)
           )
         ),
-        shiny::selectInput(inputId = ns("layer"), label = NULL, choices = stats::setNames(names(aggregate_layers_choices), unname(aggregate_layers_choices)), selected = "lem", multiple = FALSE)
+        shinyWidgets::pickerInput(inputId = ns("layer"), label = NULL, choices = aggregate_layers_choices_grouped, selected = "lem", multiple = FALSE)
       )
     ),
     shiny::fluidRow(
@@ -155,7 +155,21 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Rental supply: Primary market rentals", rental_supply_condo = "Rental supply: Condominium rentals", rental_supply_non_condo = "Rental supply: Non-condominium secondary market rentals", rental_supply_non_market = "Rental supply: Non market rentals", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to services")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to services")
+
+rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
+
+rental_supply_layers_list <- aggregate_layers_choices[names(aggregate_layers_choices) %in% rental_supply_layers]
+
+rental_supply_layers_list <- stats::setNames(names(rental_supply_layers_list), unname(rental_supply_layers_list))
+
+rental_supply_layers_list <- list("Rental supply" = rental_supply_layers_list)
+
+non_rental_supply_layers_list <- aggregate_layers_choices[!names(aggregate_layers_choices) %in% rental_supply_layers]
+
+non_rental_supply_layers_list <- stats::setNames(names(non_rental_supply_layers_list), unname(non_rental_supply_layers_list))
+
+aggregate_layers_choices_grouped <- append(non_rental_supply_layers_list, rental_supply_layers_list)
 
 popup_icon <- shiny::tags$i(class = "far fa-question-circle", role = "presentation", `aria-label` = "question-circle icon", style = "color: var(--grey-color);")
 

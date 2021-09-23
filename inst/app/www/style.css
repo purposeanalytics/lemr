@@ -206,6 +206,11 @@ body > .container-fluid {
   hyphens: overflow;
 }
 
+.btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
+  background-color: transparent !important;
+  border-color: var(--grey-color)
+}
+
 /* Download modal box */
 
 .modal-content {

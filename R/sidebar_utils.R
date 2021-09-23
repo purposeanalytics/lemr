@@ -112,7 +112,7 @@ rental_supply_plot <- function(data) {
 }
 
 rental_supply_table <- function(data, market) {
-  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units"))
+  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units:"))
 
   data <- data[["rental_supply"]] %>%
     dplyr::filter(market == !!market) %>%
