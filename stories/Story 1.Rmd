@@ -2,8 +2,7 @@
 title: "Stories1"
 date: "9/16/2021"
 output:
-  pdf_document: default
-  html_document: default
+  github_document: default
 always_allow_html: true
 ---
 
@@ -15,10 +14,12 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
 library(dplyr)
 library(readr)
 library(ggplot2)
+library(sf)
 ```
 
 ```{r load}
-buildings_layers <- read_csv(here::here('stories/data/buildings_layers.csv'))
+buildings_layers <- lemur::buildings %>% as_tibble() %>% 
+  filter(apartment, property_type == 'Privately owned')
 ```
 
 
@@ -41,7 +42,7 @@ agi_tdf <- mutate(agi_tdf, top3 = rank(-agi_ratio) %in% 1:5)
 
 plotly::ggplotly(
   ggplot(agi_tdf, aes(agi_ratio, tdf_ratio)) +
-    geom_point(size = agi_tdf$reduced_increase_by_avg * 300, aes(color = top3, fill = neighbourhood)) +
+    geom_point(size = agi_tdf$Count /10, aes(color = top3, fill = neighbourhood)) +
     ggrepel::geom_label_repel(data = agi_tdf %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
     scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
     theme_bw()+
