@@ -137,5 +137,9 @@ apartment_building_registry %>%
   as_tibble() %>%
   count(property_type)
 
+# Remove one known issue - 40-50 Alexander St appears 3 times, but is only actually 2 buildings
+apartment_building_registry <- apartment_building_registry %>%
+  filter(rsn != 4167698)
+
 # Save
 saveRDS(apartment_building_registry, here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
