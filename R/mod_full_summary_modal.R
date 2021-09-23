@@ -86,7 +86,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
                   shiny::textOutput(ns("evictions_description")),
                   shiny::uiOutput(ns("evictions_plot_ui")),
                   shiny::hr(),
-                  shiny::h3("Amenity density"),
+                  shiny::h3("Proximity to services"),
                   shiny::textOutput(ns("amenity_density_description")),
                   shiny::uiOutput(ns("amenity_density_plot_ui")),
                   shiny::htmlOutput(ns("amenity_density_table")),
@@ -444,8 +444,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       })
 
       output$amenity_density_table <- shiny::renderText({
-        generate_table(dataset(), "amenity_density", compare(), "Amenity density", "Percent") %>%
-          kableExtra::footnote(general = "A very small number of areas have unknown amenity density, so values may not add up to 100%.")
+        generate_table(dataset(), "amenity_density", compare(), "Proximity to services", "Percent") %>%
+          kableExtra::footnote(general = "A very small number of areas have unknown proximity to services, so values may not add up to 100%.")
       }) %>%
         shiny::bindCache(level(), neighbourhood())
 
