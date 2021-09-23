@@ -60,6 +60,7 @@ buildings <- buildings %>%
 # For now, just take property management if it's there, and if not, use landlord
 
 # Combine multiple AGI dates, and take the latest non-NA landlord
+# Same with address! Just get the latest address, in case they're in different formats
 latest_agi_landlord <- agi_applications_and_tdf %>%
   as_tibble() %>%
   filter(!is.na(landlord)) %>%

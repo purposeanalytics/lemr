@@ -20,6 +20,16 @@ agi_applications <- agi_applications %>%
     id = row_number()
   )
 
+# Fix one address with NA street number and that's just an intersection
+# Found the actual address via https://www.hpta.ca/updates/gwl-realty-case-hearing-tsl-95773-18-update-35-65-amp-95-high-park-ave-and-66-pacific-ave
+# Case number match
+
+agi_applications <- agi_applications %>%
+  mutate(address_for_geocoding = case_when(
+    address_for_geocoding == "NA High Park & Pacific Avenue, Toronto, ON M6P2R6" ~ glue::glue("66 Pacific Avenue, Toronto, ON M6P 2P4"),
+    TRUE ~ address_for_geocoding
+  ))
+
 agi_applications_addresses <- agi_applications %>%
   distinct(address_for_geocoding)
 
@@ -73,7 +83,8 @@ agi_applications_addresses_geocoded_still_404 <- agi_applications_addresses_geoc
     fixed_address_for_geocoding = case_when(
       address_for_geocoding == "30 1/2 Macaulay Avenue, Toronto, ON M6P3P6" ~ "30 Macaulay Avenue, Toronto, ON M6P3P6",
       address_for_geocoding == "409 1/2 Roncesvalles Avenue, Toronto, ON M6R2N1" ~ "409 Roncesvalles Ave, Toronto, ON M6R 2N1",
-      address_for_geocoding == "NA Crestview Apts (leacrest & Mallory), Toronto, ON M4G1E6" ~ "30-75 Leacrest Rd, Toronto, ON M4G 1E6"
+      address_for_geocoding == "NA Crestview Apts (leacrest & Mallory), Toronto, ON M4G1E6" ~ "30-75 Leacrest Rd, Toronto, ON M4G 1E6",
+      address_for_geocoding == "25 San Romano Way, Toronto, ON M3N2Z1" ~ "25 San Romanoway, Toronto, ON M3N2Z1"
     )
   ) %>%
   select(address_for_geocoding, fixed_address_for_geocoding) %>%

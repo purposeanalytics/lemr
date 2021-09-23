@@ -23,4 +23,9 @@ agi_applications <- all_evictions %>%
   ) %>%
   select(-`1`)
 
+# Limit to the last 5 years - 2016 on
+
+agi_applications <- agi_applications %>%
+  filter(date_initiated >= "2016-01-01")
+
 saveRDS(agi_applications, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "agi", "extract", "agi_applications.rds"))

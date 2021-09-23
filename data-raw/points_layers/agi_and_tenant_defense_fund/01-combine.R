@@ -60,8 +60,4 @@ agi_applications_and_tdf <- agi_applications_and_tdf %>%
 agi_applications_and_tdf <- agi_applications_and_tdf %>%
   select(case_number, address, bing_address, landlord, neighbourhood, date_agi_initiated, tdf, tdf_year, reduced_increase_by, geometry)
 
-# Limit to the last 5 years - 2016 onwards
-agi_applications_and_tdf <- agi_applications_and_tdf %>%
-  filter(date_agi_initiated >= "2016-01-01")
-
 saveRDS(agi_applications_and_tdf, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))
