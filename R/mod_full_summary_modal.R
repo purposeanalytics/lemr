@@ -10,162 +10,167 @@ mod_full_summary_modal_ui <- function(id) {
 
   shiny::showModal(
     shiny::div(
-    class = "full-summary-modal",
-    shiny::modalDialog(
-      style = "margin-top: 2em; margin-left: 3em; margin-right: 3em;",
-      easyClose = TRUE,
-      footer = NULL,
-      size = "l",
-      shiny::fluidRow(
-        shiny::column(
-          width = 12,
-          shiny::modalButton("Close"),
-          shiny::h1(shiny::textOutput(ns("header")))
-        )
-      ),
-      shiny::fluidRow(
-        shiny::column(
-          width = 12,
-          shiny::hr(),
-          shiny::div(
-            class = "modal-col",
-            mod_legend_ui(ns("legend")),
-            shiny::h2("Summary statistics"),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                class = "modal-summary-statistics",
-                shiny::htmlOutput(ns("summary_statistics"))
-              ),
-              shiny::column(
-                width = 12,
-                shiny::hr(),
-                shiny::h2("Estimated rental supply"),
-                shiny::uiOutput(ns("rental_supply_plot_ui"))
-              ),
-              shiny::column(
-                width = 6,
-                class = "modal-summary-statistics",
-                shiny::uiOutput(ns("rental_supply_primary_table"))
-              ),
-              shiny::column(
-                width = 6,
-                class = "modal-summary-statistics",
-                shiny::uiOutput(ns("rental_supply_secondary_table")),
-                shiny::uiOutput(ns("rental_supply_non_market_table"))
-              ),
-              shiny::column(
-                width = 12,
-                shiny::hr(),
-                shiny::h3("Estimated annual availability of low-end of market rental"),
-                shiny::htmlOutput(ns("lem_table")),
-                shiny::hr(),
-                shiny::h3("Apartment units"),
-                bigger_padded(shiny::textOutput(ns("number_of_units_number"))),
-                padded(shiny::textOutput(ns("number_of_units_breakdown"))),
-                shiny::textOutput(ns("number_of_units_description")),
-                shiny::uiOutput(ns("number_of_units_plot_ui")),
-                shiny::hr(),
-                shiny::h3("RentSafeTO evaluation scores"),
-                bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
-                shiny::textOutput(ns("apartment_building_evaluation_description")),
-                shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
-                shiny::hr(),
-                shiny::h3("Core housing need"),
-                bigger_padded(shiny::textOutput(ns("core_housing_need_number"))),
-                shiny::textOutput(ns("core_housing_need_description")),
-                shiny::uiOutput(ns("core_housing_need_plot_ui")),
-                shiny::hr(),
-                shiny::h3("Evictions"),
-                bigger_padded(shiny::textOutput(ns("evictions_number"))),
-                shiny::textOutput(ns("evictions_description")),
-                shiny::uiOutput(ns("evictions_plot_ui")),
-                shiny::hr(),
-                shiny::h3("Proximity to services"),
-                shiny::textOutput(ns("amenity_density_description")),
-                shiny::uiOutput(ns("amenity_density_plot_ui")),
-                shiny::htmlOutput(ns("amenity_density_table")),
-                shiny::hr()
+      class = "full-summary-modal",
+      shiny::modalDialog(
+        style = "margin-top: 2em; margin-left: 3em; margin-right: 3em;",
+        easyClose = TRUE,
+        footer = NULL,
+        size = "l",
+        shiny::fluidRow(
+          shiny::column(
+            width = 12,
+            shiny::modalButton("Close"),
+            shiny::h1(shiny::textOutput(ns("header")))
+          )
+        ),
+        shiny::fluidRow(
+          shiny::column(
+            width = 12,
+            shiny::hr(),
+            shiny::div(
+              class = "modal-col",
+              mod_legend_ui(ns("legend")),
+              shiny::h2("Summary statistics"),
+              shiny::fluidRow(
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::htmlOutput(ns("summary_statistics"))
+                ),
+                shiny::column(
+                  width = 12,
+                  shiny::hr(),
+                  shiny::h2("Estimated rental supply"),
+                  shiny::uiOutput(ns("rental_supply_plot_ui"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_primary_table"))
+                ),
+                shiny::column(
+                  width = 6,
+                  class = "modal-summary-statistics",
+                  shiny::uiOutput(ns("rental_supply_secondary_table")),
+                  shiny::uiOutput(ns("rental_supply_non_market_table"))
+                ),
+                shiny::column(
+                  width = 12,
+                  shiny::hr(),
+                  shiny::h3("Estimated annual availability of low-end of market rental"),
+                  shiny::htmlOutput(ns("lem_table")),
+                  shiny::hr(),
+                  shiny::h3("Apartment units"),
+                  bigger_padded(shiny::textOutput(ns("number_of_units_number"))),
+                  padded(shiny::textOutput(ns("number_of_units_breakdown"))),
+                  shiny::textOutput(ns("number_of_units_description")),
+                  shiny::uiOutput(ns("number_of_units_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("RentSafeTO evaluation scores"),
+                  bigger_padded(shiny::textOutput(ns("apartment_building_evaluation_number"))),
+                  shiny::textOutput(ns("apartment_building_evaluation_description")),
+                  shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("Above Guideline Increase applications and Tenant Defence Fund grants"),
+                  shiny::htmlOutput(ns("agi_tdf_apartments_description")),
+                  shiny::htmlOutput(ns("agi_tdf_apartments_table")),
+                  shiny::textOutput(ns("agi_non_apartments")),
+                  shiny::hr(),
+                  shiny::h3("Core housing need"),
+                  bigger_padded(shiny::textOutput(ns("core_housing_need_number"))),
+                  shiny::textOutput(ns("core_housing_need_description")),
+                  shiny::uiOutput(ns("core_housing_need_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("Evictions"),
+                  bigger_padded(shiny::textOutput(ns("evictions_number"))),
+                  shiny::textOutput(ns("evictions_description")),
+                  shiny::uiOutput(ns("evictions_plot_ui")),
+                  shiny::hr(),
+                  shiny::h3("Proximity to services"),
+                  shiny::textOutput(ns("amenity_density_description")),
+                  shiny::uiOutput(ns("amenity_density_plot_ui")),
+                  shiny::htmlOutput(ns("amenity_density_table")),
+                  shiny::hr()
+                )
               )
+            ),
+            shiny::div(
+              class = "modal-col middle",
+              shiny::h2("Housing characteristics"),
+              shiny::h3("Apartment buildings"),
+              bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
+              padded(shiny::textOutput(ns("number_of_apartments_breakdown"))),
+              shiny::textOutput(ns("number_of_apartments_description")),
+              shiny::uiOutput(ns("number_of_apartments_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Housing structure type"),
+              shiny::textOutput(ns("structure_type_description")),
+              shiny::uiOutput(ns("structure_type_plot_ui")),
+              shiny::htmlOutput(ns("structure_type_table")),
+              shiny::hr(),
+              shiny::h3("Average shelter cost for renters"),
+              bigger_padded(shiny::textOutput(ns("shelter_cost"))),
+              bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
+              shiny::textOutput(ns("average_renter_shelter_cost_description")),
+              shiny::uiOutput(ns("average_renter_shelter_cost_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Unaffordable housing"),
+              bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
+              bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
+              shiny::textOutput(ns("unaffordable_housing_description")),
+              shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Households by tenure"),
+              shiny::textOutput(ns("household_tenure_description")),
+              shiny::uiOutput(ns("household_tenure_plot_ui")),
+              shiny::htmlOutput(ns("household_tenure_table")),
+              shiny::hr(),
+              shiny::h3("Number of bedrooms"),
+              shiny::textOutput(ns("bedrooms_description")),
+              shiny::uiOutput(ns("bedrooms_plot_ui")),
+              shiny::htmlOutput(ns("bedrooms_table")),
+              shiny::hr()
+            ),
+            shiny::div(
+              class = "modal-col right",
+              shiny::h2("Sociodemographic characteristics"),
+              shiny::h3("Population density"),
+              bigger_padded(shiny::textOutput(ns("population_density_number"))),
+              shiny::textOutput(ns("population_density_description")),
+              shiny::uiOutput(ns("population_density_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Population change"),
+              bigger_padded(shiny::textOutput(ns("population_change_number"))),
+              shiny::textOutput(ns("population_change_description")),
+              shiny::uiOutput(ns("population_change_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Average total household income"),
+              shiny::textOutput(ns("average_total_household_income_description")),
+              shiny::uiOutput(ns("average_total_household_income_plot_ui")),
+              shiny::htmlOutput(ns("average_total_household_income_table")),
+              shiny::hr(),
+              shiny::h3("Low-income measure after tax"),
+              bigger_padded(shiny::textOutput(ns("lim_at"))),
+              bigger_padded(shiny::textOutput(ns("lim_at_city"))),
+              shiny::textOutput(ns("lim_at_description")),
+              shiny::uiOutput(ns("lim_at_plot_ui")),
+              shiny::hr(),
+              shiny::h3("Household size"),
+              shiny::textOutput(ns("household_size_description")),
+              shiny::uiOutput(ns("household_size_plot_ui")),
+              shiny::htmlOutput(ns("household_size_table")),
+              shiny::hr(),
+              shiny::h3("Visible minority population"),
+              bigger_padded(shiny::textOutput(ns("visible_minority"))),
+              bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
+              shiny::textOutput(ns("visible_minority_description")),
+              shiny::uiOutput(ns("visible_minority_plot_ui")),
+              shiny::htmlOutput(ns("visible_minority_table"))
             )
-          ),
-          shiny::div(
-            class = "modal-col middle",
-            shiny::h2("Housing characteristics"),
-            shiny::h3("Apartment buildings"),
-            bigger_padded(shiny::textOutput(ns("number_of_apartments_number"))),
-            padded(shiny::textOutput(ns("number_of_apartments_breakdown"))),
-            shiny::textOutput(ns("number_of_apartments_description")),
-            shiny::uiOutput(ns("number_of_apartments_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Housing structure type"),
-            shiny::textOutput(ns("structure_type_description")),
-            shiny::uiOutput(ns("structure_type_plot_ui")),
-            shiny::htmlOutput(ns("structure_type_table")),
-            shiny::hr(),
-            shiny::h3("Average shelter cost for renters"),
-            bigger_padded(shiny::textOutput(ns("shelter_cost"))),
-            bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
-            shiny::textOutput(ns("average_renter_shelter_cost_description")),
-            shiny::uiOutput(ns("average_renter_shelter_cost_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Unaffordable housing"),
-            bigger_padded(shiny::textOutput(ns("unaffordable_housing"))),
-            bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
-            shiny::textOutput(ns("unaffordable_housing_description")),
-            shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Households by tenure"),
-            shiny::textOutput(ns("household_tenure_description")),
-            shiny::uiOutput(ns("household_tenure_plot_ui")),
-            shiny::htmlOutput(ns("household_tenure_table")),
-            shiny::hr(),
-            shiny::h3("Number of bedrooms"),
-            shiny::textOutput(ns("bedrooms_description")),
-            shiny::uiOutput(ns("bedrooms_plot_ui")),
-            shiny::htmlOutput(ns("bedrooms_table")),
-            shiny::hr()
-          ),
-          shiny::div(
-            class = "modal-col right",
-            shiny::h2("Sociodemographic characteristics"),
-            shiny::h3("Population density"),
-            bigger_padded(shiny::textOutput(ns("population_density_number"))),
-            shiny::textOutput(ns("population_density_description")),
-            shiny::uiOutput(ns("population_density_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Population change"),
-            bigger_padded(shiny::textOutput(ns("population_change_number"))),
-            shiny::textOutput(ns("population_change_description")),
-            shiny::uiOutput(ns("population_change_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Average total household income"),
-            shiny::textOutput(ns("average_total_household_income_description")),
-            shiny::uiOutput(ns("average_total_household_income_plot_ui")),
-            shiny::htmlOutput(ns("average_total_household_income_table")),
-            shiny::hr(),
-            shiny::h3("Low-income measure after tax"),
-            bigger_padded(shiny::textOutput(ns("lim_at"))),
-            bigger_padded(shiny::textOutput(ns("lim_at_city"))),
-            shiny::textOutput(ns("lim_at_description")),
-            shiny::uiOutput(ns("lim_at_plot_ui")),
-            shiny::hr(),
-            shiny::h3("Household size"),
-            shiny::textOutput(ns("household_size_description")),
-            shiny::uiOutput(ns("household_size_plot_ui")),
-            shiny::htmlOutput(ns("household_size_table")),
-            shiny::hr(),
-            shiny::h3("Visible minority population"),
-            bigger_padded(shiny::textOutput(ns("visible_minority"))),
-            bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
-            shiny::textOutput(ns("visible_minority_description")),
-            shiny::uiOutput(ns("visible_minority_plot_ui")),
-            shiny::htmlOutput(ns("visible_minority_table"))
           )
         )
       )
     )
-  )
   )
 }
 
@@ -227,6 +232,39 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
         kableExtra::column_spec(1, width = "30%") %>%
         kableExtra::column_spec(2:4, width = "20%")
+    })
+
+    # AGIs and TDFs -----
+
+    output$agi_tdf_apartments_description <- shiny::renderText({
+      switch(level(),
+        "city" = "Number of AGI applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of TDF grants received (with rate), in the City of Toronto.",
+        "neighbourhood" = glue::glue("Number of Above Guideline Increase applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of Tenant Defence Fund grants received (with rate), in {neighbourhood()} versus in the City of Toronto.")
+      )
+    })
+
+    output$agi_tdf_apartments_table <- shiny::renderText({
+      display_agi_tdf_buildings(dataset(), compare = compare())
+    })
+
+    output$agi_non_apartments <- shiny::renderText({
+      switch(level(),
+        "city" = glue::glue("There were {n_agi} AGI applications for other buildings in the City of Toronto.",
+          n_agi = city_aggregate[["agi"]] %>%
+            dplyr::filter(.data$group == "Non-apartment building") %>%
+            dplyr::pull(.data$value)
+        ),
+        "neighbourhood" = glue::glue("There {were_word} {n_agi} AGI {application_word} for other buildings in {neighbourhood()} ({n_agi_toronto} in the City of Toronto).",
+          n_agi = dataset()[["agi"]] %>%
+            dplyr::filter(.data$group == "Non-apartment building") %>%
+            dplyr::pull(.data$value),
+          were_word = ifelse(n_agi == 1, "was", "were"),
+          application_word = ifelse(n_agi == 1, "application", "applications"),
+          n_agi_toronto = city_aggregate[["agi"]] %>%
+            dplyr::filter(.data$group == "Non-apartment building") %>%
+            dplyr::pull(.data$value)
+        )
+      )
     })
 
     # Core housing need -----
