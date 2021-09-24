@@ -71,6 +71,9 @@ mod_full_summary_modal_ui <- function(id) {
                   shiny::textOutput(ns("apartment_building_evaluation_description")),
                   shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
                   shiny::hr(),
+                  shiny::h3("Rooming houses"),
+                  shiny::htmlOutput(ns("rooming_houses_table")),
+                  shiny::hr(),
                   shiny::h3("Above Guideline Increase applications and Tenant Defence Fund grants"),
                   shiny::htmlOutput(ns("agi_tdf_apartments_description")),
                   shiny::htmlOutput(ns("agi_tdf_apartments_table")),
@@ -339,6 +342,12 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         `aria-label` = evictions_alt_text(),
         plotly::plotlyOutput(ns("evictions_plot"), height = "100px")
       )
+    })
+
+    # Rooming houses -----
+
+    output$rooming_houses_table <- shiny::renderText({
+      display_rooming_houses(dataset(), compare = compare())
     })
 
     # Number of apartments -----

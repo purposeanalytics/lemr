@@ -461,5 +461,27 @@ display_agi_tdf_buildings <- function(data, compare = TRUE) {
 }
 
 display_rooming_houses <- function(data, compare = TRUE) {
+  if (!compare) {
+    data[["rooming_houses"]] %>%
+      dplyr::mutate(group = forcats::fct_relevel(group, "Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")) %>%
+      dplyr::arrange(group) %>%
+      knitr::kable(align = "lr", col.names = c("", "")) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "left")
+  } else {
+    neighbourhood_name <- data[["rooming_houses"]] %>%
+      dplyr::pull(neighbourhood) %>%
+      unique()
 
+    data[["rooming_houses"]] %>%
+      dplyr::rename_at(dplyr::vars(value), ~ paste0(neighbourhood_name)) %>%
+      dplyr::select(-neighbourhood) %>%
+      dplyr::left_join(city_aggregate[["rooming_houses"]] %>%
+        dplyr::rename(`City of Toronto` = value),
+      by = "group"
+      ) %>%
+      dplyr::mutate(group = forcats::fct_relevel(group, "Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")) %>%
+      dplyr::arrange(group) %>%
+      knitr::kable(align = "lrr", col.names = c("", names(.)[-1])) %>%
+      kableExtra::kable_styling()
+  }
 }

@@ -57,8 +57,8 @@ add_blank_points_layers <- function(map) {
       filter = list("==", "rooming_house", TRUE),
       circle_color = list(
         "case",
-        list("==", c("get", "rooming_house_status"), "Licensed"), amenity_density_colours()[["Low"]],
-        list("==", c("get", "rooming_house_status"), "Licensed after 2018"), amenity_density_colours()[["Medium"]],
+        list("==", c("get", "rooming_house_status"), "Licensed prior to 2018"), amenity_density_colours()[["Low"]],
+        list("==", c("get", "rooming_house_status"), "Licensed 2018 onwards"), amenity_density_colours()[["Medium"]],
         list("==", c("get", "rooming_house_status"), "Lapsed"), amenity_density_colours()[["High"]],
         # Defaults to 'white'
         "white"
