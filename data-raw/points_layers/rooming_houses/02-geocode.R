@@ -30,17 +30,28 @@ rooming_houses <- rooming_houses %>%
   ungroup() %>%
   mutate(id = row_number())
 
+# Clean up some addresses
+rooming_houses <- rooming_houses %>%
+  mutate(address_for_geocoding = case_when(
+    address == "283.5 GEORGE ST, TORONTO, ON M5A 2N2" ~ "283 GEORGE ST, TORONTO, ON M5A 2N2",
+    address == "536.5 PARLIAMENT ST, TORONTO, ON M4X 1P6" ~ "536 PARLIAMENT ST, TORONTO, ON M4X 1P6",
+    address == "279.5 GEORGE ST, TORONTO, ON M5A 2N2" ~ "279 GEORGE ST, TORONTO, ON M5A 2N2",
+    TRUE ~ address
+  ))
+
+rooming_houses_addresses <- rooming_houses %>%
+  distinct(address_for_geocoding)
+
 # Iterate through addresses - function automatically waits 0.25 seconds between calls to abide by license
 # Using a progress bar to say how far along we are
-pb <- progress_bar$new(total = nrow(rooming_houses))
+pb <- progress_bar$new(total = nrow(rooming_houses_addresses))
 
 # And a "safe" version in case there's errors!
 safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise = NA)
 
-rooming_houses_geocoded <- rooming_houses %>%
+rooming_houses_geocoded <- rooming_houses_addresses %>%
   mutate(
-    # Combine address, city (Toronto, ON), and FSA for better results when geocoding
-    address_geocode = map(address, function(x) {
+    address_geocode = map(address_for_geocoding, function(x) {
       pb$tick()
       safely_geocode_address(x)
     })
@@ -62,12 +73,12 @@ rooming_houses_geocoded <- rooming_houses_geocoded %>%
 # For ones that are missing, requery - they mostly come up again!
 # Also low confidence ones
 geocode_missing <- rooming_houses_geocoded %>%
-  select(id, address, starts_with("bing")) %>%
+  select(address_for_geocoding, starts_with("bing")) %>%
   filter(is.na(bing_latitude) | is.na(bing_longitude) | is.na(bing_postal_code) | bing_confidence == "Low")
 
 geocode_missing_filled <- geocode_missing %>%
-  select(id, address) %>%
-  mutate(address_geocode = map(address, function(x) {
+  select(address_for_geocoding) %>%
+  mutate(address_geocode = map(address_for_geocoding, function(x) {
     safely_geocode_address(x)
   })) %>%
   mutate(
@@ -83,7 +94,14 @@ geocode_missing_filled <- geocode_missing_filled %>%
 # Update the missing ones with these
 if (nrow(geocode_missing_filled) > 0) {
   rooming_houses_geocoded <- rooming_houses_geocoded %>%
-    rows_update(geocode_missing_filled, by = c("id", "address"))
+    rows_update(geocode_missing_filled, by = c("address_for_geocoding"))
 }
 
-saveRDS(rooming_houses_geocoded, here::here("data-raw", "points_layers", "rooming_houses", "geocode", "rooming_houses_geocoded.rds"))
+rooming_houses_geocoded <- rooming_houses_geocoded %>%
+  select(-address_geocode_error)
+
+rooming_houses <- rooming_houses %>%
+  left_join(rooming_houses_geocoded, by = "address_for_geocoding") %>%
+  select(-address_for_geocoding)
+
+saveRDS(rooming_houses, here::here("data-raw", "points_layers", "rooming_houses", "geocode", "rooming_houses_geocoded.rds"))

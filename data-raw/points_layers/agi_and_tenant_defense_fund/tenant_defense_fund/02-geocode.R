@@ -68,6 +68,27 @@ tenant_defense_fund_address <- tenant_defense_fund %>%
   filter(!is.na(StreetNumber)) %>%
   select(-AddressTemp, -LowNumber, -HighNumber)
 
+tenant_defense_fund_address <- tenant_defense_fund_address %>%
+  # Combine address, city (Toronto, ON), and FSA for better results when geocoding
+  mutate(address_for_geocoding = glue::glue("{StreetNumber} {StreetName}, Toronto, ON"))
+
+# Clean up some troublesome addresses first
+tenant_defense_fund_address <- tenant_defense_fund_address %>%
+  mutate(address_for_geocoding = case_when(
+    address_for_geocoding == "35 Canyon, Toronto, ON" ~ "35 Canyon Ave, Toronto, ON M3H 4Y2",
+    address_for_geocoding == "16 St. Joseph, Toronto, ON" ~ "16 St Joseph St Toronto, ON M4Y 1J9",
+    address_for_geocoding == "100 Parkway Forest Dr., Toronto, ON" ~ "100 Parkway Forest Dr, Toronto, ON M2J 1L6",
+    address_for_geocoding == "10 San Romano Way, Toronto, ON" ~ "10 San Romanoway, North York, ON M3N 2Y2",
+    address_for_geocoding == "60 Oakmount Ave., Toronto, ON" ~ "60 Oakmount Rd, Toronto, ON M6P 2N2",
+    address_for_geocoding == "1002 Lawrence Ave., Toronto, ON" ~ "1002 Lawrence Ave E, Toronto, ON",
+    address_for_geocoding %in% c("1598 Bathurst St., Toronto, ON", "1598A Bathurst St., Toronto, ON") ~ "1596-1598 Bathurst St, Toronto, ON",
+    address_for_geocoding == "25 Widdicombe Hill Blvd., Toronto, ON" ~ "25 Widdicombe Hill, Toronto, ON",
+    address_for_geocoding == "35 Widdicombe Hill Blvd., Toronto, ON" ~ "35 Widdicombe Hill, Toronto, ON",
+    address_for_geocoding == "4 Bexhill Crt., Toronto, ON" ~ "4 Bexhill Crt, Toronto, ON M9A 3A8",
+    TRUE ~ as.character(address_for_geocoding)
+)
+)
+
 # Geocode
 
 # Iterate through addresses - function automatically waits 0.25 seconds between calls to abide by license
@@ -79,8 +100,6 @@ safely_geocode_address <- safely(~ geocode_address(.x, quiet = TRUE), otherwise 
 
 tenant_defense_fund_address_geocoded <- tenant_defense_fund_address %>%
   mutate(
-    # Combine address, city (Toronto, ON), and FSA for better results when geocoding
-    address_for_geocoding = glue::glue("{StreetNumber} {StreetName}, Toronto, ON"),
     address_geocode = map(address_for_geocoding, function(x) {
       pb$tick()
       safely_geocode_address(x)
@@ -102,17 +121,8 @@ tenant_defense_fund_address_geocoded <- tenant_defense_fund_address_geocoded %>%
 # Fix addresses of some that didn't work on first go
 tenant_defense_fund_address_geocoded_missing <- tenant_defense_fund_address_geocoded %>%
   filter(bing_status_code == "404" | bing_confidence == "Low") %>%
-  mutate(
-    fixed_address_for_geocoding = case_when(
-      address_for_geocoding == "35 Canyon, Toronto, ON" ~ "35 Canyon Ave, Toronto, ON M3H 4Y2",
-      address_for_geocoding == "16 St. Joseph, Toronto, ON" ~ "16 St Joseph St Toronto, ON M4Y 1J9",
-      address_for_geocoding == "100 Parkway Forest Dr., Toronto, ON" ~ "100 Parkway Forest Dr, Toronto, ON M2J 1L6",
-      address_for_geocoding == "10 San Romano Way, Toronto, ON" ~ "10 San Romanoway, North York, ON M3N 2Y2",
-      address_for_geocoding == "60 Oakmount Ave., Toronto, ON" ~ "60 Oakmount Rd, Toronto, ON M6P 2N2"
-    )
-  ) %>%
-  select(id, address_for_geocoding, fixed_address_for_geocoding) %>%
-  mutate(address_geocode = map(fixed_address_for_geocoding, function(x) {
+  select(id, address_for_geocoding) %>%
+  mutate(address_geocode = map(address_for_geocoding, function(x) {
     safely_geocode_address(x)
   })) %>%
   mutate(
@@ -123,8 +133,8 @@ tenant_defense_fund_address_geocoded_missing <- tenant_defense_fund_address_geoc
   select(-tidyselect::any_of("address_geocode"))
 
 tenant_defense_fund_address_geocoded <- tenant_defense_fund_address_geocoded %>%
-  rows_update(tenant_defense_fund_address_geocoded_missing %>%
-    select(-fixed_address_for_geocoding), by = c("id", "address_for_geocoding"))
+  mutate(id = case_when(address_for_geocoding == "1596-1598 Bathurst St, Toronto, ON" & StreetNumber == "1598A" ~ 99999L, TRUE ~ id)) %>%
+  rows_update(tenant_defense_fund_address_geocoded_missing, by = c("id", "address_for_geocoding"))
 
 # Save
 saveRDS(tenant_defense_fund_address_geocoded, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "tenant_defense_fund", "geocode", "tenant_defense_fund.rds"))

@@ -112,7 +112,7 @@ rental_supply_plot <- function(data) {
 }
 
 rental_supply_table <- function(data, market) {
-  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units"))
+  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units:"))
 
   data <- data[["rental_supply"]] %>%
     dplyr::filter(market == !!market) %>%
@@ -340,13 +340,13 @@ apartment_building_evaluation_plot <- function(data, compare, static = FALSE) {
 
 amenity_density_description <- function(level, neighbourhood) {
   switch(level,
-    "city" = glue::glue("Breakdown of population living in high, medium, and low amenity density areas in the City of Toronto."),
-    "neighbourhood" = glue::glue("Comparison of population living in high, medium, and low amenity density areas in {neighbourhood} versus in the City of Toronto.")
+    "city" = glue::glue("Breakdown of population living in areas that have high, medium, and low proximity to services in the City of Toronto."),
+    "neighbourhood" = glue::glue("Comparison of population living in areas that have high, medium, and low proximity to services in {neighbourhood} versus in the City of Toronto.")
   )
 }
 
 amenity_density_plot_alt_text <- function(level, neighbourhood) {
-  generate_bar_chart_alt_text(level, neighbourhood, "amenity density by population")
+  generate_bar_chart_alt_text(level, neighbourhood, "proximity to services by population", renter = FALSE)
 }
 
 amenity_density_plot <- function(data, compare, static = FALSE) {

@@ -64,9 +64,18 @@ latest_agi_landlord <- agi_applications_and_tdf %>%
   as_tibble() %>%
   filter(!is.na(landlord)) %>%
   group_by(bing_address) %>%
-  filter(date_agi_initiated == max(date_agi_initiated)) %>%
+  filter(date_agi_initiated == max(date_agi_initiated, na.rm = TRUE)) %>%
   slice(1) %>%
   distinct(bing_address, landlord) %>%
+  ungroup()
+
+# Same with address! Just get the latest address, in case they're in different formats
+latest_agi_address <- agi_applications_and_tdf %>%
+  as_tibble() %>%
+  group_by(bing_address) %>%
+  arrange(date_agi_initiated, desc = TRUE) %>%
+  slice(1) %>%
+  distinct(bing_address, address) %>%
   ungroup()
 
 agi_applications <- agi_applications_and_tdf %>%
@@ -76,13 +85,13 @@ agi_applications <- agi_applications_and_tdf %>%
     is.na(reduced_increase_by) ~ NA_character_,
     TRUE ~ paste0(round(reduced_increase_by, 2), "%")
   )) %>%
-  group_by(agi, address, bing_address, neighbourhood) %>%
+  group_by(agi, bing_address, neighbourhood) %>%
   arrange(desc(date_agi_initiated)) %>%
   summarise(
     geometry = geometry,
     date_agi_initiated = paste(na.omit(unique(date_agi_initiated)), collapse = ", "),
-    tdf_year = paste(na.omit(tdf_year), collapse = ", "),
-    reduced_increase_by = paste(na.omit(reduced_increase_by), collapse = ", "),
+    tdf_year = paste(na.omit(unique(tdf_year)), collapse = ", "),
+    reduced_increase_by = paste(na.omit(unique(reduced_increase_by)), collapse = ", "),
     .groups = "drop"
   ) %>%
   distinct() %>%
@@ -90,7 +99,8 @@ agi_applications <- agi_applications_and_tdf %>%
   st_as_sf(crs = 4326)
 
 agi_applications <- agi_applications %>%
-  left_join(latest_agi_landlord, by = "bing_address")
+  left_join(latest_agi_landlord, by = "bing_address") %>%
+  left_join(latest_agi_address, by = "bing_address")
 
 agi_applications_coords <- agi_applications %>%
   group_by(address) %>%
@@ -111,9 +121,11 @@ buildings <- buildings %>%
   full_join(agi_applications, by = "bing_address", suffix = c("_apt", "_agi"))
 
 # Fill in columns, prioritizing apt -> agi -> rooming houses
+# Except for address, since different addresses may be geocoded to the same place - prefer to keep them distinct
 buildings <- buildings %>%
   mutate(
-    address = coalesce(address_apt, address_agi, address_rooming_houses),
+    address = case_when(apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
+                        TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)),
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
     X = coalesce(X_apt, X_agi, X_rooming_houses),
     Y = coalesce(Y_apt, Y_agi, Y_rooming_houses),
