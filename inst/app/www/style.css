@@ -168,7 +168,7 @@ body > .container-fluid {
   padding-left: 0;
 }
 
-.modal-lg {
+.full-summary-modal .modal-lg {
   width: 95%;
 }
 
@@ -655,4 +655,11 @@ ul {
     bottom: 0;
     right: 0;
   }
+}
+
+/* Data stories */
+
+
+.agi-data-story-neighbourhood {
+  padding-bottom: 2em;
 }
