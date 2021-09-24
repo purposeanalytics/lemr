@@ -114,7 +114,7 @@ mod_home_server <- function(id) {
       shiny::showModal(
         shiny::modalDialog(
           size = "l",
-          mod_data_story_agi_tdf_ui("agi_tdf")
+          mod_data_story_agi_tdf_ui(ns("agi_tdf"))
         )
       )
     })

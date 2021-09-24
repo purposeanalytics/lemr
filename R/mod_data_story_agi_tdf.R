@@ -13,11 +13,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
     shiny::h1("Title"),
     shiny::p("A notice of rent increase, recalculating the monthly budget, cutting down on non-essential expenses – or finding a new home. The cycle is not unfamiliar to renters in Toronto. In Ontario, renters are protected by a provincially mandated rent increase guideline that is tied to the Consumer Price Index. However, when landlords incur capital expenses for completing major work, building security, or accessibility features, or extraordinary increases to their property tax, they may apply to pass those costs on to tenants through an Above Guideline Increase, or AGI. In turn, tenants may choose to contest an AGI through the Landlord Tenant Board, a process that can be time-consuming and costly. To support this, the City of Toronto offers assistance, financial and otherwise, through the Tenant Defense Fund (TDF) program to tenants in private rental housing."),
     shiny::p("In the City of Toronto, AGI applications are abundant. Out of 3,480 apartment buildings in the city, a quarter of them had at least one AGI application in the last five years, and of these, just under a quarter received a TDF grant. In this story, we look at the distribution of AGIs and TDF grants across neighbourhoods of Toronto."),
-
     shiny::fluidRow(
-      shiny::column(width = 12,
-                    align = "center",
-    shiny::p(shiny::HTML("<i>Boardview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
+      shiny::column(
+        width = 12,
+        align = "center",
+        # shiny::imageOutput(ns("agi_vs_tdf"), height = 500),
+        # This is faster - doesn't need to render, so might choose to do this instead
+        shiny::img(src = fs::path("www", "agi_vs_tdf", ext = "png"), title = "Above Guideline Increase versus Tenant Defense Fund", width = "50%"),
+        shiny::p(shiny::HTML("<i>Boardview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
       )
     ),
     shiny::fluidRow(
@@ -40,7 +43,10 @@ mod_data_story_agi_tdf_ui <- function(id) {
             dplyr::pull(n)
         ))
       ),
-      shiny::column(width = 7)
+      shiny::column(
+        width = 4,
+        shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", height = 200)
+      )
     ),
     shiny::fluidRow(
       shiny::column(
@@ -60,8 +66,12 @@ mod_data_story_agi_tdf_ui <- function(id) {
             scales::percent(accuracy = 0.1)
         ))
       ),
-      shiny::column(width = 7, )),
-      shiny::fluidRow(
+      shiny::column(
+        width = 4,
+        shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", height = 200)
+      )
+    ),
+    shiny::fluidRow(
       shiny::column(
         width = 5, shiny::h2("Yonge-St. Clair"),
         shiny::p(glue::glue("Yonge-St. Clair is an affluent, vibrant neighbourhood known for its restaurants, boutiques, and high-rises. Here, while AGIs are noticeably above the average at a rate of {prop_agi}, TDF grants are only at {prop_tdf}. Out of {n_buildings} apartment buildings in the neighbourhood, {n_agi} have at least one AGI. Only {n_tdf} of those buildings have received a TDF grant.",
@@ -80,7 +90,10 @@ mod_data_story_agi_tdf_ui <- function(id) {
             dplyr::pull(n)
         ))
       ),
-      shiny::column(width = 7, )
+      shiny::column(
+        width = 4,
+        shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", height = 200)
+      )
     ),
     shiny::p(glue::glue("How do we account for these differences? In 2016, Mimico’s average rent was close to the city average at {mimico_rent}, quite a bit higher than Broadview North which had an average rent of {broadview_north_rent}. Both neighbourhoods have buildings that were mostly constructed in the 1950s and 1960s. In Mimico, either tenants are more organized, landlords are more reluctant to bring AGI applications forward, or they have done less work on their buildings in the last five years. By comparison, Yonge-St. Clair had an even higher average rent, {yonge_st_clair_rent}, and a very low rate of TDF grants. As the TDF program focuses on buildings with affordable rents, it is likely that fewer tenants were eligible for this program.",
       mimico_rent = scales::dollar(neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["average_renter_shelter_cost"]]),
@@ -89,12 +102,13 @@ mod_data_story_agi_tdf_ui <- function(id) {
     )),
     shiny::p("As the data shows, not all neighbourhoods are made equal when it comes to affordable rental housing. While the variance across rates of AGIs and TDF grants is undeniable, the conditions that create the discrepancy are not clear-cut. Further housing research, particularly as it pertains to the preservation of affordable rental housing, is crucial."),
     shiny::fluidRow(
-      shiny::column(width = 12,
-                    align = "center",
-    shiny::p(shiny::HTML("<i>
+      shiny::column(
+        width = 12,
+        align = "center",
+        shiny::p(shiny::HTML("<i>
 For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the Map. For data sources and key terms, visit Data and Definitions.</i>"))
-)
-)
+      )
+    )
   )
 }
 
