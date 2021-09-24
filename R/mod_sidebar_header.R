@@ -14,7 +14,7 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 4, align = "right",
-      mod_full_summary_modal_ui(ns("full_summary"))
+      shiny::actionButton(ns("modal"), label = "Full Summary")
     ),
     shiny::column(
       width = 12,
@@ -53,7 +53,15 @@ mod_sidebar_header_ui <- function(id) {
 #' @noRd
 mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
+
     ns <- session$ns
+
+    # Trigger modal
+    shiny::observeEvent(input$modal, {
+      mod_full_summary_modal_ui(ns("full_summary"))
+    })
+
+    mod_full_summary_modal_server("full_summary", level, neighbourhood, dataset)
 
     neighbourhood <- shiny::reactive({
       address_and_neighbourhood$neighbourhood
@@ -84,8 +92,6 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
         neighbourhood = lemur::neighbourhood_aggregate[[neighbourhood()]]
       )
     })
-
-    mod_full_summary_modal_server("full_summary", level, neighbourhood, dataset)
 
     output$summary_statistics <- shiny::renderText({
       summary_statistics_table(dataset())

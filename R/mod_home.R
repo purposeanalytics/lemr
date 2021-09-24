@@ -111,7 +111,7 @@ mod_home_server <- function(id) {
     ns <- session$ns
 
     shiny::observeEvent(input$agi_tdf_data_story, {
-          mod_data_story_agi_tdf_ui(ns("agi_tdf"))
+      mod_data_story_agi_tdf_ui(ns("agi_tdf"))
     })
 
     mod_data_story_agi_tdf_server("agi_tdf")
