@@ -105,16 +105,16 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           purrr::pmap(
             dplyr::tibble(
               color = c("Low", "Medium", "High"),
-              wording = c("licensed pre-2018", "licensed post-2018", "lapsed"),
-              filter = c("Licensed", "Licensed after 2018", "Lapsed")
+              filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")
             ),
-            function(color, wording, filter) {
+            function(color, filter) {
               create_circle_legend(amenity_density_colours()[[color]],
                 glue::glue("{value} {buildings_word}, {wording}",
                   value = dataset()[["rooming_houses"]] %>% dplyr::filter(group == filter) %>% dplyr::pull(value),
-                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses")
+                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
+                  wording = tolower(filter)
                 ),
-                alt_text = glue::glue("A legend showing the colour of the points of {wording} rooming houses.")
+                alt_text = glue::glue("A legend showing the colour of the points of {wording} rooming houses.", wording = tolower(filter))
               )
             }
           )
@@ -188,13 +188,7 @@ point_layers_choices <- list(
 )
 
 generate_apartment_evaluation_legend <- function() {
-  values <- lemur::buildings %>%
-    dplyr::filter(!is.na(.data$score)) %>%
-    dplyr::as_tibble() %>%
-    dplyr::arrange(score) %>%
-    dplyr::distinct(score_colour, score_bucket)
-
-  create_circle_legend(colour = values[["score_colour"]], text = values[["score_bucket"]], alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
 }
 
 ## To be copied in the UI

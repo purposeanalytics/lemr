@@ -11,7 +11,6 @@ mod_aggregate_layer_ui <- function(id) {
   label <- aggregate_layers_choices[[id]]
 
   shiny::tagList(
-    bsplus::use_bs_popover(),
     shiny::fluidRow(
       shiny::column(
         width = 12,

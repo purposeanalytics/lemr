@@ -28,3 +28,10 @@ low_high_legend_colors <- function() {
 amenity_density_colours <- function() {
   stats::setNames(c("#3C95E3", accent_colour, "#FB6B27"), c("Low", "Medium", "High"))
 }
+
+rentsafe_colors <- function() {
+  stats::setNames(
+    c("#54278f", "#756bb1", "#9e9ac8", "#cbc9e2"),
+    c("0% to 50%", "51% to 65%", "66% to 80%", "81% to 100%")
+  )
+}

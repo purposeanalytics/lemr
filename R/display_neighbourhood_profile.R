@@ -373,3 +373,115 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
 
   p
 }
+
+display_agi_tdf_buildings <- function(data, compare = TRUE) {
+  agi_tdf_names <- c("AGIs", "AGI rate by buildings", "TDF Grants", "TDF rate by AGIs")
+
+  if (!compare) {
+    # AGI ----
+    agi <- data[["agi"]] %>%
+      dplyr::filter(group == "Apartment building") %>%
+      dplyr::select(-group)
+    names(agi) <- glue::glue("{names(agi)}_agi")
+
+    # TDF ----
+    tdf <- data[["tdf"]]
+    names(tdf) <- glue::glue("{names(tdf)}_tdf")
+
+    agi_tdf <- agi %>%
+      dplyr::bind_cols(tdf) %>%
+      dplyr::mutate(dplyr::across(dplyr::starts_with("value"), scales::comma)) %>%
+      dplyr::mutate(dplyr::across(dplyr::starts_with("prop"), scales::percent, accuracy = 0.1))
+
+    res <- agi_tdf %>%
+      knitr::kable(align = "rrrr", col.names = agi_tdf_names) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "left")
+
+    return(res)
+  } else {
+
+    # AGI -----
+
+    city <- city_aggregate[["agi"]] %>%
+      dplyr::filter(group == "Apartment building") %>%
+      dplyr::select(-group)
+
+    names(city) <- glue::glue("City of Toronto_{c('value', 'prop')}")
+
+    neighbourhood_name <- data[["agi"]][["neighbourhood"]] %>%
+      unique() %>%
+      as.character()
+
+    neighbourhood <- data[["agi"]] %>%
+      dplyr::filter(group == "Apartment building") %>%
+      dplyr::select(-group, -neighbourhood)
+
+    names(neighbourhood) <- glue::glue("{neighbourhood_name}_{c('value', 'prop')}")
+
+    agi <- city %>%
+      dplyr::bind_cols(neighbourhood) %>%
+      tidyr::pivot_longer(everything()) %>%
+      tidyr::separate(name, into = c("group", "measure"), sep = "_") %>%
+      tidyr::pivot_wider(names_from = measure, values_from = value) %>%
+      dplyr::mutate(
+        value = scales::comma(value),
+        prop = scales::percent(prop, accuracy = 0.1),
+        group = forcats::fct_relevel(group, neighbourhood_name, after = 0)
+      ) %>%
+      dplyr::arrange(group)
+
+    # TDF ----
+
+    city <- city_aggregate[["tdf"]]
+
+    names(city) <- glue::glue("City of Toronto_{c('value', 'prop')}")
+
+    neighbourhood <- data[["tdf"]] %>%
+      dplyr::select(-neighbourhood)
+
+    names(neighbourhood) <- glue::glue("{neighbourhood_name}_{c('value', 'prop')}")
+
+    tdf <- city %>%
+      dplyr::bind_cols(neighbourhood) %>%
+      tidyr::pivot_longer(everything()) %>%
+      tidyr::separate(name, into = c("group", "measure"), sep = "_") %>%
+      tidyr::pivot_wider(names_from = measure, values_from = value) %>%
+      dplyr::mutate(
+        value = scales::comma(value),
+        prop = scales::percent(prop, accuracy = 0.1),
+        group = forcats::fct_relevel(group, neighbourhood_name, after = 0)
+      ) %>%
+      dplyr::arrange(group)
+
+    agi %>%
+      dplyr::full_join(tdf, by = "group", suffix = c("_agi", "_tdf")) %>%
+      knitr::kable(align = "lrrrr", col.names = c("", agi_tdf_names)) %>%
+      kableExtra::kable_styling()
+  }
+}
+
+display_rooming_houses <- function(data, compare = TRUE) {
+  if (!compare) {
+    data[["rooming_houses"]] %>%
+      dplyr::mutate(group = forcats::fct_relevel(group, "Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")) %>%
+      dplyr::arrange(group) %>%
+      knitr::kable(align = "lr", col.names = c("", "")) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "left")
+  } else {
+    neighbourhood_name <- data[["rooming_houses"]] %>%
+      dplyr::pull(neighbourhood) %>%
+      unique()
+
+    data[["rooming_houses"]] %>%
+      dplyr::rename_at(dplyr::vars(value), ~ paste0(neighbourhood_name)) %>%
+      dplyr::select(-neighbourhood) %>%
+      dplyr::left_join(city_aggregate[["rooming_houses"]] %>%
+        dplyr::rename(`City of Toronto` = value),
+      by = "group"
+      ) %>%
+      dplyr::mutate(group = forcats::fct_relevel(group, "Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")) %>%
+      dplyr::arrange(group) %>%
+      knitr::kable(align = "lrr", col.names = c("", names(.)[-1])) %>%
+      kableExtra::kable_styling()
+  }
+}
