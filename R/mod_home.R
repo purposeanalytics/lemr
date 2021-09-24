@@ -35,8 +35,9 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
-            shiny::h3("Title"), shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
+            shiny::actionLink(ns("agi_tdf_data_story"), shiny::div(style = "height: 100px; background-color: #F0F0F0;")),
+            shiny::actionLink(ns("agi_tdf_data_story"), shiny::h3("Title")),
+            shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
           ),
           shiny::column(
             width = 4,
@@ -85,7 +86,7 @@ mod_home_ui <- function(id) {
             ),
             shiny::column(
               width = 8,
-              shiny::p("Learn about the data sources included in the tool and find key terminology used throughout in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick="link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
+              shiny::p("Learn about the data sources included in the tool and find key terminology used throughout in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
             )
           )
         )
@@ -109,6 +110,12 @@ mod_home_ui <- function(id) {
 mod_home_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    shiny::observeEvent(input$agi_tdf_data_story, {
+      mod_data_story_agi_tdf_ui(ns("agi_tdf"))
+    })
+
+    mod_data_story_agi_tdf_server("agi_tdf")
   })
 }
 
