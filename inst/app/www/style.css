@@ -6,6 +6,7 @@
   --font: "Lato", Sans-Serif;
   --base-size: 14px;
   --bigger-size: 1.25em;
+  --middle-size: 1.5em;
   --biggest-size: 1.75em;
   --regular-weight: 400;
   --bold-weight: 700;
@@ -14,6 +15,9 @@
   --accent-color-rgba: rgba(255, 194, 10, 1);
   --accent-color-lighter-rgba: rgba(255, 194, 10, 0.50);
   --grey-color: #B8B8B8;
+  --light-grey-color: #E0E0E0;
+  --dark-grey-color: #4E4E4E;
+  --home-section-padding: 2em;
 }
 
 /* ------  Header and font styles ------ */
@@ -65,6 +69,10 @@ h3 {
 
 .bigger {
   font-size: var(--bigger-size);
+}
+
+.biggest {
+  font-size: var(--biggest-size);
 }
 
 .nav-tabs {
@@ -209,6 +217,83 @@ body > .container-fluid {
 .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
   background-color: transparent !important;
   border-color: var(--grey-color)
+}
+
+/* Home page */
+
+.home {
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: var(--base-size);
+}
+
+.home h2 {
+  font-size: var(--middle-size);
+}
+
+.welcome-banner {
+  background-color: var(--main-color);
+  height: calc(var(--home-section-padding) * 10);
+  color: white;
+  padding: calc(var(--home-section-padding) * 2);
+  padding-top: calc(var(--home-section-padding) * 4);
+  margin-top: -1em;
+}
+
+.welcome-banner-content {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.welcome-banner h1 {
+  font-weight: var(--regular-weight);
+}
+
+.intro-sentence {
+  text-align: center;
+  padding: var(--home-section-padding);
+}
+
+.intro-paragraph {
+  padding-bottom: var(--home-section-padding);
+}
+
+.intro-paragraph h2 {
+  font-weight: var(--regular-weight);
+  color: var(--main-color);
+}
+
+.data-stories-banner {
+  background-color: var(--light-grey-color);
+  min-height: calc(var(--home-section-padding) * 10);
+  padding-left: calc(var(--home-section-padding) * 2);
+  padding-right: calc(var(--home-section-padding) * 2);
+  padding-top: var(--home-section-padding);
+  padding-bottom: var(--home-section-padding);
+}
+
+.data-stories-banner h2 {
+  color: var(--dark-grey-color);
+}
+
+.data-stories-banner h3 {
+  color: black;
+}
+
+.divider-line {
+  height: 1px;
+  background-color: var(--accent-color);
+  margin-top: calc(var(--home-section-padding) * 2);
+  margin-bottom: calc(var(--home-section-padding) * 2);
+}
+
+.questions {
+  padding-top: var(--home-section-padding);
+}
+
+.about{
+  padding-bottom: var(--home-section-padding);
 }
 
 /* Download modal box */
