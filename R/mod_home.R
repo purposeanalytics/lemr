@@ -12,7 +12,7 @@ mod_home_ui <- function(id) {
       class = "welcome-banner",
       shiny::div(
         class = "welcome-banner-content",
-        shiny::h1("Welcome to the Low-end of Market Rental Monitor"),
+        shiny::h1("Welcome to the Low-end of Market Rental Monitor", style = "font-size: 2em;"),
         shiny::tags$i(shiny::HTML("This tool is a <b>proof of concept</b> that demonstrates the potential for linking housing data from multiple sources with a future goal of estimating the volume of deeply affordable housing units, where they are located, and how this is changing over time."))
       )
     ),
@@ -53,7 +53,7 @@ mod_home_ui <- function(id) {
       shiny::div(class = "divider-line"),
       shiny::div(
         class = "start-exploring",
-        shiny::column(width = 12, align = "center", shiny::h2("Start exploring LEMR")),
+        shiny::column(width = 12, align = "center", shiny::h2("Start exploring LEMR", style = "padding-top: 0;")),
         shiny::fluidRow(
           shiny::column(
             width = 4,
@@ -63,7 +63,7 @@ mod_home_ui <- function(id) {
             ),
             shiny::column(
               width = 8,
-              "Read Data Stories above for our data analyses and learn how their implications may impact you, your organization, or your community."
+              shiny::HTML("Read <b>Data Stories</b> above for our data analyses and learn how their implications may impact you, your organization, or your community.")
             )
           ),
           shiny::column(
@@ -74,7 +74,7 @@ mod_home_ui <- function(id) {
             ),
             shiny::column(
               width = 8,
-              "Go to Map for summary statistics, estimated rental supply, locations of awarded tenant defence fund grants, and more."
+              shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental supply, locations of awarded tenant defence fund grants, and more.")
             )
           ),
           shiny::column(
@@ -85,19 +85,19 @@ mod_home_ui <- function(id) {
             ),
             shiny::column(
               width = 8,
-              "Learn about the data sources included in the tool and find key terminology used throughout in Data & Definitions."
+              shiny::p("Learn about the data sources included in the tool and find key terminology used throughout in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick="link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
             )
           )
         )
       ),
-      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", "Questions? Contact us.")),
+      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("<span style = 'color: var(--main-color);'>Questions?</span> Contact us."))),
       shiny::div(class = "divider-line"),
       shiny::div(
         class = "about",
-        shiny::p("LEMR was developed by Purpose Analytics as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round."),
+        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.")),
         shiny::p("Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada."),
         shiny::p("For the source code, you will be able to visit the project's GitHub repository."),
-        shiny::p("Last updated: September 2021")
+        shiny::p(shiny::tags$i("Last updated: September 2021"))
       )
     )
   )
