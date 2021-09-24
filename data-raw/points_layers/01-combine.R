@@ -31,13 +31,15 @@ buildings <- apartment_building_registry %>%
 
 # Get coords instead of geometry column, so we can coalesce more easily
 apartment_buildings_coords <- buildings %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  bind_rows(.id = "address")
 
 buildings <- buildings %>%
   as_tibble() %>%
   select(-geometry) %>%
-  bind_cols(apartment_buildings_coords)
+  left_join(apartment_buildings_coords, by = "address")
 
 # Add rooming houses ----
 
@@ -45,13 +47,15 @@ rooming_houses <- rooming_houses %>%
   mutate(rooming_house = TRUE)
 
 rooming_houses_coords <- rooming_houses %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  bind_rows(.id = "address")
 
 rooming_houses <- rooming_houses %>%
   as_tibble() %>%
   select(-geometry) %>%
-  bind_cols(rooming_houses_coords)
+  left_join(rooming_houses_coords, by = "address")
 
 buildings <- buildings %>%
   full_join(rooming_houses, by = "bing_address", suffix = c("_apt", "_rooming_houses"))
@@ -103,17 +107,16 @@ agi_applications <- agi_applications %>%
   left_join(latest_agi_address, by = "bing_address")
 
 agi_applications_coords <- agi_applications %>%
-  group_by(address) %>%
-  slice(1) %>%
-  ungroup() %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  bind_rows(.id = "address")
 
 agi_applications <- agi_applications %>%
   as_tibble() %>%
   select(-geometry) %>%
   distinct() %>%
-  bind_cols(agi_applications_coords) %>%
+  left_join(agi_applications_coords, by = "address") %>%
   rename(X_agi = X, Y_agi = Y, neighbourhood_agi = neighbourhood, address_agi = address)
 
 buildings <- buildings %>%
@@ -129,7 +132,7 @@ buildings <- buildings %>%
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
     X = coalesce(X_apt, X_rooming_houses, X_agi),
     Y = coalesce(Y_apt, Y_rooming_houses, Y_agi),
-    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_rooming_houses),
+    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_rooming_houses, neighbourhood_agi),
     apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
