@@ -124,6 +124,26 @@ plotly::ggplotly(
     )
 ```
  
+```{r}
+reinf_plot <- reinf_shap %>% mutate(top3 = case_when(neighbourhood == 'Dovercourt-Wallace Emerson-Junction' ~ TRUE,
+                          neighbourhood == 'Woburn' ~ TRUE,
+                          neighbourhood == 'Weston' ~ TRUE,
+                          neighbourhood == 'Thorncliffe Park' ~ TRUE,
+                          neighbourhood == 'West Humber-Clairville' ~ TRUE,
+                          neighbourhood == 'York University Heights' ~ TRUE,
+                          TRUE ~ FALSE))
+
+ggplot(reinf_plot, aes(core_housing_need, `eviction_rate`, colour = `top3`)) +
+    geom_point(aes(size = Total_Total, text = neighbourhood)) +
+    ggrepel::geom_label_repel(data = reinf_plot %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+    scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    geom_vline(xintercept = .365) +
+      geom_text(aes(x=.355, label="City Average", y=0.13), angle=90) +
+    geom_hline(yintercept = .043) +
+    geom_text(aes(0.075,.043,label = 'City Average', vjust = -1)) +
+    theme_bw()+
+    theme(legend.position = 'None')
+```
 
 
 #proximity
@@ -152,9 +172,7 @@ plotly::ggplotly(
 ```
 
 
-```{r}
-prox_pick %>% filter(Total_Total == 400)
-```
+
 
 
 ```{r}
@@ -197,10 +215,8 @@ texts <- tibble(
   y = c(0,0,sqrt(3)/2 + .03),
   text = c("Low", "Medium","High"))
 
-woburn <- proximity_layers %>% 
+pos <- proximity_layers %>% 
   select(neighbourhood, High, Medium, Low, `Total_Total`, number_of_buildings) #%>% filter(neighbourhood == 'Annex')
-
-pos <-  woburn 
 
 ternary <- as_tibble()
 for (i in seq(from = 1, to = nrow(pos))){
@@ -220,16 +236,42 @@ ternary
 ```
 
 ```{r}
-ternary_plot <- ternary %>% filter(number_of_buildings > 20)
+ternary_plot <- ternary %>% filter(Total_Total >= 225)
 
 ggplot(ternary_plot, aes(x = x, y = y)) +
-  geom_point(aes(size = Total_Total/100)) +
-  geom_text(label = ternary_plot$neighbourhood, size = 1) +
+  geom_point(aes(colour = Total_Total)) +
+  ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 1) +
+  #geom_text(label = ternary_plot$neighbourhood, size = 1) +
   geom_text(data = texts, aes(label = text)) +
   geom_polygon(data = triangle,aes(x = polygon_x, y=polygon_y), fill = NA,colour = 'black') +
   xlim(-.1,1.1) +
   ylim(-.1,1.1) +
   theme_void()
 
+```
+
+```{r}
+ternary_plot <- pos %>% filter(Total_Total > 250) %>% 
+  mutate(top3 = case_when(neighbourhood == 'Dovercourt-Wallace Emerson-Junction' ~ TRUE,
+                          neighbourhood == 'Woburn' ~ TRUE,
+                          neighbourhood == 'York University Heights' ~ TRUE,
+                          neighbourhood == 'Thorncliffe Park' ~ TRUE,
+                          neighbourhood == 'West Humber-Clairville' ~ TRUE,
+                          neighbourhood == 'Weston' ~ TRUE,
+                          TRUE ~ FALSE))
+
+
+
+library(ggtern)
+ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
+  geom_point(aes(colour = Total_Total), size =2.5) +
+  #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
+  geom_text(data = ternary_plot %>% filter(top3)
+            , aes(label = paste0(neighbourhood,':',Total_Total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
+  theme_light() +
+  theme_nomask() +
+  theme_showarrows() +
+  tern_anticlockwise() + 
+  theme_nolabels()
 ```
 
