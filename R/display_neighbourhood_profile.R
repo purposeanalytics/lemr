@@ -459,3 +459,7 @@ display_agi_tdf_buildings <- function(data, compare = TRUE) {
       kableExtra::kable_styling()
   }
 }
+
+display_rooming_houses <- function(data, compare = TRUE) {
+
+}

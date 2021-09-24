@@ -42,7 +42,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 846-850 Broadview Ave,-79.3585651,43.6789913,Playter Estates-Danforth,TRUE,Privately owned,1940,2017,24,3,Upper Broadview Suites Ltd,2020-11-16,94,TRUE,2021-04-12,FALSE,,,FALSE,
 1187-1189 Queen St E,-79.3316341,43.6627063,South Riverdale,TRUE,Social housing,1988,2017,34,4,Mainstay Housing,2020-12-14,78,FALSE,,FALSE,,,FALSE,
 1570 King St W,-79.44417,43.638144,South Parkdale,TRUE,Privately owned,1910,,18,3,,2020-12-11,72,FALSE,,FALSE,,,FALSE,
-70 Wilson Park Rd,-79.442482,43.638631,South Parkdale,TRUE,Privately owned,1970,2017,25,3,,2020-12-10,75,FALSE,,FALSE,,,TRUE,Licensed
+70 Wilson Park Rd,-79.442482,43.638631,South Parkdale,TRUE,Privately owned,1970,2017,25,3,,2020-12-10,75,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
 22 Maynard Ave,-79.4379479,43.6377828,South Parkdale,TRUE,Privately owned,1978,2017,36,3,,2020-11-19,79,FALSE,,FALSE,,,FALSE,
 1167 Queen St E,-79.3328829,43.6624929,South Riverdale,TRUE,Toronto Community Housing,1995,2017,40,5,,2019-12-04,67,FALSE,,FALSE,,,FALSE,
 1320 Gerrard St E,-79.3263203,43.6715923,Greenwood-Coxwell,TRUE,Social housing,1994,2017,45,5,,2019-01-22,93,FALSE,,FALSE,,,FALSE,
@@ -272,7 +272,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 4033 Old Dundas St,-79.5023384,43.6637103,Lambton Baby Point,TRUE,Privately owned,1960,2017,47,5,,2019-02-11,61,FALSE,,FALSE,,,FALSE,
 596 Jane St,-79.4910119,43.6645227,Runnymede-Bloor West Village,TRUE,Privately owned,1958,2017,17,3,,2019-10-31,89,FALSE,,FALSE,,,FALSE,
 256 Sheldon Ave,-79.546517,43.608493,Alderwood,TRUE,Social housing,1982,2017,76,7,,2019-10-30,83,FALSE,,FALSE,,,FALSE,
-17 Edgewood Ave,-79.3126261,43.6702726,Woodbine Corridor,TRUE,Social housing,1970,2017,30,3,,2019-12-05,71,FALSE,,FALSE,,,TRUE,Licensed
+17 Edgewood Ave,-79.3126261,43.6702726,Woodbine Corridor,TRUE,Social housing,1970,2017,30,3,,2019-12-05,71,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
 8 Sand Beach Rd,-79.4973496,43.6017527,New Toronto,TRUE,Privately owned,1966,2017,24,3,,2019-10-31,78,FALSE,,FALSE,,,FALSE,
 775 Steeles Ave W,-79.443466,43.791796,Newtonbrook West,TRUE,Privately owned,1966,2017,194,16,R A B Properties Limited,2019-01-24,64,TRUE,2021-01-06,FALSE,,,FALSE,
 1122 Don Mills Rd,-79.343978,43.73788,Banbury-Don Mills,TRUE,Privately owned,1958,2017,66,6,Niot Investment Holdings,2019-11-04,81,TRUE,2019-10-18,FALSE,,,FALSE,
@@ -1986,7 +1986,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 25 Martha Eaton Way,-79.489055,43.698086,Brookhaven-Amesbury,TRUE,Privately owned,1980,2017,318,23,Dms Property Management Ltd.,2020-11-03,93,FALSE,,FALSE,,,FALSE,
 25 Thunder Grv,-79.2654839,43.8088111,Agincourt North,TRUE,Social housing,1982,2017,247,19,Dms Property Management Ltd.,2019-11-27,89,FALSE,,FALSE,,,FALSE,
 31 Tichester Rd,-79.418643,43.685232,Forest Hill South,TRUE,Social housing,1986,2017,174,15,Dms Property Management Ltd.,2019-11-27,78,FALSE,,FALSE,,,FALSE,
-28 Maynard Ave,-79.4380331,43.6380094,South Parkdale,TRUE,Privately owned,1900,2017,20,3,Akelius Canada Ltd,2021-04-21,77,FALSE,,FALSE,,,TRUE,Licensed
+28 Maynard Ave,-79.4380331,43.6380094,South Parkdale,TRUE,Privately owned,1900,2017,20,3,Akelius Canada Ltd,2021-04-21,77,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
 484 Spadina Ave,-79.400472,43.65832,University,TRUE,Privately owned,2021,2021,166,16,Fitzrovia Real Estate Inc,2021-06-22,99,FALSE,,FALSE,,,FALSE,
 77 St Clair Ave E,-79.391145,43.688373,Rosedale-Moore Park,TRUE,Privately owned,1967,2017,185,20,Azuria Group Incorporated,2019-11-27,71,FALSE,,FALSE,,,FALSE,
 1094 College St,-79.4321265,43.6528841,Dufferin Grove,TRUE,Privately owned,1950,2017,19,3,,2021-04-28,81,FALSE,,FALSE,,,FALSE,
@@ -2035,7 +2035,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 510 Jarvis St,-79.3792326,43.6675187,Church-Yonge Corridor,TRUE,Privately owned,1888,2017,16,3,Eichler Management Group,2020-11-18,81,FALSE,,FALSE,,,FALSE,
 80 Wellesley St E,-79.380234,43.666096,Church-Yonge Corridor,TRUE,Privately owned,1963,2017,76,12,Metcap Living Management Inc.,2019-12-03,79,FALSE,,FALSE,,,FALSE,
 15 Dundonald St,-79.383959,43.665838,Church-Yonge Corridor,TRUE,Privately owned,1970,2017,172,24,Metcap Living Management Inc.,2020-11-13,74,TRUE,2018-03-08,TRUE,2018,0.06%,FALSE,
-127 Isabella St,-79.377854,43.669021,North St.James Town,TRUE,Social housing,1901,2017,20,3,Myrmex Non-Profit Housing,2020-11-19,63,FALSE,,FALSE,,,TRUE,Licensed
+127 Isabella St,-79.377854,43.669021,North St.James Town,TRUE,Social housing,1901,2017,20,3,Myrmex Non-Profit Housing,2020-11-19,63,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
 2559 Lake Shore Blvd W,-79.4886157,43.6090957,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1952,2017,26,4,,2020-11-19,80,FALSE,,FALSE,,,FALSE,
 2549 Lake Shore Blvd W,-79.4885905,43.6093311,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1952,2017,26,4,,2019-10-31,73,FALSE,,FALSE,,,FALSE,
 2515 Lake Shore Blvd W,-79.4894681,43.6115432,Mimico (includes Humber Bay Shores),TRUE,Privately owned,1950,2017,30,4,King George Apts.,2020-11-18,72,FALSE,,FALSE,,,FALSE,
@@ -3538,381 +3538,381 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 613 Parliament St,-79.3693098,43.6683631,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
 273 Wellesley St E,-79.3703506,43.6677957,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
 66 Cowan Ave,-79.4315122,43.6363526,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
-2815 Danforth Ave,-79.2954605,43.6893864,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-1417 Dundas St W,-79.4291845,43.6493565,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-408 Dovercourt Rd,-79.4263803,43.6528467,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-81 Shuter St,-79.3745784,43.6550384,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-363 Palmerston Blvd,-79.4108398,43.6583872,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-14 Mc Cormack St,-79.4726538,43.6770775,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-190 Dunn Ave,-79.4338331,43.6383105,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-504 Parliament St,-79.3686303,43.6652958,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-508 Parliament St,-79.3687086,43.6653961,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-506 Parliament St,-79.3687845,43.6653,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-430 Gladstone Ave,-79.433152,43.657731,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-55 Beaty Ave,-79.4402733,43.6381445,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-94 Pembroke St,-79.373189,43.6594446,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-134 Crescent Rd,-79.3812713,43.6789049,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-237 Beverley St,-79.3953497,43.6580725,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-174 High Park Ave,-79.4682549,43.6594259,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-207 Berkeley St,-79.3662681,43.6571721,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-9 Harvard Ave,-79.4432277,43.6407062,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-23 High Park Blvd,-79.4518166,43.6455216,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-169 Shaw St,-79.4165647,43.6464127,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1506 King St W,-79.4405897,43.6367033,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-66 Madison Ave,-79.4042412,43.6701789,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-69 Wilson Park Rd,-79.441907,43.6386777,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-570 Sherbourne St,-79.3762779,43.6703931,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-216 Dunn Ave,-79.4340572,43.6391043,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-63 Oakwood Ave,-79.4342962,43.6763752,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-13 Homewood Ave,-79.3743692,43.6636898,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-300 Sherbourne St,-79.3724327,43.6605683,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-54 Howland Ave,-79.4096118,43.6674453,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-68 Pembroke St,-79.3727702,43.6583534,Moss Park,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
-70 Melbourne Ave,-79.4321336,43.6399675,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-123 Madison Ave,-79.4043366,43.671858,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-158 Dowling Ave,-79.4395681,43.6383465,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-166 Dowling Ave,-79.4396296,43.6386909,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-7 Homewood Ave,-79.3743408,43.6635119,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-9 Homewood Ave,-79.3743663,43.6635716,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-155 Springhurst Ave,-79.4374474,43.6363705,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-26 Maynard Ave,-79.4378731,43.6379302,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-277 Wellesley St E,-79.3702443,43.66782,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-52 Dundonald St,-79.382084,43.6667684,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-266 St George St,-79.4028037,43.6733411,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-16 Lansdowne Ave,-79.4372073,43.6413768,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-2 Laxton Ave,-79.4378399,43.6397326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-220 Carlton St,-79.3696311,43.6641374,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-230 Carlton St,-79.369144,43.6642822,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-232 Carlton St,-79.3690486,43.664322,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-234 Carlton St,-79.3689234,43.6643212,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-255 Wellesley St E,-79.3713264,43.6676329,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-271 Wellesley St E,-79.3704392,43.6677762,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-41 Rose Ave,-79.3703533,43.6673191,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-695 Spadina Ave,-79.4026444,43.6653893,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-697 Spadina Ave,-79.4026521,43.6654312,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-41 D'arcy St,-79.393628,43.654781,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-198 Dunn Ave,-79.433984,43.6386241,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-544 Parliament St,-79.369183,43.6666798,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1518 King St W,-79.4412251,43.6367427,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-275 Wellesley St E,-79.3703257,43.6678104,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-242 Church St,-79.3771991,43.6559046,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-879 Broadview Ave,-79.3576342,43.6803089,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-118 Dowling Ave,-79.4386872,43.6362527,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-101 Gloucester St,-79.380036,43.6675057,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-102 Spencer Ave,-79.4308289,43.6371332,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-103 Tyndall Ave,-79.4279203,43.6367708,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-106 Beverley St,-79.3940878,43.6531823,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1330 King St W,-79.4324035,43.6381886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1335 King St W,-79.4323546,43.6376915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1371 King St W,-79.4338479,43.6374258,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
-14 Mc Kenzie Ave,-79.3698267,43.6746023,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1501 King St W,-79.4407223,43.6362669,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+2815 Danforth Ave,-79.2954605,43.6893864,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+1417 Dundas St W,-79.4291845,43.6493565,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+408 Dovercourt Rd,-79.4263803,43.6528467,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+81 Shuter St,-79.3745784,43.6550384,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+363 Palmerston Blvd,-79.4108398,43.6583872,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+14 Mc Cormack St,-79.4726538,43.6770775,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+190 Dunn Ave,-79.4338331,43.6383105,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+504 Parliament St,-79.3686303,43.6652958,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+508 Parliament St,-79.3687086,43.6653961,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+506 Parliament St,-79.3687845,43.6653,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+430 Gladstone Ave,-79.433152,43.657731,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+55 Beaty Ave,-79.4402733,43.6381445,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+94 Pembroke St,-79.373189,43.6594446,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+134 Crescent Rd,-79.3812713,43.6789049,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+237 Beverley St,-79.3953497,43.6580725,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+174 High Park Ave,-79.4682549,43.6594259,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+207 Berkeley St,-79.3662681,43.6571721,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+9 Harvard Ave,-79.4432277,43.6407062,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+23 High Park Blvd,-79.4518166,43.6455216,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+169 Shaw St,-79.4165647,43.6464127,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1506 King St W,-79.4405897,43.6367033,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+66 Madison Ave,-79.4042412,43.6701789,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+69 Wilson Park Rd,-79.441907,43.6386777,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+570 Sherbourne St,-79.3762779,43.6703931,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+216 Dunn Ave,-79.4340572,43.6391043,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+63 Oakwood Ave,-79.4342962,43.6763752,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+13 Homewood Ave,-79.3743692,43.6636898,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+300 Sherbourne St,-79.3724327,43.6605683,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+54 Howland Ave,-79.4096118,43.6674453,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+68 Pembroke St,-79.3727702,43.6583534,Moss Park,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed prior to 2018
+70 Melbourne Ave,-79.4321336,43.6399675,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+123 Madison Ave,-79.4043366,43.671858,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+158 Dowling Ave,-79.4395681,43.6383465,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+166 Dowling Ave,-79.4396296,43.6386909,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+7 Homewood Ave,-79.3743408,43.6635119,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+9 Homewood Ave,-79.3743663,43.6635716,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+155 Springhurst Ave,-79.4374474,43.6363705,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+26 Maynard Ave,-79.4378731,43.6379302,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+277 Wellesley St E,-79.3702443,43.66782,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+52 Dundonald St,-79.382084,43.6667684,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+266 St George St,-79.4028037,43.6733411,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+16 Lansdowne Ave,-79.4372073,43.6413768,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+2 Laxton Ave,-79.4378399,43.6397326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+220 Carlton St,-79.3696311,43.6641374,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+230 Carlton St,-79.369144,43.6642822,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+232 Carlton St,-79.3690486,43.664322,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+234 Carlton St,-79.3689234,43.6643212,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+255 Wellesley St E,-79.3713264,43.6676329,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+271 Wellesley St E,-79.3704392,43.6677762,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+41 Rose Ave,-79.3703533,43.6673191,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+695 Spadina Ave,-79.4026444,43.6653893,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+697 Spadina Ave,-79.4026521,43.6654312,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+41 D'arcy St,-79.393628,43.654781,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+198 Dunn Ave,-79.433984,43.6386241,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+544 Parliament St,-79.369183,43.6666798,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1518 King St W,-79.4412251,43.6367427,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+275 Wellesley St E,-79.3703257,43.6678104,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+242 Church St,-79.3771991,43.6559046,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+879 Broadview Ave,-79.3576342,43.6803089,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+118 Dowling Ave,-79.4386872,43.6362527,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+101 Gloucester St,-79.380036,43.6675057,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+102 Spencer Ave,-79.4308289,43.6371332,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+103 Tyndall Ave,-79.4279203,43.6367708,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+106 Beverley St,-79.3940878,43.6531823,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1330 King St W,-79.4324035,43.6381886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1335 King St W,-79.4323546,43.6376915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1371 King St W,-79.4338479,43.6374258,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed prior to 2018
+14 Mc Kenzie Ave,-79.3698267,43.6746023,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1501 King St W,-79.4407223,43.6362669,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
 1510 King St W,-79.4408215,43.6367287,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
-1512 King St W,-79.4410416,43.6367683,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-161 Dunn Ave,-79.4326913,43.6371366,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-180 Sherbourne St,-79.3705321,43.6562662,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-185 Dowling Ave,-79.4393216,43.6394982,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1868 Bloor St W,-79.4644038,43.6540469,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-22 Cloverdale Rd,-79.4620102,43.6744306,Weston-Pellam Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-228 Beverley St,-79.3957842,43.6578732,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-24 Callender St,-79.4429099,43.6404386,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-25 Augusta Ave,-79.399499,43.6490795,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-25 Mcgill St,-79.381167,43.6600006,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-262 Gerrard St E,-79.368907,43.662145,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-283 Christie St,-79.4209842,43.6710771,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-283 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-283.5 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-31 Homewood Ave,-79.3745912,43.6641403,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-316 St George St,-79.4036881,43.674959,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-37 Huron St,-79.3952663,43.6518992,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-39 Christie St,-79.4188081,43.6650546,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-39 Pembroke St,-79.3717554,43.6574407,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-47 Christie St,-79.4188895,43.6652674,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-498 Pape Ave,-79.3427351,43.6727563,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-50 Bernard Ave,-79.3988783,43.6736578,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-50-52 Metcalfe St,-79.3678343,43.6668866,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-536 Huron St,-79.4030508,43.6702246,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-536.5 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-620 Spadina Ave,-79.402272,43.662044,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-652 Huron St,-79.4046134,43.6743098,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-67 D'arcy St,-79.394883,43.654468,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-68 Cowan Ave,-79.4315302,43.6364091,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-681 Dovercourt Rd,-79.4284637,43.6595236,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-72 A Spencer Ave,-79.4303475,43.6360908,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-74 Melbourne Ave,-79.4323469,43.6399368,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-87 Pembroke St,-79.372429,43.6592443,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-93 Spadina Rd,-79.4051607,43.6706446,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-151 Tyndall Ave,-79.4286599,43.6382308,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-2190 Gerrard St E,-79.3019022,43.683907,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-25 Norwood Rd,-79.3028281,43.6837951,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-27 Norwood Rd,-79.3028206,43.6838819,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-369 Sackville St,-79.364481,43.6642277,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-40 Beaty Ave,-79.4407806,43.6377625,South Parkdale,FALSE,,,,,,2315820 Ontario,,,TRUE,2017-11-10,FALSE,,,TRUE,Licensed
-11 Fairview Blvd,-79.3564087,43.6748916,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-118 Spadina Rd,-79.406367,43.672383,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-120 Spencer Ave,-79.4309942,43.6376749,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-122 Spencer Ave,-79.430601,43.638023,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1302 King St W,-79.431184,43.6384007,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
-149 Dundas St E,-79.3753597,43.6566717,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1516 King St W,-79.4411594,43.6367834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1524 King St W,-79.4418485,43.6371356,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-160 Oakwood Ave,-79.436133,43.680037,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-160 Spadina Rd,-79.4069659,43.6738755,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-162 Madison Ave,-79.4058591,43.6741264,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-162 Spadina Rd,-79.406991,43.6739317,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-17 Springhurst Ave,-79.4270169,43.6344646,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1723 Dufferin St,-79.4432548,43.6792563,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1725 Dufferin St,-79.4433208,43.6793773,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-197 Carlton St,-79.3702732,43.6635637,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-203 Spadina Rd,-79.4065076,43.6739969,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-205 Berkeley St,-79.3662468,43.6571222,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-219 Spadina Rd,-79.406638,43.674462,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-22 Springhurst Ave,-79.4270066,43.6348738,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-236 Carlton St,-79.3688275,43.6643126,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28 Oak Park Ave,-79.3081487,43.6881045,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-30 Maynard Ave,-79.4379708,43.6381056,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-32 Admiral Rd,-79.4003564,43.6716436,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-3220 Dundas St W,-79.4774069,43.6657975,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-382 Dundas St E,-79.3682846,43.6590963,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-386 Dundas St E,-79.3682178,43.6591044,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-390 Bathurst St,-79.4068895,43.6536771,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-422 Sherbourne St,-79.3742487,43.6652647,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-43 Havelock St,-79.4299002,43.6546832,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-432 Sherbourne St,-79.374308,43.6654943,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-453-455 Parkside Dr,-79.4586229,43.6520935,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-457-459 Parkside Dr,-79.458661,43.6521813,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-5 Glenavon Rd,-79.4389782,43.6355745,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-51 High Park Blvd,-79.4534962,43.6451704,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-62 Brock Ave,-79.4335167,43.6438135,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-76 Pembroke St,-79.3729926,43.6588741,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-780 Coxwell Ave,-79.3252982,43.6866702,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-83 Spadina Rd,-79.4049504,43.6702654,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-86 D'arcy St,-79.395583,43.654748,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-97 Spadina Rd,-79.4052324,43.6707824,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-295 Jarvis St,-79.37483,43.658788,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-998 St Clair Ave W,-79.43725,43.6795,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-104 Bedford Rd,-79.3991441,43.6720047,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1326 King St W,-79.432066,43.6382041,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-136 Close Ave,-79.4351753,43.6380328,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-138 Close Ave,-79.4352075,43.6380839,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-145 Gerrard St E,-79.3749481,43.6604627,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-179 Dowling Ave,-79.4392842,43.6392834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-180 Dowling Ave,-79.4398741,43.6391712,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-21 Oxford St,-79.400623,43.6563454,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28 Harvard Ave,-79.4439817,43.6409616,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-280 Augusta Ave,-79.403186,43.656907,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-30 Lansdowne Ave,-79.4373758,43.6417924,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-5 Selby St,-79.377898,43.67092,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-72 Melbourne Ave,-79.4322443,43.6399524,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-9 Albany Ave,-79.40991,43.665868,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-168 Isabella St,-79.37639,43.669883,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-930 Dundas St E,-79.3492264,43.6631773,South Riverdale,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed
-10 Sorauren Ave,-79.4413512,43.6402063,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-101 Spadina Rd,-79.4052514,43.670922,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-103 Spadina Rd,-79.4052679,43.6709724,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-106 Spadina Rd,-79.4063247,43.6723491,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1134 Dufferin St,-79.4368963,43.6629779,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-117 Pembroke St,-79.372909,43.660344,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-119 Dowling Ave,-79.4382596,43.6365765,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-147 Gerrard St E,-79.3746496,43.6605088,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-149 Cowan Ave,-79.4317401,43.6386318,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-149 Tyndall Ave,-79.4286364,43.6381645,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-150 Cowan Ave,-79.4323651,43.6386584,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-157 Dunn Ave,-79.4326311,43.6369723,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-160 Dowling Ave,-79.4395912,43.6384578,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-169 Dowling Ave,-79.4390502,43.6387445,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-175 Lowther Ave,-79.4073001,43.6680835,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-18 Maynard Ave,-79.4378168,43.6375481,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-192 Dunn Ave,-79.4338507,43.6383833,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-194 Dunn Ave,-79.4339369,43.6384881,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-227 A Crawford St,-79.4162915,43.6487136,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-251 St George St,-79.4016709,43.6729201,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-41 Pembroke St,-79.3718223,43.6575267,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-43 Pembroke St,-79.3717994,43.657605,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-490 Huron St,-79.4023112,43.6683559,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-492 Palmerston Blvd,-79.413021,43.6622665,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-500 Queen St E,-79.359221,43.657032,Regent Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-54 Macdonell Ave,-79.4388246,43.6419738,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-556 Bathurst St,-79.4088213,43.6583873,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-558 Bathurst St,-79.4088131,43.658475,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-566 Bathurst St,-79.4089537,43.6587158,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-61 Spencer Ave,-79.4298249,43.636396,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-670 Bathurst St,-79.4101268,43.661777,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-71 Beaty Ave,-79.4405317,43.6388138,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-80 Woodlawn Ave E,-79.3897132,43.684793,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-96 Dowling Ave,-79.4382304,43.6351915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-99 O'hara Ave,-79.435221,43.644504,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-100 Lippincott St,-79.4071653,43.6576675,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-101 Brunswick Ave,-79.4050486,43.6605091,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-127 Dunn Ave,-79.4319224,43.6357566,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1365 Bathurst St,-79.416874,43.680266,Casa Loma,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-137 Bathurst St,-79.4030991,43.6458217,Waterfront Communities-The Island,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-138 Jones Ave,-79.3347053,43.6665005,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-156 Cowan Ave,-79.4324311,43.6388647,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-163 Spadina Rd,-79.4060088,43.6728098,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-164 Close Ave,-79.4355042,43.6388849,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-18 Spencer Ave,-79.4296922,43.6343206,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-180 Perth Ave,-79.4500171,43.659161,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-187 Dunn Ave,-79.4331071,43.638137,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-203 Dunn Ave,-79.433407,43.6388936,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-205 Carlton St,-79.3700104,43.6636888,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-21 High Park Blvd,-79.4516182,43.6455486,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-2140 Bloor St W,-79.4726351,43.6522169,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-229 Manning Ave,-79.4109461,43.6522982,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-250 Queen St E,-79.3683146,43.6549754,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-26-28 Callender St,-79.4429111,43.6405293,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-273 St George St,-79.4023896,43.6736738,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-275 A Broadview Ave,-79.3515015,43.6636294,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-279.5 George St,-79.3734179,43.6578646,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28 Beaty Ave,-79.4404383,43.6371501,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28 Delaware Ave,-79.4258977,43.6549697,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-30 Beaty Ave,-79.4404656,43.6372122,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-335 Leslie St,-79.3324875,43.6691285,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-370 Dundas St W,-79.3936526,43.6540209,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-38 Harcourt Ave,-79.3433652,43.6777106,Blake-Jones,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-388 Dundas St E,-79.3681454,43.6591168,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-42 Beaty Ave,-79.440804,43.6378687,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-476 Dovercourt Rd,-79.4270134,43.6543328,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-546 Palmerston Blvd,-79.4138037,43.6642218,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-56 Ferrier Ave,-79.3491229,43.6797785,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-59 Gwynne Ave,-79.4294088,43.6408641,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-60 Borden St,-79.4060827,43.6585027,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-67 Beaty Ave,-79.4404321,43.638591,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-68 Gloucester St,-79.382213,43.667363,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-7 Admiral Rd,-79.3994857,43.670859,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-77 Harvard Ave,-79.4461777,43.64018,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-8 Temple Ave,-79.4267174,43.6365185,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-90 A Grenadier Rd,-79.4483723,43.6495106,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-101 Enderby Rd,-79.3016881,43.6847862,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-105 Oakwood Ave,-79.4349059,43.6778809,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-11 Homewood Ave,-79.3743938,43.6636217,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-112 Spencer Ave,-79.4308581,43.6373756,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-117 Dowling Ave,-79.4381984,43.6365172,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-140 Spadina Rd,-79.4067224,43.6732141,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-15 Homewood Ave,-79.3743842,43.6637261,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-15 Temple Ave,-79.4268516,43.6359869,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-150 Springhurst Ave,-79.4367587,43.6361462,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1549 Queen St W,-79.4433452,43.639115,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-156 Spadina Rd,-79.4069153,43.6737311,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-16 Spencer Ave,-79.4297273,43.6342713,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-164 Spadina Rd,-79.4070081,43.6739886,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-171 Leslie St,-79.3309008,43.665474,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-175 Keele St,-79.4615584,43.6590666,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-189 Dunn Ave,-79.4331919,43.6383087,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-191 Dunn Ave,-79.4331868,43.6384215,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-193 Dunn Ave,-79.4332124,43.6385306,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-20 Temple Ave,-79.4271694,43.6364172,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-201 Carlton St,-79.3701728,43.6635476,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-210 Beverley St,-79.3955744,43.65723,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-2178 Gerrard St E,-79.3022203,43.683798,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-22 Thorburn Ave,-79.4271342,43.6356038,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-226 Nairn Ave,-79.4514557,43.6830507,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-23 Madison Ave,-79.4029489,43.6682652,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-241 Sherbourne St,-79.3709229,43.6589153,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-245 Wellesley St E,-79.3718169,43.6675018,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-257 Wellesley St E,-79.3712208,43.6676498,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-264 St George St,-79.4027137,43.6732225,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-269 Wellesley St E,-79.3705063,43.6677617,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-275 St George St,-79.4023759,43.6737302,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-286 Gerrard St E,-79.3677711,43.6623868,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-29 Homewood Ave,-79.3745781,43.6641011,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-346 Palmerston Blvd,-79.4111637,43.6577289,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-35 Huron St,-79.3952087,43.6517898,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-36 Brunswick Ave,-79.4048553,43.6584435,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-366 Markham St,-79.4100193,43.6580728,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-4 Spencer Ave,-79.4293654,43.6337386,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-436 Sherbourne St,-79.3743444,43.6656467,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-438 Sherbourne St,-79.3744499,43.6656692,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-44 Tyrrel Ave,-79.4238058,43.6785283,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-48 Wanda Rd,-79.4579417,43.6583369,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-502 Huron St,-79.4025118,43.6688591,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-544 Huron St,-79.4030921,43.6704729,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-55 Huntley St,-79.378111,43.670509,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-56 Howland Ave,-79.4097096,43.6674623,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-66 A Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
-66 Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed
-661 Pape Ave,-79.3440808,43.6775827,Blake-Jones,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-710 Danforth Ave,-79.343373,43.679494,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-73 Mcgill St,-79.3793679,43.6603916,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-735 Gladstone Ave,-79.4361595,43.6655863,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-784 Pape Ave,-79.3461608,43.6816745,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-91 Pembroke St,-79.3725864,43.6593477,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-935 Queen St W,-79.413319,43.645058,Niagara,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-96 Pembroke St,-79.3732088,43.6594909,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-10 Maynard Ave,-79.4376764,43.6370966,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-143 Dowling Ave,-79.4385847,43.6374783,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-15 Wilson Park Rd,-79.4413068,43.637341,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-155 Dunn Ave,-79.4325762,43.6368886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-17 Homewood Ave,-79.3744697,43.6637722,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-24 Thorburn Ave,-79.427187,43.635581,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-260 Logan Ave,-79.342986,43.661072,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-265 Wellesley St E,-79.370666,43.6677263,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-290 Barton Ave,-79.4239769,43.6656444,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-30 Maple Grove Ave,-79.4341891,43.6427377,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-35 Tyndall Ave,-79.4276941,43.635714,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-36 Dalton Rd,-79.4075297,43.6676993,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-51 Oriole Pkwy,-79.4017307,43.6943761,Yonge-St.Clair,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-69 Spadina Rd,-79.4048043,43.6698099,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-199 Carlton St,-79.3702005,43.6635114,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-501 Logan Ave,-79.3450626,43.6675544,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-118 Lauder Ave,-79.4396556,43.6776972,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-59 Wilson Park Rd,-79.4417485,43.6383688,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-196 Beverley St,-79.3952064,43.6563622,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-137 Havelock St,-79.4305693,43.6565743,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-137 Jarvis St,-79.3727737,43.6533093,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1554 King St W,-79.4433312,43.6378367,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1558 B Davenport Rd,-79.446917,43.6723555,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1298 Danforth Ave,-79.330033,43.682214,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-181 Dowling Ave,-79.4392597,43.6393493,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-46 The Queensway,-79.4514634,43.6397962,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-536 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-151 Dunn Ave,-79.4324889,43.6367055,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed
-435 Broadview Ave,-79.3530339,43.6672652,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-9 Laxton Ave,-79.4381154,43.6391923,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-20 Maynard Ave,-79.4378303,43.6376451,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-281 Dundas St E,-79.3714512,43.6581474,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-344 Jarvis St,-79.377206,43.662971,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-60 Triller Ave,-79.4445069,43.6400789,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-62 Triller Ave,-79.4445362,43.6401906,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-11 Elm Grove Ave,-79.4303523,43.6391581,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed
-136 Bedford Rd,-79.3995148,43.6728481,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-15 Thorburn Ave,-79.4267979,43.6352085,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-223 Spadina Rd,-79.4067138,43.6745456,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-267 Wellesley St E,-79.3706033,43.6678077,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-437 Sherbourne St,-79.3737809,43.665629,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-577 Huron St,-79.4032863,43.6723508,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-93 West Lodge Ave,-79.4364875,43.6442571,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-94 Cowan Ave,-79.4317494,43.6369084,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-964 Bathurst St,-79.413125,43.669403,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-29 Wade Ave,-79.4441275,43.658819,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-32 Spencer Ave,-79.4298829,43.6347723,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1535 Dufferin St,-79.4413788,43.6745878,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-178 Dowling Ave,-79.4397933,43.6391071,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-18 Ulster St,-79.405045,43.6608467,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1926 Bloor St W,-79.4664398,43.653657,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-199 Berkeley St,-79.3658972,43.6570374,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-2 Elm Grove Ave,-79.4307283,43.6387062,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-26 Lansdowne Ave,-79.4373335,43.64168,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-38 Prospect St,-79.3698331,43.6671297,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-580 Queen St W,-79.403841,43.647415,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-60 Harvard Ave,-79.4455472,43.6406373,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1097 Dufferin St,-79.4361575,43.6624007,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-28-30 Langley Ave,-79.3516117,43.6683879,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-11 Spadina Rd,-79.4038891,43.6676155,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-116 Spencer Ave,-79.4309453,43.6375348,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-287 Jarvis St,-79.3748513,43.6586439,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-75 Northcote Ave,-79.4265643,43.6450189,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-732 Queen St W,-79.409747,43.646141,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-63 A Spencer Ave,-79.4297973,43.636487,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-51 Winnifred Ave,-79.335577,43.6607047,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-184 Sherbourne St,-79.3705095,43.6564568,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-384 Bathurst St,-79.406786,43.653531,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-213 Carlton St,-79.3695392,43.6637648,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-124 Spencer Ave,-79.4310113,43.6380326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-760 Gerrard St E,-79.346146,43.6670643,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-200 Lindsey Ave,-79.4306966310098,43.654063656404,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-33 Beaty Ave,-79.4400493,43.6374834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
-67 Pembroke St,-79.3723781,43.6586335,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed after 2018
+1512 King St W,-79.4410416,43.6367683,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+161 Dunn Ave,-79.4326913,43.6371366,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+180 Sherbourne St,-79.3705321,43.6562662,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+185 Dowling Ave,-79.4393216,43.6394982,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1868 Bloor St W,-79.4644038,43.6540469,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+22 Cloverdale Rd,-79.4620102,43.6744306,Weston-Pellam Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+228 Beverley St,-79.3957842,43.6578732,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+24 Callender St,-79.4429099,43.6404386,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+25 Augusta Ave,-79.399499,43.6490795,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+25 Mcgill St,-79.381167,43.6600006,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+262 Gerrard St E,-79.368907,43.662145,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+283 Christie St,-79.4209842,43.6710771,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+283 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+283.5 George St,-79.3735358,43.6580718,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+31 Homewood Ave,-79.3745912,43.6641403,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+316 St George St,-79.4036881,43.674959,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+37 Huron St,-79.3952663,43.6518992,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+39 Christie St,-79.4188081,43.6650546,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+39 Pembroke St,-79.3717554,43.6574407,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+47 Christie St,-79.4188895,43.6652674,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+498 Pape Ave,-79.3427351,43.6727563,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+50 Bernard Ave,-79.3988783,43.6736578,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+50-52 Metcalfe St,-79.3678343,43.6668866,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+536 Huron St,-79.4030508,43.6702246,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+536.5 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+620 Spadina Ave,-79.402272,43.662044,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+652 Huron St,-79.4046134,43.6743098,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+67 D'arcy St,-79.394883,43.654468,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+68 Cowan Ave,-79.4315302,43.6364091,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+681 Dovercourt Rd,-79.4284637,43.6595236,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+72 A Spencer Ave,-79.4303475,43.6360908,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+74 Melbourne Ave,-79.4323469,43.6399368,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+87 Pembroke St,-79.372429,43.6592443,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+93 Spadina Rd,-79.4051607,43.6706446,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+151 Tyndall Ave,-79.4286599,43.6382308,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+2190 Gerrard St E,-79.3019022,43.683907,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+25 Norwood Rd,-79.3028281,43.6837951,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+27 Norwood Rd,-79.3028206,43.6838819,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+369 Sackville St,-79.364481,43.6642277,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+40 Beaty Ave,-79.4407806,43.6377625,South Parkdale,FALSE,,,,,,2315820 Ontario,,,TRUE,2017-11-10,FALSE,,,TRUE,Licensed prior to 2018
+11 Fairview Blvd,-79.3564087,43.6748916,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+118 Spadina Rd,-79.406367,43.672383,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+120 Spencer Ave,-79.4309942,43.6376749,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+122 Spencer Ave,-79.430601,43.638023,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1302 King St W,-79.431184,43.6384007,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed prior to 2018
+149 Dundas St E,-79.3753597,43.6566717,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1516 King St W,-79.4411594,43.6367834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1524 King St W,-79.4418485,43.6371356,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+160 Oakwood Ave,-79.436133,43.680037,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+160 Spadina Rd,-79.4069659,43.6738755,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+162 Madison Ave,-79.4058591,43.6741264,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+162 Spadina Rd,-79.406991,43.6739317,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+17 Springhurst Ave,-79.4270169,43.6344646,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1723 Dufferin St,-79.4432548,43.6792563,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1725 Dufferin St,-79.4433208,43.6793773,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+197 Carlton St,-79.3702732,43.6635637,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+203 Spadina Rd,-79.4065076,43.6739969,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+205 Berkeley St,-79.3662468,43.6571222,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+219 Spadina Rd,-79.406638,43.674462,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+22 Springhurst Ave,-79.4270066,43.6348738,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+236 Carlton St,-79.3688275,43.6643126,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+28 Oak Park Ave,-79.3081487,43.6881045,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+30 Maynard Ave,-79.4379708,43.6381056,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+32 Admiral Rd,-79.4003564,43.6716436,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+3220 Dundas St W,-79.4774069,43.6657975,Junction Area,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+382 Dundas St E,-79.3682846,43.6590963,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+386 Dundas St E,-79.3682178,43.6591044,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+390 Bathurst St,-79.4068895,43.6536771,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+422 Sherbourne St,-79.3742487,43.6652647,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+43 Havelock St,-79.4299002,43.6546832,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+432 Sherbourne St,-79.374308,43.6654943,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+453-455 Parkside Dr,-79.4586229,43.6520935,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+457-459 Parkside Dr,-79.458661,43.6521813,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+5 Glenavon Rd,-79.4389782,43.6355745,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+51 High Park Blvd,-79.4534962,43.6451704,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+62 Brock Ave,-79.4335167,43.6438135,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+76 Pembroke St,-79.3729926,43.6588741,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+780 Coxwell Ave,-79.3252982,43.6866702,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+83 Spadina Rd,-79.4049504,43.6702654,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+86 D'arcy St,-79.395583,43.654748,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+97 Spadina Rd,-79.4052324,43.6707824,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+295 Jarvis St,-79.37483,43.658788,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+998 St Clair Ave W,-79.43725,43.6795,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+104 Bedford Rd,-79.3991441,43.6720047,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1326 King St W,-79.432066,43.6382041,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+136 Close Ave,-79.4351753,43.6380328,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+138 Close Ave,-79.4352075,43.6380839,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+145 Gerrard St E,-79.3749481,43.6604627,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+179 Dowling Ave,-79.4392842,43.6392834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+180 Dowling Ave,-79.4398741,43.6391712,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+21 Oxford St,-79.400623,43.6563454,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+28 Harvard Ave,-79.4439817,43.6409616,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+280 Augusta Ave,-79.403186,43.656907,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+30 Lansdowne Ave,-79.4373758,43.6417924,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+5 Selby St,-79.377898,43.67092,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+72 Melbourne Ave,-79.4322443,43.6399524,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+9 Albany Ave,-79.40991,43.665868,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+168 Isabella St,-79.37639,43.669883,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+930 Dundas St E,-79.3492264,43.6631773,South Riverdale,FALSE,,,,,,,,,TRUE,2019-11-05,FALSE,,,TRUE,Licensed prior to 2018
+10 Sorauren Ave,-79.4413512,43.6402063,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+101 Spadina Rd,-79.4052514,43.670922,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+103 Spadina Rd,-79.4052679,43.6709724,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+106 Spadina Rd,-79.4063247,43.6723491,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1134 Dufferin St,-79.4368963,43.6629779,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+117 Pembroke St,-79.372909,43.660344,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+119 Dowling Ave,-79.4382596,43.6365765,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+147 Gerrard St E,-79.3746496,43.6605088,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+149 Cowan Ave,-79.4317401,43.6386318,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+149 Tyndall Ave,-79.4286364,43.6381645,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+150 Cowan Ave,-79.4323651,43.6386584,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+157 Dunn Ave,-79.4326311,43.6369723,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+160 Dowling Ave,-79.4395912,43.6384578,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+169 Dowling Ave,-79.4390502,43.6387445,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+175 Lowther Ave,-79.4073001,43.6680835,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+18 Maynard Ave,-79.4378168,43.6375481,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+192 Dunn Ave,-79.4338507,43.6383833,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+194 Dunn Ave,-79.4339369,43.6384881,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+227 A Crawford St,-79.4162915,43.6487136,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+251 St George St,-79.4016709,43.6729201,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+41 Pembroke St,-79.3718223,43.6575267,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+43 Pembroke St,-79.3717994,43.657605,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+490 Huron St,-79.4023112,43.6683559,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+492 Palmerston Blvd,-79.413021,43.6622665,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+500 Queen St E,-79.359221,43.657032,Regent Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+54 Macdonell Ave,-79.4388246,43.6419738,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+556 Bathurst St,-79.4088213,43.6583873,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+558 Bathurst St,-79.4088131,43.658475,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+566 Bathurst St,-79.4089537,43.6587158,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+61 Spencer Ave,-79.4298249,43.636396,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+670 Bathurst St,-79.4101268,43.661777,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+71 Beaty Ave,-79.4405317,43.6388138,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+80 Woodlawn Ave E,-79.3897132,43.684793,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+96 Dowling Ave,-79.4382304,43.6351915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+99 O'hara Ave,-79.435221,43.644504,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+100 Lippincott St,-79.4071653,43.6576675,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+101 Brunswick Ave,-79.4050486,43.6605091,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+127 Dunn Ave,-79.4319224,43.6357566,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1365 Bathurst St,-79.416874,43.680266,Casa Loma,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+137 Bathurst St,-79.4030991,43.6458217,Waterfront Communities-The Island,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+138 Jones Ave,-79.3347053,43.6665005,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+156 Cowan Ave,-79.4324311,43.6388647,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+163 Spadina Rd,-79.4060088,43.6728098,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+164 Close Ave,-79.4355042,43.6388849,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+18 Spencer Ave,-79.4296922,43.6343206,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+180 Perth Ave,-79.4500171,43.659161,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+187 Dunn Ave,-79.4331071,43.638137,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+203 Dunn Ave,-79.433407,43.6388936,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+205 Carlton St,-79.3700104,43.6636888,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+21 High Park Blvd,-79.4516182,43.6455486,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+2140 Bloor St W,-79.4726351,43.6522169,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+229 Manning Ave,-79.4109461,43.6522982,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+250 Queen St E,-79.3683146,43.6549754,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+26-28 Callender St,-79.4429111,43.6405293,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+273 St George St,-79.4023896,43.6736738,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+275 A Broadview Ave,-79.3515015,43.6636294,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+279.5 George St,-79.3734179,43.6578646,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+28 Beaty Ave,-79.4404383,43.6371501,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+28 Delaware Ave,-79.4258977,43.6549697,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+30 Beaty Ave,-79.4404656,43.6372122,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+335 Leslie St,-79.3324875,43.6691285,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+370 Dundas St W,-79.3936526,43.6540209,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+38 Harcourt Ave,-79.3433652,43.6777106,Blake-Jones,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+388 Dundas St E,-79.3681454,43.6591168,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+42 Beaty Ave,-79.440804,43.6378687,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+476 Dovercourt Rd,-79.4270134,43.6543328,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+546 Palmerston Blvd,-79.4138037,43.6642218,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+56 Ferrier Ave,-79.3491229,43.6797785,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+59 Gwynne Ave,-79.4294088,43.6408641,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+60 Borden St,-79.4060827,43.6585027,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+67 Beaty Ave,-79.4404321,43.638591,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+68 Gloucester St,-79.382213,43.667363,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+7 Admiral Rd,-79.3994857,43.670859,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+77 Harvard Ave,-79.4461777,43.64018,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+8 Temple Ave,-79.4267174,43.6365185,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+90 A Grenadier Rd,-79.4483723,43.6495106,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+101 Enderby Rd,-79.3016881,43.6847862,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+105 Oakwood Ave,-79.4349059,43.6778809,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+11 Homewood Ave,-79.3743938,43.6636217,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+112 Spencer Ave,-79.4308581,43.6373756,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+117 Dowling Ave,-79.4381984,43.6365172,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+140 Spadina Rd,-79.4067224,43.6732141,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+15 Homewood Ave,-79.3743842,43.6637261,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+15 Temple Ave,-79.4268516,43.6359869,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+150 Springhurst Ave,-79.4367587,43.6361462,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1549 Queen St W,-79.4433452,43.639115,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+156 Spadina Rd,-79.4069153,43.6737311,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+16 Spencer Ave,-79.4297273,43.6342713,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+164 Spadina Rd,-79.4070081,43.6739886,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+171 Leslie St,-79.3309008,43.665474,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+175 Keele St,-79.4615584,43.6590666,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+189 Dunn Ave,-79.4331919,43.6383087,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+191 Dunn Ave,-79.4331868,43.6384215,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+193 Dunn Ave,-79.4332124,43.6385306,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+20 Temple Ave,-79.4271694,43.6364172,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+201 Carlton St,-79.3701728,43.6635476,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+210 Beverley St,-79.3955744,43.65723,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+2178 Gerrard St E,-79.3022203,43.683798,East End-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+22 Thorburn Ave,-79.4271342,43.6356038,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+226 Nairn Ave,-79.4514557,43.6830507,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+23 Madison Ave,-79.4029489,43.6682652,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+241 Sherbourne St,-79.3709229,43.6589153,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+245 Wellesley St E,-79.3718169,43.6675018,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+257 Wellesley St E,-79.3712208,43.6676498,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+264 St George St,-79.4027137,43.6732225,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+269 Wellesley St E,-79.3705063,43.6677617,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+275 St George St,-79.4023759,43.6737302,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+286 Gerrard St E,-79.3677711,43.6623868,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+29 Homewood Ave,-79.3745781,43.6641011,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+346 Palmerston Blvd,-79.4111637,43.6577289,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+35 Huron St,-79.3952087,43.6517898,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+36 Brunswick Ave,-79.4048553,43.6584435,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+366 Markham St,-79.4100193,43.6580728,Palmerston-Little Italy,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+4 Spencer Ave,-79.4293654,43.6337386,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+436 Sherbourne St,-79.3743444,43.6656467,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+438 Sherbourne St,-79.3744499,43.6656692,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+44 Tyrrel Ave,-79.4238058,43.6785283,Wychwood,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+48 Wanda Rd,-79.4579417,43.6583369,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+502 Huron St,-79.4025118,43.6688591,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+544 Huron St,-79.4030921,43.6704729,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+55 Huntley St,-79.378111,43.670509,North St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+56 Howland Ave,-79.4097096,43.6674623,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+66 A Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed prior to 2018
+66 Pembroke St,-79.3727432,43.6583691,Moss Park,FALSE,,,,,,,,,TRUE,"2019-10-28, 2019-10-24",FALSE,,,TRUE,Licensed prior to 2018
+661 Pape Ave,-79.3440808,43.6775827,Blake-Jones,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+710 Danforth Ave,-79.343373,43.679494,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+73 Mcgill St,-79.3793679,43.6603916,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+735 Gladstone Ave,-79.4361595,43.6655863,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+784 Pape Ave,-79.3461608,43.6816745,Playter Estates-Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+91 Pembroke St,-79.3725864,43.6593477,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+935 Queen St W,-79.413319,43.645058,Niagara,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+96 Pembroke St,-79.3732088,43.6594909,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+10 Maynard Ave,-79.4376764,43.6370966,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+143 Dowling Ave,-79.4385847,43.6374783,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+15 Wilson Park Rd,-79.4413068,43.637341,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+155 Dunn Ave,-79.4325762,43.6368886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+17 Homewood Ave,-79.3744697,43.6637722,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+24 Thorburn Ave,-79.427187,43.635581,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+260 Logan Ave,-79.342986,43.661072,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+265 Wellesley St E,-79.370666,43.6677263,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+290 Barton Ave,-79.4239769,43.6656444,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+30 Maple Grove Ave,-79.4341891,43.6427377,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+35 Tyndall Ave,-79.4276941,43.635714,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+36 Dalton Rd,-79.4075297,43.6676993,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+51 Oriole Pkwy,-79.4017307,43.6943761,Yonge-St.Clair,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+69 Spadina Rd,-79.4048043,43.6698099,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+199 Carlton St,-79.3702005,43.6635114,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+501 Logan Ave,-79.3450626,43.6675544,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+118 Lauder Ave,-79.4396556,43.6776972,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+59 Wilson Park Rd,-79.4417485,43.6383688,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+196 Beverley St,-79.3952064,43.6563622,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+137 Havelock St,-79.4305693,43.6565743,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+137 Jarvis St,-79.3727737,43.6533093,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1554 King St W,-79.4433312,43.6378367,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1558 B Davenport Rd,-79.446917,43.6723555,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1298 Danforth Ave,-79.330033,43.682214,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+181 Dowling Ave,-79.4392597,43.6393493,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+46 The Queensway,-79.4514634,43.6397962,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+536 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+151 Dunn Ave,-79.4324889,43.6367055,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed prior to 2018
+435 Broadview Ave,-79.3530339,43.6672652,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+9 Laxton Ave,-79.4381154,43.6391923,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+20 Maynard Ave,-79.4378303,43.6376451,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+281 Dundas St E,-79.3714512,43.6581474,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+344 Jarvis St,-79.377206,43.662971,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+60 Triller Ave,-79.4445069,43.6400789,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+62 Triller Ave,-79.4445362,43.6401906,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+11 Elm Grove Ave,-79.4303523,43.6391581,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed prior to 2018
+136 Bedford Rd,-79.3995148,43.6728481,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+15 Thorburn Ave,-79.4267979,43.6352085,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+223 Spadina Rd,-79.4067138,43.6745456,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+267 Wellesley St E,-79.3706033,43.6678077,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+437 Sherbourne St,-79.3737809,43.665629,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+577 Huron St,-79.4032863,43.6723508,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+93 West Lodge Ave,-79.4364875,43.6442571,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+94 Cowan Ave,-79.4317494,43.6369084,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+964 Bathurst St,-79.413125,43.669403,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+29 Wade Ave,-79.4441275,43.658819,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+32 Spencer Ave,-79.4298829,43.6347723,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1535 Dufferin St,-79.4413788,43.6745878,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+178 Dowling Ave,-79.4397933,43.6391071,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+18 Ulster St,-79.405045,43.6608467,University,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1926 Bloor St W,-79.4664398,43.653657,High Park North,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+199 Berkeley St,-79.3658972,43.6570374,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+2 Elm Grove Ave,-79.4307283,43.6387062,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+26 Lansdowne Ave,-79.4373335,43.64168,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+38 Prospect St,-79.3698331,43.6671297,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+580 Queen St W,-79.403841,43.647415,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+60 Harvard Ave,-79.4455472,43.6406373,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+1097 Dufferin St,-79.4361575,43.6624007,Dovercourt-Wallace Emerson-Junction,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed prior to 2018
+28-30 Langley Ave,-79.3516117,43.6683879,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+11 Spadina Rd,-79.4038891,43.6676155,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+116 Spencer Ave,-79.4309453,43.6375348,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+287 Jarvis St,-79.3748513,43.6586439,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+75 Northcote Ave,-79.4265643,43.6450189,Little Portugal,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+732 Queen St W,-79.409747,43.646141,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+63 A Spencer Ave,-79.4297973,43.636487,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+51 Winnifred Ave,-79.335577,43.6607047,South Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+184 Sherbourne St,-79.3705095,43.6564568,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+384 Bathurst St,-79.406786,43.653531,Trinity-Bellwoods,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+213 Carlton St,-79.3695392,43.6637648,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+124 Spencer Ave,-79.4310113,43.6380326,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+760 Gerrard St E,-79.346146,43.6670643,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+200 Lindsey Ave,-79.4306966310098,43.654063656404,Dufferin Grove,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+33 Beaty Ave,-79.4400493,43.6374834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
+67 Pembroke St,-79.3723781,43.6586335,Moss Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed 2018 onwards
 1 Hillsdale Avenue,-79.3973155,43.7033563,Mount Pleasant West,FALSE,,,,,,Csg Yonge Manor,,,TRUE,2018-02-06,FALSE,,,FALSE,
 1 Lexington Avenue,-79.5971387,43.7438292,West Humber-Clairville,FALSE,,,,,,,,,TRUE,2016-12-14,FALSE,,,FALSE,
 1A Olive Avenue,-79.4137965,43.67003,Annex,FALSE,,,,,,Bloorston Farms,,,TRUE,"2018-12-18, 2017-11-27",FALSE,,,FALSE,
