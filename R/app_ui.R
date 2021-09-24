@@ -48,7 +48,8 @@ golem_add_external_resources <- function() {
       app_title = "Low-end of Market Rental Monitor"
     ),
     cicerone::use_cicerone(),
-    glouton::use_glouton()
+    glouton::use_glouton(),
+    bsplus::use_bs_popover()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )
