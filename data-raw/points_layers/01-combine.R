@@ -26,7 +26,7 @@ buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built_evaluation),
     neighbourhood = coalesce(neighbourhood, neighbourhood_evaluation)
   ) %>%
-  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, score_bucket, score_colour, geometry) %>%
+  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, score_bucket, geometry) %>%
   mutate(landlord = ifelse(property_management == "Unknown", NA_character_, property_management))
 
 # Get coords instead of geometry column, so we can coalesce more easily
@@ -141,7 +141,7 @@ buildings <- buildings %>%
 # Select columns -----
 
 buildings <- buildings %>%
-  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, rooming_house, rooming_house_status = status)
+  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, rooming_house, rooming_house_status = status)
 
 # Convert to spatial -----
 

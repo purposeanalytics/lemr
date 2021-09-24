@@ -188,13 +188,7 @@ point_layers_choices <- list(
 )
 
 generate_apartment_evaluation_legend <- function() {
-  values <- lemur::buildings %>%
-    dplyr::filter(!is.na(.data$score)) %>%
-    dplyr::as_tibble() %>%
-    dplyr::arrange(score) %>%
-    dplyr::distinct(score_colour, score_bucket)
-
-  create_circle_legend(colour = values[["score_colour"]], text = values[["score_bucket"]], alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
 }
 
 ## To be copied in the UI
