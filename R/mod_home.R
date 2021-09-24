@@ -109,6 +109,17 @@ mod_home_ui <- function(id) {
 mod_home_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    shiny::observeEvent(input$agi_tdf_data_story, {
+      shiny::showModal(
+        shiny::modalDialog(
+          size = "l",
+          mod_data_story_agi_tdf_ui("agi_tdf")
+        )
+      )
+    })
+
+    mod_data_story_agi_tdf_server("agi_tdf")
   })
 }
 
