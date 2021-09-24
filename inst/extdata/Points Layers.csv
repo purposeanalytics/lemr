@@ -3604,7 +3604,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 106 Beverley St,-79.3940878,43.6531823,Kensington-Chinatown,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1330 King St W,-79.4324035,43.6381886,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1335 King St W,-79.4323546,43.6376915,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1371 King St W,-79.2638426,43.7506386,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
+1371 King St W,-79.4338479,43.6374258,South Parkdale,FALSE,,,,,,417 Parliament,,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
 14 Mc Kenzie Ave,-79.3698267,43.6746023,Rosedale-Moore Park,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1501 King St W,-79.4407223,43.6362669,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1510 King St W,-79.4408215,43.6367287,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Lapsed
@@ -3652,7 +3652,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 118 Spadina Rd,-79.406367,43.672383,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 120 Spencer Ave,-79.4309942,43.6376749,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 122 Spencer Ave,-79.430601,43.638023,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-1302 King St W,-79.4942044,43.7232259,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
+1302 King St W,-79.431184,43.6384007,South Parkdale,FALSE,,,,,,K&K Apartments (Tuan Tran),,,TRUE,2019-10-07,FALSE,,,TRUE,Licensed
 149 Dundas St E,-79.3753597,43.6566717,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1516 King St W,-79.4411594,43.6367834,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1524 King St W,-79.4418485,43.6371356,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3863,10 +3863,10 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 1554 King St W,-79.4433312,43.6378367,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1558 B Davenport Rd,-79.446917,43.6723555,Corso Italia-Davenport,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 1298 Danforth Ave,-79.330033,43.682214,Danforth,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-181 Dowling Ave,-79.4395114111755,43.6392563581992,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
+181 Dowling Ave,-79.4392597,43.6393493,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 46 The Queensway,-79.4514634,43.6397962,High Park-Swansea,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 536 Parliament St,-79.3691624,43.6664731,Cabbagetown-South St.James Town,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-151 Dunn Ave,-79.4001578,43.6694638,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed
+151 Dunn Ave,-79.4324889,43.6367055,South Parkdale,FALSE,,,,,,,,,TRUE,2019-05-03,FALSE,,,TRUE,Licensed
 435 Broadview Ave,-79.3530339,43.6672652,North Riverdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 9 Laxton Ave,-79.4381154,43.6391923,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 20 Maynard Ave,-79.4378303,43.6376451,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
@@ -3874,7 +3874,7 @@ Address,Longitude,Latitude,Neighbourhood,Apartment Building,Apartment Building P
 344 Jarvis St,-79.377206,43.662971,Church-Yonge Corridor,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 60 Triller Ave,-79.4445069,43.6400789,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 62 Triller Ave,-79.4445362,43.6401906,Roncesvalles,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
-11 Elm Grove Ave,-79.2972101,43.7071773,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed
+11 Elm Grove Ave,-79.4303523,43.6391581,South Parkdale,FALSE,,,,,,Cedar City Developments,,,TRUE,2019-01-30,FALSE,,,TRUE,Licensed
 136 Bedford Rd,-79.3995148,43.6728481,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 15 Thorburn Ave,-79.4267979,43.6352085,South Parkdale,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
 223 Spadina Rd,-79.4067138,43.6745456,Annex,FALSE,,,,,,,,,FALSE,,FALSE,,,TRUE,Licensed
