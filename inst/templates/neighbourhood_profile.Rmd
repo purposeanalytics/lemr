@@ -140,7 +140,7 @@ lemur:::number_of_units_breakdown(dataset) %>%
   lemur:::bigger_padded()
 
 lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::number_of_units_plot(dataset, compare, static = TRUE)
 ```
@@ -155,7 +155,7 @@ lemur:::apartment_building_evaluation_number(apartment_building_evaluation_forma
   lemur:::bigger_padded()
 
 lemur:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 ```
@@ -170,6 +170,16 @@ lemur:::display_rooming_houses(dataset, compare = compare)
 ```
 
 ### AGI Applications and TDF Grants
+```{r}
+lemur:::agi_tdf_description(level, neighbourhood) %>%
+  p()
+
+lemur:::display_agi_tdf_buildings(dataset, compare)
+
+lemur:::agi_non_apartments(dataset, level, neighbourhood) %>%
+  p()
+```
+
 
 ### Core housing need
 
@@ -179,7 +189,7 @@ lemur:::display_rooming_houses(dataset, compare = compare)
 
 ```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemur:::amenity_density_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::amenity_density_plot(dataset, compare, static = TRUE)
 
@@ -202,7 +212,7 @@ lemur:::number_of_apartments_breakdown(dataset) %>%
   lemur:::bigger_padded()
 
 lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::number_of_apartments_plot(dataset, compare, static = TRUE)
 ```
@@ -211,7 +221,7 @@ lemur:::number_of_apartments_plot(dataset, compare, static = TRUE)
 
 ```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::structure_type_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::structure_type_plot(dataset, compare, static = TRUE)
 
@@ -231,7 +241,7 @@ lemur:::shelter_cost_city(level) %>%
   lemur:::bigger_padded()
 
 lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
 ```
@@ -249,7 +259,7 @@ lemur:::unaffordable_housing_city(level) %>%
   lemur:::bigger_padded()
 
 lemur:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 ```
@@ -258,7 +268,7 @@ lemur:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 
 ```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1}
 lemur:::household_tenure_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::household_tenure_plot(dataset, compare, static = TRUE)
 
@@ -269,7 +279,7 @@ lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure 
 
 ```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::bedrooms_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::bedrooms_plot(dataset, compare, static = TRUE)
 
@@ -288,7 +298,7 @@ lemur:::population_density_number(population_density_formatted) %>%
   lemur:::bigger_padded()
 
 lemur:::population_density_description(level, neighbourhood, population_density, population_density_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::population_density_plot(dataset, compare, static = TRUE)
 ```
@@ -306,7 +316,7 @@ lemur:::population_change_number(population_change_formatted) %>%
   lemur:::bigger_padded()
 
 lemur:::population_change_description(level, neighbourhood, population_change, population_change_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::population_change_plot(dataset, compare, static = TRUE)
 ```
@@ -315,7 +325,7 @@ lemur:::population_change_plot(dataset, compare, static = TRUE)
 
 ```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.25}
 lemur:::average_total_household_income_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::average_total_household_income_plot(dataset, compare, static = TRUE)
 
@@ -338,7 +348,7 @@ lemur:::lim_at_city(level) %>%
   lemur:::bigger_padded()
 
 lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
-  htmltools::p()
+  p()
 
 lemur:::lim_at_plot(dataset, compare, static = TRUE)
 ```
@@ -347,7 +357,7 @@ lemur:::lim_at_plot(dataset, compare, static = TRUE)
 
 ```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::household_size_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::household_size_plot(dataset, compare, static = TRUE)
 
@@ -361,13 +371,13 @@ lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Pe
 
 ```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
 lemur:::visible_minority_number(dataset) %>%
-  lemur:::bigger_padded()
+  p()
 
 lemur:::visible_minority_city(level) %>%
   lemur:::bigger_padded()
 
 lemur:::visible_minority_description(level, neighbourhood) %>%
-  htmltools::p()
+  p()
 
 lemur:::visible_minority_plot(dataset, compare, static = TRUE)
 

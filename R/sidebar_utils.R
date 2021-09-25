@@ -95,7 +95,6 @@ rental_supply_plot_alt_text <- function(level, neighbourhood) {
 }
 
 rental_supply_plot <- function(data, static = FALSE) {
-
   data <- data[["rental_supply"]] %>%
     dplyr::mutate(
       group = forcats::fct_expand(group, names(rental_supply_colors())),
@@ -117,13 +116,12 @@ rental_supply_plot <- function(data, static = FALSE) {
   } else {
     data %>%
       dplyr::mutate(group = forcats::fct_rev(group)) %>%
-    ggplot2::ggplot(ggplot2::aes(x = prop, y = "1", fill = group)) +
+      ggplot2::ggplot(ggplot2::aes(x = prop, y = "1", fill = group)) +
       ggplot2::geom_col() +
       ggplot2::scale_fill_manual(values = rental_supply_colors()) +
       ggplot2::theme_void() +
       ggplot2::theme(legend.position = "none")
   }
-
 }
 
 rental_supply_table <- function(data, market) {
@@ -912,4 +910,33 @@ average_renter_shelter_cost_plot <- function(data, compare, static = FALSE) {
     p %>%
       plotly::layout(xaxis = list(tickprefix = "$", tickformat = ",d"))
   }
+}
+
+# AGIs and TDFs ----
+
+agi_tdf_description <- function(level, neighbourhood) {
+  switch(level,
+    "city" = "Number of AGI applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of TDF grants received (with rate), in the City of Toronto.",
+    "neighbourhood" = glue::glue("Number of Above Guideline Increase applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of Tenant Defence Fund grants received (with rate), in {neighbourhood} versus in the City of Toronto.")
+  )
+}
+
+agi_non_apartments <- function(data, level, neighbourhood) {
+  switch(level,
+    "city" = glue::glue("There were {n_agi} AGI applications for other buildings in the City of Toronto.",
+      n_agi = city_aggregate[["agi"]] %>%
+        dplyr::filter(.data$group == "Non-apartment building") %>%
+        dplyr::pull(.data$value)
+    ),
+    "neighbourhood" = glue::glue("There {were_word} {n_agi} AGI {application_word} for other buildings in {neighbourhood} ({n_agi_toronto} in the City of Toronto).",
+      n_agi = data[["agi"]] %>%
+        dplyr::filter(.data$group == "Non-apartment building") %>%
+        dplyr::pull(.data$value),
+      were_word = ifelse(n_agi == 1, "was", "were"),
+      application_word = ifelse(n_agi == 1, "application", "applications"),
+      n_agi_toronto = city_aggregate[["agi"]] %>%
+        dplyr::filter(.data$group == "Non-apartment building") %>%
+        dplyr::pull(.data$value)
+    )
+  )
 }

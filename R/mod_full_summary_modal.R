@@ -245,10 +245,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     # AGIs and TDFs -----
 
     output$agi_tdf_apartments_description <- shiny::renderText({
-      switch(level(),
-        "city" = "Number of AGI applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of TDF grants received (with rate), in the City of Toronto.",
-        "neighbourhood" = glue::glue("Number of Above Guideline Increase applications in privately owned apartment buildings (and the rate at which they occur in those buildings) and number of Tenant Defence Fund grants received (with rate), in {neighbourhood()} versus in the City of Toronto.")
-      )
+      agi_tdf_description(level(), neighbourhood())
     })
 
     output$agi_tdf_apartments_table <- shiny::renderText({
@@ -256,23 +253,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     })
 
     output$agi_non_apartments <- shiny::renderText({
-      switch(level(),
-        "city" = glue::glue("There were {n_agi} AGI applications for other buildings in the City of Toronto.",
-          n_agi = city_aggregate[["agi"]] %>%
-            dplyr::filter(.data$group == "Non-apartment building") %>%
-            dplyr::pull(.data$value)
-        ),
-        "neighbourhood" = glue::glue("There {were_word} {n_agi} AGI {application_word} for other buildings in {neighbourhood()} ({n_agi_toronto} in the City of Toronto).",
-          n_agi = dataset()[["agi"]] %>%
-            dplyr::filter(.data$group == "Non-apartment building") %>%
-            dplyr::pull(.data$value),
-          were_word = ifelse(n_agi == 1, "was", "were"),
-          application_word = ifelse(n_agi == 1, "application", "applications"),
-          n_agi_toronto = city_aggregate[["agi"]] %>%
-            dplyr::filter(.data$group == "Non-apartment building") %>%
-            dplyr::pull(.data$value)
-        )
-      )
+      agi_non_apartments(dataset(), level(), neighbourhood())
     })
 
     # Core housing need -----
