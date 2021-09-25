@@ -233,7 +233,7 @@ body > .container-fluid {
 
 .welcome-banner {
   background-color: var(--main-color);
-  height: calc(var(--home-section-padding) * 10);
+  min-height: calc(var(--home-section-padding) * 10);
   color: white;
   padding: calc(var(--home-section-padding) * 2);
   padding-top: calc(var(--home-section-padding) * 4);
