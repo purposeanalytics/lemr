@@ -402,13 +402,6 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       format_measure(number_of_apartments(), "number_of_buildings")
     })
 
-    number_of_units <- shiny::reactive({
-      get_measure(dataset(), "number_of_units")
-    })
-
-    number_of_units_formatted <- shiny::reactive({
-      format_measure(number_of_units(), "number_of_units")
-    })
 
     output$number_of_apartments_number <- shiny::renderText({
       number_of_apartments_number(number_of_apartments_formatted())
@@ -440,6 +433,16 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         `aria-label` = number_of_apartments_alt_text(),
         plotly::plotlyOutput(ns("number_of_apartments_plot"), height = "100px")
       )
+    })
+
+    # Number of apartment units ----
+
+    number_of_units <- shiny::reactive({
+      get_measure(dataset(), "number_of_units")
+    })
+
+    number_of_units_formatted <- shiny::reactive({
+      format_measure(number_of_units(), "number_of_units")
     })
 
     output$number_of_units_number <- shiny::renderText({

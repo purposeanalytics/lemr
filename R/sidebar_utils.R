@@ -200,7 +200,7 @@ number_of_apartments_plot_alt_text <- function(level, neighbourhood) {
   )
 
   if (level == "neighbourhood") {
-    neighbourhood_alt_text <- glue::glue("The bar containing the number of apartment buildings in {neighbourhood}'s is highlighted.")
+    neighbourhood_alt_text <- glue::glue("The bar containing the number of apartment buildings in {neighbourhood} is highlighted.")
     alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
   }
 
@@ -253,7 +253,7 @@ number_of_units_plot_alt_text <- function(level, neighbourhood) {
   )
 
   if (level == "neighbourhood") {
-    neighbourhood_alt_text <- glue::glue("The bar containing the number of units in apartment buildings in {neighbourhood}'s is highlighted.")
+    neighbourhood_alt_text <- glue::glue("The bar containing the number of units in apartment buildings in {neighbourhood} is highlighted.")
     alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
   }
 
