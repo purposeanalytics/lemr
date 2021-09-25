@@ -183,7 +183,7 @@ lemur:::agi_non_apartments(dataset, level, neighbourhood) %>%
 
 ### Core housing need
 
-```{r apartment-building-evaluation, fig.alt = lemur:::core_housing_need_plot_alt_text(level, neighbourhood)}
+```{r core-housing-need, fig.alt = lemur:::core_housing_need_plot_alt_text(level, neighbourhood)}
 core_housing_need <- lemur:::get_measure(dataset, "core_housing_need")
 core_housing_need_formatted <- lemur:::format_measure(core_housing_need, "core_housing_need")
 
@@ -197,6 +197,19 @@ lemur:::core_housing_need_plot(dataset, compare, static = TRUE)
 ```
 
 ### Evictions
+
+```{r evictions, fig.alt = lemur:::evictions_plot_alt_text(level, neighbourhood)}
+evictions <- lemur:::get_measure(dataset, "evictions")
+evictions_formatted <- lemur:::format_measure(evictions, "evictions")
+
+lemur:::evictions_number(evictions_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::evictions_description(level, neighbourhood, evictions, evictions_formatted) %>%
+  p()
+
+lemur:::evictions_plot(dataset, compare, static = TRUE)
+```
 
 ### Proximity to services
 
