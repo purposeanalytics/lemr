@@ -1,6 +1,6 @@
 #' Add blank points layers
 #'
-#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), RentSafeTO scores (apartment_evaluation), evictions hearings (evictions_hearings), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
+#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), RentSafeTO scores (apartment_evaluation), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -200,9 +200,9 @@ add_blank_amenity_density_layer <- function(map) {
     )
 }
 
-#' Add a blank LEM layer
+#' Add a blank aggregate layers
 #'
-#' Add an empty layer of \link{total_affordable_by_neighbourhood} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with the id "lem").
+#' Add an empty layer of \link{total_affordable_by_neighbourhood} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): estimated low-end of market rentals (lem), rental supply (primary - rental_supply_primary; condo - rental_supply_condo; non-condo secondary - rental_supply_non_condo; non-market - rental_supply_non_market), core housing need (core_housing_need), eviction rate (eviction_rate), and all neighbourhood outline / click / etc layers. Note that LEM is visible by default.
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -212,7 +212,7 @@ add_blank_amenity_density_layer <- function(map) {
 #' library(sf)
 #'
 #' map_toronto() %>%
-#'   add_blank_lem_layer() %>%
+#'   add_blank_aggregate_layers() %>%
 #'   toggle_layer_visible("lem")
 add_blank_aggregate_layers <- function(map) {
   source_name <- "neighbourhoods_data"
