@@ -170,6 +170,7 @@ lemur:::display_rooming_houses(dataset, compare = compare)
 ```
 
 ### AGI Applications and TDF Grants
+
 ```{r}
 lemur:::agi_tdf_description(level, neighbourhood) %>%
   p()
@@ -180,8 +181,20 @@ lemur:::agi_non_apartments(dataset, level, neighbourhood) %>%
   p()
 ```
 
-
 ### Core housing need
+
+```{r apartment-building-evaluation, fig.alt = lemur:::core_housing_need_plot_alt_text(level, neighbourhood)}
+core_housing_need <- lemur:::get_measure(dataset, "core_housing_need")
+core_housing_need_formatted <- lemur:::format_measure(core_housing_need, "core_housing_need")
+
+lemur:::core_housing_need_number(core_housing_need_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::core_housing_need_description(level, neighbourhood, core_housing_need, core_housing_need_formatted) %>%
+  p()
+
+lemur:::core_housing_need_plot(dataset, compare, static = TRUE)
+```
 
 ### Evictions
 
