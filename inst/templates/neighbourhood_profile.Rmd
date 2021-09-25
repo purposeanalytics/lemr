@@ -104,6 +104,16 @@ knitr::include_graphics(here::here("inst", "templates", "maps", glue::glue("{nei
 
 ## Summary statistics
 
+### Rental supply
+
+```{r rental-supply, fig.alt = lemur:::rental_supply_plot_alt_text(level, neighbourhood)}
+lemur:::rental_supply_plot(dataset, static = TRUE)
+
+lemur:::rental_supply_primary_table(dataset)
+lemur:::rental_supply_secondary_table(dataset)
+lemur:::rental_supply_non_market_table(dataset)
+```
+
 ### Estimated supply of low-end of market rental
 
 ```{r lem}

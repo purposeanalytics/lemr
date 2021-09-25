@@ -94,22 +94,36 @@ rental_supply_plot_alt_text <- function(level, neighbourhood) {
   )
 }
 
-rental_supply_plot <- function(data) {
-  data[["rental_supply"]] %>%
+rental_supply_plot <- function(data, static = FALSE) {
+
+  data <- data[["rental_supply"]] %>%
     dplyr::mutate(
       group = forcats::fct_expand(group, names(rental_supply_colors())),
       group = forcats::fct_relevel(group, names(rental_supply_colors()))
-    ) %>%
-    plotly::plot_ly(x = ~prop, y = 1, color = ~group, type = "bar", orientation = "h", hoverinfo = "skip", colors = rental_supply_colors()) %>%
-    plotly::layout(barmode = "stack") %>%
-    plotly::layout(
-      yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
-      xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE, range = c(0, 1)),
-      margin = list(t = 5, r = 5, b = 5, l = 5),
-      showlegend = FALSE,
-      font = list(family = "Lato", size = 12, color = "black")
-    ) %>%
-    plotly::config(displayModeBar = FALSE)
+    )
+
+  if (!static) {
+    data %>%
+      plotly::plot_ly(x = ~prop, y = 1, color = ~group, type = "bar", orientation = "h", hoverinfo = "skip", colors = rental_supply_colors()) %>%
+      plotly::layout(barmode = "stack") %>%
+      plotly::layout(
+        yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE, range = c(0, 1)),
+        margin = list(t = 5, r = 5, b = 5, l = 5),
+        showlegend = FALSE,
+        font = list(family = "Lato", size = 12, color = "black")
+      ) %>%
+      plotly::config(displayModeBar = FALSE)
+  } else {
+    data %>%
+      dplyr::mutate(group = forcats::fct_rev(group)) %>%
+    ggplot2::ggplot(ggplot2::aes(x = prop, y = "1", fill = group)) +
+      ggplot2::geom_col() +
+      ggplot2::scale_fill_manual(values = rental_supply_colors()) +
+      ggplot2::theme_void() +
+      ggplot2::theme(legend.position = "none")
+  }
+
 }
 
 rental_supply_table <- function(data, market) {
