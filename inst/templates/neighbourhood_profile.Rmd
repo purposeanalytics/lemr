@@ -104,6 +104,10 @@ knitr::include_graphics(here::here("inst", "templates", "maps", glue::glue("{nei
 
 ## Summary statistics
 
+```{r summary-statistics}
+lemur:::summary_statistics_table(dataset)
+```
+
 ### Rental supply
 
 ```{r rental-supply, fig.alt = lemur:::rental_supply_plot_alt_text(level, neighbourhood)}
