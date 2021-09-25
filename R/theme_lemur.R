@@ -4,7 +4,7 @@
 #' @param base_family Base font family
 #'
 #' @export
-theme_lemur <- function(base_size = 12, base_family = "Lato") {
+theme_lemur <- function(base_size = 18, base_family = "Lato") {
   if (base_family == "Lato" & !"Lato" %in% extrafont::fonts()) {
     base_family <- "" # fall back to ggplot2 default
   }
