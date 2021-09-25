@@ -165,6 +165,10 @@ lemur:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 
 ### Rooming houses
 
+```{r rooming-houses}
+lemur:::display_rooming_houses(dataset, compare = compare)
+```
+
 ### AGI Applications and TDF Grants
 
 ### Core housing need
