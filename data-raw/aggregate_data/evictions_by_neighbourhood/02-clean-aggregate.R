@@ -52,8 +52,9 @@ evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
   bind_rows(.id = "neighbourhood") %>%
   select(neighbourhood, prop = value) %>%
   mutate(
-    prop_group = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
-    prop_group = ifelse(prop == 0, 0, prop_group)
-  )
+    eviction_rate = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    eviction_rate = ifelse(prop == 0, 0, eviction_rate)
+  ) %>%
+  select(-prop)
 
-usethis::use_data(evictions_by_neighbourhood, overwrite = TRUE)
+saveRDS(evictions_by_neighbourhood, here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "eviction_rate_by_neighbourhood_layer.rds"))

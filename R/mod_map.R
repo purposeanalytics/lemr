@@ -23,14 +23,10 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_lem_layer() %>%
-        add_blank_rental_supply_layers() %>%
-        add_blank_core_housing_need_layer() %>%
-        add_blank_evictions_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
-        add_blank_neighbourhood_layer() %>%
+        add_blank_aggregate_layers() %>%
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
       // Send variable that map is loaded in order to trigger tour
@@ -55,13 +51,13 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         if (e.features.length > 0) {
           if (hoveredNghdId !== null) {
             map.setFeatureState(
-              { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+              { source: 'neighbourhoods_data', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
               { hover: false }
             );
           }
         hoveredNghdId = e.features[0].id;
           map.setFeatureState(
-            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+            { source: 'neighbourhoods_data', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
             { hover: true }
           );
         }
@@ -71,7 +67,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       map.on('mouseleave', 'neighbourhood_click', () => {
         if (hoveredNghdId !== null) {
           map.setFeatureState(
-            { source: 'neighbourhoods', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
+            { source: 'neighbourhoods_data', sourceLayer: 'neighbourhoods-0jaap1', id: hoveredNghdId },
             { hover: false }
           );
         }
