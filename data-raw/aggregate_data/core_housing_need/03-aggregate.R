@@ -6,6 +6,7 @@ library(stringr)
 library(purrr)
 library(readr)
 library(forcats)
+devtools::load_all()
 
 #### Read data ----
 core_housing_need_cts <- readRDS(here::here("data-raw", "aggregate_data", "core_housing_need", "clean", "core_housing_need.rds"))
@@ -43,8 +44,9 @@ core_housing_need_by_neighbourhood <- core_housing_need_by_neighbourhood %>%
   bind_rows(.id = "neighbourhood") %>%
   rename(prop = value) %>%
   mutate(
-    prop_group = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
-    prop_group = ifelse(prop == 0, 0, prop_group)
-  )
+    core_housing_need = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    core_housing_need = ifelse(prop == 0, 0, core_housing_need)
+  ) %>%
+  select(-prop)
 
-usethis::use_data(core_housing_need_by_neighbourhood, overwrite = TRUE)
+saveRDS(core_housing_need_by_neighbourhood, here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood_layer.rds"))

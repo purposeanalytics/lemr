@@ -26,7 +26,7 @@ rental_data <- rental_data %>%
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 rental_data_with_neighbourhoods <- rental_data %>%
-  st_intersection(lemur::neighbourhoods)
+  st_join(lemur::neighbourhoods)
 
 affordable_by_neighbourhood_and_bedrooms <- rental_data_with_neighbourhoods %>%
   as_tibble() %>%
@@ -48,22 +48,19 @@ saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "aggreg
 total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Deeply", "Very")) %>%
   group_by(neighbourhood) %>%
-  summarise(n = sum(n))
+  summarise(n = sum(n)) %>%
+  as_tibble()
 
 # Add colour in
 min <- 25
 max <- max(total_affordable_by_neighbourhood[["n"]])
 colors <- low_high_legend_colors()
-color_groups <- c("0", cut((min - 1):max, breaks = seq(min - 1, max, length.out = length(colors))) %>% levels())
-
-colors <- tibble(colour = colors, color_group = color_groups)
 
 total_affordable_by_neighbourhood <- total_affordable_by_neighbourhood %>%
   mutate(
-    color_group = cut(n, breaks = seq(min - 1, max, length.out = nrow(colors))),
-    color_group = coalesce(color_group, "0")
+    lem = cut(n, breaks = seq(min - 1, max, length.out = length(colors)), labels = FALSE),
+    lem = coalesce(lem, 0)
   ) %>%
-  left_join(colors, by = "color_group") %>%
-  select(neighbourhood, n, colour, geometry)
+  select(neighbourhood, lem)
 
-usethis::use_data(total_affordable_by_neighbourhood, overwrite = TRUE)
+saveRDS(total_affordable_by_neighbourhood, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_by_neighbourhood_layer.rds"))

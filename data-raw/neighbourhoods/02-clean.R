@@ -19,6 +19,4 @@ neighbourhoods <- neighbourhoods %>%
 # Projection is already 4326, so good to go
 st_crs(neighbourhoods)
 
-# Save dataset - as geojson for mapbox
-st_write(neighbourhoods, here::here("data-raw", "neighbourhoods", "final", "neighbourhoods.geojson"))
 usethis::use_data(neighbourhoods, overwrite = TRUE)
