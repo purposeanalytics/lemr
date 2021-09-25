@@ -28,7 +28,7 @@ library(ceramic)
 library(tmaptools)
 library(dplyr)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.5, fig.align = 'center', cache = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.5, fig.align = 'center', cache = TRUE)
 
 level <- params$level
 neighbourhood <- params$neighbourhood
@@ -130,13 +130,26 @@ knitr::include_graphics(here::here("inst", "templates", "maps", glue::glue("{nei
 lemur:::summary_statistics_table(dataset)
 ```
   </div>
+  
+  <div class = "col-sm-6">
+### Estimated supply of low-end of market rental
+
+```{r lem}
+dataset[["lem"]] %>%
+  kableExtra::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = "condensed") %>%
+  kableExtra::column_spec(1, width = "30%") %>%
+  kableExtra::column_spec(2:4, width = "20%")
+```
+  </div>
 </div>
 
 <hr>
 
 <div class = "row">
-  <div class = "col-sm-7">
-### Rental supply
+  <div class = "col-sm-9">
+  
+### Estimated rental supply
 
 ```{r rental-supply, fig.alt = lemur:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
 lemur:::rental_supply_plot(dataset, static = TRUE)
@@ -159,19 +172,13 @@ lemur:::rental_supply_non_market_table(dataset)
   </div>
 
   <div class = "col-sm-5">
-### Estimated supply of low-end of market rental
 
-```{r lem}
-dataset[["lem"]] %>%
-  kableExtra::kable() %>%
-  kableExtra::kable_styling(bootstrap_options = "condensed") %>%
-  kableExtra::column_spec(1, width = "30%") %>%
-  kableExtra::column_spec(2:4, width = "20%")
-```
   </div>
 </div>
 
 <hr>
+
+<div style = "display:block; clear:both; page-break-after:always;"></div>
 
 <div class = "row">
   <div class = "col-sm-6">
@@ -192,9 +199,7 @@ lemur:::number_of_units_description(level, neighbourhood, number_of_units, numbe
 
 lemur:::number_of_units_plot(dataset, compare, static = TRUE)
 ```
-  </div>
 
-  <div class = "col-sm-6">
 ### RentSafeTO evaluation scores
 
 ```{r apartment-building-evaluation, fig.alt = lemur:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
@@ -210,20 +215,13 @@ lemur:::apartment_building_evaluation_description(level, neighbourhood, apartmen
 
 lemur:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 ```
-  </div>
-</div>
-<div class = "row">
 
-  <div class = "col-sm-6">
 ### Rooming houses
 
 ```{r rooming-houses}
 lemur:::display_rooming_houses(dataset, compare = compare)
 ```
-  </div>
-</div>
 
-  <div class = "col-sm-6">
 ### AGI Applications and TDF Grants
 
 ```{r}
@@ -236,9 +234,7 @@ lemur:::agi_non_apartments(dataset, level, neighbourhood) %>%
   p()
 ```
   </div>
-<div>
 
-<div class = "row">
   <div class = "col-sm-6">
 ### Core housing need
 
@@ -254,10 +250,7 @@ lemur:::core_housing_need_description(level, neighbourhood, core_housing_need, c
 
 lemur:::core_housing_need_plot(dataset, compare, static = TRUE)
 ```
-  </div>
 
-  <div class = "col-sm-6">
-  
 ### Evictions
 
 ```{r evictions, fig.alt = lemur:::evictions_plot_alt_text(level, neighbourhood)}
@@ -272,13 +265,7 @@ lemur:::evictions_description(level, neighbourhood, evictions, evictions_formatt
 
 lemur:::evictions_plot(dataset, compare, static = TRUE)
 ```
-  </div>
-</div>6
 
-<hr>
-
-<div class = "row">
-  <div class = "col-sm-6">
 ### Proximity to services
 
 ```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
@@ -298,6 +285,8 @@ lemur:::generate_table(dataset, "amenity_density", compare, "Proximity to servic
 
 ## Housing characteristics 
 
+<div class = "row">
+  <div class = "col-sm-6">
 ### Apartment buildings
 
 ```{r apartment-buildings, fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
@@ -344,7 +333,9 @@ lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_co
 
 lemur:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
 ```
-
+  </div>
+  
+  <div class = "col-sm-6">
 ### Unaffordable housing
 
 ```{r unaffordable-housing, fig.alt = lemur:::unaffordable_housing_plot_alt_text(level, neighbourhood)}
@@ -384,8 +375,16 @@ lemur:::bedrooms_plot(dataset, compare, static = TRUE)
 
 lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent")
 ```
+  </div>
+</div>
+
+##
+<div style = "display:block; clear:both; page-break-after:always;"></div>
 
 ## Sociodemographic characteristics
+
+<div class = "row">
+  <div class = "col-sm-6">
 
 ### Population density
 
@@ -401,9 +400,6 @@ lemur:::population_density_description(level, neighbourhood, population_density,
 
 lemur:::population_density_plot(dataset, compare, static = TRUE)
 ```
-
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
 
 ### Population change
 
@@ -431,9 +427,6 @@ lemur:::average_total_household_income_plot(dataset, compare, static = TRUE)
 lemur:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar")
 ```
 
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
-
 ### Low-income measure after tax
 
 ```{r lim-at, fig.alt = lemur:::lim_at_plot_alt_text(level, neighbourhood)}
@@ -451,6 +444,8 @@ lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
 
 lemur:::lim_at_plot(dataset, compare, static = TRUE)
 ```
+  </div>
+  <div class = "col-sm-6">
 
 ### Household size 
 
@@ -462,9 +457,6 @@ lemur:::household_size_plot(dataset, compare, static = TRUE)
 
 lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
 ```
-
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
 
 ### Visible minority population
 
@@ -484,9 +476,5 @@ lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority G
   kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
 ```
 
-
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
-
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
+  </div>
+</div>
