@@ -95,7 +95,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
             scales::percent(accuracy = 0.1)
         ),
         rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(market == "Non-market") %>% dplyr::pull(prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
-        evictions = glue::glue("Eviction rate: {percent}",
+        eviction_rate = glue::glue("Eviction rate: {percent}",
           percent = dataset()[["evictions"]] %>%
             scales::percent(accuracy = 0.1)
         )
@@ -154,7 +154,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
   )
 }
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", evictions = "Eviction rate", amenity_density = "Proximity to services")
+aggregate_layers_choices <- list(lem = "Low-end of market rentals", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", amenity_density = "Proximity to services")
 
 rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
 
@@ -204,7 +204,7 @@ rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non m
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
 
-evictions_tooltip <- create_popover(title = "Eviction rate", content = NULL)
+eviction_rate_tooltip <- create_popover(title = "Eviction rate", content = NULL)
 
 # Legends ----
 
@@ -244,7 +244,7 @@ core_housing_need_legend <- function() {
   generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
 }
 
-evictions_legend <- function() {
+eviction_rate_legend <- function() {
   generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
 }
 

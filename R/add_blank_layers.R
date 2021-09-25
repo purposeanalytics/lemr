@@ -214,40 +214,43 @@ add_blank_amenity_density_layer <- function(map) {
 #' map_toronto() %>%
 #'   add_blank_lem_layer() %>%
 #'   toggle_layer_visible("lem")
-add_blank_lem_layer <- function(map) {
-  map %>%
-    # Add the layer
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lemur::total_affordable_by_neighbourhood), fill_color = c("get", "colour"), fill_opacity = 0.65, id = "lem")
-}
+add_blank_aggregate_layers <- function(map) {
+  source_name <- "neighbourhoods_data"
+  source_url <- "mapbox://purposeanalytics.4juivyoh"
+  source_layer <- "neighbourhoods-0jaap1"
+  opacity <- 0.65
 
-#' Add a blank neighbourhood layer
-#'
-#' Add a blank layer of \link{neighbourhoods} to a map (created via \link{map_toronto}). The purpose of this function is to allow for zooming and highlighting to a neighbourhood from the data, via \link{zoom_map_to_neighbourhood}.
-#'
-#' @param map Map created via \link{map_toronto}
-#'
-#' @export
-#'
-#' @examples
-#' library(sf)
-#' map_toronto() %>%
-#'   add_blank_neighbourhood_layer() %>%
-#'   zoom_map_to_neighbourhood("Casa Loma")
-add_blank_neighbourhood_layer <- function(map) {
   map %>%
     mapboxer::add_source(mapboxer::mapbox_source(
       type = "vector",
-      url = "mapbox://purposeanalytics.4juivyoh",
+      url = source_url,
       promoteId = "id"
     ),
-    id = "neighbourhoods"
+    id = source_name
     ) %>%
-    # Outline layer
+    # LEM ----
+    add_blank_aggregate_layer_fill("lem", source_name, source_layer, visibility = "visible") %>%
+    # Rental supply ----
+    ## Primary market ----
+    add_blank_aggregate_layer_fill("rental_supply_primary", source_name, source_layer) %>%
+    ## Condo ----
+    add_blank_aggregate_layer_fill("rental_supply_condo", source_name, source_layer) %>%
+    ## Non-condo ----
+    add_blank_aggregate_layer_fill("rental_supply_non_condo", source_name, source_layer) %>%
+    ## Non-market
+    add_blank_aggregate_layer_fill("rental_supply_non_market", source_name, source_layer) %>%
+    # Core housing need ----
+    add_blank_aggregate_layer_fill("core_housing_need", source_name, source_layer) %>%
+    # Evictions ----
+    add_blank_aggregate_layer_fill("eviction_rate", source_name, source_layer) %>%
+    # Vacancy rate ----
+    # Neighbourhood ----
+    ## Outline layer ----
     mapboxer::add_layer(
       list(
         "id" = "neighbourhood_line",
         "type" = "line",
-        "source" = "neighbourhoods",
+        "source" = source_name,
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
           "line-color" = default_line_colour,
@@ -255,12 +258,12 @@ add_blank_neighbourhood_layer <- function(map) {
         )
       )
     ) %>%
-    # Add a "blank" layer for clicking on, that contains all neighbourhoods
+    ## Add a "blank" layer for clicking on, that contains all neighbourhoods ----
     mapboxer::add_layer(
       list(
         "id" = "neighbourhood_click",
         "type" = "fill",
-        "source" = "neighbourhoods",
+        "source" = source_name,
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
           "fill-color" = "white",
@@ -268,12 +271,12 @@ add_blank_neighbourhood_layer <- function(map) {
         )
       )
     ) %>%
-    # Add an actual layer for neighbourhoods that will be thickened
+    ## Add an actual layer for neighbourhoods that will be thickened ----
     mapboxer::add_layer(
       list(
         "id" = "neighbourhood_click_line",
         "type" = "line",
-        "source" = "neighbourhoods",
+        "source" = source_name,
         "source-layer" = "neighbourhoods-0jaap1",
         filter = list("==", "neighbourhood", "none"),
         "paint" = list(
@@ -282,12 +285,12 @@ add_blank_neighbourhood_layer <- function(map) {
         )
       )
     ) %>%
-    # Hover layer
+    ##  Hover layer ----
     mapboxer::add_layer(
       list(
         "id" = "neighbourhood_hover_line",
         "type" = "line",
-        "source" = "neighbourhoods",
+        "source" = source_name,
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
           "line-color" = list(
@@ -310,94 +313,32 @@ add_blank_neighbourhood_layer <- function(map) {
     )
 }
 
-#' Add blank rental supply layers
-#'
-#' Add a blank layers of \link{rental_supply_by_neighbourhood} to a map (created via \link{map_toronto}). There is one layer for primary market (rental_supply_primary), condo (rental_supply_condo), secondary (rental_supply_non_condo), and non-market (rental_supply_non_market). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}.
-#'
-#' @param map Map created via \link{map_toronto}
-#'
-#' @export
-#'
-#' @examples
-#' library(sf)
-#' map_toronto() %>%
-#'   add_blank_rental_supply_layers() %>%
-#'   toggle_layer_visible("rental_supply_condo")
-add_blank_rental_supply_layers <- function(map) {
-  colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number() - 1)
-
-  rental_supply <- lemur::rental_supply_by_neighbourhood %>%
-    dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
-    dplyr::select(-prop, -prop_group) %>%
-    tidyr::pivot_wider(names_from = group, values_from = color) %>%
-    dplyr::left_join(lemur::neighbourhoods, by = "neighbourhood") %>%
-    sf::st_as_sf(crs = 4326)
+add_blank_aggregate_layer_fill <- function(map, layer, source_name, source_layer, visibility = "none") {
 
   map %>%
-    mapboxer::add_source(mapboxer::as_mapbox_source(rental_supply), id = "rental_supply") %>%
-    # Primary
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Primary"), fill_opacity = 0.65, id = "rental_supply_primary", visibility = FALSE) %>%
-    # Condo
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Condo"), fill_opacity = 0.65, id = "rental_supply_condo", visibility = FALSE) %>%
-    # Non-condo secondary
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-Condo"), fill_opacity = 0.65, id = "rental_supply_non_condo", visibility = FALSE) %>%
-    # Non-market
-    mapboxer::add_fill_layer(source = "rental_supply", fill_color = c("get", "Non-market"), fill_opacity = 0.65, id = "rental_supply_non_market", visibility = FALSE)
-}
-
-#' Add blank core housing need layer
-#'
-#' Add a blank layers of \link{core_housing_need_by_neighbourhood} to a map (created via \link{map_toronto}).The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with id "core_housing_need").
-#'
-#' @param map Map created via \link{map_toronto}
-#'
-#' @export
-#'
-#' @examples
-#' library(sf)
-#' map_toronto() %>%
-#'   add_blank_core_housing_need_layer() %>%
-#'   toggle_layer_visible("core_housing_need")
-add_blank_core_housing_need_layer <- function(map) {
-  colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number() - 1)
-
-  core_housing_need <- lemur::core_housing_need_by_neighbourhood %>%
-    dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
-    dplyr::select(-prop, -prop_group) %>%
-    dplyr::left_join(lemur::neighbourhoods, by = "neighbourhood") %>%
-    sf::st_as_sf(crs = 4326)
-
-  map %>%
-    mapboxer::add_source(mapboxer::as_mapbox_source(core_housing_need), id = "core_housing_need_data") %>%
-    mapboxer::add_fill_layer(source = "core_housing_need_data", fill_color = c("get", "color"), fill_opacity = 0.65, id = "core_housing_need", visibility = FALSE)
-}
-
-#' Add blank evictions layer
-#'
-#' Add a blank layers of \link{evictions_by_neighbourhood} to a map (created via \link{map_toronto}).The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with id "evictions").
-#'
-#' @param map Map created via \link{map_toronto}
-#'
-#' @export
-#'
-#' @examples
-#' library(sf)
-#' map_toronto() %>%
-#'   add_blank_evictions_layer() %>%
-#'   toggle_layer_visible("evictions")
-add_blank_evictions_layer <- function(map) {
-  colors <- dplyr::tibble(color = low_high_legend_colors()) %>%
-    dplyr::mutate(id = dplyr::row_number() - 1)
-
-  evictions <- lemur::evictions_by_neighbourhood %>%
-    dplyr::left_join(colors, by = c("prop_group" = "id")) %>%
-    dplyr::select(-prop, -prop_group) %>%
-    dplyr::left_join(lemur::neighbourhoods, by = "neighbourhood") %>%
-    sf::st_as_sf(crs = 4326)
-
-  map %>%
-    mapboxer::add_source(mapboxer::as_mapbox_source(evictions), id = "evictions_data") %>%
-    mapboxer::add_fill_layer(source = "evictions_data", fill_color = c("get", "color"), fill_opacity = 0.65, id = "evictions", visibility = FALSE)
+    mapboxer::add_layer(
+      list(
+        "id" = layer,
+        "type" = "fill",
+        "source" = source_name,
+        "source-layer" = source_layer,
+        "layout" = list(
+          "visibility" = visibility
+        ),
+        "paint" = list(
+          "fill-color" = list(
+            "case",
+            list("==", c("get", layer), 0), low_high_legend_colors()[1],
+            list("==", c("get", layer), 1), low_high_legend_colors()[2],
+            list("==", c("get", layer), 2), low_high_legend_colors()[3],
+            list("==", c("get", layer), 3), low_high_legend_colors()[4],
+            list("==", c("get", layer), 4), low_high_legend_colors()[5],
+            list("==", c("get", layer), 5), low_high_legend_colors()[6],
+            # Defaults to 'white'
+            "black"
+          ),
+          "fill-opacity" = 0.65
+        )
+      )
+    )
 }

@@ -23,14 +23,10 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_lem_layer() %>%
-        add_blank_rental_supply_layers() %>%
-        add_blank_core_housing_need_layer() %>%
-        add_blank_evictions_layer() %>%
         add_blank_amenity_density_layer() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
-        add_blank_neighbourhood_layer() %>%
+        add_blank_aggregate_layers() %>%
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
         htmlwidgets::onRender("function() {
       // Send variable that map is loaded in order to trigger tour

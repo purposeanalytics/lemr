@@ -22,7 +22,7 @@ core_housing_need <- readRDS(here::here("data-raw", "aggregate_data", "core_hous
 eviction_rate <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "eviction_rate_by_neighbourhood_layer.rds"))
 
 # Combine ----
-neighbourhoods <- neighbourhoods %>%
+neighbourhoods <- lemur::neighbourhoods %>%
   left_join(lem, by = "neighbourhood") %>%
   left_join(rental_supply, by = "neighbourhood") %>%
   left_join(core_housing_need, by = "neighbourhood") %>%
