@@ -28,7 +28,7 @@ library(ceramic)
 library(tmaptools)
 library(dplyr)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.5, fig.align = 'center', cache = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.75, fig.align = 'center', cache = FALSE)
 
 level <- params$level
 neighbourhood <- params$neighbourhood
@@ -42,7 +42,9 @@ title <- switch(level,
 dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 ```
 
+<!-- <div style = "background-color: var(--main-color) !important; color: white; height: 5em; text-align: center;"> -->
 # `r title`
+<!-- </div> -->
 
 ```{r map-alt-text}
 map_alt_text <- switch(level,
@@ -116,11 +118,6 @@ tm_shape(basemap) +
   tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
 ```
 
-```{r map-include, fig.height = 10, out.height = NULL, eval = FALSE}
-knitr::include_graphics(here::here("inst", "templates", "maps", glue::glue("{neighbourhood}.png")))
-```
-
-
 <div class = "row">
 
   <div class = "col-sm-6">
@@ -147,7 +144,7 @@ dataset[["lem"]] %>%
 <hr>
 
 <div class = "row">
-  <div class = "col-sm-9">
+  <div class = "col-sm-12">
   
 ### Estimated rental supply
 
@@ -280,9 +277,6 @@ lemur:::generate_table(dataset, "amenity_density", compare, "Proximity to servic
   </div>
 </div>
 
-##
-<div style = "display:block; clear:both; page-break-after:always;"></div>
-
 ## Housing characteristics 
 
 <div class = "row">
@@ -356,7 +350,7 @@ lemur:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 
 ### Households by tenure
 
-```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1}
+```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.25}
 lemur:::household_tenure_description(level, neighbourhood) %>%
   p()
 
