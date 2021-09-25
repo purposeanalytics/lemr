@@ -42,12 +42,12 @@ glue::glue('Households: {scales::comma(dataset[["households"]])} <br> Population
 
 ```{r}
 map_alt_text <- switch(level,
-  neighbourhood = glue::glue("A map of {neighbourhood} showing the locations of apartment buildings, evictions hearings, above guideline increase applications, and tenant defense fund grant recipients."),
+  neighbourhood = glue::glue("A map of {neighbourhood} showing the locations of apartment buildings, above guideline increase applications, and tenant defense fund grant recipients."),
   city = "A map of Toronto showing the locations of apartment buildings, evictions hearings, above guideline increase applications, and tenant defense fund grant recipients."
 )
 ```
 
-```{r map, fig.height = 3, dpi = 96, out.width = "100%"}
+```{r map, fig.height = 3, dpi = 96, out.width = "100%", eval = FALSE}
 if (level == "neighbourhood") {
   map_data <- lemur::neighbourhoods %>%
     dplyr::filter(neighbourhood == !!neighbourhood)
@@ -97,11 +97,10 @@ tm_shape(basemap) +
   tm_rgb() +
   tm_shape(map_data) +
   tm_borders(col = lemur:::main_colour, lwd = 2) %>%
-  add_circle_layer(dplyr::filter(map_buildings, apartment), lemur:::layer_colours[["apartment_buildings"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, eviction_hearing), lemur:::layer_colours[["evictions_hearings"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, agi), lemur:::layer_colours[["agi"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, apartment), lemur:::layer_colours[["apartment_buildings_private"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, agi), lemur:::layer_colours[["agi_apartment"]], level = level) %>%
   add_circle_layer(dplyr::filter(map_buildings, tdf), lemur:::layer_colours[["tdf"]], level = level) +
-  tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Evictions hearings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
+  tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
   tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
 ```
 
@@ -125,13 +124,13 @@ dataset[["lem"]] %>%
 ## Apartment buildings
 
 ```{r apartment-buildings, fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
-number_of_apartments <- lemur:::get_measure(dataset, "number_of_apartments")
-number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_apartments")
+number_of_apartments <- lemur:::get_measure(dataset, "number_of_buildings")
+number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_buildings")
 
 number_of_units <- lemur:::get_measure(dataset, "number_of_units")
 number_of_units_formatted <- lemur:::format_measure(number_of_units, "number_of_units")
 
-lemur:::number_of_apartments_number(number_of_apartments_formatted, number_of_units_formatted) %>%
+lemur:::number_of_apartments_number(number_of_apartments_formatted) %>%
   lemur:::bigger_padded()
 
 lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
