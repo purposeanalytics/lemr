@@ -6,7 +6,7 @@ color_preview <- function(color) {
   shiny::tagList(
     shiny::span(
       class = "color-preview",
-      style = paste("background-color:", color),
+      style = paste("background-color:", color, "!important"),
       .noWS = "outside"
     )
   )
@@ -26,7 +26,7 @@ color_preview_circle <- function(color) {
   shiny::tagList(
     shiny::span(
       class = "color-preview-circle",
-      style = paste("background-color:", color),
+      style = paste("background-color:", color, "!important"),
       .noWS = "outside"
     )
   )

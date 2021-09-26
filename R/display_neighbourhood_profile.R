@@ -87,7 +87,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         p <- ggplot2::ggplot(data, ggplot2::aes(x = new_value, y = group, fill = new_neighbourhood)) +
           ggplot2::geom_col(position = ggplot2::position_dodge2()) +
           ggplot2::scale_fill_manual(values = c(grey_colour, main_colour)) +
-          ggplot2::geom_text(ggplot2::aes(x = new_value, y = group, label = label), position = ggplot2::position_dodge(width = 1), hjust = -0.1, size = 2) +
+          ggplot2::geom_text(ggplot2::aes(x = new_value, y = group, label = label), position = ggplot2::position_dodge(width = 1), hjust = -0.1, size = 3) +
           lemur::theme_lemur() +
           ggplot2::labs(x = NULL, y = NULL) +
           ggplot2::theme(legend.position = "none")
@@ -111,7 +111,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
       if (static) {
         p <- ggplot2::ggplot(data, ggplot2::aes(x = value, y = group)) +
           ggplot2::geom_col(fill = grey_colour) +
-          ggplot2::geom_text(ggplot2::aes(label = label, hjust = -0.1), size = 2.5) +
+          ggplot2::geom_text(ggplot2::aes(label = label, hjust = -0.1), size = 3) +
           lemur::theme_lemur() +
           ggplot2::labs(x = NULL, y = NULL)
       } else {
@@ -258,7 +258,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
   if (static) {
     ggplot2::ggplot(data, ggplot2::aes(x = group, y = prop, fill = group)) +
       ggplot2::geom_col(show.legend = FALSE) +
-      ggplot2::geom_text(ggplot2::aes(label = label), vjust = -0.2, size = 2.5) +
+      ggplot2::geom_text(ggplot2::aes(label = label), vjust = -0.2, size = 4) +
       lemur::theme_lemur() +
       ggplot2::labs(x = NULL, y = NULL) +
       ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
