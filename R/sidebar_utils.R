@@ -288,10 +288,17 @@ number_of_units_plot <- function(data, compare, static = FALSE) {
 # Apartment building evaluation (RentSafeTO) ----
 
 apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
-  if (is.na(apartment_building_evaluation_formatted)) {
-    return("There are no apartment buildings in this neighbourhood, so no RentSafeTO scores to report.")
+  if (apartment_building_evaluation_formatted == "NA%") {
+    "RentSafeTO evaluation scores"
+  } else {
+    glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted} median score")
   }
-  glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted}")
+}
+
+apartment_building_evaluation_none <- function(apartment_building_evaluation_formatted) {
+  if (apartment_building_evaluation_formatted == "NA%") {
+    "There are no apartment buildings in this neighbourhood, so no RentSafeTO scores to report."
+  }
 }
 
 apartment_building_evaluation_description <- function(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) {
@@ -371,7 +378,7 @@ amenity_density_plot <- function(data, compare, static = FALSE) {
 
 
 core_housing_need_number <- function(core_housing_need_formatted) {
-  glue::glue("Percent of renter households in core housing need: {core_housing_need_formatted}")
+  glue::glue("Core housing need: {core_housing_need_formatted} of renter households")
 }
 
 core_housing_need_description <- function(level, neighbourhood, core_housing_need, core_housing_need_formatted) {
@@ -419,7 +426,7 @@ core_housing_need_plot <- function(data, compare, static = FALSE) {
 # Evictions -----
 
 evictions_number <- function(evictions_formatted) {
-  glue::glue("Percent of rental households with evictions: {evictions_formatted}")
+  glue::glue("Eviction rate: {evictions_formatted} of renter households")
 }
 
 evictions_description <- function(level, neighbourhood, evictions, evictions_formatted) {
@@ -467,7 +474,7 @@ evictions_plot <- function(data, compare, static = FALSE) {
 # Vacancy rate ----
 
 vacancy_rate_number <- function(vacancy_rate_formatted) {
-  glue::glue("Vacancy rate: {vacancy_rate_formatted}")
+  glue::glue("Vacancy rate: {vacancy_rate_formatted} of renter households")
 }
 
 vacancy_rate_description <- function(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) {
@@ -515,7 +522,7 @@ vacancy_rate_plot <- function(data, compare, static = FALSE) {
 # Population change ----
 
 population_change_number <- function(population_change_formatted) {
-  glue::glue("2011 to 2016: {population_change_formatted}")
+  glue::glue("Population change, 2011 to 2016: {population_change_formatted}")
 }
 
 population_change_description <- function(level, neighbourhood, population_change, population_change_formatted) {
@@ -563,7 +570,7 @@ population_change_plot <- function(data, compare, static = FALSE) {
 # Population density ----
 
 population_density_number <- function(data) {
-  glue::glue("{data} people per square kilometre")
+  glue::glue("Population density: {data} people per square kilometre")
 }
 
 population_density_description <- function(level, neighbourhood, population_density, population_density_formatted) {
@@ -654,7 +661,7 @@ average_total_household_income_plot <- function(data, compare, static = FALSE) {
 # Unaffordable housing ----
 
 unaffordable_housing_number <- function(unaffordable_housing_formatted) {
-  glue::glue("Percent of renter households with unaffordable housing: {unaffordable_housing_formatted}")
+  glue::glue("Unaffordable housing: {unaffordable_housing_formatted} of renter households")
 }
 
 unaffordable_housing_city <- function(level) {
@@ -711,7 +718,7 @@ unaffordable_housing_plot <- function(data, compare, static = FALSE) {
 # LIM-AT
 
 lim_at_number <- function(data) {
-  glue::glue("Percent of people under LIM-AT: {data}")
+  glue::glue("Low-income measure after tax: {data} of population")
 }
 
 lim_at_city <- function(level) {
@@ -858,7 +865,7 @@ household_tenure_plot <- function(data, compare, static = FALSE) {
 # Shelter cost -----
 
 shelter_cost_number <- function(shelter_cost_formatted) {
-  glue::glue("Average monthly rent: {shelter_cost_formatted}")
+  glue::glue("Average renter shelter cost: {shelter_cost_formatted}")
 }
 
 shelter_cost_city <- function(level) {
