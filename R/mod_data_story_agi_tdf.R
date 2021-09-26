@@ -29,8 +29,24 @@ mod_data_story_agi_tdf_ui <- function(id) {
           align = "center",
           # shiny::imageOutput(ns("agi_vs_tdf"), height = 500),
           # This is faster - doesn't need to render, so might choose to do this instead
-          shiny::img(srcset = "www/agi_vs_tdf_wide.png 2700w, www/agi_vs_tdf_narrow.png 1500w", sizes="(max-width: 767px) 480px, 800px",
-            src="www/agi_vs_tdf_wide.png", title = "Above Guideline Increase versus Tenant Defence Fund", width = "90%", alt = "A scatter plot showing the percent of buildings with Above Guideline Increases versus the percent of buildings with Tenant Defence Fund grants. The values for Broadview North, Yonge-St.Clair, and Mimico are highlighted in blue while the rest of the neighbourhoods' values are grey."),
+          shiny::tags$picture(
+            shiny::tags$source(
+              media = "(orientation: lanscape)",
+              srcset = "www/agi_vs_tdf_wide.png 2700w",
+              sizes = "800px"
+            ),
+            shiny::tags$source(
+              media = "(orientation: portrait)",
+              srcset = "www/agi_vs_tdf_wide.png 2700w, www/agi_vs_tdf_narrow.png 1500w",
+              sizes = "(max-width: 767px) 480px, 800px"
+            ),
+            shiny::img(
+              src = "www/agi_vs_tdf_wide.png",
+              title = "Above Guideline Increase versus Tenant Defence Fund",
+              width = "90%",
+              alt = "A scatter plot showing the percent of buildings with Above Guideline Increases versus the percent of buildings with Tenant Defence Fund grants. The values for Broadview North, Yonge-St.Clair, and Mimico are highlighted in blue while the rest of the neighbourhoods' values are grey."
+            )
+          ),
           shiny::p(shiny::HTML("<i>Broadview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
         )
       ),
