@@ -406,7 +406,6 @@ core_housing_need_plot <- function(data, compare, static = FALSE) {
 
 # Evictions -----
 
-
 evictions_number <- function(evictions_formatted) {
   glue::glue("Percent of rental households with evictions: {evictions_formatted}")
 }
@@ -453,6 +452,53 @@ evictions_plot <- function(data, compare, static = FALSE) {
   }
 }
 
+# Vacancy rate ----
+
+vacancy_rate_number <- function(vacancy_rate_formatted) {
+  glue::glue("Vacancy rate: {vacancy_rate_formatted}")
+}
+
+vacancy_rate_description <- function(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) {
+  if (level == "neighbourhood") {
+    value_distribution <- stats::ecdf(lemur::city_aggregate[["vacancy_rate_2020_distribution"]][["value"]])
+    value_percentile <- value_distribution(vacancy_rate)
+  }
+
+  switch(level,
+    "city" = "Distribution of primary market vacancy rate for each of the City of Toronto neighbourhoods.",
+    "neighbourhood" = glue::glue("Distribution of primary market vacancy rate for each of the City of Toronto neighbourhoods. The value for {neighbourhood}, {vacancy_rate_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+  )
+}
+
+vacancy_rate_plot_alt_text <- function(level, neighbourhood) {
+  values <- lemur::city_aggregate[["vacancy_rate_distribution"]][["value"]]
+
+  alt_text <- glue::glue("Histogram showing the distribution of vacancy rate for each of the City of Toronto neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} vacancy_rate, and the distribution is heavily left skewed with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
+    min = min(values),
+    max = max(values),
+    skew_min = stats::quantile(values, 0.1),
+    skew_max = stats::quantile(values, 0.9)
+  )
+
+  if (level == "neighbourhood") {
+    neighbourhood_alt_text <- glue::glue("The bar containing {neighbourhood}'s vacancy rate is highlighted.")
+    alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
+  }
+
+  alt_text
+}
+
+vacancy_rate_plot <- function(data, compare, static = FALSE) {
+  p <- data %>%
+    plot_neighbourhood_profile_distribution("vacancy_rate_2020", compare = compare, binwidth = 0.005, static = static)
+
+  if (static) {
+    p + ggplot2::scale_x_continuous(labels = scales::percent)
+  } else {
+    p %>%
+      plotly::layout(xaxis = list(tickformat = "%"))
+  }
+}
 
 # Population change ----
 
