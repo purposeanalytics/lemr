@@ -89,6 +89,11 @@ mod_full_summary_modal_ui <- function(id) {
                   shiny::textOutput(ns("evictions_description")),
                   shiny::uiOutput(ns("evictions_plot_ui")),
                   shiny::hr(),
+                  shiny::h3("Vacancy rate"),
+                  bigger_padded(shiny::textOutput(ns("vacancy_rate_number"))),
+                  shiny::textOutput(ns("vacancy_rate_description")),
+                  shiny::uiOutput(ns("vacancy_rate_plot_ui")),
+                  shiny::hr(),
                   shiny::h3("Proximity to services"),
                   shiny::textOutput(ns("amenity_density_description")),
                   shiny::uiOutput(ns("amenity_density_plot_ui")),
@@ -341,6 +346,43 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
         role = "img",
         `aria-label` = evictions_alt_text(),
         plotly::plotlyOutput(ns("evictions_plot"), height = "100px")
+      )
+    })
+
+    # Vacancy rate ----
+
+    vacancy_rate <- shiny::reactive({
+      get_measure(dataset(), "vacancy_rate_2020")
+    })
+
+    vacancy_rate_formatted <- shiny::reactive({
+      format_measure(vacancy_rate(), "vacancy_rate")
+    })
+
+    output$vacancy_rate_number <- shiny::renderText({
+      vacancy_rate_number(vacancy_rate_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    output$vacancy_rate_description <- shiny::renderText({
+      vacancy_rate_description(level(), neighbourhood(), vacancy_rate(), vacancy_rate_formatted())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    vacancy_rate_alt_text <- shiny::reactive({
+      vacancy_rate_plot_alt_text(level(), neighbourhood())
+    })
+
+    output$vacancy_rate_plot <- plotly::renderPlotly({
+      vacancy_rate_plot(dataset(), compare())
+    }) %>%
+      shiny::bindCache(level(), neighbourhood())
+
+    output$vacancy_rate_plot_ui <- shiny::renderUI({
+      shiny::div(
+        role = "img",
+        `aria-label` = vacancy_rate_alt_text(),
+        plotly::plotlyOutput(ns("vacancy_rate_plot"), height = "100px")
       )
     })
 
