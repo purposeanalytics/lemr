@@ -69,13 +69,13 @@ map_guide <- function() {
     step(
     "points_layer_div",
     title = "Spot the details",
-    description = "Enable point layers to identify and compare specific locations of interest."
+    description = "Enable point layers to identify and compare specific locations of interest. Click on each dot on the map for building details."
   )$
     step(
-    "map-header-full_summary-modal",
+    "map-header-modal",
     position = "left",
     title = "Dive into the specifics",
-    description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
+    description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood."
   )$
     step(
     "[data-value='Data & Definitions']",
