@@ -28,10 +28,10 @@ app_server <- function(input, output, session) {
       visited <- glouton::fetch_cookies()
 
       # If cookie is null, set to "yes" then show the tour
-      # if (is.null(visited$visited_site)) {
+      if (is.null(visited$visited_site)) {
         glouton::add_cookie("visited_site", "yes")
         map_guide()$init()$start()
-      # }
+      }
     }
   })
 
@@ -51,11 +51,15 @@ map_guide <- function() {
       "body",
       is_id = FALSE,
       position = "mid-center",
+      class = "intro-tour-modal",
       "Welcome to the Low-end of Market Rental Monitor Map",
       shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
-      on_highlighted = "function(e){
-			e.stage.node.style.display = (e.node == document.body) ? 'none' : 'block';
-		}"
+      # Set the background for this modal, since it's hacky and not done automatically
+      on_highlighted = "function() {
+      document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: black !important');}",
+      # Then turn it off, because the other ones already have it, so leaving it on would cause a double dark background
+      on_next = "function() {
+      document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: transparent !important');}",
     )$
     step(
     "aggregate_layer_div",
