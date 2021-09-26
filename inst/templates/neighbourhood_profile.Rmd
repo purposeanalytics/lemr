@@ -11,7 +11,7 @@ knit: pagedown::chrome_print
 
 ```{css, echo = FALSE}
 :root {
-  --base-size: 12px; 
+  --base-size: 11px; 
   --bigger-size: 1.1em;
 }
 ```
@@ -47,10 +47,7 @@ dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 <!-- </div> -->
 
 ```{r map-alt-text}
-map_alt_text <- switch(level,
-  neighbourhood = glue::glue("A map of {neighbourhood} showing the locations of apartment buildings, above guideline increase applications, and tenant defense fund grant recipients."),
-  city = "A map of Toronto showing the locations of apartment buildings, evictions hearings, above guideline increase applications, and tenant defense fund grant recipients."
-)
+map_alt_text <- glue::glue("A map of {area} showing the locations of apartment buildings, above guideline increase applications, and tenant defense fund grant recipients.", area = ifelse(level == "city", "Toronto", neighbourhood))
 ```
 
 ```{r map, fig.height = 3, dpi = 96, out.width = "100%", eval = TRUE}
@@ -113,9 +110,9 @@ tm_shape(basemap) +
   # AGI
   add_circle_layer(dplyr::filter(map_buildings, agi), lemur:::layer_colours[["agi_apartment"]], level = level) %>%
   # TDF
-  add_circle_layer(dplyr::filter(map_buildings, tdf), lemur:::layer_colours[["tdf"]], level = level) +
-  tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
-  tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
+  add_circle_layer(dplyr::filter(map_buildings, tdf), lemur:::layer_colours[["tdf"]], level = level)
+  # tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
+  # tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
 ```
 
 <div class = "row">
@@ -275,7 +272,7 @@ lemur:::vacancy_rate_plot(dataset, compare, static = TRUE)
 
 ### Proximity to services
 
-```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
+```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemur:::amenity_density_description(level, neighbourhood) %>%
   p()
 
@@ -313,7 +310,7 @@ lemur:::number_of_apartments_plot(dataset, compare, static = TRUE)
   
 ### Housing structure type
 
-```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2}
+```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemur:::structure_type_description(level, neighbourhood) %>%
   p()
 
@@ -353,7 +350,7 @@ lemur:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 
 ### Households by tenure
 
-```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.25}
+```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemur:::household_tenure_description(level, neighbourhood) %>%
   p()
 
@@ -364,7 +361,7 @@ lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure 
 
 ### Number of bedrooms
 
-```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2}
+```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemur:::bedrooms_description(level, neighbourhood) %>%
   p()
 
@@ -411,7 +408,7 @@ lemur:::population_change_plot(dataset, compare, static = TRUE)
 
 ### Average Total Household Income 
 
-```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.25}
+```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemur:::average_total_household_income_description(level, neighbourhood) %>%
   p()
 
@@ -437,7 +434,7 @@ lemur:::lim_at_plot(dataset, compare, static = TRUE)
 
 ### Household size 
 
-```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2}
+```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemur:::household_size_description(level, neighbourhood) %>%
   p()
 
@@ -458,6 +455,5 @@ lemur:::visible_minority_plot(dataset, compare, static = TRUE)
 lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
   kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
 ```
-
   </div>
 </div>
