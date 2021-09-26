@@ -506,6 +506,13 @@ ul {
     width: 100% !important;
 }
 
+/* Data stories */
+.agi-data-story-neighbourhood {
+  padding-bottom: 2em;
+  display: flex;
+  align-items: center;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Anything smaller than a big ol computer */
@@ -584,6 +591,15 @@ ul {
 
   #data-and-definitions-page .bigger {
     font-size: var(--base-size);
+  }
+
+  .agi-data-story-neighbourhood {
+    display: block;
+  }
+
+  .agi-data-story-neighbourhood .col-sm-5, .agi-data-story-neighbourhood .col-sm-7
+    width: 100% !important;
+    margin-right: 0 !important;
   }
 }
 
@@ -690,8 +706,3 @@ h1 {
  }
 
   }
-
-/* Data stories */
-.agi-data-story-neighbourhood {
-  padding-bottom: 2em;
-}

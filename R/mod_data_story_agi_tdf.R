@@ -8,6 +8,11 @@
 #'
 #' @importFrom shiny NS tagList
 mod_data_story_agi_tdf_ui <- function(id) {
+  map_legend <- shiny::tagList(
+    create_circle_legend(layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+  )
+
   ns <- NS(id)
   shiny::showModal(
     shiny::modalDialog(
@@ -69,11 +74,12 @@ mod_data_story_agi_tdf_ui <- function(id) {
               scales::percent(accuracy = 0.1),
             n_tdf = neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
               dplyr::pull(n)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%")
         )
       ),
       shiny::fluidRow(
@@ -93,12 +99,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
             prop_tdf = neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["tdf"]] %>%
               dplyr::pull(prop) %>%
               scales::percent(accuracy = 0.1)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%",
         )
+      )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
@@ -118,11 +126,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
               scales::percent(accuracy = 0.1),
             n_tdf = neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
               dplyr::pull(n)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%"
+
+        )
         )
       ),
       shiny::p(glue::glue("How do we account for these differences? In 2016, Mimico’s average rent was close to the city average at {mimico_rent}, quite a bit higher than Broadview North which had an average rent of {broadview_north_rent}. Both neighbourhoods have buildings that were mostly constructed in the 1950s and 1960s. In Mimico, either tenants are more organized, landlords are more reluctant to bring AGI applications forward, or they have done less work on their buildings in the last five years. By comparison, Yonge-St. Clair had an even higher average rent, {yonge_st_clair_rent}, and a very low rate of TDF grants. As the TDF program focuses on buildings with affordable rents, it is likely that fewer tenants were eligible for this program.",
