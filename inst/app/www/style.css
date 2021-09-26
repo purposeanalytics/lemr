@@ -590,6 +590,10 @@ ul {
 /* Extra small devices (portrait phones, up to 575px) */
 @media (max-width: 575px) {
 
+  #shiny-modal {
+    padding-right: 0 !important;
+  }
+
   .content-page {
     margin: 1.5em !important;
   }

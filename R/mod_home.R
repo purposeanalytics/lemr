@@ -18,7 +18,6 @@ mod_home_ui <- function(id) {
     ),
     shiny::div(
       class = "content-page padded home",
-      # shiny::includeMarkdown(app_sys("app", "home.md"))
       shiny::div(
         class = "intro-sentence biggest",
         shiny::HTML("<b>LEMR</b> is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto.")

@@ -31,14 +31,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
           # This is faster - doesn't need to render, so might choose to do this instead
           shiny::tags$picture(
             shiny::tags$source(
-              media = "(orientation: lanscape)",
+              media = "(orientation: landscape)",
               srcset = "www/agi_vs_tdf_wide.png 2700w",
               sizes = "800px"
             ),
             shiny::tags$source(
               media = "(orientation: portrait)",
               srcset = "www/agi_vs_tdf_wide.png 2700w, www/agi_vs_tdf_narrow.png 1500w",
-              sizes = "(max-width: 767px) 480px, 800px"
+              sizes = "(max-width: 767px) 400px, 800px"
             ),
             shiny::img(
               src = "www/agi_vs_tdf_wide.png",
@@ -136,7 +136,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
           width = 12,
           align = "center",
           shiny::p(shiny::HTML("<i>
-For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the Map. For data sources and key terms, visit Data and Definitions.</i>"))
+For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the <b>Map</b>. For data sources and key terms, visit <b>Data & Definitions</b>.</i>"))
         )
       )
     )
