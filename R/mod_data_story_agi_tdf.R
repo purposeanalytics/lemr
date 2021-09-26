@@ -79,7 +79,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
         ),
         shiny::column(
           width = 7,
-          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%")
+          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%", alt = "A map of Broadview North showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
@@ -104,7 +104,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
         ),
         shiny::column(
           width = 7,
-          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%",
+          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
         )
       )
       ),
@@ -131,7 +131,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
         ),
         shiny::column(
           width = 7,
-          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%"
+          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
 
         )
         )
