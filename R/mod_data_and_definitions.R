@@ -9,6 +9,7 @@ mod_data_and_definitions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(
     class = "content-page",
+    id = "data-and-definitions-page",
     shiny::h1("Data & Definitions"),
     # I wish I could explain why this is necessary, but removing it makes the tooltips everywhere go away
     # I guess some different JS is getting attached. I don't know!

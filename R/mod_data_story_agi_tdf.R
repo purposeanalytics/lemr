@@ -8,6 +8,11 @@
 #'
 #' @importFrom shiny NS tagList
 mod_data_story_agi_tdf_ui <- function(id) {
+  map_legend <- shiny::tagList(
+    create_circle_legend(layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+  )
+
   ns <- NS(id)
   shiny::showModal(
     shiny::modalDialog(
@@ -29,8 +34,25 @@ mod_data_story_agi_tdf_ui <- function(id) {
           align = "center",
           # shiny::imageOutput(ns("agi_vs_tdf"), height = 500),
           # This is faster - doesn't need to render, so might choose to do this instead
-          shiny::img(src = fs::path("www", "agi_vs_tdf", ext = "png"), title = "Above Guideline Increase versus Tenant Defense Fund", width = "50%"),
-          shiny::p(shiny::HTML("<i>Boardview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
+          shiny::tags$picture(
+            shiny::tags$source(
+              media = "(orientation: landscape)",
+              srcset = "www/agi_vs_tdf_wide.png 2700w",
+              sizes = "800px"
+            ),
+            shiny::tags$source(
+              media = "(orientation: portrait)",
+              srcset = "www/agi_vs_tdf_wide.png 2700w, www/agi_vs_tdf_narrow.png 1500w",
+              sizes = "(max-width: 767px) 400px, 800px"
+            ),
+            shiny::img(
+              src = "www/agi_vs_tdf_wide.png",
+              title = "Above Guideline Increase versus Tenant Defence Fund",
+              width = "90%",
+              alt = "A scatter plot showing the percent of buildings with Above Guideline Increases versus the percent of buildings with Tenant Defence Fund grants. The values for Broadview North, Yonge-St.Clair, and Mimico are highlighted in blue while the rest of the neighbourhoods' values are grey."
+            )
+          ),
+          shiny::p(shiny::HTML("<i>Broadview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
         )
       ),
       shiny::fluidRow(
@@ -52,11 +74,12 @@ mod_data_story_agi_tdf_ui <- function(id) {
               scales::percent(accuracy = 0.1),
             n_tdf = neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
               dplyr::pull(n)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%", alt = "A map of Broadview North showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
@@ -76,12 +99,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
             prop_tdf = neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["tdf"]] %>%
               dplyr::pull(prop) %>%
               scales::percent(accuracy = 0.1)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
         )
+      )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
@@ -101,11 +126,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
               scales::percent(accuracy = 0.1),
             n_tdf = neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
               dplyr::pull(n)
-          ))
+          ),
+          map_legend)
         ),
         shiny::column(
-          width = 4,
-          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", height = 200)
+          width = 7,
+          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
+
+        )
         )
       ),
       shiny::p(glue::glue("How do we account for these differences? In 2016, Mimico’s average rent was close to the city average at {mimico_rent}, quite a bit higher than Broadview North which had an average rent of {broadview_north_rent}. Both neighbourhoods have buildings that were mostly constructed in the 1950s and 1960s. In Mimico, either tenants are more organized, landlords are more reluctant to bring AGI applications forward, or they have done less work on their buildings in the last five years. By comparison, Yonge-St. Clair had an even higher average rent, {yonge_st_clair_rent}, and a very low rate of TDF grants. As the TDF program focuses on buildings with affordable rents, it is likely that fewer tenants were eligible for this program.",
@@ -119,7 +147,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
           width = 12,
           align = "center",
           shiny::p(shiny::HTML("<i>
-For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the Map. For data sources and key terms, visit Data and Definitions.</i>"))
+For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the <b>Map</b>. For data sources and key terms, visit <b>Data & Definitions</b>.</i>"))
         )
       )
     )

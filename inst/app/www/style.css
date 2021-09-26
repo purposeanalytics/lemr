@@ -248,6 +248,7 @@ body > .container-fluid {
 
 .welcome-banner h1 {
   font-weight: var(--regular-weight);
+  font-size: 2em;
 }
 
 .intro-sentence {
@@ -505,39 +506,130 @@ ul {
     width: 100% !important;
 }
 
+/* Data stories */
+.agi-data-story-neighbourhood {
+  padding-bottom: 2em;
+  display: flex;
+  align-items: center;
+}
+
 /* Media queries - smaller screen sizes */
 
-/* Extra small devices (portrait phones, up to 575px) */
-@media (max-width: 575px) {
-
-  .navbar-header {
-    height: 75px;
-  }
+/* Anything smaller than a big ol computer */
+@media (max-width: 1199px) {
 
   :root {
-  --base-size: 12px;
+    --base-size: 16px;
+    --home-section-padding: 0.5em;
   }
 
   h1 {
     font-size: var(--bigger-size);
   }
 
-  /* Stack map and sidebar */
-  .map-col {
+  .pretty {
+    font-size: var(--base-size);
+  }
+
+  .summary-statistics {
     width: 100%;
   }
 
-  /* Shorter map */
-  #map-map{
-    height: calc(50vh) !important;
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
   }
 
   .sidebar-col {
+    width: 50%;
+  }
+
+  /* Flow modal into a single column */
+  .modal-col {
     width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .content-page {
+    margin: 2em !important;
+  }
+
+  .welcome-banner {
+  padding-top: var(--home-section-padding);
+    min-height: 0;
+    margin: 2em !important;
+  }
+
+  .welcome-banner h1 {
+    font-size: var(--bigger-size);
+  }
+
+  .intro-sentence {
+    font-size: var(--bigger-size) !important;
+    padding: 0;
+  }
+
+  .data-stories-banner {
+    min-height: 0px;
+  }
+
+  .start-exploring .col-sm-4 {
+    margin-bottom: calc(var(--home-section-padding) * 0.5);
+  }
+
+  .questions {
+    font-size: var(--bigger-size) !important;
+    padding-top: 0;
+  }
+
+  #data-and-definitions-page {
+    font-size: var(--base-size) !important;
+  }
+
+  #data-and-definitions-page .bigger {
+    font-size: var(--base-size);
+  }
+
+  .agi-data-story-neighbourhood {
+    display: block;
+  }
+
+  .agi-data-story-neighbourhood .col-sm-5, .agi-data-story-neighbourhood .col-sm-7
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Extra small devices (portrait phones, up to 575px) */
+@media (max-width: 575px) {
+
+  #shiny-modal {
+    padding-right: 0 !important;
+  }
+
+  .content-page {
+    margin: 1.5em !important;
+  }
+
+  /* Stack map and sidebar */
+  .map-col {
+    width: 100% !important;
+  }
+
+  .sidebar-col {
+    width: 100% !important;
+  }
+
+  /* Shorter map */
+  .mapboxer {
+    height: calc(50vh) !important;
   }
 
   /* Overflow sidebar div to avoid double scrolly */
-  #sidebar {
+  .map-sidebar {
     overflow-y: visible;
     border-width: 0;
   }
@@ -545,104 +637,7 @@ ul {
   /* Flow modal into a single column */
   .modal-col {
     width: 100%;
-    margin-left: 0 !important;
     margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-}
-
-/* Small devices (landscape phones, 576px to 767) */
-@media (min-width: 576px) and (max-width: 767px) {
-
-  :root {
-  --base-size: 12px;
-  }
-
-  h1 {
-    font-size: var(--bigger-size);
-  }
-
-  .navbar-header {
-    height: 75px;
-  }
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Flow modal into a single column */
-  .modal-col {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-}
-
-/* Medium devices (tablets, 768px to 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
-
-  :root {
-  --base-size: 12px;
-  }
-
-  .navbar-header {
-    height: 75px;
-  }
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Flow modal into a single column */
-  .modal-col {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-
-  /* Summary statistics not in modal, but in sidebar*/
-  .summary-statistics {
-    width: 100% !important;
-  }
-}
-
-/* Large devices (desktops, 992px to 1200px) */
-@media (min-width: 992px) and (max-width: 1199px) {
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Allow summary statistics to take up full width */
-  .modal-summary-statistics {
-    width: 100% !important;
-  }
-
-  .summary-statistics {
-    width: 100% !important;
   }
 }
 
@@ -655,6 +650,7 @@ ul {
     bottom: 0;
     right: 0;
   }
+
 }
 
 @media print {
@@ -710,10 +706,3 @@ h1 {
  }
 
   }
-
-/* Data stories */
-
-
-.agi-data-story-neighbourhood {
-  padding-bottom: 2em;
-}
