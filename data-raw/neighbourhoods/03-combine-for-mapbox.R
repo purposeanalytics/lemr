@@ -30,4 +30,8 @@ neighbourhoods <- lemur::neighbourhoods %>%
   relocate(geometry, .after = eviction_rate)
 
 # Save dataset - as geojson for mapbox
+file <- here::here("data-raw", "neighbourhoods", "final", "neighbourhoods.geojson")
+if (fs::file_exists(file)) {
+  fs::file_delete(file)
+}
 st_write(neighbourhoods, here::here("data-raw", "neighbourhoods", "final", "neighbourhoods.geojson"))
