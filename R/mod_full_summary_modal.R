@@ -119,13 +119,11 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::hr(),
               # Average shelter cost for renters ----
               shiny::h3(shiny::textOutput(ns("shelter_cost"))),
-              bigger_padded(shiny::textOutput(ns("shelter_cost_city"))),
               shiny::textOutput(ns("average_renter_shelter_cost_description")),
               shiny::uiOutput(ns("average_renter_shelter_cost_plot_ui")),
               shiny::hr(),
               # Unaffordable housing ----
               shiny::h3(shiny::textOutput(ns("unaffordable_housing"))),
-              bigger_padded(shiny::textOutput(ns("unaffordable_housing_city"))),
               shiny::textOutput(ns("unaffordable_housing_description")),
               shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
               shiny::hr(),
@@ -158,7 +156,6 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::htmlOutput(ns("average_total_household_income_table")),
               shiny::hr(),
               shiny::h3(shiny::textOutput(ns("lim_at"))),
-              bigger_padded(shiny::textOutput(ns("lim_at_city"))),
               shiny::textOutput(ns("lim_at_description")),
               shiny::uiOutput(ns("lim_at_plot_ui")),
               shiny::hr(),
@@ -167,9 +164,7 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::uiOutput(ns("household_size_plot_ui")),
               shiny::htmlOutput(ns("household_size_table")),
               shiny::hr(),
-              shiny::h3("Visible minority population"),
-              bigger_padded(shiny::textOutput(ns("visible_minority"))),
-              bigger_padded(shiny::textOutput(ns("visible_minority_city"))),
+              shiny::h3(shiny::textOutput(ns("visible_minority"))),
               shiny::textOutput(ns("visible_minority_description")),
               shiny::uiOutput(ns("visible_minority_plot_ui")),
               shiny::htmlOutput(ns("visible_minority_table"))
@@ -628,12 +623,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       shiny::bindCache(level(), neighbourhood())
 
     output$shelter_cost <- shiny::renderText({
-      shelter_cost_number(shelter_cost_formatted())
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
-
-    output$shelter_cost_city <- shiny::renderText({
-      shelter_cost_city(level())
+      shelter_cost_number(shelter_cost_formatted(), level())
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -804,12 +794,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     })
 
     output$unaffordable_housing <- shiny::renderText({
-      unaffordable_housing_number(unaffordable_housing_formatted())
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
-
-    output$unaffordable_housing_city <- shiny::renderText({
-      unaffordable_housing_city(level())
+      unaffordable_housing_number(unaffordable_housing_formatted(), level())
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -846,12 +831,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     })
 
     output$lim_at <- shiny::renderText({
-      lim_at_number(lim_at_formatted())
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
-
-    output$lim_at_city <- shiny::renderText({
-      lim_at_city(level())
+      lim_at_number(lim_at_formatted(), level())
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
@@ -880,12 +860,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     # Visible minority population -----
 
     output$visible_minority <- shiny::renderText({
-      visible_minority_number(dataset())
-    }) %>%
-      shiny::bindCache(level(), neighbourhood())
-
-    output$visible_minority_city <- shiny::renderText({
-      visible_minority_city(level())
+      visible_minority_number(dataset(), level())
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 

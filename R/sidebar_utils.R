@@ -660,15 +660,13 @@ average_total_household_income_plot <- function(data, compare, static = FALSE) {
 
 # Unaffordable housing ----
 
-unaffordable_housing_number <- function(unaffordable_housing_formatted) {
-  glue::glue("Unaffordable housing: {unaffordable_housing_formatted} of renter households")
-}
+unaffordable_housing_number <- function(unaffordable_housing_formatted, level) {
+  number <- glue::glue("Unaffordable housing: {unaffordable_housing_formatted} of renter households")
 
-unaffordable_housing_city <- function(level) {
   if (level == "neighbourhood") {
-    glue::glue('(City of Toronto: {scales::percent(lemur::city_aggregate[["unaffordable_housing"]], accuracy = 0.1)})')
+    glue::glue('{number} (City of Toronto: {scales::percent(lemur::city_aggregate[["unaffordable_housing"]], accuracy = 0.1)})')
   } else {
-    NULL
+    number
   }
 }
 
@@ -717,15 +715,13 @@ unaffordable_housing_plot <- function(data, compare, static = FALSE) {
 
 # LIM-AT
 
-lim_at_number <- function(data) {
-  glue::glue("Low-income measure after tax: {data} of population")
-}
+lim_at_number <- function(data, level) {
+  number <- glue::glue("Low-income measure after tax: {data} of population")
 
-lim_at_city <- function(level) {
   if (level == "neighbourhood") {
-    glue::glue('(City of Toronto: {format_measure(lemur::city_aggregate[["lim_at"]], "lim_at")})')
+    glue::glue('{number} (City of Toronto: {format_measure(lemur::city_aggregate[["lim_at"]], "lim_at")})')
   } else {
-    NULL
+    number
   }
 }
 
@@ -774,17 +770,15 @@ lim_at_plot <- function(data, compare, static = FALSE) {
 
 # Visible minority
 
-visible_minority_number <- function(data) {
+visible_minority_number <- function(data, level) {
   prop <- data[["visible_minority"]] %>%
     dplyr::filter(.data$group != "Not a visible minority") %>%
     dplyr::pull(.data$prop) %>%
     sum() %>%
     scales::percent(accuracy = 0.1)
 
-  glue::glue("Visible minority population: {prop}")
-}
+  number <- glue::glue("Visible minority population: {prop}")
 
-visible_minority_city <- function(level) {
   if (level == "neighbourhood") {
     city_prop <- lemur::city_aggregate[["visible_minority"]] %>%
       dplyr::filter(.data$group != "Not a visible minority") %>%
@@ -792,9 +786,9 @@ visible_minority_city <- function(level) {
       sum() %>%
       scales::percent(accuracy = 0.1)
 
-    glue::glue("(City of Toronto: {city_prop})")
+    glue::glue("{number} (City of Toronto: {city_prop})")
   } else {
-    NULL
+    number
   }
 }
 
@@ -864,15 +858,13 @@ household_tenure_plot <- function(data, compare, static = FALSE) {
 
 # Shelter cost -----
 
-shelter_cost_number <- function(shelter_cost_formatted) {
-  glue::glue("Average renter shelter cost: {shelter_cost_formatted}")
-}
+shelter_cost_number <- function(shelter_cost_formatted, level) {
+  number <- glue::glue("Average renter shelter cost: {shelter_cost_formatted}")
 
-shelter_cost_city <- function(level) {
   if (level == "neighbourhood") {
-    glue::glue('(City of Toronto: {scales::dollar(lemur::city_aggregate[["average_renter_shelter_cost"]], accuracy = 1)})')
+    glue::glue('{number} (City of Toronto: {scales::dollar(lemur::city_aggregate[["average_renter_shelter_cost"]], accuracy = 1)})')
   } else {
-    NULL
+    number
   }
 }
 

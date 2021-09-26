@@ -326,11 +326,8 @@ lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Ty
 shelter_cost <- lemur:::get_measure(dataset, "average_renter_shelter_cost")
 shelter_cost_formatted <- lemur:::format_measure(shelter_cost, "average_renter_shelter_cost")
 
-lemur:::shelter_cost_number(shelter_cost_formatted) %>%
+lemur:::shelter_cost_number(shelter_cost_formatted, level) %>%
   h3()
-
-lemur:::shelter_cost_city(level) %>%
-  lemur:::bigger_padded()
 
 lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
   p()
@@ -345,11 +342,8 @@ lemur:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
 unaffordable_housing <- lemur:::get_measure(dataset, "unaffordable_housing")
 unaffordable_housing_formatted <- lemur:::format_measure(unaffordable_housing, "unaffordable_housing")
 
-lemur:::unaffordable_housing_number(unaffordable_housing_formatted) %>%
+lemur:::unaffordable_housing_number(unaffordable_housing_formatted, level) %>%
   h3()
-
-lemur:::unaffordable_housing_city(level) %>%
-  lemur:::bigger_padded()
 
 lemur:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
   p()
@@ -430,7 +424,7 @@ lemur:::generate_table(dataset, "average_total_income", compare, "Household Size
 lim_at <- lemur:::get_measure(dataset, "lim_at")
 lim_at_formatted <- lemur:::format_measure(lim_at, "lim_at")
 
-lemur:::lim_at_number(lim_at_formatted) %>%
+lemur:::lim_at_number(lim_at_formatted, level) %>%
   h3()
 
 lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
@@ -452,14 +446,9 @@ lemur:::household_size_plot(dataset, compare, static = TRUE)
 lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
 ```
 
-### Visible minority population
-
 ```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
-lemur:::visible_minority_number(dataset) %>%
-  p()
-
-lemur:::visible_minority_city(level) %>%
-  lemur:::bigger_padded()
+lemur:::visible_minority_number(dataset, level) %>%
+  h3()
 
 lemur:::visible_minority_description(level, neighbourhood) %>%
   p()
