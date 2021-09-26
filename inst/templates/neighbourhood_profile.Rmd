@@ -263,6 +263,21 @@ lemur:::evictions_description(level, neighbourhood, evictions, evictions_formatt
 lemur:::evictions_plot(dataset, compare, static = TRUE)
 ```
 
+### Vacancy rate
+
+```{r vacancy-rate, fig.alt = lemur:::vacancy_rate_plot_alt_text(level, neighbourhood)}
+vacancy_rate <- lemur:::get_measure(dataset, "vacancy_rate_2020")
+vacancy_rate_formatted <- lemur:::format_measure(vacancy_rate, "vacancy_rate")
+
+lemur:::vacancy_rate_number(vacancy_rate_formatted) %>%
+  lemur:::bigger_padded()
+
+lemur:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) %>%
+  p()
+
+lemur:::vacancy_rate_plot(dataset, compare, static = TRUE)
+```
+
 ### Proximity to services
 
 ```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
