@@ -108,8 +108,3 @@ vacancy_rate_2020 <- vacancy_rate_combined %>%
 
 saveRDS(vacancy_rate_2016, here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2016.rds"))
 saveRDS(vacancy_rate_2020, here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2020.rds"))
-
-# TODO: get vacancy rate for each CT
-# Change rental numbers based on that
-# Then aggregate CT to neighbourhood vacancy rate either based on # of renters, or # primary market
-# So that it's actually weighted properly
