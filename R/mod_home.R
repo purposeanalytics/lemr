@@ -12,7 +12,7 @@ mod_home_ui <- function(id) {
       class = "welcome-banner",
       shiny::div(
         class = "welcome-banner-content",
-        shiny::h1("Welcome to the Low-end of Market Rental Monitor", style = "font-size: 2em;"),
+        shiny::h1("Welcome to the Low-end of Market Rental Monitor"),
         shiny::tags$i(shiny::HTML("This tool is a <b>proof of concept</b> that demonstrates the potential for linking housing data from multiple sources with a future goal of estimating the volume of deeply affordable housing units, where they are located, and how this is changing over time."))
       )
     ),
