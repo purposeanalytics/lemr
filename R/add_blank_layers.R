@@ -244,6 +244,7 @@ add_blank_aggregate_layers <- function(map) {
     # Evictions ----
     add_blank_aggregate_layer_fill("eviction_rate", source_name, source_layer) %>%
     # Vacancy rate ----
+    add_blank_aggregate_layer_fill("vacancy_rate", source_name, source_layer) %>%
     # Neighbourhood ----
     ## Outline layer ----
     mapboxer::add_layer(
@@ -314,7 +315,6 @@ add_blank_aggregate_layers <- function(map) {
 }
 
 add_blank_aggregate_layer_fill <- function(map, layer, source_name, source_layer, visibility = "none") {
-
   map %>%
     mapboxer::add_layer(
       list(
