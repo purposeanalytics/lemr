@@ -20,7 +20,7 @@ format_measure <- function(data, measure) {
     glue::glue("{sign}{pop_change_percent}")
   } else if (measure %in% c("population_density", "number_of_buildings", "number_of_units")) {
     scales::comma(round(data))
-  } else if (measure %in% c("unaffordable_housing", "lim_at", "evictions", "core_housing_need")) {
+  } else if (measure %in% c("unaffordable_housing", "lim_at", "evictions", "core_housing_need", "vacancy_rate")) {
     scales::percent(data, accuracy = 0.1)
   } else if (measure == "average_renter_shelter_cost") {
     scales::dollar(data, accuracy = 1)
@@ -74,7 +74,8 @@ summary_statistics_table <- function(data) {
       dplyr::filter(group == "Renter") %>%
       dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
     `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
-    `Eviction rate` = format_measure(data[["evictions"]], "evictions")
+    `Eviction rate` = format_measure(data[["evictions"]], "evictions"),
+    `Vacancy rate` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
   ) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
     knitr::kable(col.names = NULL, align = "lr") %>%

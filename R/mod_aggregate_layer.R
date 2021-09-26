@@ -96,12 +96,10 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
         ),
         rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(market == "Non-market") %>% dplyr::pull(prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
         eviction_rate = glue::glue("Eviction rate: {percent}",
-          percent = dataset()[["evictions"]] %>%
-            scales::percent(accuracy = 0.1)
+          percent = format_measure(dataset()[["evictions"]], "evictions")
         ),
         vacancy_rate = glue::glue("Vacancy rate: {percent}",
-          percent = dataset()[["vacancy_rate_2020"]] %>%
-            scales::percent(accuracy = 0.1)
+          percent = format_measure(dataset()[["vacancy_rate_2020"]], "vacancy_rate")
         )
       )
     })
