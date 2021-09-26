@@ -14,8 +14,11 @@ knit: pagedown::chrome_print
   --base-size: 11px; 
   --bigger-size: 1.1em;
 }
-```
 
+.visible-minority table {
+  margin-bottom: 0 !important;
+}
+```
 
 ```{r setup, include=FALSE}
 library(lemur)
@@ -28,7 +31,7 @@ library(ceramic)
 library(tmaptools)
 library(dplyr)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.75, fig.align = 'center', cache = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.75, fig.align = "center", cache = FALSE)
 
 level <- params$level
 neighbourhood <- params$neighbourhood
@@ -50,6 +53,8 @@ dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
 map_alt_text <- glue::glue("A map of {area} showing the locations of apartment buildings, above guideline increase applications, and tenant defense fund grant recipients.", area = ifelse(level == "city", "Toronto", neighbourhood))
 ```
 
+<div class = "row" style = "display: flex; align-items: center;">
+  <div class = "col-sm-8">
 ```{r map, fig.height = 3, dpi = 96, out.width = "100%", eval = TRUE}
 if (level == "neighbourhood") {
   map_data <- lemur::neighbourhoods %>%
@@ -87,9 +92,15 @@ add_circle_layer <- function(map, data, colour, level) {
   if (nrow(data) == 0) {
     return(map)
   }
-  
-  size <- switch(level, city = 0.1, neighbourhood = 0.25)
-  shape <- switch(level, city = 16, neighbourhood = 21)
+
+  size <- switch(level,
+    city = 0.1,
+    neighbourhood = 0.25
+  )
+  shape <- switch(level,
+    city = 16,
+    neighbourhood = 21
+  )
 
   map +
     tm_shape(data) +
@@ -111,9 +122,46 @@ tm_shape(basemap) +
   add_circle_layer(dplyr::filter(map_buildings, agi), lemur:::layer_colours[["agi_apartment"]], level = level) %>%
   # TDF
   add_circle_layer(dplyr::filter(map_buildings, tdf), lemur:::layer_colours[["tdf"]], level = level)
-  # tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
-  # tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
+# tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
+# tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
 ```
+  </div>
+  <div class = "col-sm-4">
+  
+```{r plot-legend}
+shiny::tagList(
+  purrr::pmap(
+    dplyr::tibble(
+      color = c("Apartment", "Toronto Community Housing", "Other Non-Market"),
+      wording = c("Privately owned", "Toronto Community Housing", "Social housing")
+    ),
+    function(color, wording, data_suffix) {
+      lemur:::create_circle_legend(lemur:::rental_supply_colors()[[color]],
+        glue::glue("{wording} apartment buildings"),
+        alt_text = glue::glue("A legend showing the colour of the points of {wording} apartment buildings.")
+      )
+    }
+  ),
+  purrr::pmap(
+    dplyr::tibble(
+      color = c("Low", "High"),
+      wording = c("Licensed", "Lapsed")
+    ),
+    function(color, wording) {
+      lemur:::create_circle_legend(lemur:::amenity_density_colours()[[color]],
+        glue::glue("{wording} rooming houses"),
+        alt_text = glue::glue("A legend showing the colour of the points of {tolower(wording)} rooming houses.")
+      )
+    }
+  ),
+  lemur:::create_circle_legend(lemur:::layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+  lemur:::create_circle_legend(lemur:::layer_colours[["agi_other"]], "Other buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+  lemur:::create_circle_legend(lemur:::layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+)
+```
+  
+  </div>
+</div>
 
 <div class = "row">
 
@@ -153,7 +201,6 @@ lemur:::rental_supply_plot(dataset, static = TRUE)
   <div class = "col-sm-6">
 ```{r rental-supply-primary}
 lemur:::rental_supply_primary_table(dataset)
-
 ```
   </div>
   <div class = "col-sm-6">
@@ -443,6 +490,7 @@ lemur:::household_size_plot(dataset, compare, static = TRUE)
 lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
 ```
 
+  <div class = "visible-minority">
 ```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
 lemur:::visible_minority_number(dataset, level) %>%
   h3()
@@ -453,7 +501,9 @@ lemur:::visible_minority_description(level, neighbourhood) %>%
 lemur:::visible_minority_plot(dataset, compare, static = TRUE)
 
 lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
-  kableExtra::footnote(general = '"n.i.e." = not included elsewhere')
+  kableExtra::footnote(general = '"n.i.e." = not included elsewhere') %>%
+  kableExtra::kable_styling(bootstrap_options = "condensed")
 ```
+  </div>
   </div>
 </div>
