@@ -21,11 +21,16 @@ core_housing_need <- readRDS(here::here("data-raw", "aggregate_data", "core_hous
 
 eviction_rate <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_neighbourhood", "aggregate", "eviction_rate_by_neighbourhood_layer.rds"))
 
+# Vacancy rate
+
+vacancy_rate <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "aggregate", "vacancy_rate_by_neighbourhood_2020_layer.rds"))
+
 # Combine ----
 neighbourhoods <- lemur::neighbourhoods %>%
   left_join(lem, by = "neighbourhood") %>%
   left_join(rental_supply, by = "neighbourhood") %>%
   left_join(core_housing_need, by = "neighbourhood") %>%
+  left_join(vacancy_rate, by = "neighbourhood") %>%
   left_join(eviction_rate, by = "neighbourhood") %>%
   relocate(geometry, .after = eviction_rate)
 
