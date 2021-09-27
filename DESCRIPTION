@@ -4,9 +4,10 @@ Version: 0.0.0.9005
 Authors@R: 
     c(person(given = "Sharla",
              family = "Gelfand",
-             role = "aut"),
+             role = c("aut", "cre"),
+             email = "sharla.gelfand@gmail.com"),
       person(given = "Purpose Analytics",
-             role = c("cph", "cre")))
+             role = "cph"))
 Description: LEMR is an interactive tool developed to understand changes in the
     supply of deeply affordable rental housing in the City of Toronto.
 License: MIT + file LICENSE

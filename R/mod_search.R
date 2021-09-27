@@ -14,8 +14,8 @@ mod_search_ui <- function(id) {
       width = 6,
       shiny::textInput(inputId = ns("address"), label = "Address", placeholder = "Search address..."),
       # This exposes the key in the HTML, but apparently that's fine and what everyone does??? Oki
-      # It's restricted to only work from https://sharlag.shinyapps.io/lemr/
-      # And localhost / 127.0.0.1
+      # It's restricted to only work from https://sharlag.shinyapps.io/lemur/
+      # And localhost / 127.0.0.1 and https://app.lemr.ca/shiny/
       shiny::HTML(paste0("
                  <script src='https://maps.googleapis.com/maps/api/js?key=", Sys.getenv("GOOGLE_CLOUD_TOKEN"), "&libraries=places&callback=initAutocomplete' async defer></script>"))
     ),
