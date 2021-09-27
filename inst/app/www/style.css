@@ -176,10 +176,6 @@ body > .container-fluid {
   overflow-y: hidden;
 }
 
-#shiny-modal button {
-  float: right;
-}
-
 .modal-content {
   height: 95vh;
   overflow-y: scroll;
@@ -529,6 +525,14 @@ ul {
   align-items: center;
 }
 
+/* Makes sure "download reports" button dropdown is spaced properly */
+.full-summary-buttons .dropdown-menu {
+  top: auto;
+}
+
+.full-summary-buttons {
+  float: right;
+}
 /* Media queries - smaller screen sizes */
 
 /* Anything smaller than a big ol computer */

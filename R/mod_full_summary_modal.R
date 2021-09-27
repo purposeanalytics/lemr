@@ -19,7 +19,18 @@ mod_full_summary_modal_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 12,
-            shiny::modalButton("Close"),
+            shiny::div(
+              class = "full-summary-buttons",
+              shinyWidgets::dropdownButton(
+                label = "Download",
+                inputId = "report-download-dropdown",
+                circle = FALSE,
+                inline = TRUE,
+                shiny::actionButton(ns("download_pdf"), "PDF", width = "100%", style = "margin-bottom: 0.5em;"),
+                shiny::actionButton(ns("download_html"), "HTML", width = "100%")
+              ),
+              shiny::modalButton("Close")
+            ),
             shiny::h1(shiny::textOutput(ns("header")))
           )
         ),
