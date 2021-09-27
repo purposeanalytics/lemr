@@ -19,7 +19,11 @@ mod_full_summary_modal_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 12,
-            shiny::modalButton("Close"),
+            shiny::div(
+              class = "full-summary-buttons",
+              mod_report_download_ui(ns("download")),
+              shiny::modalButton("Close")
+            ),
             shiny::h1(shiny::textOutput(ns("header")))
           )
         ),
@@ -194,6 +198,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       )
     })
 
+    mod_report_download_server("download", level, neighbourhood)
 
     mod_legend_server("legend", level, neighbourhood)
 

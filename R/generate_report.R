@@ -12,7 +12,7 @@ generate_report <- function(level, neighbourhood = NULL, format, filename = "rep
     }
   }
 
-  rmarkdown::render(system.file("templates/neighbourhood_profile.Rmd", package = "lemr"),
+  rmarkdown::render(system.file("reports/neighbourhood_profile.Rmd", package = "lemr"),
     params = list(
       level = level,
       neighbourhood = neighbourhood

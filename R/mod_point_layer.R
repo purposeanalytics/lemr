@@ -100,20 +100,22 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             }
           )
         ),
-        rooming_houses = shiny::tagList(
+        rooming_houses =
+            shiny::tagList(
           purrr::pmap(
             dplyr::tibble(
               color = c("Low", "Medium", "High"),
-              filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")
+              filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed"),
+              wording = c("licensed prior to 2018", "licensed 2018 onwards", "whose licenses have lapsed")
             ),
-            function(color, filter) {
+            function(color, filter, wording) {
               create_circle_legend(amenity_density_colours()[[color]],
                 glue::glue("{value} {buildings_word}, {wording}",
                   value = dataset()[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
-                  buildings_word = ifelse(.data$value == 1, "rooming house", "rooming houses"),
+                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
                   wording = tolower(filter)
                 ),
-                alt_text = glue::glue("A legend showing the colour of the points of {wording} rooming houses.", wording = tolower(filter))
+                alt_text = glue::glue("A legend showing the colour of the points of rooming houses {wording}.")
               )
             }
           )
@@ -186,7 +188,7 @@ point_layers_choices <- list(
 )
 
 generate_apartment_evaluation_legend <- function() {
-  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
 }
 
 ## To be copied in the UI
