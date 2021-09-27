@@ -198,7 +198,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       )
     })
 
-    mod_report_download_server("download", neighbourhood)
+    mod_report_download_server("download", level, neighbourhood)
 
     mod_legend_server("legend", level, neighbourhood)
 
