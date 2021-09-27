@@ -1,6 +1,7 @@
-Package: lemur
+Package: lemr
 Title: Low-end of Market Rental Monitor
 Version: 0.0.0.9005
+Authors@R: 
     c(person(given = "Sharla",
              family = "Gelfand",
              role = "aut"),

@@ -88,8 +88,8 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
 
     dataset <- shiny::reactive({
       switch(level(),
-        city = lemur::city_aggregate,
-        neighbourhood = lemur::neighbourhood_aggregate[[neighbourhood()]]
+        city = lemr::city_aggregate,
+        neighbourhood = lemr::neighbourhood_aggregate[[neighbourhood()]]
       )
     })
 

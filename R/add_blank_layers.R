@@ -20,7 +20,7 @@ add_blank_points_layers <- function(map) {
 
   # Temporarily setting NA score_colour to "none" so we can filter the data in the RentSafeTO layer
   # I can't figure out how to filter out NA/null yet
-  data <- lemur::buildings %>%
+  data <- lemr::buildings %>%
     dplyr::mutate(score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"))
 
   map %>%

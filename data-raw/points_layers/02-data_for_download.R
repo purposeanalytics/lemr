@@ -6,7 +6,7 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-data <- lemur::buildings %>%
+data <- lemr::buildings %>%
   mutate(id = row_number())
 
 # Extract lat and long ----

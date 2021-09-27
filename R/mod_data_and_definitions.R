@@ -28,7 +28,7 @@ mod_data_and_definitions_ui <- function(id) {
       )
     ),
     shiny::tagList(
-      lemur::data_and_definitions %>%
+      lemr::data_and_definitions %>%
         dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
         dplyr::pull(.data$definition_full)
     )

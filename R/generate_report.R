@@ -7,12 +7,12 @@ generate_report <- function(level, neighbourhood = NULL, format, filename = "rep
   }
 
   if (level == "neighbourhood") {
-    if (!neighbourhood %in% lemur::neighbourhoods[["neighbourhood"]]) {
-      stop(neighbourhood, "is not a valid Toronto neighbourhood. See lemur::neighbourhoods", call. = FALSE)
+    if (!neighbourhood %in% lemr::neighbourhoods[["neighbourhood"]]) {
+      stop(neighbourhood, "is not a valid Toronto neighbourhood. See lemr::neighbourhoods", call. = FALSE)
     }
   }
 
-  rmarkdown::render(system.file("templates/neighbourhood_profile.Rmd", package = "lemur"),
+  rmarkdown::render(system.file("templates/neighbourhood_profile.Rmd", package = "lemr"),
     params = list(
       level = level,
       neighbourhood = neighbourhood

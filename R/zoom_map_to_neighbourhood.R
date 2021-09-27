@@ -11,7 +11,7 @@
 #'   add_blank_aggregate_layers() %>%
 #'   zoom_map_to_neighbourhood("Casa Loma")
 zoom_map_to_neighbourhood <- function(map, neighbourhood) {
-  searched_neighbourhood <- lemur::neighbourhoods %>%
+  searched_neighbourhood <- lemr::neighbourhoods %>%
     dplyr::filter(.data$neighbourhood == !!neighbourhood)
 
   map %>%

@@ -40,7 +40,7 @@ test_that("geocode_address returns a 401 and NAs if the token is invalid", {
   skip_if_offline()
   skip_on_ci()
 
-  res <- geocode_address("101 Queen Street W Toronto ON", token = "lemur", quiet = TRUE)
+  res <- geocode_address("101 Queen Street W Toronto ON", token = "lemr", quiet = TRUE)
   expect_identical(
     res,
     structure(list(

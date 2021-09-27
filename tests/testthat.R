@@ -1,4 +1,4 @@
 library(testthat)
-library(lemur)
+library(lemr)
 
-test_check("lemur")
+test_check("lemr")

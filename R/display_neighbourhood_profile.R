@@ -35,14 +35,14 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
       unique()
 
     if (prop_variable) {
-      city_data <- lemur::city_aggregate[[variable]] %>%
+      city_data <- lemr::city_aggregate[[variable]] %>%
         dplyr::rename(toronto = .data$prop)
 
       data <- data %>%
         dplyr::select(-.data$neighbourhood) %>%
         dplyr::rename(neighbourhood = .data$prop)
     } else {
-      city_data <- lemur::city_aggregate[[variable]] %>%
+      city_data <- lemr::city_aggregate[[variable]] %>%
         dplyr::rename(toronto = .data$value)
 
       data <- data %>%
@@ -89,7 +89,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
           ggplot2::geom_col(position = ggplot2::position_dodge2()) +
           ggplot2::scale_fill_manual(values = c(grey_colour, main_colour)) +
           ggplot2::geom_text(ggplot2::aes(x = .data$new_value, y = .data$group, label = .data$label), position = ggplot2::position_dodge(width = 1), hjust = -0.1, size = 3) +
-          lemur::theme_lemur() +
+          lemr::theme_lemr() +
           ggplot2::labs(x = NULL, y = NULL) +
           ggplot2::theme(legend.position = "none")
       } else {
@@ -113,7 +113,7 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
         p <- ggplot2::ggplot(data, ggplot2::aes(x = .data$value, y = .data$group)) +
           ggplot2::geom_col(fill = grey_colour) +
           ggplot2::geom_text(ggplot2::aes(label = .data$label, hjust = -0.1), size = 3) +
-          lemur::theme_lemur() +
+          lemr::theme_lemr() +
           ggplot2::labs(x = NULL, y = NULL)
       } else {
         p <- plotly::plot_ly(data, x = ~value, y = ~group, type = "bar", color = I(grey_colour), hoverinfo = "skip", text = ~label, textposition = "outside", cliponaxis = FALSE, textfont = list(color = "black"))
@@ -193,7 +193,7 @@ display_neighbourhood_profile_horizontal <- function(data, variable, compare = T
   }
 
   if (compare) {
-    city_data <- lemur::city_aggregate[[variable]]
+    city_data <- lemr::city_aggregate[[variable]]
 
     if (variable == "amenity_density") {
       city_data <- city_data %>%
@@ -260,7 +260,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
     ggplot2::ggplot(data, ggplot2::aes(x = .data$group, y = .data$prop, fill = .data$group)) +
       ggplot2::geom_col(show.legend = FALSE) +
       ggplot2::geom_text(ggplot2::aes(label = .data$label), vjust = -0.2, size = 4) +
-      lemur::theme_lemur() +
+      lemr::theme_lemr() +
       ggplot2::labs(x = NULL, y = NULL) +
       ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
       ggplot2::scale_fill_manual(values = amenity_density_colours()) +
@@ -319,7 +319,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
 plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, compare = TRUE, static = FALSE) {
   # Create histogram first to get underlying data and bins
   p <- ggplot2::ggplot() +
-    ggplot2::geom_histogram(data = lemur::city_aggregate[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
+    ggplot2::geom_histogram(data = lemr::city_aggregate[[glue::glue("{variable}_distribution")]], ggplot2::aes(x = .data$value), fill = grey_colour, binwidth = binwidth)
 
   plot_data <- ggplot2::ggplot_build(p)[["data"]][[1]] %>%
     dplyr::select(.data$y, .data$x, .data$xmin, .data$xmax)
@@ -351,7 +351,7 @@ plot_neighbourhood_profile_distribution <- function(data, variable, binwidth, co
     p <- ggplot2::ggplot(plot_data) +
       ggplot2::geom_col(ggplot2::aes(x = .data$x, y = .data$no), fill = grey_colour) +
       ggplot2::labs(x = NULL, y = NULL) +
-      lemur::theme_lemur() +
+      lemr::theme_lemr() +
       ggplot2::theme(axis.text.y = ggplot2::element_blank())
 
     if (compare & "yes" %in% names(plot_data)) {
@@ -407,7 +407,7 @@ display_agi_tdf_buildings <- function(data, compare = TRUE) {
 
     # AGI -----
 
-    city <- lemur::city_aggregate[["agi"]] %>%
+    city <- lemr::city_aggregate[["agi"]] %>%
       dplyr::filter(.data$group == "Apartment building") %>%
       dplyr::select(-.data$group)
 
@@ -437,7 +437,7 @@ display_agi_tdf_buildings <- function(data, compare = TRUE) {
 
     # TDF ----
 
-    city <- lemur::city_aggregate[["tdf"]]
+    city <- lemr::city_aggregate[["tdf"]]
 
     names(city) <- glue::glue("City of Toronto_{c('value', 'prop')}")
 
@@ -480,7 +480,7 @@ display_rooming_houses <- function(data, compare = TRUE) {
     data <- data[["rooming_houses"]] %>%
       dplyr::rename_at(dplyr::vars(.data$value), ~ paste0(neighbourhood_name)) %>%
       dplyr::select(-.data$neighbourhood) %>%
-      dplyr::left_join(lemur::city_aggregate[["rooming_houses"]] %>%
+      dplyr::left_join(lemr::city_aggregate[["rooming_houses"]] %>%
         dplyr::rename(`City of Toronto` = .data$value),
       by = "group"
       ) %>%

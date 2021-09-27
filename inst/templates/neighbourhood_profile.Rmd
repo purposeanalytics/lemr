@@ -21,7 +21,7 @@ knit: pagedown::chrome_print
 ```
 
 ```{r setup, include=FALSE}
-library(lemur)
+library(lemr)
 library(htmltools)
 library(knitr)
 library(leaflet)
@@ -42,7 +42,7 @@ title <- switch(level,
   "city" = "City of Toronto"
 )
 
-dataset <- lemur:::determine_dataset_from_level(level, neighbourhood)
+dataset <- lemr:::determine_dataset_from_level(level, neighbourhood)
 ```
 
 <!-- <div style = "background-color: var(--main-color) !important; color: white; height: 5em; text-align: center;"> -->
@@ -57,13 +57,13 @@ map_alt_text <- glue::glue("A map of {area} showing the locations of apartment b
   <div class = "col-sm-8">
 ```{r map, fig.height = 3, dpi = 96, out.width = "100%", eval = TRUE}
 if (level == "neighbourhood") {
-  map_data <- lemur::neighbourhoods %>%
+  map_data <- lemr::neighbourhoods %>%
     dplyr::filter(neighbourhood == !!neighbourhood)
 
   bbox <- tmaptools::bb(map_data, ext = 1.1) %>%
     unname()
 
-  map_buildings <- lemur::buildings %>%
+  map_buildings <- lemr::buildings %>%
     dplyr::filter(neighbourhood == !!neighbourhood)
 
   basemap <- cc_location(
@@ -73,12 +73,12 @@ if (level == "neighbourhood") {
     verbose = FALSE
   )
 } else {
-  map_data <- lemur::toronto
+  map_data <- lemr::toronto
 
   bbox <- tmaptools::bb(map_data, ext = 1.1) %>%
     unname()
 
-  map_buildings <- lemur::buildings
+  map_buildings <- lemr::buildings
 
   basemap <- cc_location(
     loc = raster::extent(bbox),
@@ -110,19 +110,19 @@ add_circle_layer <- function(map, data, colour, level) {
 tm_shape(basemap) +
   tm_rgb() +
   tm_shape(map_data) +
-  tm_borders(col = lemur:::main_colour, lwd = 2) %>%
+  tm_borders(col = lemr:::main_colour, lwd = 2) %>%
   # Apartment buildings
-  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Privately owned"), lemur:::rental_supply_colors()[["Apartment"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Toronto Community Housing"), lemur:::rental_supply_colors()[["Toronto Community Housing"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Social housing"), lemur:::rental_supply_colors()[["Other Non-Market"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Privately owned"), lemr:::rental_supply_colors()[["Apartment"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Toronto Community Housing"), lemr:::rental_supply_colors()[["Toronto Community Housing"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Social housing"), lemr:::rental_supply_colors()[["Other Non-Market"]], level = level) %>%
   # Rooming houses
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status %in% c("Licensed prior to 2018", "Licensed 2018 onwards")), lemur:::amenity_density_colours()[["Low"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Lapsed"), lemur:::amenity_density_colours()[["High"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status %in% c("Licensed prior to 2018", "Licensed 2018 onwards")), lemr:::amenity_density_colours()[["Low"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Lapsed"), lemr:::amenity_density_colours()[["High"]], level = level) %>%
   # AGI
-  add_circle_layer(dplyr::filter(map_buildings, agi), lemur:::layer_colours[["agi_apartment"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, agi), lemr:::layer_colours[["agi_apartment"]], level = level) %>%
   # TDF
-  add_circle_layer(dplyr::filter(map_buildings, tdf), lemur:::layer_colours[["tdf"]], level = level)
-# tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemur:::layer_colours, shape = 16) +
+  add_circle_layer(dplyr::filter(map_buildings, tdf), lemr:::layer_colours[["tdf"]], level = level)
+# tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemr:::layer_colours, shape = 16) +
 # tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
 ```
   </div>
@@ -136,7 +136,7 @@ shiny::tagList(
       wording = c("Privately owned", "Toronto Community Housing", "Social housing")
     ),
     function(color, wording, data_suffix) {
-      lemur:::create_circle_legend(lemur:::rental_supply_colors()[[color]],
+      lemr:::create_circle_legend(lemr:::rental_supply_colors()[[color]],
         glue::glue("{wording} apartment buildings"),
         alt_text = glue::glue("A legend showing the colour of the points of {wording} apartment buildings.")
       )
@@ -148,15 +148,15 @@ shiny::tagList(
       wording = c("Licensed", "Lapsed")
     ),
     function(color, wording) {
-      lemur:::create_circle_legend(lemur:::amenity_density_colours()[[color]],
+      lemr:::create_circle_legend(lemr:::amenity_density_colours()[[color]],
         glue::glue("{wording} rooming houses"),
         alt_text = glue::glue("A legend showing the colour of the points of {tolower(wording)} rooming houses.")
       )
     }
   ),
-  lemur:::create_circle_legend(lemur:::layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-  lemur:::create_circle_legend(lemur:::layer_colours[["agi_other"]], "Other buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-  lemur:::create_circle_legend(lemur:::layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+  lemr:::create_circle_legend(lemr:::layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+  lemr:::create_circle_legend(lemr:::layer_colours[["agi_other"]], "Other buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+  lemr:::create_circle_legend(lemr:::layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
 )
 ```
   
@@ -169,7 +169,7 @@ shiny::tagList(
 
 ## Summary statistics
 ```{r summary-statistics}
-lemur:::summary_statistics_table(dataset)
+lemr:::summary_statistics_table(dataset)
 ```
   </div>
   
@@ -193,20 +193,20 @@ dataset[["lem"]] %>%
   
 ### Estimated rental supply
 
-```{r rental-supply, fig.alt = lemur:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
-lemur:::rental_supply_plot(dataset, static = TRUE)
+```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
+lemr:::rental_supply_plot(dataset, static = TRUE)
 ```
 
   <div class = "row">
   <div class = "col-sm-6">
 ```{r rental-supply-primary}
-lemur:::rental_supply_primary_table(dataset)
+lemr:::rental_supply_primary_table(dataset)
 ```
   </div>
   <div class = "col-sm-6">
 ```{r rental-supply-secondary-non-market}
-lemur:::rental_supply_secondary_table(dataset)
-lemur:::rental_supply_non_market_table(dataset)
+lemr:::rental_supply_secondary_table(dataset)
+lemr:::rental_supply_non_market_table(dataset)
 ```
   </div>
   </div>
@@ -224,108 +224,108 @@ lemur:::rental_supply_non_market_table(dataset)
 <div class = "row">
   <div class = "col-sm-6">
 
-```{r apartment-building-units, fig.alt = lemur:::number_of_units_plot_alt_text(level, neighbourhood)}
-number_of_units <- lemur:::get_measure(dataset, "number_of_units")
-number_of_units_formatted <- lemur:::format_measure(number_of_units, "number_of_units")
+```{r apartment-building-units, fig.alt = lemr:::number_of_units_plot_alt_text(level, neighbourhood)}
+number_of_units <- lemr:::get_measure(dataset, "number_of_units")
+number_of_units_formatted <- lemr:::format_measure(number_of_units, "number_of_units")
 
-lemur:::number_of_units_number(number_of_units_formatted) %>%
+lemr:::number_of_units_number(number_of_units_formatted) %>%
   h3()
 
-lemur:::number_of_units_breakdown(dataset) %>%
-  lemur:::bigger_padded()
+lemr:::number_of_units_breakdown(dataset) %>%
+  lemr:::bigger_padded()
 
-lemur:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
+lemr:::number_of_units_description(level, neighbourhood, number_of_units, number_of_units_formatted) %>%
   p()
 
-lemur:::number_of_units_plot(dataset, compare, static = TRUE)
+lemr:::number_of_units_plot(dataset, compare, static = TRUE)
 ```
 
-```{r apartment-building-evaluation, fig.alt = lemur:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
-apartment_building_evaluation <- lemur:::get_measure(dataset, "apartment_building_evaluation")
-apartment_building_evaluation_formatted <- lemur:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
+```{r apartment-building-evaluation, fig.alt = lemr:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
+apartment_building_evaluation <- lemr:::get_measure(dataset, "apartment_building_evaluation")
+apartment_building_evaluation_formatted <- lemr:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
 
-lemur:::apartment_building_evaluation_number(apartment_building_evaluation_formatted) %>%
+lemr:::apartment_building_evaluation_number(apartment_building_evaluation_formatted) %>%
   h3()
 
-lemur:::apartment_building_evaluation_none(apartment_building_evaluation_formatted) %>%
+lemr:::apartment_building_evaluation_none(apartment_building_evaluation_formatted) %>%
   p() %>%
-  lemur:::padded()
+  lemr:::padded()
 
-lemur:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
+lemr:::apartment_building_evaluation_description(level, neighbourhood, apartment_building_evaluation, apartment_building_evaluation_formatted) %>%
   p()
 
-lemur:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
+lemr:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 ```
 
 ### Rooming houses
 
 ```{r rooming-houses}
-lemur:::display_rooming_houses(dataset, compare = compare)
+lemr:::display_rooming_houses(dataset, compare = compare)
 ```
 
 ### AGI Applications and TDF Grants
 
 ```{r}
-lemur:::agi_tdf_description(level, neighbourhood) %>%
+lemr:::agi_tdf_description(level, neighbourhood) %>%
   p()
 
-lemur:::display_agi_tdf_buildings(dataset, compare)
+lemr:::display_agi_tdf_buildings(dataset, compare)
 
-lemur:::agi_non_apartments(dataset, level, neighbourhood) %>%
+lemr:::agi_non_apartments(dataset, level, neighbourhood) %>%
   p()
 ```
   </div>
 
   <div class = "col-sm-6">
   
-```{r core-housing-need, fig.alt = lemur:::core_housing_need_plot_alt_text(level, neighbourhood)}
-core_housing_need <- lemur:::get_measure(dataset, "core_housing_need")
-core_housing_need_formatted <- lemur:::format_measure(core_housing_need, "core_housing_need")
+```{r core-housing-need, fig.alt = lemr:::core_housing_need_plot_alt_text(level, neighbourhood)}
+core_housing_need <- lemr:::get_measure(dataset, "core_housing_need")
+core_housing_need_formatted <- lemr:::format_measure(core_housing_need, "core_housing_need")
 
-lemur:::core_housing_need_number(core_housing_need_formatted) %>%
+lemr:::core_housing_need_number(core_housing_need_formatted) %>%
   h3()
 
-lemur:::core_housing_need_description(level, neighbourhood, core_housing_need, core_housing_need_formatted) %>%
+lemr:::core_housing_need_description(level, neighbourhood, core_housing_need, core_housing_need_formatted) %>%
   p()
 
-lemur:::core_housing_need_plot(dataset, compare, static = TRUE)
+lemr:::core_housing_need_plot(dataset, compare, static = TRUE)
 ```
 
-```{r evictions, fig.alt = lemur:::evictions_plot_alt_text(level, neighbourhood)}
-evictions <- lemur:::get_measure(dataset, "evictions")
-evictions_formatted <- lemur:::format_measure(evictions, "evictions")
+```{r evictions, fig.alt = lemr:::evictions_plot_alt_text(level, neighbourhood)}
+evictions <- lemr:::get_measure(dataset, "evictions")
+evictions_formatted <- lemr:::format_measure(evictions, "evictions")
 
-lemur:::evictions_number(evictions_formatted) %>%
+lemr:::evictions_number(evictions_formatted) %>%
   h3()
 
-lemur:::evictions_description(level, neighbourhood, evictions, evictions_formatted) %>%
+lemr:::evictions_description(level, neighbourhood, evictions, evictions_formatted) %>%
   p()
 
-lemur:::evictions_plot(dataset, compare, static = TRUE)
+lemr:::evictions_plot(dataset, compare, static = TRUE)
 ```
 
-```{r vacancy-rate, fig.alt = lemur:::vacancy_rate_plot_alt_text(level, neighbourhood)}
-vacancy_rate <- lemur:::get_measure(dataset, "vacancy_rate_2020")
-vacancy_rate_formatted <- lemur:::format_measure(vacancy_rate, "vacancy_rate")
+```{r vacancy-rate, fig.alt = lemr:::vacancy_rate_plot_alt_text(level, neighbourhood)}
+vacancy_rate <- lemr:::get_measure(dataset, "vacancy_rate_2020")
+vacancy_rate_formatted <- lemr:::format_measure(vacancy_rate, "vacancy_rate")
 
 glue::glue("Primary market vacancy rate: {vacancy_rate_formatted}") %>%
   h3()
 
-lemur:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) %>%
+lemr:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) %>%
   p()
 
-lemur:::vacancy_rate_plot(dataset, compare, static = TRUE)
+lemr:::vacancy_rate_plot(dataset, compare, static = TRUE)
 ```
 
 ### Proximity to services
 
-```{r amenity-density, fig.alt = lemur:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 2}
-lemur:::amenity_density_description(level, neighbourhood) %>%
+```{r amenity-density, fig.alt = lemr:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 2}
+lemr:::amenity_density_description(level, neighbourhood) %>%
   p()
 
-lemur:::amenity_density_plot(dataset, compare, static = TRUE)
+lemr:::amenity_density_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "amenity_density", compare, "Proximity to services", "Percent") %>%
+lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to services", "Percent") %>%
   kableExtra::footnote(general = "A very small number of areas have unknown proximity to services, so values may not add up to 100%.")
 ```
   </div>
@@ -339,82 +339,82 @@ lemur:::generate_table(dataset, "amenity_density", compare, "Proximity to servic
 <div class = "row">
   <div class = "col-sm-6">
 
-```{r apartment-buildings, fig.alt = lemur:::number_of_apartments_plot_alt_text(level, neighbourhood)}
-number_of_apartments <- lemur:::get_measure(dataset, "number_of_buildings")
-number_of_apartments_formatted <- lemur:::format_measure(number_of_apartments, "number_of_buildings")
+```{r apartment-buildings, fig.alt = lemr:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+number_of_apartments <- lemr:::get_measure(dataset, "number_of_buildings")
+number_of_apartments_formatted <- lemr:::format_measure(number_of_apartments, "number_of_buildings")
 
-lemur:::number_of_apartments_number(number_of_apartments_formatted) %>%
+lemr:::number_of_apartments_number(number_of_apartments_formatted) %>%
   h3()
 
-lemur:::number_of_apartments_breakdown(dataset) %>%
-  lemur:::bigger_padded()
+lemr:::number_of_apartments_breakdown(dataset) %>%
+  lemr:::bigger_padded()
 
-lemur:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
+lemr:::number_of_apartments_description(level, neighbourhood, number_of_apartments, number_of_apartments_formatted) %>%
   p()
 
-lemur:::number_of_apartments_plot(dataset, compare, static = TRUE)
+lemr:::number_of_apartments_plot(dataset, compare, static = TRUE)
 ```
   
 ### Housing structure type
 
-```{r structure-type, fig.alt = lemur:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2.5}
-lemur:::structure_type_description(level, neighbourhood) %>%
+```{r structure-type, fig.alt = lemr:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2.5}
+lemr:::structure_type_description(level, neighbourhood) %>%
   p()
 
-lemur:::structure_type_plot(dataset, compare, static = TRUE)
+lemr:::structure_type_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent")
+lemr:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent")
 ```
 
-```{r shelter-cost, fig.alt = lemur:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood)}
-shelter_cost <- lemur:::get_measure(dataset, "average_renter_shelter_cost")
-shelter_cost_formatted <- lemur:::format_measure(shelter_cost, "average_renter_shelter_cost")
+```{r shelter-cost, fig.alt = lemr:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood)}
+shelter_cost <- lemr:::get_measure(dataset, "average_renter_shelter_cost")
+shelter_cost_formatted <- lemr:::format_measure(shelter_cost, "average_renter_shelter_cost")
 
-lemur:::shelter_cost_number(shelter_cost_formatted, level) %>%
+lemr:::shelter_cost_number(shelter_cost_formatted, level) %>%
   h3()
 
-lemur:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
+lemr:::average_renter_shelter_cost_description(level, neighbourhood, shelter_cost, shelter_cost_formatted) %>%
   p()
 
-lemur:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
+lemr:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
 ```
   </div>
   
   <div class = "col-sm-6">
   
-```{r unaffordable-housing, fig.alt = lemur:::unaffordable_housing_plot_alt_text(level, neighbourhood)}
-unaffordable_housing <- lemur:::get_measure(dataset, "unaffordable_housing")
-unaffordable_housing_formatted <- lemur:::format_measure(unaffordable_housing, "unaffordable_housing")
+```{r unaffordable-housing, fig.alt = lemr:::unaffordable_housing_plot_alt_text(level, neighbourhood)}
+unaffordable_housing <- lemr:::get_measure(dataset, "unaffordable_housing")
+unaffordable_housing_formatted <- lemr:::format_measure(unaffordable_housing, "unaffordable_housing")
 
-lemur:::unaffordable_housing_number(unaffordable_housing_formatted, level) %>%
+lemr:::unaffordable_housing_number(unaffordable_housing_formatted, level) %>%
   h3()
 
-lemur:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
+lemr:::unaffordable_housing_description(level, neighbourhood, unaffordable_housing, unaffordable_housing_formatted) %>%
   p()
 
-lemur:::unaffordable_housing_plot(dataset, compare, static = TRUE)
+lemr:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 ```
 
 ### Households by tenure
 
-```{r household-tenure, fig.alt = lemur:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.75}
-lemur:::household_tenure_description(level, neighbourhood) %>%
+```{r household-tenure, fig.alt = lemr:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.75}
+lemr:::household_tenure_description(level, neighbourhood) %>%
   p()
 
-lemur:::household_tenure_plot(dataset, compare, static = TRUE)
+lemr:::household_tenure_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
+lemr:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
 ```
 
 ### Number of bedrooms
 
-```{r bedrooms, fig.alt = lemur:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2.5}
-lemur:::bedrooms_description(level, neighbourhood) %>%
+```{r bedrooms, fig.alt = lemr:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2.5}
+lemr:::bedrooms_description(level, neighbourhood) %>%
   p()
 
-lemur:::bedrooms_plot(dataset, compare, static = TRUE)
+lemr:::bedrooms_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent")
+lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "Percent")
 ```
   </div>
 </div>
@@ -427,80 +427,80 @@ lemur:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "
 <div class = "row">
   <div class = "col-sm-6">
   
-```{r population-density, fig.alt = lemur:::population_density_plot_alt_text(level, neighbourhood)}
-population_density <- lemur:::get_measure(dataset, "population_density")
-population_density_formatted <- lemur:::format_measure(population_density, "population_density")
+```{r population-density, fig.alt = lemr:::population_density_plot_alt_text(level, neighbourhood)}
+population_density <- lemr:::get_measure(dataset, "population_density")
+population_density_formatted <- lemr:::format_measure(population_density, "population_density")
 
-lemur:::population_density_number(population_density_formatted) %>%
+lemr:::population_density_number(population_density_formatted) %>%
   h3()
 
-lemur:::population_density_description(level, neighbourhood, population_density, population_density_formatted) %>%
+lemr:::population_density_description(level, neighbourhood, population_density, population_density_formatted) %>%
   p()
 
-lemur:::population_density_plot(dataset, compare, static = TRUE)
+lemr:::population_density_plot(dataset, compare, static = TRUE)
 ```
 
-```{r population-change, fig.alt = lemur:::population_change_plot_alt_text(level, neighbourhood)}
-population_change <- lemur:::get_measure(dataset, "population_change")
-population_change_formatted <- lemur:::format_measure(population_change, "population_change")
+```{r population-change, fig.alt = lemr:::population_change_plot_alt_text(level, neighbourhood)}
+population_change <- lemr:::get_measure(dataset, "population_change")
+population_change_formatted <- lemr:::format_measure(population_change, "population_change")
 
-lemur:::population_change_number(population_change_formatted) %>%
+lemr:::population_change_number(population_change_formatted) %>%
   h3()
 
-lemur:::population_change_description(level, neighbourhood, population_change, population_change_formatted) %>%
+lemr:::population_change_description(level, neighbourhood, population_change, population_change_formatted) %>%
   p()
 
-lemur:::population_change_plot(dataset, compare, static = TRUE)
+lemr:::population_change_plot(dataset, compare, static = TRUE)
 ```
 
 ### Average Total Household Income 
 
-```{r average-total-household-income, fig.alt = lemur:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.75}
-lemur:::average_total_household_income_description(level, neighbourhood) %>%
+```{r average-total-household-income, fig.alt = lemr:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.75}
+lemr:::average_total_household_income_description(level, neighbourhood) %>%
   p()
 
-lemur:::average_total_household_income_plot(dataset, compare, static = TRUE)
+lemr:::average_total_household_income_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar")
+lemr:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar")
 ```
 
-```{r lim-at, fig.alt = lemur:::lim_at_plot_alt_text(level, neighbourhood)}
-lim_at <- lemur:::get_measure(dataset, "lim_at")
-lim_at_formatted <- lemur:::format_measure(lim_at, "lim_at")
+```{r lim-at, fig.alt = lemr:::lim_at_plot_alt_text(level, neighbourhood)}
+lim_at <- lemr:::get_measure(dataset, "lim_at")
+lim_at_formatted <- lemr:::format_measure(lim_at, "lim_at")
 
-lemur:::lim_at_number(lim_at_formatted, level) %>%
+lemr:::lim_at_number(lim_at_formatted, level) %>%
   h3()
 
-lemur:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
+lemr:::lim_at_description(level, neighbourhood, lim_at, lim_at_formatted) %>%
   p()
 
-lemur:::lim_at_plot(dataset, compare, static = TRUE)
+lemr:::lim_at_plot(dataset, compare, static = TRUE)
 ```
   </div>
   <div class = "col-sm-6">
 
 ### Household size 
 
-```{r household-size, fig.alt = lemur:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2.5}
-lemur:::household_size_description(level, neighbourhood) %>%
+```{r household-size, fig.alt = lemr:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2.5}
+lemr:::household_size_description(level, neighbourhood) %>%
   p()
 
-lemur:::household_size_plot(dataset, compare, static = TRUE)
+lemr:::household_size_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
+lemr:::generate_table(dataset, "household_size", compare, "Household Size", "Percent")
 ```
 
   <div class = "visible-minority">
-```{r visible-minority, fig.alt = lemur:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
-lemur:::visible_minority_number(dataset, level) %>%
+```{r visible-minority, fig.alt = lemr:::visible_minority_plot_alt_text(level, neighbourhood), fig.height = 4}
+lemr:::visible_minority_number(dataset, level) %>%
   h3()
 
-lemur:::visible_minority_description(level, neighbourhood) %>%
+lemr:::visible_minority_description(level, neighbourhood) %>%
   p()
 
-lemur:::visible_minority_plot(dataset, compare, static = TRUE)
+lemr:::visible_minority_plot(dataset, compare, static = TRUE)
 
-lemur:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
+lemr:::generate_table(dataset, "visible_minority", compare, "Visible Minority Group", "Percent") %>%
   kableExtra::footnote(general = '"n.i.e." = not included elsewhere') %>%
   kableExtra::kable_styling(bootstrap_options = "condensed")
 ```

@@ -26,7 +26,7 @@ eviction_rate <- readRDS(here::here("data-raw", "aggregate_data", "evictions_by_
 vacancy_rate <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "aggregate", "vacancy_rate_by_neighbourhood_2020_layer.rds"))
 
 # Combine ----
-neighbourhoods <- lemur::neighbourhoods %>%
+neighbourhoods <- lemr::neighbourhoods %>%
   left_join(lem, by = "neighbourhood") %>%
   left_join(rental_supply, by = "neighbourhood") %>%
   left_join(core_housing_need, by = "neighbourhood") %>%

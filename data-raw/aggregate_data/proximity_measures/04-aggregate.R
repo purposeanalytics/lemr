@@ -2,7 +2,7 @@
 # Aggregate and add to city_profiles and neighbourhood_profiles for easier visualizing
 
 library(dplyr)
-library(lemur)
+library(lemr)
 library(tidyr)
 library(purrr)
 library(forcats)

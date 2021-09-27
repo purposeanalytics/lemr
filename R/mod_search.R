@@ -14,7 +14,7 @@ mod_search_ui <- function(id) {
       width = 6,
       shiny::textInput(inputId = ns("address"), label = "Address", placeholder = "Search address..."),
       # This exposes the key in the HTML, but apparently that's fine and what everyone does??? Oki
-      # It's restricted to only work from https://sharlag.shinyapps.io/lemur/
+      # It's restricted to only work from https://sharlag.shinyapps.io/lemr/
       # And localhost / 127.0.0.1
       shiny::HTML(paste0("
                  <script src='https://maps.googleapis.com/maps/api/js?key=", Sys.getenv("GOOGLE_CLOUD_TOKEN"), "&libraries=places&callback=initAutocomplete' async defer></script>"))
@@ -24,7 +24,7 @@ mod_search_ui <- function(id) {
       shinyWidgets::pickerInput(
         ns("neighbourhood"),
         "Neighbourhood",
-        choices = sort(lemur::neighbourhoods[["neighbourhood"]]),
+        choices = sort(lemr::neighbourhoods[["neighbourhood"]]),
         multiple = TRUE,
         options = shinyWidgets::pickerOptions(
           liveSearch = TRUE, size = 10,
@@ -77,7 +77,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
       # Get neighbourhood of address
       neighbourhood <- address_and_neighbourhood$address %>%
-        sf::st_join(lemur::neighbourhoods) %>%
+        sf::st_join(lemr::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
       address_and_neighbourhood$address_error <- length(neighbourhood) == 0

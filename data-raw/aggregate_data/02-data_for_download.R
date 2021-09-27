@@ -9,8 +9,8 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-city <- lemur::city_aggregate
-neighbourhoods <- lemur::neighbourhood_aggregate
+city <- lemr::city_aggregate
+neighbourhoods <- lemr::neighbourhood_aggregate
 
 # Flattern neighbourhoods data ----
 
