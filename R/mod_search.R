@@ -87,8 +87,8 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
         # Update search method
         search_method("address")
 
-        # Deselect neighbourhood
-        shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
+        # Update neighbourhood
+        shiny::isolate(shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = neighbourhood))
       }
     })
 
@@ -102,13 +102,17 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
         search_method("back")
       } else {
-        address_and_neighbourhood$neighbourhood <- input$neighbourhood
+        # If the input is already stored, it was probably selected via address search - so don't update the search method
+        if (identical(address_and_neighbourhood$neighbourhood, input$neighbourhood)) {
 
-        # Update search method
-        search_method("neighbourhood")
+        } else {
+          address_and_neighbourhood$neighbourhood <- input$neighbourhood
+          # Update search method
+          search_method("neighbourhood")
 
-        # Deselect address
-        shiny::updateTextInput(session = session, inputId = "address", value = NULL)
+          # Deselect address
+          shiny::updateTextInput(session = session, inputId = "address", value = "")
+        }
       }
     })
 
