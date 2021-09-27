@@ -49,3 +49,8 @@
 #' A building-level data set combining: apartment building registry, RentSafeTO scores, Above Guideline Increase applications, tenant defense fund grants, and eviction hearings. Used primarily as a data source for the map, in \link{add_blank_points_layers}.
 #'
 "buildings"
+
+#' Data and definitions
+#'
+#' Definitions and sources of data used throughout the app.
+"data_and_definitions"

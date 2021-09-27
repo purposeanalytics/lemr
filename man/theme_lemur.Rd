@@ -4,7 +4,7 @@
 \alias{theme_lemur}
 \title{LEMUR ggplot2 theme}
 \usage{
-theme_lemur(base_size = 12, base_family = "Lato")
+theme_lemur(base_size = 14, base_family = "Lato")
 }
 \arguments{
 \item{base_size}{Base font size}

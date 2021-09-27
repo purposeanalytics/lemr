@@ -71,8 +71,8 @@ summary_statistics_table <- function(data) {
     `Total households` = data[["households"]] %>% scales::comma(),
     `Total population` = scales::comma(data[["population"]]),
     `Proportion renters` = data[["household_tenure"]] %>%
-      dplyr::filter(group == "Renter") %>%
-      dplyr::pull(prop) %>% scales::percent(accuracy = 0.1),
+      dplyr::filter(.data$group == "Renter") %>%
+      dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1),
     `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
     `Eviction rate` = format_measure(data[["evictions"]], "evictions"),
     `Vacancy rate` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
@@ -97,8 +97,8 @@ rental_supply_plot_alt_text <- function(level, neighbourhood) {
 rental_supply_plot <- function(data, static = FALSE) {
   data <- data[["rental_supply"]] %>%
     dplyr::mutate(
-      group = forcats::fct_expand(group, names(rental_supply_colors())),
-      group = forcats::fct_relevel(group, names(rental_supply_colors()))
+      group = forcats::fct_expand(.data$group, names(rental_supply_colors())),
+      group = forcats::fct_relevel(.data$group, names(rental_supply_colors()))
     )
 
   if (!static) {
@@ -115,8 +115,8 @@ rental_supply_plot <- function(data, static = FALSE) {
       plotly::config(displayModeBar = FALSE)
   } else {
     data %>%
-      dplyr::mutate(group = forcats::fct_rev(group)) %>%
-      ggplot2::ggplot(ggplot2::aes(x = prop, y = "1", fill = group)) +
+      dplyr::mutate(group = forcats::fct_rev(.data$group)) %>%
+      ggplot2::ggplot(ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
       ggplot2::geom_col() +
       ggplot2::scale_fill_manual(values = rental_supply_colors()) +
       ggplot2::theme_void() +
@@ -129,27 +129,27 @@ rental_supply_table <- function(data, market) {
   totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units:"))
 
   data <- data[["rental_supply"]] %>%
-    dplyr::filter(market == !!market) %>%
-    dplyr::select(group, value, prop)
+    dplyr::filter(.data$market == !!market) %>%
+    dplyr::select(.data$group, .data$value, .data$prop)
 
   layer_order <- names(rental_supply_colors())[names(rental_supply_colors()) %in% data[["group"]]]
 
   data %>%
-    dplyr::mutate(group_order = forcats::fct_relevel(group, layer_order)) %>%
-    dplyr::mutate(group = purrr::map_chr(group, function(x) {
+    dplyr::mutate(group_order = forcats::fct_relevel(.data$group, .data$layer_order)) %>%
+    dplyr::mutate(group = purrr::map_chr(.data$group, function(x) {
       create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
     })) %>%
     janitor::adorn_totals(name = totals_name, fill = totals_name) %>%
     dplyr::mutate(
-      group_order = forcats::fct_relevel(group_order, totals_name, layer_order),
-      value = scales::comma(value),
-      percent = scales::percent(prop, accuracy = 0.1),
+      group_order = forcats::fct_relevel(.data$group_order, totals_name, layer_order),
+      value = scales::comma(.data$value),
+      percent = scales::percent(.data$prop, accuracy = 0.1),
       value_percent = glue::glue("{value}{space}({percent})",
-        space = ifelse(prop < 0.1, " &nbsp; &nbsp;", " ")
+        space = ifelse(.data$prop < 0.1, " &nbsp; &nbsp;", " ")
       )
     ) %>%
-    dplyr::arrange(group_order) %>%
-    dplyr::select(group, value_percent) %>%
+    dplyr::arrange(.data$group_order) %>%
+    dplyr::select(.data$group, .data$value_percent) %>%
     knitr::kable(col.names = NULL, align = "lr", escape = FALSE) %>%
     kableExtra::kable_minimal(
       html_font = "\"Lato\", sans-serif",
@@ -924,7 +924,7 @@ agi_tdf_description <- function(level, neighbourhood) {
 agi_non_apartments <- function(data, level, neighbourhood) {
   switch(level,
     "city" = glue::glue("There were {n_agi} AGI applications for other buildings in the City of Toronto.",
-      n_agi = city_aggregate[["agi"]] %>%
+      n_agi = lemur::city_aggregate[["agi"]] %>%
         dplyr::filter(.data$group == "Non-apartment building") %>%
         dplyr::pull(.data$value)
     ),
@@ -932,9 +932,9 @@ agi_non_apartments <- function(data, level, neighbourhood) {
       n_agi = data[["agi"]] %>%
         dplyr::filter(.data$group == "Non-apartment building") %>%
         dplyr::pull(.data$value),
-      were_word = ifelse(n_agi == 1, "was", "were"),
-      application_word = ifelse(n_agi == 1, "application", "applications"),
-      n_agi_toronto = city_aggregate[["agi"]] %>%
+      were_word = ifelse(.data$n_agi == 1, "was", "were"),
+      application_word = ifelse(.data$n_agi == 1, "application", "applications"),
+      n_agi_toronto = lemur::city_aggregate[["agi"]] %>%
         dplyr::filter(.data$group == "Non-apartment building") %>%
         dplyr::pull(.data$value)
     )

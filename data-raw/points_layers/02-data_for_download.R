@@ -60,4 +60,4 @@ data <- data %>%
   mutate_if(is.character, coalesce, "")
 
 # Save data -----
-write_csv(data, here::here("inst", "extdata", "Points Layers.csv"))
+write_csv(data, here::here("inst", "extdata", "points_data.csv"))

@@ -155,7 +155,7 @@ add_blank_address_layer <- function(map) {
 
 #' Add a blank amenity density layer
 #'
-#' Add an empty layer of \link{amenity_density} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with the id "amenity_density").
+#' Add an empty layer of amenity density to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with the id "amenity_density").
 #'
 #' @param map Map created via \link{map_toronto}
 #'

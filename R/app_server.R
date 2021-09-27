@@ -5,7 +5,7 @@
 #' @noRd
 app_server <- function(input, output, session) {
   requireNamespace("sf")
-  options(knitr.kable.NA = "—")
+  options(knitr.kable.NA = "--")
 
   mod_home_server("home")
 

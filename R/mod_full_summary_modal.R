@@ -229,7 +229,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
 
     output$lem_table <- shiny::renderText({
       dataset()[["lem"]] %>%
-        dplyr::mutate(dplyr::across(-Bedrooms, scales::comma)) %>%
+        dplyr::mutate(dplyr::across(-.data$Bedrooms, scales::comma)) %>%
         kableExtra::kable(align = "lrrr") %>%
         kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
         kableExtra::column_spec(1, width = "30%") %>%

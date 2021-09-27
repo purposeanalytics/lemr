@@ -26,6 +26,8 @@ display_neighbourhood_profile(
 \item{dollar}{Whether the variable shown is in dollars. Defaults to FALSE.}
 
 \item{type}{Type of display, "plot" or "table". Defaults to "plot".}
+
+\item{static}{Whether the plot should be an interactive (FALSE) or static (TRUE) version. Defaults to FALSE.}
 }
 \description{
 Plot a neighbourhood profile variable

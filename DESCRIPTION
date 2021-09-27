@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "your@email.com")
 Description: What the package does (one paragraph).
-License: What license is it under?
+License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.1),
     dplyr,
@@ -46,7 +46,8 @@ Imports:
     extrafont,
     janitor,
     tidyselect,
-    glouton
+    glouton,
+    knitr
 Encoding: UTF-8
 LazyData: true
 StagedInstall: no

@@ -138,4 +138,4 @@ neighbourhoods <- neighbourhoods %>%
 
 # Save data ----
 
-write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
+write_csv(neighbourhoods, here::here("inst", "extdata", "aggregate_data.csv"))
