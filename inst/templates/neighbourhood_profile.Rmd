@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: South Parkdale
+  neighbourhood: Rouge
 output:
   html_document:
     df_print: paged
@@ -31,7 +31,10 @@ library(ceramic)
 library(tmaptools)
 library(dplyr)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300, out.width = "95%", fig.height = 1.75, fig.align = "center", cache = FALSE)
+knitr::opts_chunk$set(
+  echo = FALSE, message = FALSE, warning = FALSE,
+  dpi = 300, out.width = "95%", fig.align = "center"
+)
 
 level <- params$level
 neighbourhood <- params$neighbourhood
@@ -55,7 +58,7 @@ map_alt_text <- glue::glue("A map of {area} showing the locations of apartment b
 
 <div class = "row" style = "display: flex; align-items: center;">
   <div class = "col-sm-8">
-```{r map, fig.height = 3, dpi = 96, out.width = "100%", eval = TRUE}
+```{r map-prep}
 if (level == "neighbourhood") {
   map_data <- lemr::neighbourhoods %>%
     dplyr::filter(neighbourhood == !!neighbourhood)
@@ -106,7 +109,9 @@ add_circle_layer <- function(map, data, colour, level) {
     tm_shape(data) +
     tm_symbols(size = size, col = colour, shape = shape, border.col = "white")
 }
+```
 
+```{r map, dpi = 96, out.width = "100%", eval = TRUE}
 tm_shape(basemap) +
   tm_rgb() +
   tm_shape(map_data) +
@@ -224,7 +229,7 @@ lemr:::rental_supply_non_market_table(dataset)
 <div class = "row">
   <div class = "col-sm-6">
 
-```{r apartment-building-units, fig.alt = lemr:::number_of_units_plot_alt_text(level, neighbourhood)}
+```{r apartment-building-units, fig.alt = lemr:::number_of_units_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_units <- lemr:::get_measure(dataset, "number_of_units")
 number_of_units_formatted <- lemr:::format_measure(number_of_units, "number_of_units")
 
@@ -240,7 +245,7 @@ lemr:::number_of_units_description(level, neighbourhood, number_of_units, number
 lemr:::number_of_units_plot(dataset, compare, static = TRUE)
 ```
 
-```{r apartment-building-evaluation, fig.alt = lemr:::apartment_building_evaluation_plot_alt_text(level, neighbourhood)}
+```{r apartment-building-evaluation, fig.alt = lemr:::apartment_building_evaluation_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 apartment_building_evaluation <- lemr:::get_measure(dataset, "apartment_building_evaluation")
 apartment_building_evaluation_formatted <- lemr:::format_measure(apartment_building_evaluation, "apartment_building_evaluation")
 
@@ -278,7 +283,7 @@ lemr:::agi_non_apartments(dataset, level, neighbourhood) %>%
 
   <div class = "col-sm-6">
   
-```{r core-housing-need, fig.alt = lemr:::core_housing_need_plot_alt_text(level, neighbourhood)}
+```{r core-housing-need, fig.alt = lemr:::core_housing_need_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 core_housing_need <- lemr:::get_measure(dataset, "core_housing_need")
 core_housing_need_formatted <- lemr:::format_measure(core_housing_need, "core_housing_need")
 
@@ -291,7 +296,7 @@ lemr:::core_housing_need_description(level, neighbourhood, core_housing_need, co
 lemr:::core_housing_need_plot(dataset, compare, static = TRUE)
 ```
 
-```{r evictions, fig.alt = lemr:::evictions_plot_alt_text(level, neighbourhood)}
+```{r evictions, fig.alt = lemr:::evictions_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 evictions <- lemr:::get_measure(dataset, "evictions")
 evictions_formatted <- lemr:::format_measure(evictions, "evictions")
 
@@ -304,7 +309,7 @@ lemr:::evictions_description(level, neighbourhood, evictions, evictions_formatte
 lemr:::evictions_plot(dataset, compare, static = TRUE)
 ```
 
-```{r vacancy-rate, fig.alt = lemr:::vacancy_rate_plot_alt_text(level, neighbourhood)}
+```{r vacancy-rate, fig.alt = lemr:::vacancy_rate_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 vacancy_rate <- lemr:::get_measure(dataset, "vacancy_rate_2020")
 vacancy_rate_formatted <- lemr:::format_measure(vacancy_rate, "vacancy_rate")
 
@@ -339,7 +344,7 @@ lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to service
 <div class = "row">
   <div class = "col-sm-6">
 
-```{r apartment-buildings, fig.alt = lemr:::number_of_apartments_plot_alt_text(level, neighbourhood)}
+```{r apartment-buildings, fig.alt = lemr:::number_of_apartments_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_apartments <- lemr:::get_measure(dataset, "number_of_buildings")
 number_of_apartments_formatted <- lemr:::format_measure(number_of_apartments, "number_of_buildings")
 
@@ -366,7 +371,7 @@ lemr:::structure_type_plot(dataset, compare, static = TRUE)
 lemr:::generate_table(dataset, "structure_type", compare, "Housing Structure Type", "Percent")
 ```
 
-```{r shelter-cost, fig.alt = lemr:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood)}
+```{r shelter-cost, fig.alt = lemr:::average_renter_shelter_cost_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 shelter_cost <- lemr:::get_measure(dataset, "average_renter_shelter_cost")
 shelter_cost_formatted <- lemr:::format_measure(shelter_cost, "average_renter_shelter_cost")
 
@@ -382,7 +387,7 @@ lemr:::average_renter_shelter_cost_plot(dataset, compare, static = TRUE)
   
   <div class = "col-sm-6">
   
-```{r unaffordable-housing, fig.alt = lemr:::unaffordable_housing_plot_alt_text(level, neighbourhood)}
+```{r unaffordable-housing, fig.alt = lemr:::unaffordable_housing_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 unaffordable_housing <- lemr:::get_measure(dataset, "unaffordable_housing")
 unaffordable_housing_formatted <- lemr:::format_measure(unaffordable_housing, "unaffordable_housing")
 
@@ -427,7 +432,7 @@ lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "P
 <div class = "row">
   <div class = "col-sm-6">
   
-```{r population-density, fig.alt = lemr:::population_density_plot_alt_text(level, neighbourhood)}
+```{r population-density, fig.alt = lemr:::population_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 population_density <- lemr:::get_measure(dataset, "population_density")
 population_density_formatted <- lemr:::format_measure(population_density, "population_density")
 
@@ -440,7 +445,7 @@ lemr:::population_density_description(level, neighbourhood, population_density, 
 lemr:::population_density_plot(dataset, compare, static = TRUE)
 ```
 
-```{r population-change, fig.alt = lemr:::population_change_plot_alt_text(level, neighbourhood)}
+```{r population-change, fig.alt = lemr:::population_change_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 population_change <- lemr:::get_measure(dataset, "population_change")
 population_change_formatted <- lemr:::format_measure(population_change, "population_change")
 
@@ -464,7 +469,7 @@ lemr:::average_total_household_income_plot(dataset, compare, static = TRUE)
 lemr:::generate_table(dataset, "average_total_income", compare, "Household Size", "Percent", format = "dollar")
 ```
 
-```{r lim-at, fig.alt = lemr:::lim_at_plot_alt_text(level, neighbourhood)}
+```{r lim-at, fig.alt = lemr:::lim_at_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lim_at <- lemr:::get_measure(dataset, "lim_at")
 lim_at_formatted <- lemr:::format_measure(lim_at, "lim_at")
 
