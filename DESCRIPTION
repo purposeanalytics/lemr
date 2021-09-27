@@ -1,12 +1,13 @@
 Package: lemur
-Title: An Amazing Shiny App
-Version: 0.0.0.9003
-Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
-           role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
+Title: Low-end of Market Rental Monitor
+Version: 0.0.0.9005
+    c(person(given = "Sharla",
+             family = "Gelfand",
+             role = "aut"),
+      person(given = "Purpose Analytics",
+             role = c("cph", "cre")))
+Description: LEMR is an interactive tool developed to understand changes in the
+    supply of deeply affordable rental housing in the City of Toronto.
 License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.1),
