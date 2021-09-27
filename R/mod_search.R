@@ -77,7 +77,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
       # Get neighbourhood of address
       neighbourhood <- address_and_neighbourhood$address %>%
-        sf::st_intersection(lemur::neighbourhoods) %>%
+        sf::st_join(lemur::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
       address_and_neighbourhood$address_error <- length(neighbourhood) == 0
@@ -87,22 +87,33 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
         # Update search method
         search_method("address")
 
-        # Deselect neighbourhood
-        shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = character(0))
+        # Update neighbourhood
+        shiny::isolate(shinyWidgets::updatePickerInput(session = session, inputId = "neighbourhood", selected = neighbourhood))
       }
     })
 
     # If neighbourhood is selected, store neighbourhood
-    shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, {
-      shiny::req(input$neighbourhood != "")
+    shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, ignoreNULL = FALSE, {
 
-      address_and_neighbourhood$neighbourhood <- input$neighbourhood
+      # If it's deselected, treat the same as "back" and go to city view
+      if(is.null(input$neighbourhood)) {
+        address_and_neighbourhood$address <- NULL
+        address_and_neighbourhood$neighbourhood <- NULL
 
-      # Update search method
-      search_method("neighbourhood")
+        search_method("back")
+      } else {
+        # If the input is already stored, it was probably selected via address search - so don't update the search method
+        if (identical(address_and_neighbourhood$neighbourhood, input$neighbourhood)) {
 
-      # Deselect address
-      shiny::updateTextInput(session = session, inputId = "address", value = NULL)
+        } else {
+          address_and_neighbourhood$neighbourhood <- input$neighbourhood
+          # Update search method
+          search_method("neighbourhood")
+
+          # Deselect address
+          shiny::updateTextInput(session = session, inputId = "address", value = "")
+        }
+      }
     })
 
     shiny::observeEvent(
