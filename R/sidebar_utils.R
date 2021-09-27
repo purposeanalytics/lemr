@@ -38,7 +38,7 @@ generate_bar_chart_description <- function(level, neighbourhood, text, renter = 
 
 generate_bar_chart_alt_text <- function(level, neighbourhood, text, renter = TRUE) {
   switch(level,
-    "city" = glue::glue("Bar chart showing distribution of {text} for all{renter} households in the City of Toronto. The data is in the table that follows.", renter = ifelse(renter, " renter", "")),
+    "city" = glue::glue("Bar chart showing breakdown of {text} for all{renter} households in the City of Toronto. The data is in the table that follows.", renter = ifelse(renter, " renter", "")),
     "neighbourhood" = glue::glue("Bar chart comparing {text} for{renter} households in {neighbourhood} versus all{renter} households in the City of Toronto. The data is in the table that follows.", renter = ifelse(renter, " renter", ""))
   )
 }
@@ -258,7 +258,7 @@ number_of_units_description <- function(level, neighbourhood, number_of_units, n
 number_of_units_plot_alt_text <- function(level, neighbourhood) {
   values <- lemr::city_aggregate[["number_of_units_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of number of units inapartment buildings for each of Toronto's neighbourhoods. The values range from {min} to {max} units and the distribution is heavily skewed left with most values between {skew_min} and {skew_max}.",
+  alt_text <- glue::glue("Histogram showing the distribution of number of units in apartment buildings for each of Toronto's neighbourhoods. The values range from {min} to {max} units and the distribution is heavily skewed left with most values between {skew_min} and {skew_max}.",
     min = min(values),
     max = max(values),
     skew_min = stats::quantile(values, 0.1),
@@ -322,7 +322,7 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemr::city_aggregate[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
+  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
@@ -491,7 +491,7 @@ vacancy_rate_description <- function(level, neighbourhood, vacancy_rate, vacancy
 }
 
 vacancy_rate_plot_alt_text <- function(level, neighbourhood) {
-  values <- lemr::city_aggregate[["vacancy_rate_distribution"]][["value"]]
+  values <- lemr::city_aggregate[["vacancy_rate_2020_distribution"]][["value"]]
 
   alt_text <- glue::glue("Histogram showing the distribution of vacancy rate for each of the City of Toronto neighbourhoods. The values range from {scales::percent(min, accuracy = 0.1)} to {scales::percent(max, accuracy = 0.1)} vacancy_rate, and the distribution is heavily left skewed with most values between {scales::percent(skew_min, accuracy = 0.1)} and {scales::percent(skew_max, accuracy = 0.1)}.",
     min = min(values),
