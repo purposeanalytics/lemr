@@ -60,22 +60,24 @@ mod_data_story_agi_tdf_ui <- function(id) {
         shiny::column(
           width = 5,
           shiny::h2("Broadview North"),
-          shiny::p(glue::glue("Broadview North, located in East York, has one of the highest AGI rates for apartment buildings in the city. Here, {n_agi} of the {n_buildings} buildings - or {prop_agi} - have at least one. The rate of TDF grants is close to the city average, at {prop_tdf}, with {n_tdf} of the {n_agi} buildings facing an AGI having received a grant.",
-            n_agi = lemur::neighbourhood_aggregate[["Broadview North"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$value),
-            n_buildings = lemur::neighbourhood_aggregate[["Broadview North"]][["number_of_buildings_private"]],
-            prop_agi = lemur::neighbourhood_aggregate[["Broadview North"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1),
-            prop_tdf = lemur::neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1),
-            n_tdf = lemur::neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
-              dplyr::pull(.data$n)
-          ),
-          map_legend)
+          shiny::p(
+            glue::glue("Broadview North, located in East York, has one of the highest AGI rates for apartment buildings in the city. Here, {n_agi} of the {n_buildings} buildings - or {prop_agi} - have at least one. The rate of TDF grants is close to the city average, at {prop_tdf}, with {n_tdf} of the {n_agi} buildings facing an AGI having received a grant.",
+              n_agi = lemur::neighbourhood_aggregate[["Broadview North"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$value),
+              n_buildings = lemur::neighbourhood_aggregate[["Broadview North"]][["number_of_buildings_private"]],
+              prop_agi = lemur::neighbourhood_aggregate[["Broadview North"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1),
+              prop_tdf = lemur::neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1),
+              n_tdf = lemur::neighbourhood_aggregate[["Broadview North"]][["tdf"]] %>%
+                dplyr::pull(.data$n)
+            ),
+            map_legend
+          )
         ),
         shiny::column(
           width = 7,
@@ -87,53 +89,54 @@ mod_data_story_agi_tdf_ui <- function(id) {
         shiny::column(
           width = 5,
           shiny::h2("Mimico"),
-          shiny::p(glue::glue("Mimico is a primarily residential neighbourhood southwest of Toronto in Etobicoke. The rate of AGIs here is {prop_agi}, or {n_agi} out of {n_buildings} buildings, but more than half of those buildings, {prop_tdf}, have organized with support from a TDF grant.",
-            n_agi = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$value),
-            n_buildings = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["number_of_buildings_private"]],
-            prop_agi = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1),
-            prop_tdf = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["tdf"]] %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1)
-          ),
-          map_legend)
+          shiny::p(
+            glue::glue("Mimico is a primarily residential neighbourhood southwest of Toronto in Etobicoke. The rate of AGIs here is {prop_agi}, or {n_agi} out of {n_buildings} buildings, but more than half of those buildings, {prop_tdf}, have organized with support from a TDF grant.",
+              n_agi = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$value),
+              n_buildings = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["number_of_buildings_private"]],
+              prop_agi = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1),
+              prop_tdf = lemur::neighbourhood_aggregate[["Mimico (includes Humber Bay Shores)"]][["tdf"]] %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1)
+            ),
+            map_legend
+          )
         ),
         shiny::column(
           width = 7,
-          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
+          shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
-      )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
           width = 5, shiny::h2("Yonge-St. Clair"),
-          shiny::p(glue::glue("Yonge-St. Clair is an affluent, vibrant neighbourhood known for its restaurants, boutiques, and high-rises. Here, while AGIs are noticeably above the average at a rate of {prop_agi}, TDF grants are only at {prop_tdf}. Out of {n_buildings} apartment buildings in the neighbourhood, {n_agi} have at least one AGI. Only {n_tdf} of those buildings have received a TDF grant.",
-            n_agi = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$value),
-            n_buildings = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["number_of_buildings_private"]],
-            prop_agi = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
-              dplyr::filter(.data$group == "Apartment building") %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1),
-            prop_tdf = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
-              dplyr::pull(.data$prop) %>%
-              scales::percent(accuracy = 0.1),
-            n_tdf = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
-              dplyr::pull(.data$n)
-          ),
-          map_legend)
+          shiny::p(
+            glue::glue("Yonge-St. Clair is an affluent, vibrant neighbourhood known for its restaurants, boutiques, and high-rises. Here, while AGIs are noticeably above the average at a rate of {prop_agi}, TDF grants are only at {prop_tdf}. Out of {n_buildings} apartment buildings in the neighbourhood, {n_agi} have at least one AGI. Only {n_tdf} of those buildings have received a TDF grant.",
+              n_agi = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$value),
+              n_buildings = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["number_of_buildings_private"]],
+              prop_agi = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
+                dplyr::filter(.data$group == "Apartment building") %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1),
+              prop_tdf = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
+                dplyr::pull(.data$prop) %>%
+                scales::percent(accuracy = 0.1),
+              n_tdf = lemur::neighbourhood_aggregate[["Yonge-St.Clair"]][["tdf"]] %>%
+                dplyr::pull(.data$n)
+            ),
+            map_legend
+          )
         ),
         shiny::column(
           width = 7,
-          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant"
-
-        )
+          shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::p(glue::glue("How do we account for these differences? In 2016, Mimico's average rent was close to the city average at {mimico_rent}, quite a bit higher than Broadview North which had an average rent of {broadview_north_rent}. Both neighbourhoods have buildings that were mostly constructed in the 1950s and 1960s. In Mimico, either tenants are more organized, landlords are more reluctant to bring AGI applications forward, or they have done less work on their buildings in the last five years. By comparison, Yonge-St. Clair had an even higher average rent, {yonge_st_clair_rent}, and a very low rate of TDF grants. As the TDF program focuses on buildings with affordable rents, it is likely that fewer tenants were eligible for this program.",

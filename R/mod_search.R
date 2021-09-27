@@ -96,7 +96,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
     shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, ignoreNULL = FALSE, {
 
       # If it's deselected, treat the same as "back" and go to city view
-      if(is.null(input$neighbourhood)) {
+      if (is.null(input$neighbourhood)) {
         address_and_neighbourhood$address <- NULL
         address_and_neighbourhood$neighbourhood <- NULL
 

@@ -54,7 +54,6 @@ mod_sidebar_header_ui <- function(id) {
 #' @noRd
 mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
-
     ns <- session$ns
 
     # Trigger modal

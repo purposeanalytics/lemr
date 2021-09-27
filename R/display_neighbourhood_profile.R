@@ -264,8 +264,10 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
       ggplot2::labs(x = NULL, y = NULL) +
       ggplot2::scale_y_continuous(labels = scales::percent, expand = ggplot2::expansion(mult = c(0, 0.15))) +
       ggplot2::scale_fill_manual(values = amenity_density_colours()) +
-      ggplot2::theme(axis.text.y = ggplot2::element_blank(),
-                     strip.text = ggplot2::element_text(face = "bold"))
+      ggplot2::theme(
+        axis.text.y = ggplot2::element_blank(),
+        strip.text = ggplot2::element_text(face = "bold")
+      )
   } else {
     plotly::plot_ly(data,
       x = ~group, y = ~prop, type = "bar", hoverinfo = "skip",

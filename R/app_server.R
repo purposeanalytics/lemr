@@ -48,19 +48,19 @@ map_guide <- function() {
   cicerone::Cicerone$
     new()$
     step(
-      "body",
-      is_id = FALSE,
-      position = "mid-center",
-      class = "intro-tour-modal",
-      "Welcome to the Low-end of Market Rental Monitor Map",
-      shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
-      # Set the background for this modal, since it's hacky and not done automatically
-      on_highlighted = "function() {
+    "body",
+    is_id = FALSE,
+    position = "mid-center",
+    class = "intro-tour-modal",
+    "Welcome to the Low-end of Market Rental Monitor Map",
+    shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
+    # Set the background for this modal, since it's hacky and not done automatically
+    on_highlighted = "function() {
       document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: black !important');}",
-      # Then turn it off, because the other ones already have it, so leaving it on would cause a double dark background
-      on_next = "function() {
+    # Then turn it off, because the other ones already have it, so leaving it on would cause a double dark background
+    on_next = "function() {
       document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: transparent !important');}",
-    )$
+  )$
     step(
     "aggregate_layer_div",
     title = "See the big picture",
