@@ -125,13 +125,8 @@ plotly::ggplotly(
 ```
  
 ```{r}
-reinf_plot <- reinf_shap %>% mutate(top3 = case_when(neighbourhood == 'Dovercourt-Wallace Emerson-Junction' ~ TRUE,
-                          neighbourhood == 'Woburn' ~ TRUE,
-                          neighbourhood == 'Weston' ~ TRUE,
-                          neighbourhood == 'Thorncliffe Park' ~ TRUE,
-                          neighbourhood == 'West Humber-Clairville' ~ TRUE,
-                          neighbourhood == 'York University Heights' ~ TRUE,
-                          TRUE ~ FALSE))
+reinf_plot <- reinf_shap %>% mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
+                                    'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
 ggplot(reinf_plot, aes(core_housing_need, `eviction_rate`, colour = `top3`)) +
     geom_point(aes(size = Total_Total, text = neighbourhood)) +
