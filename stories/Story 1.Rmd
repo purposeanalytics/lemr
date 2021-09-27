@@ -23,7 +23,7 @@ devtools::load_all()
 ```
 
 ```{r load}
-buildings_layers <- lemur::buildings %>%
+buildings_layers <- lemr::buildings %>%
   as_tibble() %>%
   filter(apartment, property_type == "Privately owned")
 ```
@@ -75,7 +75,7 @@ tdf <- neighbourhood_aggregate %>%
   bind_rows() %>%
   rename(TDF = n, tdf_ratio = prop)
 
-reduced_increase <- lemur::buildings %>%
+reduced_increase <- lemr::buildings %>%
   filter(tdf, apartment) %>%
   as_tibble() %>%
   separate_rows(reduced_increase_by, sep = ", ") %>%

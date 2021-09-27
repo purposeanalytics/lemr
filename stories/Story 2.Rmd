@@ -15,70 +15,70 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
 library(dplyr)
 library(readr)
 library(ggplot2)
-library(lemur)
+library(lemr)
+library(purrr)
 library(tidyr)
+devtools::load_all()
+```
+
+```{r}
+neighbourhood_aggregate <- lemr::neighbourhood_aggregate %>%
+  transpose()
+
+neighbourhood_aggregate <- neighbourhood_aggregate[c("amenity_density", "core_housing_need", "rental_supply", "lem", "number_of_buildings", "average_total_income", "unaffordable_housing", "evictions", "average_renter_shelter_cost")] %>%
+  map_depth(.depth = 2, as_tibble) %>%
+  map(~ .x %>% bind_rows(.id = "neighbourhood"))
 ```
 
 # proximity to services
 
 ```{r}
 # amenity density
-adn <- amenity_density_by_neighbourhood %>% pivot_wider(names_from = amenity_dense, values_from = proportion)
+adn <- neighbourhood_aggregate[["amenity_density"]] %>% pivot_wider(names_from = group, values_from = prop)
 ```
 
 ```{r}
 # core housing needs density
-chn <- core_housing_need_by_neighbourhood %>% rename(core_housing_need = prop) %>% select(-prop_group)
+chn <- neighbourhood_aggregate[["core_housing_need"]] %>% rename(core_housing_need = value)
 ```
 
 ```{r}
 # rental supply
-rsn <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("rental_supply") %>% 
-  bind_rows(.id = "neighbourhood") %>% select(group, neighbourhood, value, prop, market_prop) %>% 
+rsn <- neighbourhood_aggregate[["rental_supply"]] %>% select(group, neighbourhood, value, prop, market_prop) %>% 
   pivot_wider(names_from = group, values_from = c(value, prop, market_prop))
 ```
 
 ```{r}
 # low end of market breakdown
-lem <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("lem") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
+lem <- neighbourhood_aggregate[["lem"]] %>% 
   pivot_wider(names_from = Bedrooms, values_from = c(`Deeply Affordable`, `Very Affordable`, `Total`), names_repair = 'minimal')
 ```
 
 ```{r}
 # number of buildings
-nb <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("number_of_buildings") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
-  pivot_longer(cols = everything()) %>% rename(neighbourhood = name, number_of_buildings = value)
+nb <- neighbourhood_aggregate[["number_of_buildings"]] %>% rename(number_of_buildings = value)
 ```
 
 ```{r}
 # total income
-ati <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("average_total_income") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
+ati <- neighbourhood_aggregate[["average_total_income"]] %>% 
   pivot_wider(names_from = group, values_from = c(value))
 ```
 
 
 ```{r}
 # unaffordable percent
-uh <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("unaffordable_housing") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
-  pivot_longer(cols = everything()) %>% rename(neighbourhood = name, unaffordable_housing = value)
+uh <- neighbourhood_aggregate[["unaffordable_housing"]] %>% rename(unaffordable_housing = value)
 ```
 
 ```{r}
 # average shelter cost
-arsc <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("average_renter_shelter_cost") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
-  pivot_longer(cols = everything()) %>% rename(neighbourhood = name, average_renter_shelter_cost = value) 
+arsc <- neighbourhood_aggregate[["average_renter_shelter_cost"]] %>% rename(average_renter_shelter_cost = value) 
 ```
 
 ```{r}
 # eviction rate
-ev <- neighbourhood_aggregate %>% purrr::transpose() %>% purrr::pluck("evictions") %>% 
-  bind_rows(.id = "neighbourhood") %>% 
-  pivot_longer(cols = everything()) %>% rename(neighbourhood = name, eviction_rate = value)
+ev <- neighbourhood_aggregate[["evictions"]] %>% rename(eviction_rate = value)
 ```
 
 
