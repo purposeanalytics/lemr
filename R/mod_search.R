@@ -77,7 +77,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
       # Get neighbourhood of address
       neighbourhood <- address_and_neighbourhood$address %>%
-        sf::st_intersection(lemur::neighbourhoods) %>%
+        sf::st_join(lemur::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
       address_and_neighbourhood$address_error <- length(neighbourhood) == 0
@@ -93,16 +93,23 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
     })
 
     # If neighbourhood is selected, store neighbourhood
-    shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, {
-      shiny::req(input$neighbourhood != "")
+    shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, ignoreNULL = FALSE, {
 
-      address_and_neighbourhood$neighbourhood <- input$neighbourhood
+      # If it's deselected, treat the same as "back" and go to city view
+      if(is.null(input$neighbourhood)) {
+        address_and_neighbourhood$address <- NULL
+        address_and_neighbourhood$neighbourhood <- NULL
 
-      # Update search method
-      search_method("neighbourhood")
+        search_method("back")
+      } else {
+        address_and_neighbourhood$neighbourhood <- input$neighbourhood
 
-      # Deselect address
-      shiny::updateTextInput(session = session, inputId = "address", value = NULL)
+        # Update search method
+        search_method("neighbourhood")
+
+        # Deselect address
+        shiny::updateTextInput(session = session, inputId = "address", value = NULL)
+      }
     })
 
     shiny::observeEvent(
