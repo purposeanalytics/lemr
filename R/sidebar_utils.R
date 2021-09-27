@@ -120,7 +120,8 @@ rental_supply_plot <- function(data, static = FALSE) {
       ggplot2::geom_col() +
       ggplot2::scale_fill_manual(values = rental_supply_colors()) +
       ggplot2::theme_void() +
-      ggplot2::theme(legend.position = "none")
+      ggplot2::theme(legend.position = "none") +
+      ggplot2::coord_cartesian(expand = FALSE)
   }
 }
 
