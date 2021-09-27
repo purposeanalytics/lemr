@@ -65,4 +65,3 @@ saveRDS(vacancy_rate_2020, here::here("data-raw", "aggregate_data", "vacancy_rat
 
 saveRDS(vacancy_rate_subdivision_2016, here::here("data-raw", "aggregate_data", "vacancy_rate", "extract", "vacancy_rate_toronto_2016.rds"))
 saveRDS(vacancy_rate_subdivision_2020, here::here("data-raw", "aggregate_data", "vacancy_rate", "extract", "vacancy_rate_toronto_2020.rds"))
-

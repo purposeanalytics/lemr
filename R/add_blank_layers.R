@@ -20,7 +20,7 @@ add_blank_points_layers <- function(map) {
 
   # Temporarily setting NA score_colour to "none" so we can filter the data in the RentSafeTO layer
   # I can't figure out how to filter out NA/null yet
-  data <- lemur::buildings %>%
+  data <- lemr::buildings %>%
     dplyr::mutate(score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"))
 
   map %>%
@@ -155,7 +155,7 @@ add_blank_address_layer <- function(map) {
 
 #' Add a blank amenity density layer
 #'
-#' Add an empty layer of \link{amenity_density} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with the id "amenity_density").
+#' Add an empty layer of amenity density to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layer on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible} (with the id "amenity_density").
 #'
 #' @param map Map created via \link{map_toronto}
 #'

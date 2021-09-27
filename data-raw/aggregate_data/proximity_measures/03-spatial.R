@@ -3,7 +3,7 @@
 library(dplyr)
 library(sf)
 library(janitor)
-library(lemur)
+library(lemr)
 library(rmapshaper)
 devtools::load_all()
 

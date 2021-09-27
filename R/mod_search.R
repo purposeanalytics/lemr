@@ -15,7 +15,7 @@ mod_search_ui <- function(id) {
       shiny::textInput(inputId = ns("address"), label = "Address", placeholder = "Search address..."),
       # This exposes the key in the HTML, but apparently that's fine and what everyone does??? Oki
       # It's restricted to only work from https://sharlag.shinyapps.io/lemur/
-      # And localhost / 127.0.0.1
+      # And localhost / 127.0.0.1 and https://app.lemr.ca/shiny/
       shiny::HTML(paste0("
                  <script src='https://maps.googleapis.com/maps/api/js?key=", Sys.getenv("GOOGLE_CLOUD_TOKEN"), "&libraries=places&callback=initAutocomplete' async defer></script>"))
     ),
@@ -24,7 +24,7 @@ mod_search_ui <- function(id) {
       shinyWidgets::pickerInput(
         ns("neighbourhood"),
         "Neighbourhood",
-        choices = sort(lemur::neighbourhoods[["neighbourhood"]]),
+        choices = sort(lemr::neighbourhoods[["neighbourhood"]]),
         multiple = TRUE,
         options = shinyWidgets::pickerOptions(
           liveSearch = TRUE, size = 10,
@@ -77,7 +77,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
 
       # Get neighbourhood of address
       neighbourhood <- address_and_neighbourhood$address %>%
-        sf::st_join(lemur::neighbourhoods) %>%
+        sf::st_join(lemr::neighbourhoods) %>%
         dplyr::pull(.data$neighbourhood)
 
       address_and_neighbourhood$address_error <- length(neighbourhood) == 0
@@ -96,7 +96,7 @@ mod_search_server <- function(id, address_and_neighbourhood, search_method) {
     shiny::observeEvent(input$neighbourhood, ignoreInit = TRUE, ignoreNULL = FALSE, {
 
       # If it's deselected, treat the same as "back" and go to city view
-      if(is.null(input$neighbourhood)) {
+      if (is.null(input$neighbourhood)) {
         address_and_neighbourhood$address <- NULL
         address_and_neighbourhood$neighbourhood <- NULL
 

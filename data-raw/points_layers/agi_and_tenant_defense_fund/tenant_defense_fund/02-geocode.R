@@ -86,8 +86,7 @@ tenant_defense_fund_address <- tenant_defense_fund_address %>%
     address_for_geocoding == "35 Widdicombe Hill Blvd., Toronto, ON" ~ "35 Widdicombe Hill, Toronto, ON",
     address_for_geocoding == "4 Bexhill Crt., Toronto, ON" ~ "4 Bexhill Crt, Toronto, ON M9A 3A8",
     TRUE ~ as.character(address_for_geocoding)
-)
-)
+  ))
 
 # Geocode
 

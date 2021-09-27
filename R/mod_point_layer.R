@@ -109,8 +109,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             function(color, filter) {
               create_circle_legend(amenity_density_colours()[[color]],
                 glue::glue("{value} {buildings_word}, {wording}",
-                  value = dataset()[["rooming_houses"]] %>% dplyr::filter(group == filter) %>% dplyr::pull(value),
-                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
+                  value = dataset()[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
+                  buildings_word = ifelse(.data$value == 1, "rooming house", "rooming houses"),
                   wording = tolower(filter)
                 ),
                 alt_text = glue::glue("A legend showing the colour of the points of {wording} rooming houses.", wording = tolower(filter))
@@ -123,11 +123,11 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           shiny::uiOutput(ns("median_score"))
         ),
         agi = shiny::div(
-          create_circle_legend(layer_colours[["agi_apartment"]], glue::glue("{scales::comma(buildings)} privately owned apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+          create_circle_legend(layer_colours[["agi_apartment"]], glue::glue("{scales::comma(buildings)} privately owned apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(.data$group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
           shiny::uiOutput(ns("agi_prop")),
           shiny::div(
             style = "margin-top: 0.5em;",
-            create_circle_legend(layer_colours[["agi_other"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
+            create_circle_legend(layer_colours[["agi_other"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(.data$group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
           )
         ),
         tdf = shiny::div(
@@ -152,8 +152,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 
     output$agi_prop <- shiny::renderUI({
       value <- dataset()[["agi"]] %>%
-        dplyr::filter(group == "Apartment building") %>%
-        dplyr::pull(prop)
+        dplyr::filter(.data$group == "Apartment building") %>%
+        dplyr::pull(.data$prop)
       text <- glue::glue("AGI rate by building: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value)) {
@@ -169,8 +169,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
       text <- glue::glue("TDF rate by AGIs: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value) & dataset()[["agi"]] %>%
-        dplyr::filter(group == "Apartment building") %>%
-        dplyr::pull(value) != 0) {
+        dplyr::filter(.data$group == "Apartment building") %>%
+        dplyr::pull(.data$value) != 0) {
         shiny::div(
           style = "margin-left: 0.33em; margin-top: 0.5em;",
           text

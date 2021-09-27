@@ -26,7 +26,7 @@ rental_data <- rental_data %>%
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 rental_data_with_neighbourhoods <- rental_data %>%
-  st_join(lemur::neighbourhoods)
+  st_join(lemr::neighbourhoods)
 
 affordable_by_neighbourhood_and_bedrooms <- rental_data_with_neighbourhoods %>%
   as_tibble() %>%

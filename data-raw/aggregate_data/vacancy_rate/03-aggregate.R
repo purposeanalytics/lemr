@@ -24,8 +24,10 @@ aggregate_vacancy_rate_to_neighbourhood <- function(vacancy_rate) {
     left_join(renter_by_ct, by = c("ct" = "geo_code")) %>%
     mutate(total = coalesce(total, 0)) %>%
     group_by(neighbourhood) %>%
-    summarise(value = weighted.mean(vacancy_rate, w = total, na.rm = TRUE),
-              value = round(value, 3)) %>%
+    summarise(
+      value = weighted.mean(vacancy_rate, w = total, na.rm = TRUE),
+      value = round(value, 3)
+    ) %>%
     split(.$neighbourhood) %>%
     map(pull, value)
 }

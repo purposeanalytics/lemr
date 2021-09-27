@@ -28,9 +28,9 @@ mod_data_and_definitions_ui <- function(id) {
       )
     ),
     shiny::tagList(
-      data_and_definitions %>%
-        dplyr::mutate(definition_full = purrr::pmap(list(name, description, data_source_prefix, data_source_suffix, data_source, data_source_link), format_definition)) %>%
-        dplyr::pull(definition_full)
+      lemr::data_and_definitions %>%
+        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
+        dplyr::pull(.data$definition_full)
     )
   )
 }
@@ -59,8 +59,9 @@ format_definition <- function(name, description, data_source_prefix, data_source
       data_source_suffix = dplyr::coalesce(data_source_suffix, "")
     ) %>%
       stringr::str_squish() %>%
-      shiny::HTML() %>%
-      shiny::p(shiny::tags$i("Data Source:"), .)
+      shiny::HTML()
+
+    data_source_full <- shiny::p(shiny::tags$i("Data Source:"), data_source_full)
   } else {
     data_source_full <- NULL
   }

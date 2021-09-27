@@ -15,7 +15,7 @@ toronto_community_housing <- toronto_community_housing %>%
 
 # ### Join files ---
 
-tch_by_neighbourhood <- lemur::neighbourhoods %>%
+tch_by_neighbourhood <- lemr::neighbourhoods %>%
   left_join(toronto_community_housing, by = c("id" = "neighbourhood_id")) %>%
   group_by(neighbourhood, id) %>%
   summarize(

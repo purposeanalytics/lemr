@@ -10,7 +10,7 @@ add_blank_aggregate_layers(map)
 \item{map}{Map created via \link{map_toronto}}
 }
 \description{
-Add an empty layer of \link{total_affordable_by_neighbourhood} to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): estimated low-end of market rentals (lem), rental supply (primary - rental_supply_primary; condo - rental_supply_condo; non-condo secondary - rental_supply_non_condo; non-market - rental_supply_non_market), core housing need (core_housing_need), eviction rate (eviction_rate), and all neighbourhood outline / click / etc layers. Note that LEM is visible by default.
+Add empty aggregate layers to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): estimated low-end of market rentals (lem), rental supply (primary - rental_supply_primary; condo - rental_supply_condo; non-condo secondary - rental_supply_non_condo; non-market - rental_supply_non_market), core housing need (core_housing_need), eviction rate (eviction_rate), and all neighbourhood outline / click / etc layers. Note that LEM is visible by default.
 }
 \examples{
 library(sf)

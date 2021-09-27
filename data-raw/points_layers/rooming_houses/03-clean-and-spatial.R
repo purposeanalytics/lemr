@@ -52,7 +52,7 @@ rooming_houses_sf <- rooming_houses_clean %>%
 
 # Get neighbourhood for each building
 rooming_houses_with_neighbourhood <- rooming_houses_sf %>%
-  st_join(lemur::neighbourhoods) %>%
+  st_join(lemr::neighbourhoods) %>%
   select(address, bing_address, neighbourhood, status, first_month_licensed, last_month_licensed)
 
 # Clean up address

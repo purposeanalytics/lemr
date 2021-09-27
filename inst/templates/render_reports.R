@@ -1,11 +1,11 @@
 # Pre-render all templates so that serving them up is super quick
 
-library(lemur)
+library(lemr)
 library(rmarkdown)
 library(purrr)
 library(pagedown)
 
-neighbourhoods <- lemur::neighbourhoods[["neighbourhood"]]
+neighbourhoods <- lemr::neighbourhoods[["neighbourhood"]]
 
 # Function to render HTML file, then PDF from that
 render_reports <- function(level, neighbourhood) {

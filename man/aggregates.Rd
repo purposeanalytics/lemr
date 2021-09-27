@@ -8,7 +8,7 @@
 \format{
 An object of class \code{list} of length 140.
 
-An object of class \code{list} of length 40.
+An object of class \code{list} of length 44.
 }
 \usage{
 neighbourhood_aggregate

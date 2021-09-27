@@ -33,7 +33,9 @@ buildings <- apartment_building_registry %>%
 apartment_buildings_coords <- buildings %>%
   split(.$address) %>%
   map(slice, 1) %>%
-  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
   bind_rows(.id = "address")
 
 buildings <- buildings %>%
@@ -49,7 +51,9 @@ rooming_houses <- rooming_houses %>%
 rooming_houses_coords <- rooming_houses %>%
   split(.$address) %>%
   map(slice, 1) %>%
-  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
   bind_rows(.id = "address")
 
 rooming_houses <- rooming_houses %>%
@@ -109,7 +113,9 @@ agi_applications <- agi_applications %>%
 agi_applications_coords <- agi_applications %>%
   split(.$address) %>%
   map(slice, 1) %>%
-  map(~ .x %>% st_coordinates() %>% as_tibble()) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
   bind_rows(.id = "address")
 
 agi_applications <- agi_applications %>%
@@ -127,8 +133,10 @@ buildings <- buildings %>%
 # Except for address, since different addresses may be geocoded to the same place - prefer to keep them distinct
 buildings <- buildings %>%
   mutate(
-    address = case_when(apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
-                        TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)),
+    address = case_when(
+      apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
+      TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)
+    ),
     property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
     X = coalesce(X_apt, X_rooming_houses, X_agi),
     Y = coalesce(Y_apt, Y_rooming_houses, Y_agi),

@@ -6,7 +6,7 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-data <- lemur::buildings %>%
+data <- lemr::buildings %>%
   mutate(id = row_number())
 
 # Extract lat and long ----
@@ -60,4 +60,4 @@ data <- data %>%
   mutate_if(is.character, coalesce, "")
 
 # Save data -----
-write_csv(data, here::here("inst", "extdata", "Points Layers.csv"))
+write_csv(data, here::here("inst", "extdata", "points_data.csv"))

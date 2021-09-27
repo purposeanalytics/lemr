@@ -9,8 +9,8 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-city <- lemur::city_aggregate
-neighbourhoods <- lemur::neighbourhood_aggregate
+city <- lemr::city_aggregate
+neighbourhoods <- lemr::neighbourhood_aggregate
 
 # Flattern neighbourhoods data ----
 
@@ -138,4 +138,4 @@ neighbourhoods <- neighbourhoods %>%
 
 # Save data ----
 
-write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
+write_csv(neighbourhoods, here::here("inst", "extdata", "aggregate_data.csv"))
