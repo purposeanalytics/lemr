@@ -462,22 +462,6 @@ ul {
   overflow-y: auto;
 }
 
-/* Style neighbourhood tooltip to be in corner of map */
-
-.mapboxgl-popup-content {
-  border-radius: 0 !important;
-}
-
-.mapboxgl-popup {
-  transform: none !important;
-  top: 0 !important;
-  left: 0 !important;
-}
-
-.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{
-  display: none !important;
-}
-
 /* ------ Tabs ------ */
 
 .nav-tabs {

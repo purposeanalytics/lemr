@@ -278,7 +278,6 @@ add_blank_aggregate_layers <- function(map) {
         )
       )
     ) %>%
-    mapboxer::add_tooltips("neighbourhood_click", "{{neighbourhood}}") %>%
     ## Add an actual layer for neighbourhoods that will be thickened ----
     mapboxer::add_layer(
       list(
