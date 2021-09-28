@@ -12,8 +12,14 @@
 #'   toggle_layer_visible("tdf")
 add_blank_points_layers <- function(map) {
   blur <- 0
-  radius <- 5
-  radius <- 4
+  radius <- list(
+    "stops" = list(
+      c(10, 4),
+      c(12, 6),
+      c(14, 8),
+      c(16, 10)
+    )
+  )
   opacity <- 0.8
   stroke_colour <- "#FFFFFF"
   stroke_width <- 1
