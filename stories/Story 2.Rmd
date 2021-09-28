@@ -97,18 +97,13 @@ proximity_layers <- adn %>%
 #lowend similarities
 
 ```{r}
-proximity_layers %>% filter(neighbourhood == 'West Hill')
-
-```
-
-
-```{r}
 reinf_shap <- proximity_layers %>% 
   select(neighbourhood, Total_Total, eviction_rate, unaffordable_housing, `market_prop_Other Non-Market`, core_housing_need) %>%
   arrange(desc(Total_Total))
 ```
  
 ```{r}
+#dev or redo
 plotly::ggplotly(
   ggplot(reinf_shap, aes(core_housing_need, `eviction_rate`, colour = `market_prop_Other Non-Market`)) +
     geom_point(aes(size = Total_Total, text = neighbourhood)) +
@@ -150,6 +145,7 @@ prox_pick <- proximity_layers %>%
 ```
 
 ```{r}
+#dev only
 graph_prox <- prox_pick %>% filter(Total_Total > 100, number_of_buildings >= 10)
 
 
@@ -227,10 +223,11 @@ for (i in seq(from = 1, to = nrow(pos))){
   for (i in nrow(positions)) {
     ternary <- rbind(ternary, positions)}
 }
-ternary
+# ternary
 ```
 
 ```{r}
+#dev
 ternary_plot <- ternary %>% filter(Total_Total >= 225)
 
 ggplot(ternary_plot, aes(x = x, y = y)) +
@@ -247,13 +244,8 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
 
 ```{r}
 ternary_plot <- pos %>% filter(Total_Total > 250) %>% 
-  mutate(top3 = case_when(neighbourhood == 'Dovercourt-Wallace Emerson-Junction' ~ TRUE,
-                          neighbourhood == 'Woburn' ~ TRUE,
-                          neighbourhood == 'York University Heights' ~ TRUE,
-                          neighbourhood == 'Thorncliffe Park' ~ TRUE,
-                          neighbourhood == 'West Humber-Clairville' ~ TRUE,
-                          neighbourhood == 'Weston' ~ TRUE,
-                          TRUE ~ FALSE))
+  mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
+                                    'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
 
 
@@ -265,7 +257,7 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
             , aes(label = paste0(neighbourhood,':',Total_Total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
-  theme_showarrows() +
+  #theme_showarrows() +
   tern_anticlockwise() + 
   theme_nolabels()
 ```
