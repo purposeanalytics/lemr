@@ -17,6 +17,7 @@ library(ggplot2)
 library(lemr)
 library(purrr)
 library(tidyr)
+library(ggtern)
 devtools::load_all()
 ```
 
@@ -120,7 +121,7 @@ plotly::ggplotly(
  
 
 
-```{r}
+```{r dpi = 300}
 reinf_plot <- reinf_shap %>% mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
@@ -167,7 +168,7 @@ plotly::ggplotly(
 
 
 
-```{r}
+```{r eval = FALSE}
 triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0, sqrt(3)/2))
 texts <- tibble(
   x = c(-.025,1.05,.5),
@@ -227,7 +228,7 @@ for (i in seq(from = 1, to = nrow(pos))){
 # ternary
 ```
 
-```{r}
+```{r dpi = 300}
 #dev
 ternary_plot <- ternary %>% filter(Total_Total >= 225)
 
@@ -243,14 +244,11 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
 
 ```
 
-```{r}
+```{r dpi = 300}
 ternary_plot <- pos %>% filter(Total_Total > 250) %>% 
   mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
-
-
-library(ggtern)
 ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
   geom_point(aes(colour = Total_Total), size =2.5) +
   #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
@@ -268,7 +266,7 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
 ```{r}
 moss_park <- proximity_layers %>% filter(neighbourhood == 'Moss Park') %>% 
   gather(key = var_name, value = value, 2:ncol(proximity_layers)) %>% 
-    spread_(key = names(proximity_layers)[1],value = 'value') %>% View()
+    spread_(key = names(proximity_layers)[1],value = 'value') #%>% View()
 ``` 
 
 ```{r}
@@ -297,18 +295,16 @@ plotly::ggplotly(
     )
 ```
 
-```{r}
-ternary_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000) %>% 
+```{r dpi = 300}
+ternary_plot_comm <- commun_housing %>% 
+  filter(total_total > 1000 | market_value_other_non_market > 1000) %>% 
   mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
-
-
-library(ggtern)
-ggtern::ggtern(data=ternary_plot,aes(x=low,y=high, z=medium)) +
-  geom_point(aes(colour = total_total), size = ternary_plot$market_value_other_non_market /1000 ) +
+ggtern::ggtern(data=ternary_plot_comm,aes(x=low,y=high, z=medium)) +
+  geom_point(aes(colour = total_total), size = ternary_plot_comm$market_value_other_non_market /1000 ) +
   #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
-  geom_text(data = ternary_plot #%>% filter(top3)
+  geom_text(data = ternary_plot_comm #%>% filter(top3)
             , aes(label = paste0(neighbourhood,':',total_total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
