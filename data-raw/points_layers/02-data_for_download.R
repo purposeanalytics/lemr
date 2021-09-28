@@ -37,6 +37,7 @@ data <- data %>%
   rename(
     `Apartment Building` = Apartment,
     `Apartment Building Property Type` = `Property Type`,
+    `Apartment Building Property Management` = `Property Management`,
     `RentSafeTO Evaluation Completed On` = `Evaluation Completed On`,
     `Apartment Building Units` = Units,
     `Apartment Building Storeys` = Storeys,
