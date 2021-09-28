@@ -2,7 +2,34 @@ Stories2
 ================
 9/21/2021
 
-# lowend similarities
+# Story 1 Concept
+
+1.  omg look at this app, you can click these layers!
+
+    -   **Concept: the horseshoe is where we start to see the line
+        between rich and poor**
+
+        -   proximity?!? everything is downtown, where its expensive
+
+        -   evictions?!? oh no poor neighbourhoods seem more
+
+2.  toronto is sort of “three cities” where the rich live with the rich,
+    poor with the poor, and the middle with the middle \[if such a thing
+    exists\], but historically, it used to be these mixed income
+    neighbourhoods with maybe some exceptions like rosedale or whatever
+
+    -   **Concept: we’re trying to show this with evictions & housing
+        needs + LEMR availability**
+
+3.  so then proximity can sort of show the current story of the poor
+
+    -   **Concept: we’re trying to show these two distinct clusters of
+        neighbourhoods**
+
+        -   poor means you can either live with low access to service
+            *OR* in toronto community housing
+
+## lowend similarities
 
 ![](Story-2_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
@@ -13,22 +40,22 @@ Highlighted Neighbourhoods
 <thead>
 <tr>
 <th style="text-align:left;">
-neighbourhood
+Neighbourhood
 </th>
 <th style="text-align:right;">
-Total\_Total
+Total Total
 </th>
 <th style="text-align:left;">
-eviction\_rate
+Eviction Rate
 </th>
 <th style="text-align:left;">
-unaffordable\_housing
+Unaffordable Housing
 </th>
 <th style="text-align:left;">
-market\_prop\_Other Non-Market
+Market Prop Other Non Market
 </th>
 <th style="text-align:left;">
-core\_housing\_need
+Core Housing Need
 </th>
 </tr>
 </thead>
@@ -133,30 +160,10 @@ Thorncliffe Park
 51.0%
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Weston
-</td>
-<td style="text-align:right;">
-225
-</td>
-<td style="text-align:left;">
-13.4%
-</td>
-<td style="text-align:left;">
-51.3%
-</td>
-<td style="text-align:left;">
-17.3%
-</td>
-<td style="text-align:left;">
-52.4%
-</td>
-</tr>
 </tbody>
 </table>
 
-# proximity
+## proximity
 
 ![](Story-2_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -166,7 +173,7 @@ Filtered @225 total\_total neighbourhoods
 <thead>
 <tr>
 <th style="text-align:left;">
-neighbourhood
+Neighbourhood
 </th>
 <th style="text-align:left;">
 High
@@ -178,10 +185,10 @@ Medium
 Low
 </th>
 <th style="text-align:right;">
-Total\_Total
+Total Total
 </th>
 <th style="text-align:right;">
-number\_of\_buildings
+Number of Buildings
 </th>
 </tr>
 </thead>
@@ -1218,7 +1225,7 @@ Highlighted Neighbourhoods
 <thead>
 <tr>
 <th style="text-align:left;">
-neighbourhood
+Neighbourhood
 </th>
 <th style="text-align:left;">
 High
@@ -1230,10 +1237,10 @@ Medium
 Low
 </th>
 <th style="text-align:right;">
-Total\_Total
+Total Total
 </th>
 <th style="text-align:right;">
-number\_of\_buildings
+Number of Buildings
 </th>
 </tr>
 </thead>
@@ -1341,8 +1348,10 @@ York University Heights
 </tbody>
 </table>
 
-# toronto housing
+## toronto housing
 
-## in progressssssssss :)
+### in progressssssssss :)
+
+![](Story-2_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 ![](Story-2_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->

@@ -20,6 +20,29 @@ library(tidyr)
 library(ggtern)
 devtools::load_all()
 ```
+ 
+# Story 1 Concept
+ 
+1. omg look at this app, you can click these layers!
+
+    * **Concept: the horseshoe is where we start to see the line between rich and poor**
+      
+      * proximity?!? everything is downtown, where its expensive
+    
+      * evictions?!? oh no poor neighbourhoods seem more
+
+2. toronto is sort of "three cities" where the rich live with the rich, poor with the poor, and the middle with the middle [if such a thing exists], but historically, it used to be these mixed income neighbourhoods with maybe some exceptions like rosedale or whatever
+
+    * **Concept: we're trying to show this with evictions & housing needs + LEMR availability**
+
+3. so then proximity can sort of show the current story of the poor
+
+    * **Concept: we're trying to show these two distinct clusters of neighbourhoods**
+  
+      * poor means you can either live with low access to service _OR_ in toronto community housing
+  
+    
+
 
 ```{r}
 neighbourhood_aggregate <- lemr::neighbourhood_aggregate %>%
@@ -90,7 +113,7 @@ proximity_layers <- adn %>%
   inner_join(chn, by = 'neighbourhood')
 ```
 
-# lowend similarities
+## lowend similarities
 
 ```{r}
 reinf_shap <- proximity_layers %>% 
@@ -118,7 +141,7 @@ plotly::ggplotly(
 
 
 ```{r dpi = 300}
-reinf_plot <- reinf_shap %>% mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
+reinf_plot <- reinf_shap %>% mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
 ggplot(reinf_plot, aes(core_housing_need, `eviction_rate`, colour = `top3`)) +
@@ -138,14 +161,14 @@ kableExtra::kable(reinf_plot %>% filter(top3) %>% select(-top3) %>%
   mutate(eviction_rate = scales::percent(eviction_rate, accuracy = 0.1), 
          unaffordable_housing = scales::percent(unaffordable_housing, accuracy = 0.1),
          `market_prop_Other Non-Market` = scales::percent(`market_prop_Other Non-Market`, accuracy = 0.1),
-         core_housing_need = scales::percent(core_housing_need, accuracy = 0.1)),
+         core_housing_need = scales::percent(core_housing_need, accuracy = 0.1)) %>% janitor::clean_names('title'),
   caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
   kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 
 ```
 
 
-# proximity
+## proximity
 
 ```{r}
 prox_pick <- proximity_layers %>% 
@@ -251,7 +274,7 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
 kableExtra::kable(pos %>% filter(Total_Total >= 225) %>% 
   mutate(High = scales::percent(High, accuracy = 0.1), 
          Medium = scales::percent(Medium, accuracy = 0.1),
-         Low = scales::percent(Low, accuracy = 0.1)),
+         Low = scales::percent(Low, accuracy = 0.1)) %>% janitor::clean_names('title'),
   caption = "Filtered @225 total_total neighbourhoods", booktabs = TRUE, linesep = "") %>%
   kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 
@@ -271,7 +294,7 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
             , aes(label = paste0(neighbourhood,':',Total_Total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
-  #theme_showarrows() +
+  theme_showarrows() +
   tern_anticlockwise() + 
   theme_nolabels()
 ```
@@ -280,16 +303,16 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
 kableExtra::kable(ternary_plot %>% filter(top3) %>% select(-top3) %>% 
   mutate(High = scales::percent(High, accuracy = 0.1), 
          Medium = scales::percent(Medium, accuracy = 0.1),
-         Low = scales::percent(Low, accuracy = 0.1)),
+         Low = scales::percent(Low, accuracy = 0.1)) %>% janitor::clean_names('title'),
   caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
   kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 
 ```
 
 
-# toronto housing
+## toronto housing
 
-## in progressssssssss :) 
+### in progressssssssss :) 
 
 ```{r}
 moss_park <- proximity_layers %>% filter(neighbourhood == 'Moss Park') %>% 
@@ -310,33 +333,41 @@ commun_housing <- proximity_layers %>%
 ```
 
 ```{r results='hide'}
-commun_housing_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000)
-#dev or redo
-plotly::ggplotly(
-  ggplot(data = commun_housing_plot, aes(x = market_value_other_non_market, y = total_total)) +
-    geom_point(aes(size = total_total, text = neighbourhood)) 
-    #ggrepel::geom_label_repel(data = reinf_shap, aes(label=neighbourhood), size= 2.5) +
-    #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
-    #theme_bw()+
-    #theme(legend.position = 'None')
-    )
+commun_housing_plot <- commun_housing %>% filter(total_total > 250 | market_value_other_non_market > 650) %>% 
+  mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn',
+                                    'Thorncliffe Park','West Humber-Clairville','York University Heights',
+                                    'Moss Park'))
+
+
+#plotly::ggplotly(
+  ggplot(data = commun_housing_plot, aes(x = market_value_other_non_market, y = total_total, colour = top3)) +
+    geom_point(aes(size = total_total, text = neighbourhood)) + 
+    ggrepel::geom_label_repel(data = commun_housing_plot %>% filter(top3)
+                              , aes(label=neighbourhood), size= 2.5) +
+    scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    theme_bw() +
+    theme(legend.position = 'None')
+    #)
+  
+  
 ```
 
 ```{r dpi = 300}
 ternary_plot_comm <- commun_housing %>% 
-  filter(total_total > 1000 | market_value_other_non_market > 1000) %>% 
+  filter(total_total > 250 | market_value_other_non_market > 650) %>% 
   mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
 
 ggtern::ggtern(data=ternary_plot_comm,aes(x=low,y=high, z=medium)) +
-  geom_point(aes(colour = total_total), size = ternary_plot_comm$market_value_other_non_market /1000 ) +
+  geom_point(aes(size = total_total, colour = market_prop_other_non_market)) +
   #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
   geom_text(data = ternary_plot_comm #%>% filter(top3)
-            , aes(label = paste0(neighbourhood,':',total_total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
+            , aes(label = paste0(neighbourhood,'\n',total_total,' : ', market_value_other_non_market)), size = 2, vjust= -.5, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
-  #theme_showarrows() +
+  theme_showarrows() +
   tern_anticlockwise() + 
-  theme_nolabels()
+  theme_nolabels() +
+  theme(legend.position="none")
 ```
 
