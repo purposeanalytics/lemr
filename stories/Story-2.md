@@ -1,8 +1,8 @@
-Stories2
+Story 2
 ================
 9/21/2021
 
-# Story 1 Concept
+# Story 2 Concept
 
 1.  omg look at this app, you can click these layers!
 
