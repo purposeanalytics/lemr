@@ -22,7 +22,10 @@ mod_data_story_agi_tdf_ui <- function(id) {
       shiny::fluidRow(
         shiny::column(
           width = 12,
-          shiny::modalButton("Close"),
+          shiny::div(
+            class = "full-summary-buttons",
+            shiny::modalButton("Close")
+          ),
           shiny::h1("Title")
         )
       ),
