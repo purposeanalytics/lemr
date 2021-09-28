@@ -30,8 +30,6 @@ neighbourhood_aggregate <- neighbourhood_aggregate[c("amenity_density", "core_ho
   map(~ .x %>% bind_rows(.id = "neighbourhood"))
 ```
 
-# proximity to services
-
 ```{r}
 # amenity density
 adn <- neighbourhood_aggregate[["amenity_density"]] %>% pivot_wider(names_from = group, values_from = prop)
@@ -65,7 +63,6 @@ ati <- neighbourhood_aggregate[["average_total_income"]] %>%
   pivot_wider(names_from = group, values_from = c(value))
 ```
 
-
 ```{r}
 # unaffordable percent
 uh <- neighbourhood_aggregate[["unaffordable_housing"]] %>% rename(unaffordable_housing = value)
@@ -81,7 +78,6 @@ arsc <- neighbourhood_aggregate[["average_renter_shelter_cost"]] %>% rename(aver
 ev <- neighbourhood_aggregate[["evictions"]] %>% rename(eviction_rate = value)
 ```
 
-
 ```{r dataset}
 proximity_layers <- adn %>% 
   inner_join(arsc, by = 'neighbourhood') %>% 
@@ -94,7 +90,7 @@ proximity_layers <- adn %>%
   inner_join(chn, by = 'neighbourhood')
 ```
 
-#lowend similarities
+# lowend similarities
 
 ```{r}
 reinf_shap <- proximity_layers %>% 
@@ -176,9 +172,6 @@ plotly::ggplotly(
 ```
 
 
-
-
-
 ```{r eval = FALSE}
 triangle <- tibble(polygon_x = c(0,1,.5), polygon_y = c(0,0, sqrt(3)/2))
 texts <- tibble(
@@ -255,11 +248,11 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
 
 ```
 ```{r}
-kableExtra::kable(pos %>% filter(Total_Total > 250) %>% 
+kableExtra::kable(pos %>% filter(Total_Total >= 225) %>% 
   mutate(High = scales::percent(High, accuracy = 0.1), 
          Medium = scales::percent(Medium, accuracy = 0.1),
          Low = scales::percent(Low, accuracy = 0.1)),
-  caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
+  caption = "Filtered @225 total_total neighbourhoods", booktabs = TRUE, linesep = "") %>%
   kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 
 ```
@@ -314,7 +307,6 @@ commun_housing <- proximity_layers %>%
   janitor::clean_names()
 ```
 
- 
 ```{r}
 commun_housing_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000)
 #dev or redo
