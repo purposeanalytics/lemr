@@ -137,8 +137,19 @@ ggplot(reinf_plot, aes(core_housing_need, `eviction_rate`, colour = `top3`)) +
     theme(legend.position = 'None')
 ```
 
+```{r}
+kableExtra::kable(reinf_plot %>% filter(top3) %>% select(-top3) %>% 
+  mutate(eviction_rate = scales::percent(eviction_rate, accuracy = 0.1), 
+         unaffordable_housing = scales::percent(unaffordable_housing, accuracy = 0.1),
+         `market_prop_Other Non-Market` = scales::percent(`market_prop_Other Non-Market`, accuracy = 0.1),
+         core_housing_need = scales::percent(core_housing_need, accuracy = 0.1)),
+  caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
 
-#proximity
+```
+
+
+# proximity
 
 ```{r}
 prox_pick <- proximity_layers %>% 
@@ -243,6 +254,17 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
   theme_void()
 
 ```
+```{r}
+kableExtra::kable(pos %>% filter(Total_Total > 250) %>% 
+  mutate(High = scales::percent(High, accuracy = 0.1), 
+         Medium = scales::percent(Medium, accuracy = 0.1),
+         Low = scales::percent(Low, accuracy = 0.1)),
+  caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
+
+```
+
+
 
 ```{r dpi = 300}
 ternary_plot <- pos %>% filter(Total_Total > 250) %>% 
@@ -260,6 +282,17 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
   tern_anticlockwise() + 
   theme_nolabels()
 ```
+
+```{r}
+kableExtra::kable(ternary_plot %>% filter(top3) %>% select(-top3) %>% 
+  mutate(High = scales::percent(High, accuracy = 0.1), 
+         Medium = scales::percent(Medium, accuracy = 0.1),
+         Low = scales::percent(Low, accuracy = 0.1)),
+  caption = "Highlighted Neighbourhoods", booktabs = TRUE, linesep = "") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
+
+```
+
 
 # toronto housing
 
