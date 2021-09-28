@@ -8,6 +8,7 @@
   --bigger-size: 1.25em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
+  --smaller-size: 0.9em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -73,6 +74,10 @@ h3 {
 
 .biggest {
   font-size: var(--biggest-size);
+}
+
+.smaller {
+  font-size: var(--smaller-size);
 }
 
 .nav-tabs {
