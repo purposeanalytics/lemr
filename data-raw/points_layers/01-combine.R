@@ -200,12 +200,29 @@ prep_address_for_join <- function(address) {
 
 buildings <- buildings %>%
   mutate(address_join = prep_address_for_join(address)) %>%
-  inner_join(corporate_landlords, by = "address_join")
+  left_join(corporate_landlords, by = "address_join") %>%
+  select(-address_join)
 
-# Reconcile different landlords / property management etc
+# Take business owner > AGI, and property management separately
 
-buildings %>%
-  select(address, property_type, business_name, landlord, property_management)
+buildings <- buildings %>%
+  mutate(landlord = coalesce(business_name, landlord)) %>%
+  select(-business_name)
+
+# Set NA landlord to Unknown so they always appear, and property_managament to unknown only for apartments
+
+buildings <- buildings %>%
+  mutate(
+    landlord = coalesce(landlord, "Unknown"),
+    property_management = case_when(
+      apartment ~ coalesce(property_management, "Unknown"),
+      TRUE ~ property_management
+    )
+  )
+
+buildings <- buildings %>%
+  relocate(landlord, .after = bing_address) %>%
+  relocate(property_management, .after = property_type)
 
 # Convert to spatial -----
 
@@ -221,15 +238,16 @@ buildings <- buildings %>%
 generate_tooltip <- function(data) {
   variables <- tribble(
     ~title, ~variable,
+    "Landlord", "landlord",
     "Built", "year_built",
-    "Landlord/Management", "property_management_or_landlord",
-    "Building Type", "property_type",
+    "Apartment building type", "property_type",
+    "Property management", "property_management",
     "Units", "units",
-    "RentSafeTO Evaluation", "score_percent",
-    "AGI Application", "date_agi_initiated",
-    "Tenant Defence Fund Received", "tdf_year",
-    "TDF Reduced Increase By", "reduced_increase_by",
-    "Rooming House Status", "rooming_house_status"
+    "RentSafeTO evaluation", "score_percent",
+    "AGI applications", "date_agi_initiated",
+    "Tenant Defence Fund received", "tdf_year",
+    "TDF reduced increase by", "reduced_increase_by",
+    "Rooming house status", "rooming_house_status"
   )
 
   variables_text <- purrr::map2_chr(
