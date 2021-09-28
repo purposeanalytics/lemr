@@ -1,5 +1,5 @@
 ---
-title: "Stories2"
+title: "Story 2"
 date: "9/21/2021"
 output:
   github_document: default
@@ -21,7 +21,7 @@ library(ggtern)
 devtools::load_all()
 ```
  
-# Story 1 Concept
+# Story 2 Concept
  
 1. omg look at this app, you can click these layers!
 
