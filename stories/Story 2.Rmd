@@ -98,7 +98,7 @@ reinf_shap <- proximity_layers %>%
   arrange(desc(Total_Total))
 ```
  
-```{r}
+```{r results='hide'}
 #dev or redo
 plotly::ggplotly(
   ggplot(reinf_shap, aes(core_housing_need, `eviction_rate`, colour = `market_prop_Other Non-Market`)) +
@@ -153,7 +153,7 @@ prox_pick <- proximity_layers %>%
   pivot_longer(cols = c(High, Medium, Low))
 ```
 
-```{r}
+```{r results='hide'}
 #dev only
 graph_prox <- prox_pick %>% filter(Total_Total > 100, number_of_buildings >= 10)
 
@@ -289,6 +289,8 @@ kableExtra::kable(ternary_plot %>% filter(top3) %>% select(-top3) %>%
 
 # toronto housing
 
+## in progressssssssss :) 
+
 ```{r}
 moss_park <- proximity_layers %>% filter(neighbourhood == 'Moss Park') %>% 
   gather(key = var_name, value = value, 2:ncol(proximity_layers)) %>% 
@@ -307,7 +309,7 @@ commun_housing <- proximity_layers %>%
   janitor::clean_names()
 ```
 
-```{r}
+```{r results='hide'}
 commun_housing_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000)
 #dev or redo
 plotly::ggplotly(
