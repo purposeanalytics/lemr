@@ -90,7 +90,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         # Only update anything if the current neighbourhood isn't the same as the clicked neighbourhood - it's annoying to get zoomed back out if you're already there!
         # This probably happens when you're clicking on a POINT in the current neighbourhood
 
-        if (!identical(current_neighbourhood, clicked_neighbourhood)) {
+        if (!identical(current_neighbourhood, clicked_neighbourhood) & !is.null(clicked_neighbourhood)) {
           # Clear inputs
           address_and_neighbourhood$address <- NULL
           address_and_neighbourhood$neighbourhood <- NULL
