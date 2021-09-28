@@ -271,7 +271,7 @@ add_blank_aggregate_layers <- function(map) {
         "id" = "neighbourhood_click",
         "type" = "fill",
         "source" = source_name,
-        "source-layer" = "neighbourhoods-0jaap1",
+        "source-layer" = source_layer,
         "paint" = list(
           "fill-color" = "white",
           "fill-opacity" = 0
@@ -284,7 +284,7 @@ add_blank_aggregate_layers <- function(map) {
         "id" = "neighbourhood_click_line",
         "type" = "line",
         "source" = source_name,
-        "source-layer" = "neighbourhoods-0jaap1",
+        "source-layer" = source_layer,
         filter = list("==", "neighbourhood", "none"),
         "paint" = list(
           "line-color" = main_colour,
@@ -298,7 +298,7 @@ add_blank_aggregate_layers <- function(map) {
         "id" = "neighbourhood_hover_line",
         "type" = "line",
         "source" = source_name,
-        "source-layer" = "neighbourhoods-0jaap1",
+        "source-layer" = source_layer,
         "paint" = list(
           "line-color" = list(
             "case",
