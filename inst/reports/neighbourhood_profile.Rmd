@@ -9,17 +9,6 @@ output:
 knit: pagedown::chrome_print
 ---
 
-```{css, echo = FALSE}
-:root {
-  --base-size: 11px; 
-  --bigger-size: 1.1em;
-}
-
-.visible-minority table {
-  margin-bottom: 0 !important;
-}
-```
-
 ```{r setup, include=FALSE}
 library(lemr)
 library(htmltools)
