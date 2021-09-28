@@ -163,6 +163,11 @@ hr {
   float: left;
 }
 
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
 body > .container-fluid {
   padding-right: 0;
   padding-left: 0;
@@ -525,6 +530,10 @@ ul {
   :root {
     --base-size: 16px;
     --home-section-padding: 0.5em;
+  }
+
+  .fa-5x {
+    font-size: 3em;
   }
 
   h1 {

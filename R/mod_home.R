@@ -57,9 +57,10 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("newspaper", class = "fa-5x")
             ),
             shiny::column(
               width = 8,
@@ -68,9 +69,10 @@ mod_home_ui <- function(id) {
           ),
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("layer-group", class = "fa-5x")
             ),
             shiny::column(
               width = 8,
@@ -79,9 +81,10 @@ mod_home_ui <- function(id) {
           ),
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("book-open", class = "fa-5x")
             ),
             shiny::column(
               width = 8,
