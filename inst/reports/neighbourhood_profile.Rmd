@@ -1,7 +1,7 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Rouge
+  neighbourhood: North St.James Town
 output:
   html_document:
     df_print: paged
@@ -60,7 +60,6 @@ if (level == "neighbourhood") {
 
   basemap <- cc_location(
     loc = raster::extent(bbox),
-    zoom = 14,
     base_url = "https://api.mapbox.com/styles/v1/purposeanalytics/cksw80iwn155y1anq5l1f0v5n/tiles/512/{zoom}/{x}/{y}",
     verbose = FALSE
   )
