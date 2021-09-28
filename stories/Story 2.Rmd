@@ -2,8 +2,7 @@
 title: "Stories2"
 date: "9/21/2021"
 output:
-  pdf_document: default
-  html_document: default
+  github_document: default
 always_allow_html: true
 ---
 
@@ -119,6 +118,8 @@ plotly::ggplotly(
     )
 ```
  
+
+
 ```{r}
 reinf_plot <- reinf_shap %>% mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
                                     'Thorncliffe Park','West Humber-Clairville','York University Heights'))
@@ -255,6 +256,60 @@ ggtern::ggtern(data=ternary_plot,aes(x=Low,y=High, z=Medium)) +
   #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
   geom_text(data = ternary_plot %>% filter(top3)
             , aes(label = paste0(neighbourhood,':',Total_Total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
+  theme_light() +
+  theme_nomask() +
+  #theme_showarrows() +
+  tern_anticlockwise() + 
+  theme_nolabels()
+```
+
+# toronto housing
+
+```{r}
+moss_park <- proximity_layers %>% filter(neighbourhood == 'Moss Park') %>% 
+  gather(key = var_name, value = value, 2:ncol(proximity_layers)) %>% 
+    spread_(key = names(proximity_layers)[1],value = 'value') %>% View()
+``` 
+
+```{r}
+commun_housing <- proximity_layers %>% 
+  select(neighbourhood, Total_Total, eviction_rate, unaffordable_housing,core_housing_need,
+         `market_prop_Other Non-Market`,
+         `value_Toronto Community Housing`,  `prop_Toronto Community Housing`, 
+         `value_Other Non-Market`, `prop_Other Non-Market`,
+         High, Medium, Low) %>%
+  mutate(`market_value_Other Non-Market` = `value_Toronto Community Housing`+`value_Other Non-Market`) %>% 
+  relocate(`market_value_Other Non-Market`, .before = `market_prop_Other Non-Market`) %>% 
+  janitor::clean_names()
+```
+
+ 
+```{r}
+commun_housing_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000)
+#dev or redo
+plotly::ggplotly(
+  ggplot(data = commun_housing_plot, aes(x = market_value_other_non_market, y = total_total)) +
+    geom_point(aes(size = total_total, text = neighbourhood)) 
+    #ggrepel::geom_label_repel(data = reinf_shap, aes(label=neighbourhood), size= 2.5) +
+    #scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+    #theme_bw()+
+    #theme(legend.position = 'None')
+    )
+```
+
+```{r}
+ternary_plot <- commun_housing %>% filter(total_total > 1000 | market_value_other_non_market > 1000) %>% 
+  mutate(top3 = neighbourhood %in% c('Dovercourt-Wallace Emerson-Junction','Woburn', 'Weston',
+                                    'Thorncliffe Park','West Humber-Clairville','York University Heights'))
+
+
+
+library(ggtern)
+ggtern::ggtern(data=ternary_plot,aes(x=low,y=high, z=medium)) +
+  geom_point(aes(colour = total_total), size = ternary_plot$market_value_other_non_market /1000 ) +
+  #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
+  geom_text(data = ternary_plot #%>% filter(top3)
+            , aes(label = paste0(neighbourhood,':',total_total)), size = 2, vjust= -3, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
   #theme_showarrows() +
