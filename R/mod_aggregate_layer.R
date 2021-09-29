@@ -157,7 +157,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
 
 # List of layers -----
 
-aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", amenity_density = "Proximity to services", vacancy_rate = "Vacancy rate")
+aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", vacancy_rate = "Vacancy rate", amenity_density = "Proximity to services")
 
 rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
 
