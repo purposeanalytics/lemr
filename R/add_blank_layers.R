@@ -241,18 +241,7 @@ add_blank_aggregate_layers <- function(map) {
     ## LEM #
     add_blank_aggregate_layer_fill("lem", source_name, source_layer, visibility = "visible") %>%
     ## LEM % ----
-    mapboxer::add_fill_layer(source = mapboxer::as_mapbox_source(lem_percent), fill_opacity = opacity, id = "lem_percent", fill_color = list(
-        "case",
-        list("==", c("get", "lem"), 0), low_high_legend_colors()[1],
-        list("==", c("get", "lem"), 1), low_high_legend_colors()[2],
-        list("==", c("get", "lem"), 2), low_high_legend_colors()[3],
-        list("==", c("get", "lem"), 3), low_high_legend_colors()[4],
-        list("==", c("get", "lem"), 4), low_high_legend_colors()[5],
-        list("==", c("get", "lem"), 5), low_high_legend_colors()[6],
-        # Defaults to 'white'
-        "black"
-      )
-    ) %>%
+    add_blank_aggregate_layer_fill("lem_percent", source_name, source_layer) %>%
     # Rental supply ----
     ## Primary market ----
     add_blank_aggregate_layer_fill("rental_supply_primary", source_name, source_layer) %>%
