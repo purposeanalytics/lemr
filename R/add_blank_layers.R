@@ -27,7 +27,8 @@ add_blank_points_layers <- function(map) {
   # Temporarily setting NA score_colour to "none" so we can filter the data in the RentSafeTO layer
   # I can't figure out how to filter out NA/null yet
   data <- lemr::buildings %>%
-    dplyr::mutate(score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"))
+    dplyr::mutate(score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"),
+                  show_tdf = .data$tdf & .data$apartment)
 
   map %>%
     # All points layers source data ----
@@ -123,7 +124,7 @@ add_blank_points_layers <- function(map) {
     mapboxer::add_circle_layer(
       source = "points_data_source",
       id = "tdf",
-      filter = list("==", "tdf", TRUE),
+      filter = list("==", "show_tdf", TRUE),
       circle_color = layer_colours[["tdf"]],
       circle_blur = blur,
       circle_opacity = opacity,

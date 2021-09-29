@@ -8,6 +8,7 @@
   --bigger-size: 1.25em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
+  --smaller-size: 0.9em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -73,6 +74,10 @@ h3 {
 
 .biggest {
   font-size: var(--biggest-size);
+}
+
+.smaller {
+  font-size: var(--smaller-size);
 }
 
 .nav-tabs {
@@ -161,6 +166,11 @@ hr {
 .sidebar-col {
   width: 35%;
   float: left;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
 }
 
 body > .container-fluid {
@@ -283,6 +293,10 @@ body > .container-fluid {
   background-color: var(--accent-color);
   margin-top: calc(var(--home-section-padding) * 2);
   margin-bottom: calc(var(--home-section-padding) * 2);
+}
+
+.start-exploring {
+  text-align: left !important;
 }
 
 .questions {
@@ -525,6 +539,10 @@ ul {
   :root {
     --base-size: 16px;
     --home-section-padding: 0.5em;
+  }
+
+  .fa-5x {
+    font-size: 3em;
   }
 
   h1 {

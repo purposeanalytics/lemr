@@ -56,7 +56,7 @@ dataset <- lemr:::determine_dataset_from_level(level, neighbourhood)
 map_alt_text <- glue::glue("A map of {area} showing the locations of apartment buildings, above guideline increase applications, and tenant defense fund grant recipients.", area = ifelse(level == "city", "Toronto", neighbourhood))
 ```
 
-<div class = "row" style = "display: flex; align-items: center;">
+<div class = "row vertical-align">
   <div class = "col-sm-8">
 ```{r map-prep}
 if (level == "neighbourhood") {

@@ -25,15 +25,11 @@ mod_aggregate_layer_ui <- function(id) {
       )
     ),
     shiny::fluidRow(
-      shiny::column(
-        width = 6,
-        class = "summary-legend padded",
-        shiny::tagList(
-          purrr::map(
-            names(aggregate_layers_choices),
-            ~ generate_conditional_legend(.x, ns = ns)
-          )
-        ),
+      shiny::tagList(
+        purrr::map(
+          names(aggregate_layers_choices),
+          ~ generate_conditional_legend(.x, ns = ns)
+        )
       )
     ),
     shiny::fluidRow(
@@ -161,7 +157,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
 
 # List of layers -----
 
-aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", amenity_density = "Proximity to services", vacancy_rate = "Vacancy rate")
+aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", vacancy_rate = "Vacancy rate", amenity_density = "Proximity to services")
 
 rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
 
@@ -222,7 +218,11 @@ vacancy_rate_tooltip <- create_popover(title = "Vacancy rate", content = NULL)
 generate_conditional_legend <- function(layer, ns) {
   shiny::conditionalPanel(
     glue::glue("input.layer == '{layer}'"),
-    rlang::exec(paste0(layer, "_legend")),
+    shiny::column(
+      width = ifelse(layer == "amenity_density", 12, 6),
+      class = "summary-legend padded",
+      rlang::exec(paste0(layer, "_legend"))
+    ),
     ns = ns
   )
 }

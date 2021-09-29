@@ -57,35 +57,41 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("newspaper", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
+              class = "smaller",
               shiny::HTML("Read <b>Data Stories</b> above for our data analyses and learn how their implications may impact you, your organization, or your community.")
             )
           ),
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("layer-group", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
+              class = "smaller",
               shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental supply, locations of awarded tenant defence fund grants, and more.")
             )
           ),
           shiny::column(
             width = 4,
+            class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
+              shiny::icon("book-open", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
-              shiny::p("Learn about the data sources included in the tool and find key terminology used throughout in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
+              class = "smaller",
+              shiny::p("Learn about the data sources included in the tool, find key terminology used throughout, and access processed data in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
             )
           )
         )
