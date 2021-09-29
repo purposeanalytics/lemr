@@ -235,7 +235,10 @@ add_blank_aggregate_layers <- function(map) {
     id = source_name
     ) %>%
     # LEM ----
-    add_blank_aggregate_layer_fill("lem", source_name, source_layer, visibility = "visible") %>%
+    ## LEM #
+    add_blank_aggregate_layer_fill("lem", source_name, source_layer) %>%
+    ## LEM % ----
+    add_blank_aggregate_layer_fill("lem_percent", source_name, source_layer, visibility = "visible") %>%
     # Rental supply ----
     ## Primary market ----
     add_blank_aggregate_layer_fill("rental_supply_primary", source_name, source_layer) %>%

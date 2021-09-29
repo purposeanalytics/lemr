@@ -9,6 +9,10 @@ devtools::load_all()
 
 lem <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_by_neighbourhood_layer.rds"))
 
+# LEM Percent ----
+
+lem_percent <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_by_neighbourhood_layer.rds"))
+
 # Rental supply ----
 
 rental_supply <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood_layer.rds"))
@@ -28,6 +32,7 @@ vacancy_rate <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate",
 # Combine ----
 neighbourhoods <- lemr::neighbourhoods %>%
   left_join(lem, by = "neighbourhood") %>%
+  left_join(lem_percent, by = "neighbourhood") %>%
   left_join(rental_supply, by = "neighbourhood") %>%
   left_join(core_housing_need, by = "neighbourhood") %>%
   left_join(vacancy_rate, by = "neighbourhood") %>%
