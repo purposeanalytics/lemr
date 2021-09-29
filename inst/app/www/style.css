@@ -295,6 +295,10 @@ body > .container-fluid {
   margin-bottom: calc(var(--home-section-padding) * 2);
 }
 
+.start-exploring {
+  text-align: left !important;
+}
+
 .questions {
   padding-top: var(--home-section-padding);
 }

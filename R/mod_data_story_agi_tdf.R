@@ -35,7 +35,6 @@ mod_data_story_agi_tdf_ui <- function(id) {
         shiny::column(
           width = 12,
           align = "center",
-          # shiny::imageOutput(ns("agi_vs_tdf"), height = 500),
           # This is faster - doesn't need to render, so might choose to do this instead
           shiny::tags$picture(
             shiny::tags$source(

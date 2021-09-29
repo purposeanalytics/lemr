@@ -60,7 +60,7 @@ mod_home_ui <- function(id) {
             class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::icon("newspaper", class = "fa-5x fa-faw")
+              shiny::icon("newspaper", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
@@ -73,7 +73,7 @@ mod_home_ui <- function(id) {
             class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::icon("layer-group", class = "fa-5x fa-faw")
+              shiny::icon("layer-group", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
@@ -86,7 +86,7 @@ mod_home_ui <- function(id) {
             class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::icon("book-open", class = "fa-5x fa-faw")
+              shiny::icon("book-open", class = "fa-5x fa-fw")
             ),
             shiny::column(
               width = 8,
