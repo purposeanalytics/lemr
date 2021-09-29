@@ -21,7 +21,7 @@ mod_aggregate_layer_ui <- function(id) {
             ~ generate_conditional_tooltip(.x, ns = ns)
           )
         ),
-        shinyWidgets::pickerInput(inputId = ns("layer"), label = NULL, choices = aggregate_layers_choices_grouped, selected = "lem", multiple = FALSE)
+        shinyWidgets::pickerInput(inputId = ns("layer"), label = NULL, choices = aggregate_layers_choices_grouped, selected = "lem_percent", multiple = FALSE)
       )
     ),
     shiny::fluidRow(
@@ -80,6 +80,9 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
       switch(input$layer,
         lem = glue::glue("Estimated LEM Units: {units}",
           units = scales::comma(dataset()[["lem"]][["n"]] %>% sum())
+        ),
+        lem_percent = glue::glue("Estimated percent of rental supply that is LEM: {percent}",
+          percent = scales::percent(dataset()[["lem_percent"]][["prop"]] %>% sum(), accuracy = 0.1)
         ),
         amenity_density = dataset()[["amenity_density"]] %>%
           dplyr::filter(.data$group != "Unknown") %>%
@@ -158,7 +161,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
 
 # List of layers -----
 
-aggregate_layers_choices <- list(lem = "Low-end of market rentals", lem_percent = "Percent of low-end of market rentals", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", amenity_density = "Proximity to services", vacancy_rate = "Vacancy rate")
+aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", amenity_density = "Proximity to services", vacancy_rate = "Vacancy rate")
 
 rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
 
@@ -233,7 +236,7 @@ lem_legend <- function() {
 }
 
 lem_percent_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0", "1,500", alt_text = "A legend showing the percent of rental supply that is low-end, from 0% (white) to 75% (dark blue).")
+  generate_layers_legend(low_high_legend_colors(), "0%", "75%", alt_text = "A legend showing the percent of rental supply that is low-end, from 0% (white) to 75% (dark blue).")
 }
 
 rental_supply_primary_legend <- function() {

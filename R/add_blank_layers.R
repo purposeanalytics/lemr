@@ -226,9 +226,6 @@ add_blank_aggregate_layers <- function(map) {
   source_layer <- "neighbourhoods-0jaap1"
   opacity <- 0.65
 
-  lem_percent <- lemur::neighbourhoods %>%
-    dplyr::left_join(lem_percent_by_neighbourhood_layer, by = "neighbourhood")
-
   map %>%
     mapboxer::add_source(mapboxer::mapbox_source(
       type = "vector",
@@ -239,9 +236,9 @@ add_blank_aggregate_layers <- function(map) {
     ) %>%
     # LEM ----
     ## LEM #
-    add_blank_aggregate_layer_fill("lem", source_name, source_layer, visibility = "visible") %>%
+    add_blank_aggregate_layer_fill("lem", source_name, source_layer) %>%
     ## LEM % ----
-    add_blank_aggregate_layer_fill("lem_percent", source_name, source_layer) %>%
+    add_blank_aggregate_layer_fill("lem_percent", source_name, source_layer, visibility = "visible") %>%
     # Rental supply ----
     ## Primary market ----
     add_blank_aggregate_layer_fill("rental_supply_primary", source_name, source_layer) %>%

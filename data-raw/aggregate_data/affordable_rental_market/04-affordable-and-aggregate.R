@@ -162,6 +162,4 @@ lem_percent_by_neighbourhood_layer <- lem_percent_by_neighbourhood %>%
   ) %>%
   select(neighbourhood, lem_percent = lem, lem_percent_label = lem_label)
 
-usethis::use_data(lem_percent_by_neighbourhood_layer, overwrite = TRUE)
-
 saveRDS(lem_percent_by_neighbourhood_layer, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_by_neighbourhood_layer.rds"))
