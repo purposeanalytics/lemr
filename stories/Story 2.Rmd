@@ -18,6 +18,7 @@ library(lemr)
 library(purrr)
 library(tidyr)
 library(ggtern)
+library(ggrepel)
 devtools::load_all()
 ```
  
@@ -271,11 +272,17 @@ pos_tab_prop_plot <- pos_tab_prop %>% mutate(top3 = neighbourhood %in% c('Moss P
                                     'West Humber-Clairville', 'Clairlea-Birchmount'))
   
 ggplot(pos_tab_prop_plot %>% filter(Stock > 1937) %>% arrange(top3), aes(y = LEMProp, x = HighMedium, colour = top3)) + 
-  geom_point(aes(size = High, text = neighbourhood, postion = 'jitter')) + 
-  ggrepel::geom_label_repel(data = pos_tab_prop_plot %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
-  scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
-  theme_bw()+
-  theme(legend.position = 'None')
+  geom_point(size = 3, aes(color = top3)) +
+  geom_label_repel(data = pos_tab_prop_plot %>% filter(top3), aes(label = neighbourhood), size = 2.5
+                   #, family = "Lato"
+                   ) +
+  scale_color_manual(values = c("TRUE" = main_colour, "FALSE" = grey_colour)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .3), name = "a ylabel") + 
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "an xlabel") + 
+  labs(title = "A Shorter Title than Last Time") + 
+  #theme_minimal(base_family = "Lato") +
+  theme(legend.position = "none",
+        plot.title.position = "plot")
 ```
 ```
 
