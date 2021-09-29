@@ -79,7 +79,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
     output$layer_summary <- shiny::renderText({
       switch(input$layer,
         lem = glue::glue("Estimated LEM Units: {units}",
-          units = scales::comma(dataset()[["lem"]] %>% dplyr::filter(.data$Bedrooms == "Total") %>% dplyr::pull(.data$Total))
+          units = scales::comma(dataset()[["lem"]][["n"]] %>% sum())
         ),
         amenity_density = dataset()[["amenity_density"]] %>%
           dplyr::filter(.data$group != "Unknown") %>%

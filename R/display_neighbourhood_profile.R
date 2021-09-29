@@ -492,3 +492,16 @@ display_rooming_houses <- function(data, compare = TRUE) {
       kableExtra::kable_styling()
   }
 }
+
+display_lem <- function(data) {
+  data[["lem"]] %>%
+    dplyr::select(-tidyselect::any_of("neighbourhood")) %>%
+    tidyr::pivot_wider(names_from = .data$affordable, values_from = .data$n) %>%
+    janitor::adorn_totals(c("row", "col")) %>%
+    dplyr::mutate(dplyr::across(-.data$bedrooms, scales::comma)) %>%
+    dplyr::rename(Bedrooms = .data$bedrooms) %>%
+    kableExtra::kable(align = "lrrr") %>%
+    kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
+    kableExtra::column_spec(1, width = "30%") %>%
+    kableExtra::column_spec(2:4, width = "20%")
+}
