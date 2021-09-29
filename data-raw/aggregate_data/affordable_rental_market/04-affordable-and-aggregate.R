@@ -4,6 +4,8 @@ library(dplyr)
 library(sf)
 library(tidyr)
 library(ggplot2)
+library(classInt)
+library(purrr)
 devtools::load_all()
 
 rental_data <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "model", "rental_data.rds"))
@@ -51,21 +53,31 @@ saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "aggreg
 total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
   filter(affordable %in% c("Deeply", "Very")) %>%
   group_by(neighbourhood) %>%
-  summarise(n = sum(n),
-            log_n = log(n)) %>%
+  summarise(n = sum(n)) %>%
   as_tibble()
 
-# Add colour in - use log, since values are so unevenly distributed
-min <- log(25)
-max <- log(max(total_affordable_by_neighbourhood[["n"]]))
-colors <- low_high_legend_colors()
+# Break into groups using Jenks
+# Leave white for actual 0
+
+n <- length(low_high_legend_colors()) - 1
+
+jenks_breaks <- total_affordable_by_neighbourhood %>%
+  filter(n > 0) %>%
+  pull(n) %>%
+  classIntervals(n = n, style = "jenks") %>%
+  pluck("brks")
+
+# Take -1 from the first break, since the Jenks interval includes it but cut does not, so need to update the breaks
+jenks_breaks[1] <- jenks_breaks[1] - 1
 
 total_affordable_by_neighbourhood_layer <- total_affordable_by_neighbourhood %>%
   mutate(
-    lem = cut(log_n, breaks = seq(min, max, length.out = length(colors)), labels = FALSE),
+    lem_label = cut(n, breaks = jenks_breaks),
+    lem_label = coalesce(lem_label, "0"),
+    lem = cut(n, breaks = jenks_breaks, labels = FALSE),
     lem = coalesce(lem, 0)
   ) %>%
-  select(neighbourhood, n, log_n, lem)
+  select(neighbourhood, n, lem, lem_label)
 
 saveRDS(total_affordable_by_neighbourhood_layer, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_by_neighbourhood_layer.rds"))
 
@@ -77,20 +89,28 @@ rental_supply_total <- rental_supply %>%
 
 lem_percent_by_neighbourhood <- total_affordable_by_neighbourhood %>%
   left_join(rental_supply_total, by = "neighbourhood") %>%
-  mutate(lem_percent = n / renters,
-         log_lem_percent = log(lem_percent))
+  mutate(lem_percent = n / renters)
 
-min <- lem_percent_by_neighbourhood %>%
+# Break into groups using Jenks
+# Leave white for actual 0
+
+jenks_breaks <- lem_percent_by_neighbourhood %>%
   filter(lem_percent > 0) %>%
   pull(lem_percent) %>%
-  min()
+  classIntervals(n = n, style = "jenks") %>%
+  pluck("brks")
+
+# Take a small negative from the first break, since the Jenks interval includes it but cut does not, so need to update the breaks
+jenks_breaks[1] <- jenks_breaks[1] - .0001
 
 lem_percent_by_neighbourhood_layer <- lem_percent_by_neighbourhood %>%
   mutate(
-    lem = cut(log_lem_percent, breaks = seq(log(min), log(1), length.out = length(colors)), include.lowest = FALSE, labels = FALSE),
+    lem_label = cut(lem_percent, breaks = jenks_breaks),
+    lem_label = coalesce(lem_label, "0"),
+    lem = cut(lem_percent, breaks = jenks_breaks, labels = FALSE),
     lem = coalesce(lem, 0)
   ) %>%
-  select(neighbourhood, lem_percent, log_lem_percent, lem)
+  select(neighbourhood, lem_percent = lem, lem_percent_label = lem_label)
 
 usethis::use_data(lem_percent_by_neighbourhood_layer, overwrite = TRUE)
 

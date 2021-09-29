@@ -227,7 +227,7 @@ add_blank_aggregate_layers <- function(map) {
   opacity <- 0.65
 
   lem_percent <- lemur::neighbourhoods %>%
-    left_join(lem_percent_by_neighbourhood_layer, by = "neighbourhood")
+    dplyr::left_join(lem_percent_by_neighbourhood_layer, by = "neighbourhood")
 
   map %>%
     mapboxer::add_source(mapboxer::mapbox_source(
