@@ -165,7 +165,275 @@ Thorncliffe Park
 
 ## proximity
 
-![](Story-2_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+### total
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Top 5 neighbourhoods by High Medium with at least 250 Total LEM
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Neighbourhood
+</th>
+<th style="text-align:left;">
+High Medium
+</th>
+<th style="text-align:left;">
+High
+</th>
+<th style="text-align:left;">
+Medium
+</th>
+<th style="text-align:left;">
+Low
+</th>
+<th style="text-align:right;">
+Total Lem
+</th>
+<th style="text-align:right;">
+Tchc
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Dovercourt-Wallace Emerson-Junction
+</td>
+<td style="text-align:left;">
+100.0%
+</td>
+<td style="text-align:left;">
+53.7%
+</td>
+<td style="text-align:left;">
+46.3%
+</td>
+<td style="text-align:left;">
+0.0%
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+450
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oakwood Village
+</td>
+<td style="text-align:left;">
+100.0%
+</td>
+<td style="text-align:left;">
+55.3%
+</td>
+<td style="text-align:left;">
+44.7%
+</td>
+<td style="text-align:left;">
+0.0%
+</td>
+<td style="text-align:right;">
+350
+</td>
+<td style="text-align:right;">
+325
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Henry Farm
+</td>
+<td style="text-align:left;">
+93.8%
+</td>
+<td style="text-align:left;">
+0.0%
+</td>
+<td style="text-align:left;">
+93.8%
+</td>
+<td style="text-align:left;">
+6.2%
+</td>
+<td style="text-align:right;">
+300
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ionview
+</td>
+<td style="text-align:left;">
+88.9%
+</td>
+<td style="text-align:left;">
+0.0%
+</td>
+<td style="text-align:left;">
+88.9%
+</td>
+<td style="text-align:left;">
+11.1%
+</td>
+<td style="text-align:right;">
+300
+</td>
+<td style="text-align:right;">
+250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Thorncliffe Park
+</td>
+<td style="text-align:left;">
+67.3%
+</td>
+<td style="text-align:left;">
+0.0%
+</td>
+<td style="text-align:left;">
+67.3%
+</td>
+<td style="text-align:left;">
+32.7%
+</td>
+<td style="text-align:right;">
+300
+</td>
+<td style="text-align:right;">
+200
+</td>
+</tr>
+</tbody>
+</table>
+
+    ## # A tibble: 5 × 7
+    ##   neighbourhood       HighMedium  High Medium   Low TotalLEM  TCHC
+    ##   <chr>                    <dbl> <dbl>  <dbl> <dbl>    <dbl> <dbl>
+    ## 1 Morningside              0         0  0     0.997      500   375
+    ## 2 Scarborough Village      0.01      0  0.01  0.99       325   575
+    ## 3 Newtonbrook West         0.027     0  0.027 0.973      275     0
+    ## 4 Rouge                    0.033     0  0.033 0.967      550     0
+    ## 5 Yorkdale-Glen Park       0.039     0  0.039 0.961      275   375
+
+    ## # A tibble: 5 × 7
+    ##   neighbourhood   HighMedium  High Medium   Low TotalLEM  TCHC
+    ##   <chr>                <dbl> <dbl>  <dbl> <dbl>    <dbl> <dbl>
+    ## 1 Regent Park              1 1      0         0       25  2025
+    ## 2 North Riverdale          1 0.384  0.616     0       25    25
+    ## 3 Moss Park                1 0.918  0.082     0       50  2350
+    ## 4 Danforth                 1 0.866  0.134     0       50   350
+    ## 5 Roncesvalles             1 0.738  0.262     0       75   400
+
+    ## # A tibble: 5 × 7
+    ##   neighbourhood           HighMedium  High Medium   Low TotalLEM  TCHC
+    ##   <chr>                        <dbl> <dbl>  <dbl> <dbl>    <dbl> <dbl>
+    ## 1 North Riverdale                  1 0.384  0.616     0       25    25
+    ## 2 Danforth                         1 0.866  0.134     0       50   350
+    ## 3 Roncesvalles                     1 0.738  0.262     0       75   400
+    ## 4 Wychwood                         1 0.523  0.477     0      100   150
+    ## 5 Palmerston-Little Italy          1 0.973  0.027     0      125   150
+
+    ## # A tibble: 5 × 7
+    ##   neighbourhood          HighMedium  High Medium   Low TotalLEM  TCHC
+    ##   <chr>                       <dbl> <dbl>  <dbl> <dbl>    <dbl> <dbl>
+    ## 1 Woburn                      0.28      0  0.28  0.72      1450  1975
+    ## 2 West Humber-Clairville      0.211     0  0.211 0.789      875   225
+    ## 3 Clairlea-Birchmount         0.389     0  0.389 0.611      800   200
+    ## 4 Malvern                     0.47      0  0.47  0.526      800   475
+    ## 5 Dorset Park                 0.15      0  0.15  0.85       600   475
+
+![](Story-2_files/figure-gfm/unnamed-chunk-21-1.png)<!-- --> \#\#\# prop
+
+    ## # A tibble: 140 × 10
+    ##    neighbourhood      HighMedium  High Medium   Low LEMProp Stock TotalLEM  TCHC
+    ##    <chr>                   <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl>    <dbl> <dbl>
+    ##  1 Corso Italia-Dave…          1 0.687  0.313     0  0.123   2025      250     0
+    ##  2 Weston-Pellam Park          1 0.68   0.32      0  0.114   1750      200   600
+    ##  3 University                  1 0.962  0.038     0  0.106   2125      225   150
+    ##  4 Oakwood Village             1 0.553  0.447     0  0.0864  4050      350   325
+    ##  5 Keelesdale-Eglint…          1 0.169  0.831     0  0.0781  1600      125   200
+    ##  6 Blake-Jones                 1 0.705  0.295     0  0.0690  1450      100   675
+    ##  7 Trinity-Bellwoods           1 0.671  0.329     0  0.0530  3300      175     0
+    ##  8 Dovercourt-Wallac…          1 0.537  0.463     0  0.0519  7700      400   450
+    ##  9 Dufferin Grove              1 0.54   0.46      0  0.0388  3225      125    25
+    ## 10 Kensington-Chinat…          1 1      0         0  0.0361  6225      225  1475
+    ## # … with 130 more rows, and 1 more variable: NonMarket <dbl>
+
+    ## # A tibble: 140 × 10
+    ##    neighbourhood      HighMedium  High Medium   Low LEMProp Stock TotalLEM  TCHC
+    ##    <chr>                   <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl>    <dbl> <dbl>
+    ##  1 Elms-Old Rexdale        0         0  0     1     0.0678   1475      100   350
+    ##  2 Newtonbrook East        0         0  0     1     0.0575   2175      125     0
+    ##  3 Bathurst Manor          0         0  0     1     0.0536   2800      150   375
+    ##  4 Etobicoke West Ma…      0         0  0     1     0.0233   2150       50    25
+    ##  5 Markland Wood           0         0  0     1     0.0227   1100       25     0
+    ##  6 St.Andrew-Windfie…      0         0  0     1     0.0116   2150       25    50
+    ##  7 Edenbridge-Humber…      0         0  0     1     0.00909  2750       25     0
+    ##  8 Morningside             0         0  0     0.997 0.213    2350      500   375
+    ##  9 Scarborough Villa…      0.01      0  0.01  0.99  0.101    3225      325   575
+    ## 10 Kingsway South          0.022     0  0.022 0.978 0.0769    650       50     0
+    ## # … with 130 more rows, and 1 more variable: NonMarket <dbl>
+
+    ## # A tibble: 102 × 10
+    ##    neighbourhood      HighMedium  High Medium   Low LEMProp Stock TotalLEM  TCHC
+    ##    <chr>                   <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl>    <dbl> <dbl>
+    ##  1 North Riverdale             1 0.384  0.616     0  0.0114  2200       25    25
+    ##  2 Bay Street Corrid…          1 0.759  0.241     0  0.0122 10250      125   175
+    ##  3 Roncesvalles                1 0.738  0.262     0  0.0194  3875       75   400
+    ##  4 Little Portugal             1 0.425  0.575     0  0.0303  4125      125   125
+    ##  5 Wychwood                    1 0.523  0.477     0  0.0331  3025      100   150
+    ##  6 Palmerston-Little…          1 0.973  0.027     0  0.0336  3725      125   150
+    ##  7 Danforth                    1 0.866  0.134     0  0.0357  1400       50   350
+    ##  8 Dufferin Grove              1 0.54   0.46      0  0.0388  3225      125    25
+    ##  9 Dovercourt-Wallac…          1 0.537  0.463     0  0.0519  7700      400   450
+    ## 10 Trinity-Bellwoods           1 0.671  0.329     0  0.0530  3300      175     0
+    ## # … with 92 more rows, and 1 more variable: NonMarket <dbl>
+
+    ## # A tibble: 140 × 10
+    ##    neighbourhood      HighMedium  High Medium   Low LEMProp Stock TotalLEM  TCHC
+    ##    <chr>                   <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl>    <dbl> <dbl>
+    ##  1 Moss Park                   1 0.918  0.082     0 0.00656  7625       50  2350
+    ##  2 Regent Park                 1 1      0         0 0.00676  3700       25  2025
+    ##  3 Mount Pleasant We…          1 0.686  0.314     0 0.00765 13075      100   950
+    ##  4 Church-Yonge Corr…          1 0.898  0.102     0 0.00903 13850      125  1150
+    ##  5 North Riverdale             1 0.384  0.616     0 0.0114   2200       25    25
+    ##  6 Bay Street Corrid…          1 0.759  0.241     0 0.0122  10250      125   175
+    ##  7 Annex                       1 0.828  0.172     0 0.0152   9850      150   600
+    ##  8 North St.James To…          1 1      0         0 0.0174   8625      150  1675
+    ##  9 Roncesvalles                1 0.738  0.262     0 0.0194   3875       75   400
+    ## 10 Little Portugal             1 0.425  0.575     0 0.0303   4125      125   125
+    ## # … with 130 more rows, and 1 more variable: NonMarket <dbl>
+
+    ## # A tibble: 105 × 10
+    ##    neighbourhood      HighMedium  High Medium   Low LEMProp Stock TotalLEM  TCHC
+    ##    <chr>                   <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl>    <dbl> <dbl>
+    ##  1 West Humber-Clair…      0.211     0  0.211 0.789   0.267  3275      875   225
+    ##  2 Clairlea-Birchmou…      0.389     0  0.389 0.611   0.254  3150      800   200
+    ##  3 Rouge                   0.033     0  0.033 0.967   0.25   2200      550     0
+    ##  4 Cliffcrest              0.135     0  0.135 0.865   0.218  1950      425   425
+    ##  5 Morningside             0         0  0     0.997   0.213  2350      500   375
+    ##  6 Malvern                 0.47      0  0.47  0.526   0.2    4000      800   475
+    ##  7 Dorset Park             0.15      0  0.15  0.85    0.176  3400      600   475
+    ##  8 Woburn                  0.28      0  0.28  0.72    0.167  8675     1450  1975
+    ##  9 Kennedy Park            0.139     0  0.139 0.861   0.158  3000      475  1300
+    ## 10 Bendale                 0.527     0  0.527 0.473   0.147  3750      550   225
+    ## # … with 95 more rows, and 1 more variable: NonMarket <dbl>
+
+![](Story-2_files/figure-gfm/unnamed-chunk-28-1.png)<!-- --> \`\`\`
+
+### ternary
+
+![](Story-2_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 Filtered @225 total\_total neighbourhoods
@@ -1216,7 +1484,7 @@ Yorkdale-Glen Park
 </tbody>
 </table>
 
-![](Story-2_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](Story-2_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -1352,6 +1620,6 @@ York University Heights
 
 ### in progressssssssss :)
 
-![](Story-2_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](Story-2_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
-![](Story-2_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](Story-2_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->

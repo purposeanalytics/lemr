@@ -149,7 +149,7 @@ ggplot(reinf_plot, aes(core_housing_need, `eviction_rate`, colour = `top3`)) +
     ggrepel::geom_label_repel(data = reinf_plot %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
     scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
     geom_vline(xintercept = .365) +
-      geom_text(aes(x=.355, label="City Average", y=0.13), angle=90) +
+    geom_text(aes(x=.355, label="City Average", y=0.13), angle=90) +
     geom_hline(yintercept = .043) +
     geom_text(aes(0.075,.043,label = 'City Average', vjust = -1)) +
     theme_bw()+
@@ -171,13 +171,125 @@ kableExtra::kable(reinf_plot %>% filter(top3) %>% select(-top3) %>%
 ## proximity
 
 ```{r}
+pos_tab <- proximity_layers %>% 
+  select(neighbourhood, High, Medium, Low, `Total_Total`, `value_Toronto Community Housing`) %>% 
+  mutate(HighMedium = High+Medium) %>% 
+  relocate(HighMedium, .before = High) %>% 
+  rename(TCHC = `value_Toronto Community Housing`, TotalLEM = Total_Total)
+```
+
+### total
+
+```{r}
+HighMedHighLem <- pos_tab %>% filter(TotalLEM > 250)  %>% 
+  arrange(-HighMedium, -TotalLEM) %>% slice(1:5)
+
+kableExtra::kable(HighMedHighLem %>% 
+  mutate(HighMedium = scales::percent(HighMedium, accuracy = 0.1), 
+       High = scales::percent(High, accuracy = 0.1), 
+       Medium = scales::percent(Medium, accuracy = 0.1),
+       Low = scales::percent(Low, accuracy = 0.1)) %>% janitor::clean_names('title'),
+caption = "Top 5 neighbourhoods by High Medium with at least 250 Total LEM", booktabs = TRUE, linesep = "") %>%
+kableExtra::kable_styling(latex_options = c("striped", "HOLD_position"))
+
+```
+
+```{r}
+pos_tab %>% filter(TotalLEM > 250) %>% 
+  arrange(-Low, -TotalLEM) %>% slice(1:5)
+```
+
+```{r}
+pos_tab %>% 
+  arrange(-HighMedium, TotalLEM, -High) %>% slice(1:5)
+```
+
+```{r}
+
+pos_tab %>% filter(TCHC < 475) %>% 
+  arrange(-HighMedium, TotalLEM, -High) %>% slice(1:5)
+
+```
+
+```{r}
+pos_tab %>% arrange(-TotalLEM, -Low) %>% slice(1:5)
+```
+
+```{r dpi = 300}
+pos_tab_plot <- pos_tab %>% mutate(top3 = neighbourhood %in% c('North St. James Town','Regent Park','Kensington-Chinatown',
+                                    'Newtonbrook East','Bathurst Manor','St.Andrew-Windfields', 
+                                    'Woburn','West Humber-Clairville', 'North Riverdale'))
+  
+ggplot(pos_tab_plot %>% arrange(top3), aes(y = TotalLEM, x = HighMedium, colour = top3)) + 
+  geom_point(aes(size = High, text = neighbourhood, postion = 'jitter')) + 
+  ggrepel::geom_label_repel(data = pos_tab_plot %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+  scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+  theme_bw()+
+  theme(legend.position = 'None')
+```
+### prop
+
+```{r}
+pos_tab_prop <- proximity_layers %>% 
+  mutate(Stock = (value_Apartment+`value_Non-Apartment`+value_Condo+`value_Non-Condo`+`value_Toronto Community Housing`+`value_Other Non-Market`),
+    LEMProp = Total_Total/Stock) %>% 
+  select(neighbourhood, High, Medium, Low, LEMProp, Stock, Total_Total, `value_Toronto Community Housing`, `value_Other Non-Market`) %>% 
+  mutate(HighMedium = High+Medium) %>% 
+  relocate(HighMedium, .before = High) %>% 
+  rename(TCHC = `value_Toronto Community Housing`, NonMarket = `value_Other Non-Market`, TotalLEM = Total_Total)
+```
+
+```{r}
+pos_tab_prop  %>% 
+  arrange(-HighMedium, -LEMProp) 
+```
+
+```{r}
+pos_tab_prop %>% 
+  arrange(-Low, -LEMProp) 
+```
+
+```{r}
+pos_tab_prop %>% filter(TCHC < 475) %>% 
+  arrange(-HighMedium, LEMProp, -High) 
+```
+
+```{r}
+pos_tab_prop %>% 
+  arrange(-HighMedium, LEMProp, -High) 
+
+```
+
+```{r}
+pos_tab_prop %>% filter(Stock > 1937) %>% 
+  arrange(-LEMProp, -Low)
+```
+
+```{r dpi = 300}
+pos_tab_prop_plot <- pos_tab_prop %>% mutate(top3 = neighbourhood %in% c('Moss Park','Regent Park','Mount Pleasant West',
+                                    'Church-Yonge Corridor','Rouge',
+                                    'West Humber-Clairville', 'Clairlea-Birchmount'))
+  
+ggplot(pos_tab_prop_plot %>% filter(Stock > 1937) %>% arrange(top3), aes(y = LEMProp, x = HighMedium, colour = top3)) + 
+  geom_point(aes(size = High, text = neighbourhood, postion = 'jitter')) + 
+  ggrepel::geom_label_repel(data = pos_tab_prop_plot %>% filter(top3), aes(label=neighbourhood), size= 2.5) +
+  scale_color_manual(values = c("TRUE" = "#08569a", "FALSE" = "grey")) +
+  theme_bw()+
+  theme(legend.position = 'None')
+```
+```
+
+
+### ternary
+
+```{r}
 prox_pick <- proximity_layers %>% 
   select(neighbourhood, High, Medium, Low, number_of_buildings, `Total_Total`, `prop_Toronto Community Housing`, eviction_rate) %>% 
   pivot_longer(cols = c(High, Medium, Low))
 ```
 
 ```{r results='hide'}
-#dev only
+# dev only
 graph_prox <- prox_pick %>% filter(Total_Total > 100, number_of_buildings >= 10)
 
 
@@ -270,6 +382,7 @@ ggplot(ternary_plot, aes(x = x, y = y)) +
   theme_void()
 
 ```
+
 ```{r}
 kableExtra::kable(pos %>% filter(Total_Total >= 225) %>% 
   mutate(High = scales::percent(High, accuracy = 0.1), 
@@ -361,7 +474,7 @@ ternary_plot_comm <- commun_housing %>%
 ggtern::ggtern(data=ternary_plot_comm,aes(x=low,y=high, z=medium)) +
   geom_point(aes(size = total_total, colour = market_prop_other_non_market)) +
   #ggrepel::geom_label_repel(data = ternary_plot, aes(label=neighbourhood), size= 2) +
-  geom_text(data = ternary_plot_comm #%>% filter(top3)
+  geom_text(data = ternary_plot_comm %>% filter(top3)
             , aes(label = paste0(neighbourhood,'\n',total_total,' : ', market_value_other_non_market)), size = 2, vjust= -.5, check_overlap = FALSE,position=position_jitter_tern(y = 0.08)) +
   theme_light() +
   theme_nomask() +
