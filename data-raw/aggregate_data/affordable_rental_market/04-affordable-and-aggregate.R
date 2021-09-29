@@ -3,6 +3,7 @@
 library(dplyr)
 library(sf)
 library(tidyr)
+library(forcats)
 library(ggplot2)
 library(classInt)
 library(purrr)
@@ -11,6 +12,10 @@ devtools::load_all()
 rental_data <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "model", "rental_data.rds"))
 
 rental_supply <- readRDS(here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood.rds"))
+
+rental_supply_by_neighbourhood <- rental_supply %>%
+  filter(!is.na(renters)) %>%
+  distinct(neighbourhood, renters)
 
 rental_data <- rental_data %>%
   mutate(affordable = case_when(
@@ -43,18 +48,67 @@ affordable_by_neighbourhood_and_bedrooms <- affordable_by_neighbourhood_and_bedr
   mutate(
     n = n * 15,
     n = plyr::round_any(n, 25)
-  ) %>%
-  left_join(neighbourhoods)
+  )
 
-saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "aggregate_data", "affordable_rental_market", "clean", "affordable_by_neighbourhood_and_bedrooms.rds"))
+# Clean up grouping and bedrooms
+affordable_by_neighbourhood_and_bedrooms <- affordable_by_neighbourhood_and_bedrooms %>%
+  filter(affordable != "Not affordable") %>%
+  mutate(
+    bedrooms = case_when(
+      bedrooms == "0" ~ "Bachelor",
+      bedrooms == 1 ~ "1 bedroom",
+      bedrooms %in% c("2", "3+") ~ paste(bedrooms, "bedrooms")
+    ),
+    bedrooms = fct_relevel(bedrooms, "Bachelor", "1 bedroom", "2 bedrooms", "3+ bedrooms"),
+    affordable = glue::glue("{affordable} Affordable")
+  )
+
+# Save aggregates -----
+
+# Breakdown
+saveRDS(affordable_by_neighbourhood_and_bedrooms, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
+
+lem_city_breakdown <- affordable_by_neighbourhood_and_bedrooms %>%
+  group_by(affordable, bedrooms) %>%
+  summarise(
+    n = sum(n),
+    .groups = "drop"
+  )
+
+saveRDS(lem_city_breakdown, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
+
+# Total LEM, as a %
+
+lem_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
+  group_by(neighbourhood, group = affordable) %>%
+  summarise(
+    value = sum(n),
+    .groups = "drop"
+  )
+
+lem_city <- lem_by_neighbourhood %>%
+  group_by(group) %>%
+  summarise(value = sum(value))
+
+lem_percent_by_neighbourhood <- lem_by_neighbourhood %>%
+  left_join(rental_supply_by_neighbourhood, by = "neighbourhood") %>%
+  mutate(prop = round(value / renters, 3)) %>%
+  select(neighbourhood, group, prop)
+
+lem_percent_city <- lem_city %>%
+  bind_cols(rental_supply_by_neighbourhood %>%
+    summarise(renters = sum(renters))) %>%
+  mutate(prop = round(value / renters, 3)) %>%
+  select(group, prop)
+
+saveRDS(lem_percent_by_neighbourhood, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_by_neighbourhood.rds"))
+saveRDS(lem_percent_city, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_city.rds"))
 
 # Make layer ----
 
-total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>%
-  filter(affordable %in% c("Deeply", "Very")) %>%
+total_affordable_by_neighbourhood <- lem_by_neighbourhood %>%
   group_by(neighbourhood) %>%
-  summarise(n = sum(n)) %>%
-  as_tibble()
+  summarise(value = sum(value))
 
 # Break into groups using Jenks
 # Leave white for actual 0
@@ -62,8 +116,8 @@ total_affordable_by_neighbourhood <- affordable_by_neighbourhood_and_bedrooms %>
 n <- length(low_high_legend_colors()) - 1
 
 jenks_breaks <- total_affordable_by_neighbourhood %>%
-  filter(n > 0) %>%
-  pull(n) %>%
+  filter(value > 0) %>%
+  pull(value) %>%
   classIntervals(n = n, style = "jenks") %>%
   pluck("brks")
 
@@ -72,24 +126,20 @@ jenks_breaks[1] <- jenks_breaks[1] - 1
 
 total_affordable_by_neighbourhood_layer <- total_affordable_by_neighbourhood %>%
   mutate(
-    lem_label = cut(n, breaks = jenks_breaks),
+    lem_label = cut(value, breaks = jenks_breaks),
     lem_label = coalesce(lem_label, "0"),
-    lem = cut(n, breaks = jenks_breaks, labels = FALSE),
+    lem = cut(value, breaks = jenks_breaks, labels = FALSE),
     lem = coalesce(lem, 0)
   ) %>%
-  select(neighbourhood, n, lem, lem_label)
+  select(neighbourhood, value, lem, lem_label)
 
 saveRDS(total_affordable_by_neighbourhood_layer, here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_by_neighbourhood_layer.rds"))
 
 # Get % of rental supply -----
 
-rental_supply_total <- rental_supply %>%
-  filter(!is.na(renters)) %>%
-  distinct(neighbourhood, renters)
-
 lem_percent_by_neighbourhood <- total_affordable_by_neighbourhood %>%
-  left_join(rental_supply_total, by = "neighbourhood") %>%
-  mutate(lem_percent = n / renters)
+  left_join(rental_supply_by_neighbourhood, by = "neighbourhood") %>%
+  mutate(lem_percent = value / renters)
 
 # Break into groups using Jenks
 # Leave white for actual 0

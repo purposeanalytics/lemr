@@ -51,15 +51,21 @@ for (i in names(neighbourhoods)) {
 
 # Make a separate element for Deeply / Very affordable
 lem <- neighbourhoods[["lem"]] %>%
-  filter(`Bedrooms` != "Total") %>%
-  select(-Total) %>%
-  pivot_longer(cols = c(`Deeply Affordable`, `Very Affordable`)) %>%
-  rename(group = Bedrooms) %>%
-  split(.$name) %>%
-  map(select, -name)
+  rename(group = bedrooms,
+         value = n) %>%
+  split(.$affordable) %>%
+  map(select, -affordable)
 
 neighbourhoods$lem <- NULL
 neighbourhoods <- append(neighbourhoods, lem)
+
+lem_percent <- neighbourhoods[["lem_percent"]] %>%
+  split(.$group)
+
+names(lem_percent) <- c("deeply_percent", "very_percent")
+
+neighbourhoods$lem_percent <- NULL
+neighbourhoods <- append(neighbourhoods, lem_percent)
 
 ## Rename n to value tdf ----
 neighbourhoods["tdf"] <- neighbourhoods["tdf"] %>%
@@ -82,6 +88,14 @@ neighbourhoods <- neighbourhoods %>%
 
 ## Combine ----
 neighbourhoods <- neighbourhoods %>%
+  map(function(x) {
+    if ("group" %in% names(x)) {
+      x %>%
+        mutate(group = as.character(group))
+    } else {
+      x
+    }
+  }) %>%
   bind_rows(.id = "variable")
 
 # Clean up hierarchy / names -----
@@ -120,6 +134,8 @@ clean_variable_names <- tribble(
   "rooming_houses", "Rooming houses", "#",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
+  "deeply_percent", "Low end of market - Deeply affordable", "%",
+  "very_percent", "Low end of market - Very affordable", "%",
 )
 
 neighbourhoods <- neighbourhoods %>%

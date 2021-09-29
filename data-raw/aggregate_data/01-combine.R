@@ -74,9 +74,15 @@ amenity_density_city <- readRDS(here::here("data-raw", "aggregate_data", "proxim
 
 # LEM -----
 
-lem_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
+lem_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds")) %>%
+  split(.$neighbourhood)
 
 lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
+
+lem_percent_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_by_neighbourhood.rds")) %>%
+  split(.$neighbourhood)
+
+lem_percent_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_city.rds"))
 
 # Core housing need -----
 
@@ -201,9 +207,9 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["lem_percent"]] <- lem_percent_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["core_housing_need"]] <- core_housing_need_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["evictions"]] <- evictions_by_neighbourhood[[i]]
-  neighbourhood_aggregate_i[["vacancy_rate_2016"]] <- vacancy_rate_by_neighbourhood_2016[[i]]
   neighbourhood_aggregate_i[["vacancy_rate_2020"]] <- vacancy_rate_by_neighbourhood_2020[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
@@ -229,6 +235,7 @@ city_aggregate[["average_total_income"]] <- average_income_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
+city_aggregate[["lem_percent"]] <- lem_percent_city
 city_aggregate[["core_housing_need"]] <- core_housing_need_city
 city_aggregate[["core_housing_need_distribution"]] <- core_housing_need_distribution
 city_aggregate[["evictions"]] <- evictions_city
