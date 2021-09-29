@@ -31,7 +31,7 @@ mod_report_download_ui <- function(id) {
 #'
 #' @noRd
 mod_report_download_server <- function(id, level, neighbourhood) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     download_filename <- shiny::reactive({
