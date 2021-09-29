@@ -25,15 +25,11 @@ mod_aggregate_layer_ui <- function(id) {
       )
     ),
     shiny::fluidRow(
-      shiny::column(
-        width = 6,
-        class = "summary-legend padded",
-        shiny::tagList(
-          purrr::map(
-            names(aggregate_layers_choices),
-            ~ generate_conditional_legend(.x, ns = ns)
-          )
-        ),
+      shiny::tagList(
+        purrr::map(
+          names(aggregate_layers_choices),
+          ~ generate_conditional_legend(.x, ns = ns)
+        )
       )
     ),
     shiny::fluidRow(
@@ -222,7 +218,11 @@ vacancy_rate_tooltip <- create_popover(title = "Vacancy rate", content = NULL)
 generate_conditional_legend <- function(layer, ns) {
   shiny::conditionalPanel(
     glue::glue("input.layer == '{layer}'"),
-    rlang::exec(paste0(layer, "_legend")),
+    shiny::column(
+      width = ifelse(layer == "amenity_density", 12, 6),
+      class = "summary-legend padded",
+      rlang::exec(paste0(layer, "_legend"))
+    ),
     ns = ns
   )
 }
