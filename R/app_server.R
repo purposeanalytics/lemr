@@ -19,6 +19,8 @@ app_server <- function(input, output, session) {
 
   mod_page_map_server("map")
 
+  mod_data_and_definitions_server("data_and_definitions")
+
   # Trigger tour when map is loaded
   shiny::observeEvent(input$mapLoaded, {
     if (input$mapLoaded) {

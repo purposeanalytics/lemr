@@ -11,26 +11,16 @@ mod_data_and_definitions_ui <- function(id) {
     class = "content-page",
     id = "data-and-definitions-page",
     shiny::h1("Data & Definitions"),
-
-
-
-
-
-
     shiny::fluidRow(
       shiny::column(
         width = 12,
-
-        shiny::a(href="downloadme.csv", "Download CSV", download=NA, target="_blank"),
         shiny::p("The data used in the Low-end of Market Rental Monitor is available in two datasets and in a set of reports."),
         shiny::downloadLink(ns("aggregate_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Aggregate Layers", shiny::icon("download")))),
-          shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto."),
-
+        shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto."),
         shiny::downloadLink(ns("point_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Point Layers", shiny::icon("download")))),
-          shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values."),
-
+        shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values."),
         shiny::downloadLink(ns("reports"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Reports", shiny::icon("download")))),
-          shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
+        shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
       )
     ),
 
@@ -128,16 +118,24 @@ mod_data_and_definitions_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    mod_mod_file_download_server("download_file")
-
-    output$downloadData <- shiny::downloadHandler(
-    filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
-    },
-    content = function(file) {
-      write.csv(data, file)
-    }
+    output$aggregate_layers <- shiny::downloadHandler(
+      filename = function() {
+        "Aggregate Layers.csv"
+      },
+      content = function(file) {
+        file.copy(app_sys("extdata/aggregate_data.csv"), file)
+      }
     )
+
+    output$point_layers <- shiny::downloadHandler(
+      filename = function() {
+        "Point Layers.csv"
+      },
+      content = function(file) {
+        file.copy(app_sys("extdata/points_data.csv"), file)
+      }
+    )
+
   })
 }
 
