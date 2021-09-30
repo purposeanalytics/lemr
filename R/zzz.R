@@ -9,14 +9,14 @@ bearing <- -17
 
 layer_colours <- c(
   apartment_buildings_private = "#27a167",
-  agi_apartment = "#fc8d59",
-  agi_other = "#1569ed",
+  agi_apartment = "#ED7521",
+  agi_other = "#ED7521",
   tdf = "#ffffbf"
 )
 
 rental_supply_colors <- function() {
   stats::setNames(
-    c("#27a167", "#2ded92", "#0642a1", "#1569ed", "#f53216", "#f77460"),
+    c("#27a167", "#67BF95", "#0642a1", "#1569ed", "#f53216", "#f77460"),
     c("Apartment", "Non-Apartment", "Condo", "Non-Condo", "Toronto Community Housing", "Other Non-Market")
   )
 }
