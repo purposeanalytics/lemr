@@ -34,27 +34,18 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            shiny::actionLink(
-              ns("lem_proximity_data_story"),
-            shiny::div(
-              style = "background-color: #F0F0F0;",
-              shiny::HTML("<h3>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:<br/>A City Overview Highlights Key Neighbourhoods</h3>")
+            shiny::actionLink(ns("lem_proximity_data_story"),
+            shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods"))
+          ),
+          shiny::column(
+            width = 4,
+            shiny::actionLink(ns("agi_tdf_data_story"),
+            shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
             )
-            ),
-            shiny::p("The estimated lower end of the market rental stock seems concentrated in the city's east and west ends, while accessibility to services is higher in the city core. Considering both dimensions points at areas that have a high percentage of low-end of market rental stock, yet are located within low proximity to services.")
           ),
           shiny::column(
             width = 4,
-            shiny::actionLink(
-              ns("agi_tdf_data_story"),
-              shiny::div(style = "background-color: #F0F0F0;", shiny::HTML("<h3>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:<br/>Three Neighbourhoods Fall Outside the Norm</h3>"))
-            ),
-            shiny::p("The percentage of buildings that have at least one application to increase rent above the mandated guideline, or that have received a grant to dispute such an increase, is not in line with the city's average in Broadview North, Mimico, and Yonge-St.Clair.")
-          ),
-          shiny::column(
-            width = 4,
-            shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
-            shiny::h3("Title"), shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
+            shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
           )
         )
       ),
@@ -104,7 +95,7 @@ mod_home_ui <- function(id) {
           )
         )
       ),
-      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("<span style = 'color: var(--main-color);'>Questions?</span> Contact us."))),
+      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("Questions? <span style = 'color: var(--main-color);'>Contact us.</span>"))),
       shiny::div(class = "divider-line"),
       shiny::div(
         class = "about",
