@@ -428,7 +428,7 @@ Thorncliffe Park
     ## 10 Bendale                 0.527     0  0.527 0.473   0.147  3750      550   225
     ## # … with 95 more rows, and 1 more variable: NonMarket <dbl>
 
-![](Story-2_files/figure-gfm/unnamed-chunk-28-1.png)<!-- --> \`\`\`
+![](Story-2_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 ### ternary
 
