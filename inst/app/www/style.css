@@ -574,10 +574,6 @@ ul {
     font-size: var(--base-size);
   }
 
-  .summary-statistics {
-    width: 100%;
-  }
-
   .navbar-header {
     height: 75px;
   }

@@ -68,14 +68,14 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
 
 summary_statistics_table <- function(data) {
   dplyr::tibble(
-    `Total households` = data[["households"]] %>% scales::comma(),
-    `Total population` = scales::comma(data[["population"]]),
-    `Proportion renters` = data[["household_tenure"]] %>%
+    `Total households (2016)` = data[["households"]] %>% scales::comma(),
+    `Total population (2016)` = scales::comma(data[["population"]]),
+    `Proportion renters (2016)` = data[["household_tenure"]] %>%
       dplyr::filter(.data$group == "Renter") %>%
       dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1),
-    `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
-    `Eviction filings rate` = format_measure(data[["evictions"]], "evictions"),
-    `Vacancy rate` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
+    `Renter households in core housing need (2016)` = format_measure(data[["core_housing_need"]], "core_housing_need"),
+    `Eviction filings (2020)` = format_measure(data[["evictions"]], "evictions"),
+    `Primary market vacancy rate (2020)` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
   ) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
     knitr::kable(col.names = NULL, align = "lr") %>%

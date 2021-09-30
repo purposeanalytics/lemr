@@ -21,7 +21,7 @@ mod_sidebar_header_ui <- function(id) {
       shiny::h2("Summary statistics")
     ),
     shiny::column(
-      width = 6,
+      width = 12,
       class = "summary-statistics",
       shiny::htmlOutput(ns("summary_statistics"))
     ),

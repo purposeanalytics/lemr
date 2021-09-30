@@ -37,7 +37,7 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::h2("Summary statistics"),
               shiny::fluidRow(
                 shiny::column(
-                  width = 6,
+                  width = 12,
                   class = "modal-summary-statistics",
                   shiny::htmlOutput(ns("summary_statistics"))
                 ),
