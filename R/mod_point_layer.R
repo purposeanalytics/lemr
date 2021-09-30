@@ -22,7 +22,7 @@ mod_point_layer_ui <- function(id, layer) {
         width = 12,
         shinyWidgets::prettyCheckbox(
           inputId = ns("layer"),
-          label = point_layers_choices[[layer]],
+          label = shiny::HTML(point_layers_choices[[layer]]),
           value = FALSE,
           status = "primary",
           inline = TRUE # Ensures tooltip appears beside, since elements are inline
@@ -183,8 +183,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 }
 
 point_layers_choices <- list(
-  apartment_buildings = "Apartment buildings", rooming_houses = "Rooming houses", apartment_evaluation = "RentSafeTO Evaluation Scores", agi = "Above guideline increase applications",
-  tdf = "Tenant Defence Fund grants"
+  apartment_buildings = "Apartment buildings <span class = 'points-layer-year'>(2021)</span>", rooming_houses = "Rooming house licenses <span class = 'points-layer-year'>(2020)</span>", apartment_evaluation = "Apartment building evaluation scores <span class = 'points-layer-year'>(2021)</span>", agi = "Above guideline increase applications <span class = 'points-layer-year'>(2016 to 2020)</span>",
+  tdf = "Tenant Defence Fund grants <span class = 'points-layer-year'>(2018 to 2020)</span>"
 )
 
 generate_apartment_evaluation_legend <- function() {

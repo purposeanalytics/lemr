@@ -384,6 +384,11 @@ ul {
 
 /* Layers legend */
 
+.points-layer-year {
+  font-size: var(--smaller-size);
+  color: var(--dark-grey-color);
+}
+
 .layer-popup {
   display: flex;
   justify-content: left;
