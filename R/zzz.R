@@ -22,16 +22,24 @@ rental_supply_colors <- function() {
 }
 
 low_high_legend_colors <- function() {
-  c("white", "#CEE4F8", "#85BDED", "#3C95E3", "#0A6EC6", "#08569A")
+  c("#ffffff", "#cedaee", "#9cb5dd", "#6a8fcb", "#386aba", "#0745a8")
 }
 
 amenity_density_colours <- function() {
-  stats::setNames(c("#3C95E3", accent_colour, "#FB6B27"), c("Low", "Medium", "High"))
+  stats::setNames(c("#cedaee", "#6a8fcb", "#0745a8"), c("Low", "Medium", "High"))
 }
 
 rentsafe_colors <- function() {
   stats::setNames(
-    c("#54278f", "#756bb1", "#9e9ac8", "#cbc9e2"),
+    c("#759406", "#95BD08", "#B4E012", "#D2FF2E"),
     c("Less than 50%", "51% to 65%", "66% to 80%", "81% to 100%")
   )
 }
+
+rooming_house_colors <- function() {
+  stats::setNames(
+    c("#A12F72", "#ED51AD", "#EDDC68"),
+    c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")
+  )
+}
+

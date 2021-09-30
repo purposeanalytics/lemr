@@ -104,12 +104,11 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             shiny::tagList(
           purrr::pmap(
             dplyr::tibble(
-              color = c("Low", "Medium", "High"),
               filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed"),
               wording = c("licensed prior to 2018", "licensed 2018 onwards", "whose licenses have lapsed")
             ),
-            function(color, filter, wording) {
-              create_circle_legend(amenity_density_colours()[[color]],
+            function(filter, wording) {
+              create_circle_legend(rooming_house_colors()[[filter]],
                 glue::glue("{value} {buildings_word}, {wording}",
                   value = dataset()[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
                   buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
