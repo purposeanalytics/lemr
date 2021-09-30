@@ -34,6 +34,7 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
+            class = "padded",
             shiny::actionLink(
               ns("lem_proximity_data_story"),
               shiny::tagList(
@@ -52,6 +53,7 @@ mod_home_ui <- function(id) {
           ),
           shiny::column(
             width = 4,
+            class = "padded",
             shiny::actionLink(
               ns("agi_tdf_data_story"),
               shiny::tagList(
@@ -70,12 +72,13 @@ mod_home_ui <- function(id) {
           ),
           shiny::column(
             width = 4,
+            class = "padded",
             shiny::tagList(
               shiny::div(
                 style =
                   "width: 100%;
                   height: 275px;
-                background-color: var(--light-grey-color);"
+                background-color: var(--grey-color);"
               ),
               shiny::br(),
             shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
