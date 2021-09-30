@@ -11,7 +11,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
     create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
   )
 
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::showModal(
     shiny::modalDialog(
       size = "l",
@@ -29,7 +29,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
       ),
       shiny::p("A notice of rent increase, recalculating the monthly budget, cutting down on non-essential expenses - or finding a new home. The cycle is not unfamiliar to renters in Toronto. In Ontario, renters are protected by a provincially mandated rent increase guideline that is tied to the Consumer Price Index. However, when landlords incur capital expenses for completing major work, building security, or accessibility features, or extraordinary increases to their property tax, they may apply to pass those costs on to tenants through an Above Guideline Increase, or AGI. In turn, tenants may choose to contest an AGI through the Landlord Tenant Board, a process that can be time-consuming and costly. To support this, the City of Toronto offers assistance, financial and otherwise, through the Tenant Defense Fund (TDF) program to tenants in private rental housing."),
       shiny::p(glue::glue("In the City of Toronto, AGI applications are abundant. Out of {n_apt} privately owned apartment buildings in the city, almost thirty percent of them had at least one AGI application in the last five years, and of these, just under a quarter received a TDF grant. In this story, we look at the distribution of AGIs and TDF grants across neighbourhoods of Toronto.",
-        n_apt = scales::comma(city_aggregate[["number_of_buildings_private"]])
+        n_apt = scales::comma(lemr::city_aggregate[["number_of_buildings_private"]])
       )),
       shiny::fluidRow(
         shiny::column(

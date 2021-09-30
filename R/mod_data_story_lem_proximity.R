@@ -6,7 +6,7 @@
 #'
 #' @noRd
 mod_data_story_lem_proximity_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
   shiny::showModal(
     shiny::modalDialog(
@@ -65,27 +65,27 @@ mod_data_story_lem_proximity_ui <- function(id) {
         shiny::tags$i("Considering a neighbourhood's proportion of estimated annual rental stock in the lower end of the market, as well as the area's proximity to services, provides valuable insight. Several neighbourhoods in Toronto within high proximity to services have a noticeably low proportion of estimated low-end of market rental stock.")
       ),
       shiny::tags$p(glue::glue("In Toronto, three neighbourhoods stand out due to their high percentage of estimated stock of low-end of market units – over 25% of the total rental stock per neighbourhood – yet they are mainly located within low proximity to services. These are Rouge, with {rouge_low} of the neighbourhood's residents living within low proximity to services, West Humber-Clairville, with {west_humber_clairville_low} in low proximity, and Clairlea-Birchmount, with {clairlea_birchmount_low} in low proximity. Neighbourhoods with higher proximity to services yet a noticeably low stock of low-end of market rental units – less than 1% of the rental stock in each neighbourhood – are Regent Park, with all residents living within high proximity to services; Moss Park, with {moss_park_high} of residents within high proximity; Church-Yonge Corridor, with {church_yonge_high} in high proximity; and Mount Pleasant West, with {mount_pleasant_west_high} in high proximity. It is worth noting that, in this case, we only look at units accessible through the private market and not through public housing agencies, co-ops, or other non-market means.",
-        rouge_low = neighbourhood_aggregate[["Rouge"]][["amenity_density"]] %>%
+        rouge_low = lemr::neighbourhood_aggregate[["Rouge"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "Low") %>%
           dplyr::pull("prop") %>%
           scales::percent(),
-        west_humber_clairville_low = neighbourhood_aggregate[["West Humber-Clairville"]][["amenity_density"]] %>%
+        west_humber_clairville_low = lemr::neighbourhood_aggregate[["West Humber-Clairville"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "Low") %>%
           dplyr::pull("prop") %>%
           scales::percent(),
-        clairlea_birchmount_low = neighbourhood_aggregate[["Clairlea-Birchmount"]][["amenity_density"]] %>%
+        clairlea_birchmount_low = lemr::neighbourhood_aggregate[["Clairlea-Birchmount"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "Low") %>%
           dplyr::pull("prop") %>%
           scales::percent(),
-        moss_park_high = neighbourhood_aggregate[["Moss Park"]][["amenity_density"]] %>%
+        moss_park_high = lemr::neighbourhood_aggregate[["Moss Park"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "High") %>%
           dplyr::pull("prop") %>%
           scales::percent(),
-        church_yonge_high = neighbourhood_aggregate[["Church-Yonge Corridor"]][["amenity_density"]] %>%
+        church_yonge_high = lemr::neighbourhood_aggregate[["Church-Yonge Corridor"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "High") %>%
           dplyr::pull("prop") %>%
           scales::percent(),
-        mount_pleasant_west_high = neighbourhood_aggregate[["Mount Pleasant West"]][["amenity_density"]] %>%
+        mount_pleasant_west_high = lemr::neighbourhood_aggregate[["Mount Pleasant West"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "High") %>%
           dplyr::pull("prop") %>%
           scales::percent()
@@ -107,7 +107,7 @@ For a full data summary, including sociodemographic and housing characteristics 
 #'
 #' @noRd
 mod_data_story_lem_proximity_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
   })
 }
