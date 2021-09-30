@@ -12,7 +12,6 @@ mod_point_layer_ui <- function(id, layer) {
     apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
     rooming_houses = create_popover(title = "Rooming houses", content = "This layer shows the locations of rooming houses, including licensed (pre- and post-2018) and lapsed rooming houses"),
     apartment_evaluation = create_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Light yellow indicates a failing score (50% or lower) while dark red indicates 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
-    evictions_hearings = create_popover(title = "Evictions Hearings", content = "This layer shows the locations of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021."),
     agi = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of apartment buildings whose landlords applied for an Above Guideline Increase (AGI) in the rent from 2016 onwards."),
     tdf = create_popover(title = "Tenant Defence Fund Grants", content = "This layer shows the locations of apartment buildings who received a Tenant Defence Fund grant for the above guideline increases their landlords applied for.")
   )
@@ -101,20 +100,22 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             }
           )
         ),
-        rooming_houses = shiny::tagList(
+        rooming_houses =
+            shiny::tagList(
           purrr::pmap(
             dplyr::tibble(
               color = c("Low", "Medium", "High"),
-              wording = c("licensed pre-2018", "licensed post-2018", "lapsed"),
-              filter = c("Licensed", "Licensed after 2018", "Lapsed")
+              filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed"),
+              wording = c("licensed prior to 2018", "licensed 2018 onwards", "whose licenses have lapsed")
             ),
-            function(color, wording, filter) {
+            function(color, filter, wording) {
               create_circle_legend(amenity_density_colours()[[color]],
                 glue::glue("{value} {buildings_word}, {wording}",
-                  value = dataset()[["rooming_houses"]] %>% dplyr::filter(group == filter) %>% dplyr::pull(value),
-                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses")
+                  value = dataset()[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
+                  buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
+                  wording = tolower(filter)
                 ),
-                alt_text = glue::glue("A legend showing the colour of the points of {wording} rooming houses.")
+                alt_text = glue::glue("A legend showing the colour of the points of rooming houses {wording}.")
               )
             }
           )
@@ -123,13 +124,12 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           generate_apartment_evaluation_legend(),
           shiny::uiOutput(ns("median_score"))
         ),
-        evictions_hearings = create_circle_legend(layer_colours[["evictions_hearings"]], "Location of evictions hearings schedules November 2020 to January 2021", alt_text = "A legend showing the yellow colour of the points of eviction hearings."),
         agi = shiny::div(
-          create_circle_legend(layer_colours[["agi_apartment"]], glue::glue("{scales::comma(buildings)} privately owned apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
+          create_circle_legend(layer_colours[["agi_apartment"]], glue::glue("{scales::comma(buildings)} privately owned apartment {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(.data$group == "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
           shiny::uiOutput(ns("agi_prop")),
           shiny::div(
             style = "margin-top: 0.5em;",
-            create_circle_legend(layer_colours[["agi_other"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
+            create_circle_legend(layer_colours[["agi_other"]], glue::glue("{scales::comma(buildings)} other {buildings_word} with above guideline increases", buildings = dataset()[["agi"]] %>% dplyr::filter(.data$group != "Apartment building") %>% dplyr::pull(value), buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of above guideline increase applications for other buildings.")
           )
         ),
         tdf = shiny::div(
@@ -154,8 +154,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 
     output$agi_prop <- shiny::renderUI({
       value <- dataset()[["agi"]] %>%
-        dplyr::filter(group == "Apartment building") %>%
-        dplyr::pull(prop)
+        dplyr::filter(.data$group == "Apartment building") %>%
+        dplyr::pull(.data$prop)
       text <- glue::glue("AGI rate by building: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value)) {
@@ -171,8 +171,8 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
       text <- glue::glue("TDF rate by AGIs: {scales::percent(value, accuracy = 0.1)}")
 
       if (!is.na(value) & dataset()[["agi"]] %>%
-        dplyr::filter(group == "Apartment building") %>%
-        dplyr::pull(value) != 0) {
+        dplyr::filter(.data$group == "Apartment building") %>%
+        dplyr::pull(.data$value) != 0) {
         shiny::div(
           style = "margin-left: 0.33em; margin-top: 0.5em;",
           text
@@ -188,13 +188,7 @@ point_layers_choices <- list(
 )
 
 generate_apartment_evaluation_legend <- function() {
-  values <- lemur::buildings %>%
-    dplyr::filter(!is.na(.data$score)) %>%
-    dplyr::as_tibble() %>%
-    dplyr::arrange(score) %>%
-    dplyr::distinct(score_colour, score_bucket)
-
-  create_circle_legend(colour = values[["score_colour"]], text = values[["score_bucket"]], alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
 }
 
 ## To be copied in the UI

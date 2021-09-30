@@ -8,6 +8,7 @@
   --bigger-size: 1.25em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
+  --smaller-size: 0.9em;
   --regular-weight: 400;
   --bold-weight: 700;
   --main-color: #08569A;
@@ -73,6 +74,10 @@ h3 {
 
 .biggest {
   font-size: var(--biggest-size);
+}
+
+.smaller {
+  font-size: var(--smaller-size);
 }
 
 .nav-tabs {
@@ -163,6 +168,11 @@ hr {
   float: left;
 }
 
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
 body > .container-fluid {
   padding-right: 0;
   padding-left: 0;
@@ -174,10 +184,6 @@ body > .container-fluid {
 
 .shiny-modal {
   overflow-y: hidden;
-}
-
-#shiny-modal button {
-  float: right;
 }
 
 .modal-content {
@@ -233,7 +239,7 @@ body > .container-fluid {
 
 .welcome-banner {
   background-color: var(--main-color);
-  height: calc(var(--home-section-padding) * 10);
+  min-height: calc(var(--home-section-padding) * 10);
   color: white;
   padding: calc(var(--home-section-padding) * 2);
   padding-top: calc(var(--home-section-padding) * 4);
@@ -248,6 +254,7 @@ body > .container-fluid {
 
 .welcome-banner h1 {
   font-weight: var(--regular-weight);
+  font-size: 2em;
 }
 
 .intro-sentence {
@@ -286,6 +293,10 @@ body > .container-fluid {
   background-color: var(--accent-color);
   margin-top: calc(var(--home-section-padding) * 2);
   margin-bottom: calc(var(--home-section-padding) * 2);
+}
+
+.start-exploring {
+  text-align: left !important;
 }
 
 .questions {
@@ -505,39 +516,141 @@ ul {
     width: 100% !important;
 }
 
+/* Data stories */
+.agi-data-story-neighbourhood {
+  padding-bottom: 2em;
+  display: flex;
+  align-items: center;
+}
+
+/* Makes sure "download reports" button dropdown is spaced properly */
+.full-summary-buttons .dropdown-menu {
+  top: auto;
+}
+
+.full-summary-buttons {
+  float: right;
+}
 /* Media queries - smaller screen sizes */
 
-/* Extra small devices (portrait phones, up to 575px) */
-@media (max-width: 575px) {
-
-  .navbar-header {
-    height: 75px;
-  }
+/* Anything smaller than a big ol computer */
+@media (max-width: 1199px) {
 
   :root {
-  --base-size: 12px;
+    --base-size: 16px;
+    --home-section-padding: 0.5em;
+  }
+
+  .fa-5x {
+    font-size: 3em;
   }
 
   h1 {
     font-size: var(--bigger-size);
   }
 
-  /* Stack map and sidebar */
-  .map-col {
+  .pretty {
+    font-size: var(--base-size);
+  }
+
+  .summary-statistics {
     width: 100%;
   }
 
-  /* Shorter map */
-  #map-map{
-    height: calc(50vh) !important;
+  .navbar-header {
+    height: 75px;
+  }
+
+  .map-col {
+    width: 50%;
   }
 
   .sidebar-col {
+    width: 50%;
+  }
+
+  /* Flow modal into a single column */
+  .modal-col {
     width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .content-page {
+    margin: 2em !important;
+  }
+
+  .welcome-banner {
+  padding-top: var(--home-section-padding);
+    min-height: 0;
+    margin: 2em !important;
+  }
+
+  .welcome-banner h1 {
+    font-size: var(--bigger-size);
+  }
+
+  .intro-sentence {
+    font-size: var(--bigger-size) !important;
+    padding: 0;
+  }
+
+  .data-stories-banner {
+    min-height: 0px;
+  }
+
+  .start-exploring .col-sm-4 {
+    margin-bottom: calc(var(--home-section-padding) * 0.5);
+  }
+
+  .questions {
+    font-size: var(--bigger-size) !important;
+    padding-top: 0;
+  }
+
+  #data-and-definitions-page {
+    font-size: var(--base-size) !important;
+  }
+
+  #data-and-definitions-page .bigger {
+    font-size: var(--base-size);
+  }
+
+  .agi-data-story-neighbourhood {
+    display: block;
+  }
+
+  .agi-data-story-neighbourhood .col-sm-5, .agi-data-story-neighbourhood .col-sm-7
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+/* Extra small devices (portrait phones, up to 575px) */
+@media (max-width: 575px) {
+
+  #shiny-modal {
+    padding-right: 0 !important;
+  }
+
+  .content-page {
+    margin: 1.5em !important;
+  }
+
+  /* Stack map and sidebar */
+  .map-col {
+    width: 100% !important;
+  }
+
+  .sidebar-col {
+    width: 100% !important;
+  }
+
+  /* Shorter map */
+  .mapboxer {
+    height: calc(50vh) !important;
   }
 
   /* Overflow sidebar div to avoid double scrolly */
-  #sidebar {
+  .map-sidebar {
     overflow-y: visible;
     border-width: 0;
   }
@@ -545,104 +658,7 @@ ul {
   /* Flow modal into a single column */
   .modal-col {
     width: 100%;
-    margin-left: 0 !important;
     margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-}
-
-/* Small devices (landscape phones, 576px to 767) */
-@media (min-width: 576px) and (max-width: 767px) {
-
-  :root {
-  --base-size: 12px;
-  }
-
-  h1 {
-    font-size: var(--bigger-size);
-  }
-
-  .navbar-header {
-    height: 75px;
-  }
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Flow modal into a single column */
-  .modal-col {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-}
-
-/* Medium devices (tablets, 768px to 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
-
-  :root {
-  --base-size: 12px;
-  }
-
-  .navbar-header {
-    height: 75px;
-  }
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Flow modal into a single column */
-  .modal-col {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .content-page {
-    margin: 1em !important;
-  }
-
-  /* Summary statistics not in modal, but in sidebar*/
-  .summary-statistics {
-    width: 100% !important;
-  }
-}
-
-/* Large devices (desktops, 992px to 1200px) */
-@media (min-width: 992px) and (max-width: 1199px) {
-
-  .map-col {
-    width: 50%;
-  }
-
-  .sidebar-col {
-    width: 50%;
-  }
-
-  /* Allow summary statistics to take up full width */
-  .modal-summary-statistics {
-    width: 100% !important;
-  }
-
-  .summary-statistics {
-    width: 100% !important;
   }
 }
 
@@ -655,11 +671,67 @@ ul {
     bottom: 0;
     right: 0;
   }
+
 }
 
-/* Data stories */
+@media print {
 
+  :root {
+    --base-size: 11px;
+    --bigger-size: 1.1em;
+  }
 
-.agi-data-story-neighbourhood {
-  padding-bottom: 2em;
-}
+  .visible-minority table {
+    margin-bottom: 0 !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+  }
+
+  h1 {
+    font-size: 3em;
+    text-align: center;
+  }
+
+  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,   .col-sm-10, .col-sm-11, .col-sm-12 {
+    float: left;
+  }
+  .col-sm-12 {
+    width: 100%;
+  }
+  .col-sm-11 {
+    width: 91.66666666666666%;
+  }
+  .col-sm-10 {
+    width: 83.33333333333334%;
+  }
+  .col-sm-9 {
+    width: 75%;
+  }
+  .col-sm-8 {
+    width: 66.66666666666666%;
+  }
+  .col-sm-7 {
+    width: 58.333333333333336%;
+  }
+  .col-sm-6 {
+    width: 50%;
+  }
+  .col-sm-5 {
+    width: 41.66666666666667%;
+  }
+  .col-sm-4 {
+    width: 33.33333333333333%;
+   }
+   .col-sm-3 {
+     width: 25%;
+   }
+   .col-sm-2 {
+     width: 16.666666666666664%;
+   }
+   .col-sm-1 {
+    width: 8.333333333333332%;
+   }
+
+  }

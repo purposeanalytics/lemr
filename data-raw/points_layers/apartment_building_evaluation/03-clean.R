@@ -62,28 +62,19 @@ apartment_building_evaluation <- apartment_building_evaluation %>%
   ))
 
 # Colour points
-# < 60: #dd1c77
-# 61 - 80: #c994c7
-# 81 - 100: #e7e1ef
+# 0 - 50
+# 51 - 65
+# 66 - 80
+# 81 - 100
 
-# Set colours
+# Break into buckets
 apartment_building_evaluation <- apartment_building_evaluation %>%
   dplyr::mutate(
-    score_bucket = cut(score, breaks = c(0, 60, 80, 100))
+    score_bucket = cut(score, breaks = c(0, 50, 65, 80, 100), label = FALSE)
   )
 
-score_bucket_colors <- dplyr::tibble(
-  score_bucket = levels(apartment_building_evaluation[["score_bucket"]]),
-  score_colour = c("#dd1c77", "#c994c7", "#e7e1ef")
-)
-
 apartment_building_evaluation <- apartment_building_evaluation %>%
-  dplyr::left_join(score_bucket_colors, by = "score_bucket") %>%
-  dplyr::mutate(score_bucket = recode(score_bucket, "(0,60]" = "60% and under", "(60,80]" = "61% to 80%", "(80,100]" = "81% to 100%"))
-
-apartment_building_evaluation <- apartment_building_evaluation %>%
-  rename(address = site_address) %>%
-  select(-id)
+  rename(address = site_address)
 
 # Save clean dataset
 saveRDS(apartment_building_evaluation, here::here("data-raw", "points_layers", "apartment_building_evaluation", "clean", "apartment_building_evaluation.rds"))

@@ -6,7 +6,7 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-data <- lemur::buildings %>%
+data <- lemr::buildings %>%
   mutate(id = row_number())
 
 # Extract lat and long ----
@@ -26,7 +26,7 @@ data_coords <- data_coords %>%
 # Remove columns that won't be used -----
 
 data <- data %>%
-  select(-rsn, -bing_address, -score_percent, -score_bucket, -score_colour, -tooltip)
+  select(-rsn, -bing_address, -score_percent, -score_bucket, -tooltip)
 
 # Convert names to Title Case ----
 names(data) <- str_replace_all(names(data), "_", " ")
@@ -37,6 +37,7 @@ data <- data %>%
   rename(
     `Apartment Building` = Apartment,
     `Apartment Building Property Type` = `Property Type`,
+    `Apartment Building Property Management` = `Property Management`,
     `RentSafeTO Evaluation Completed On` = `Evaluation Completed On`,
     `Apartment Building Units` = Units,
     `Apartment Building Storeys` = Storeys,
@@ -60,4 +61,4 @@ data <- data %>%
   mutate_if(is.character, coalesce, "")
 
 # Save data -----
-write_csv(data, here::here("inst", "extdata", "Points Layers.csv"))
+write_csv(data, here::here("inst", "extdata", "points_data.csv"))

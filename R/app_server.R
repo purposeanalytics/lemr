@@ -5,7 +5,7 @@
 #' @noRd
 app_server <- function(input, output, session) {
   requireNamespace("sf")
-  options(knitr.kable.NA = "—")
+  options(knitr.kable.NA = "--")
 
   mod_home_server("home")
 
@@ -48,6 +48,20 @@ map_guide <- function() {
   cicerone::Cicerone$
     new()$
     step(
+    "body",
+    is_id = FALSE,
+    position = "mid-center",
+    class = "intro-tour-modal",
+    "Welcome to the Low-end of Market Rental Monitor Map",
+    shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
+    # Set the background for this modal, since it's hacky and not done automatically
+    on_highlighted = "function() {
+      document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: black !important');}",
+    # Then turn it off, because the other ones already have it, so leaving it on would cause a double dark background
+    on_next = "function() {
+      document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: transparent !important');}",
+  )$
+    step(
     "aggregate_layer_div",
     title = "See the big picture",
     description = "Choose a base layer to see aspects of Toronto's rentals."
@@ -55,13 +69,13 @@ map_guide <- function() {
     step(
     "points_layer_div",
     title = "Spot the details",
-    description = "Enable point layers to identify and compare specific locations of interest."
+    description = "Enable point layers to identify and compare specific locations of interest. Click on each dot on the map for building details."
   )$
     step(
-    "map-header-full_summary-modal",
+    "map-header-modal",
     position = "left",
     title = "Dive into the specifics",
-    description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood on the map."
+    description = "Open the summary for a comprehensive view of available data, either city-wide or after selecting a specific neighbourhood."
   )$
     step(
     "[data-value='Data & Definitions']",

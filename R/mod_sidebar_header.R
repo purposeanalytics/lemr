@@ -22,6 +22,7 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 6,
+      class = "summary-statistics",
       shiny::htmlOutput(ns("summary_statistics"))
     ),
     shiny::column(
@@ -53,7 +54,6 @@ mod_sidebar_header_ui <- function(id) {
 #' @noRd
 mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_method) {
   shiny::moduleServer(id, function(input, output, session) {
-
     ns <- session$ns
 
     # Trigger modal
@@ -88,8 +88,8 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
 
     dataset <- shiny::reactive({
       switch(level(),
-        city = lemur::city_aggregate,
-        neighbourhood = lemur::neighbourhood_aggregate[[neighbourhood()]]
+        city = lemr::city_aggregate,
+        neighbourhood = lemr::neighbourhood_aggregate[[neighbourhood()]]
       )
     })
 
@@ -122,12 +122,7 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
     })
 
     output$lem_table <- shiny::renderText({
-      dataset()[["lem"]] %>%
-        dplyr::mutate(dplyr::across(-Bedrooms, scales::comma)) %>%
-        kableExtra::kable(align = "lrrr") %>%
-        kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
-        kableExtra::column_spec(1, width = "30%") %>%
-        kableExtra::column_spec(2:4, width = "20%")
+      display_lem(dataset())
     })
 
     output$back_to_city <- shiny::renderUI({

@@ -9,8 +9,8 @@ library(sf)
 library(readr)
 devtools::load_all()
 
-city <- lemur::city_aggregate
-neighbourhoods <- lemur::neighbourhood_aggregate
+city <- lemr::city_aggregate
+neighbourhoods <- lemr::neighbourhood_aggregate
 
 # Flattern neighbourhoods data ----
 
@@ -51,15 +51,21 @@ for (i in names(neighbourhoods)) {
 
 # Make a separate element for Deeply / Very affordable
 lem <- neighbourhoods[["lem"]] %>%
-  filter(`Bedrooms` != "Total") %>%
-  select(-Total) %>%
-  pivot_longer(cols = c(`Deeply Affordable`, `Very Affordable`)) %>%
-  rename(group = Bedrooms) %>%
-  split(.$name) %>%
-  map(select, -name)
+  rename(group = bedrooms,
+         value = n) %>%
+  split(.$affordable) %>%
+  map(select, -affordable)
 
 neighbourhoods$lem <- NULL
 neighbourhoods <- append(neighbourhoods, lem)
+
+lem_percent <- neighbourhoods[["lem_percent"]] %>%
+  split(.$group)
+
+names(lem_percent) <- c("deeply_percent", "very_percent")
+
+neighbourhoods$lem_percent <- NULL
+neighbourhoods <- append(neighbourhoods, lem_percent)
 
 ## Rename n to value tdf ----
 neighbourhoods["tdf"] <- neighbourhoods["tdf"] %>%
@@ -82,6 +88,14 @@ neighbourhoods <- neighbourhoods %>%
 
 ## Combine ----
 neighbourhoods <- neighbourhoods %>%
+  map(function(x) {
+    if ("group" %in% names(x)) {
+      x %>%
+        mutate(group = as.character(group))
+    } else {
+      x
+    }
+  }) %>%
   bind_rows(.id = "variable")
 
 # Clean up hierarchy / names -----
@@ -115,9 +129,13 @@ clean_variable_names <- tribble(
   "agi", "Above guideline increase applications", "#",
   "tdf", "Tenant Defense Fund grants", "#",
   "evictions", "Evictions", "%",
+  "vacancy_rate_2016", "Vacancy rate (2016)", "%",
+  "vacancy_rate_2020", "Vacancy rate (2020)", "%",
   "rooming_houses", "Rooming houses", "#",
   "Deeply Affordable", "Low end of market - Deeply affordable", "#",
   "Very Affordable", "Low end of market - Very affordable", "#",
+  "deeply_percent", "Low end of market - Deeply affordable", "%",
+  "very_percent", "Low end of market - Very affordable", "%",
 )
 
 neighbourhoods <- neighbourhoods %>%
@@ -136,4 +154,4 @@ neighbourhoods <- neighbourhoods %>%
 
 # Save data ----
 
-write_csv(neighbourhoods, here::here("inst", "extdata", "Aggregate Data.csv"))
+write_csv(neighbourhoods, here::here("inst", "extdata", "aggregate_data.csv"))

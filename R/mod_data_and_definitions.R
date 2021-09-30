@@ -9,11 +9,28 @@ mod_data_and_definitions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(
     class = "content-page",
+    id = "data-and-definitions-page",
     shiny::h1("Data & Definitions"),
+    # I wish I could explain why this is necessary, but removing it makes the tooltips everywhere go away
+    # I guess some different JS is getting attached. I don't know!
+    shiny::div(
+      style = "display: none;",
+      shiny::tagList(
+        shiny::icon("chevron-down") %>%
+          bsplus::bs_attach_collapse("title"),
+        bsplus::bs_collapse(
+          id = "title",
+          content = shiny::tagList(
+            "test"
+          ),
+          show = TRUE
+        )
+      )
+    ),
     shiny::tagList(
-      data_and_definitions %>%
-        dplyr::mutate(definition_full = purrr::pmap(list(name, description, data_source_prefix, data_source_suffix, data_source, data_source_link), format_definition)) %>%
-        dplyr::pull(definition_full)
+      lemr::data_and_definitions %>%
+        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
+        dplyr::pull(.data$definition_full)
     )
   )
 }
@@ -42,8 +59,9 @@ format_definition <- function(name, description, data_source_prefix, data_source
       data_source_suffix = dplyr::coalesce(data_source_suffix, "")
     ) %>%
       stringr::str_squish() %>%
-      shiny::HTML() %>%
-      shiny::p(shiny::tags$i("Data Source:"), .)
+      shiny::HTML()
+
+    data_source_full <- shiny::p(shiny::tags$i("Data Source:"), data_source_full)
   } else {
     data_source_full <- NULL
   }

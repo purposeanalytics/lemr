@@ -83,7 +83,7 @@ agi_applications_and_tdf <- agi_applications_tdf %>%
 # Add neighbourhood
 
 agi_applications_and_tdf <- agi_applications_and_tdf %>%
-  st_join(lemur::neighbourhoods)
+  st_join(lemr::neighbourhoods)
 
 # Select relevant columns
 

@@ -12,7 +12,7 @@ rooming_houses_clean <- readRDS(here::here("data-raw", "points_layers", "rooming
 rooming_houses_by_neighbourhood <- rooming_houses_clean %>%
   as_tibble() %>%
   count(neighbourhood, group = status, name = "value") %>%
-  mutate(neighbourhood = forcats::fct_expand(neighbourhood, lemur::neighbourhoods[["neighbourhood"]])) %>%
+  mutate(neighbourhood = forcats::fct_expand(neighbourhood, lemr::neighbourhoods[["neighbourhood"]])) %>%
   complete(neighbourhood, group, fill = list(value = 0))
 
 # Save

@@ -1,5 +1,5 @@
 # Geocode apartment building evaluation
-# The data set can be connected to lemur::apartment_building_evaluation, so don't actually need to geocode - yay!
+# The data set can be connected to lemr::apartment_building_evaluation, so don't actually need to geocode - yay!
 
 library(dplyr)
 library(sf)

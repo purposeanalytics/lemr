@@ -1,26 +1,30 @@
 # Pre-render all templates so that serving them up is super quick
 
-library(lemur)
+library(lemr)
 library(rmarkdown)
 library(purrr)
 library(pagedown)
+devtools::load_all()
 
-neighbourhoods <- lemur::neighbourhoods[["neighbourhood"]]
+neighbourhoods <- lemr::neighbourhoods[["neighbourhood"]]
 
 # Function to render HTML file, then PDF from that
 render_reports <- function(level, neighbourhood) {
 
-  html_file <- here::here("inst", "templates", "html", glue::glue("{neighbourhood}.html"))
+  # In case of slashes in neighbourhood names, which cause issues
+  neighbourhood_clean <- fs::path_sanitize(neighbourhood)
+
+  html_file <- here::here("inst", "reports", "html", glue::glue("{neighbourhood_clean}.html"))
 
   render(
-    input = here::here("inst", "templates", "neighbourhood_profile.Rmd"),
+    input = here::here("inst", "reports", "neighbourhood_profile.Rmd"),
     output_format = "html_document",
     output_file = html_file,
     params = list(level = level, neighbourhood = neighbourhood),
     quiet = TRUE
   )
 
-  pdf_file <- here::here("inst", "templates", "pdf", glue::glue("{neighbourhood}.pdf"))
+  pdf_file <- here::here("inst", "reports", "pdf", glue::glue("{neighbourhood_clean}.pdf"))
 
   chrome_print(
     html_file,
@@ -31,7 +35,7 @@ render_reports <- function(level, neighbourhood) {
 
 # Iterate over neighbourhoods
 
-walk(neighbourhoods[1:2], ~ render_reports("neighbourhood", .x))
+walk(neighbourhoods, ~ render_reports("neighbourhood", .x))
 
 # City level
 render_reports("city", "Toronto")

@@ -15,7 +15,7 @@
 library(dplyr)
 library(purrr)
 library(tidyr)
-devtools::load_al
+devtools::load_all()
 
 # Total renters ----
 
@@ -157,6 +157,13 @@ rental_supply_fix_social_housing <- rental_supply_by_neighbourhood %>%
 rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   rows_update(rental_supply_fix_social_housing, by = c("neighbourhood", "renters", "group"))
 
+# Round everything to the nearest 25, to make clear that it's an estimate
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  mutate(value = plyr::round_any(value, 25)) %>%
+  group_by(neighbourhood) %>%
+  mutate(renters = sum(value)) %>%
+  ungroup()
+
 # Add market info and proportion
 rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   mutate(market = case_when(
@@ -179,7 +186,6 @@ rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   )
 
 # Aggregate for city
-
 rental_supply_city <- rental_supply_by_neighbourhood %>%
   group_by(market, group) %>%
   summarise(value = sum(value), .groups = "drop_last") %>%
@@ -204,8 +210,10 @@ saveRDS(rental_supply_city, here::here("data-raw", "aggregate_data", "rental_sup
 
 rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
   mutate(map_group = case_when(
-    group %in% c("Condo", "Non-Condo") ~ group,
-    TRUE ~ market
+    group == "Condo" ~ "rental_supply_condo",
+    group == "Non-Condo" ~ "rental_supply_non_condo",
+    market == "Primary" ~ "rental_supply_primary",
+    market == "Non-market" ~ "rental_supply_non_market"
   )) %>%
   group_by(neighbourhood, group = map_group) %>%
   summarise(prop = sum(prop), .groups = "drop") %>%
@@ -214,4 +222,8 @@ rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
     prop_group = ifelse(prop == 0, 0, prop_group)
   )
 
-usethis::use_data(rental_supply_by_neighbourhood, overwrite = TRUE)
+rental_supply_by_neighbourhood <- rental_supply_by_neighbourhood %>%
+  select(-prop) %>%
+  pivot_wider(names_from = group, values_from = prop_group)
+
+saveRDS(rental_supply_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "aggregate", "rental_supply_by_neighbourhood_layer.rds"))

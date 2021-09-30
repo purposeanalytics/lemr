@@ -1,0 +1,93 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r library}
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(sf)
+library(purrr)
+library(tidyr)
+library(stringr)
+library(ggrepel)
+devtools::load_all()
+```
+
+```{r data}
+buildings <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("number_of_buildings_private") %>%
+  map(as_tibble) %>%
+  bind_rows(.id = "neighbourhood") %>%
+  rename(Count = value)
+
+agi <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("agi") %>%
+  bind_rows() %>%
+  filter(group == "Apartment building") %>%
+  rename(AGI = value, agi_ratio = prop) %>%
+  select(-group)
+
+tdf <- neighbourhood_aggregate %>%
+  transpose() %>%
+  pluck("tdf") %>%
+  bind_rows() %>%
+  rename(TDF = n, tdf_ratio = prop)
+
+buildings_agi_tdf <- buildings %>%
+  left_join(agi, by = "neighbourhood") %>%
+  left_join(tdf, by = "neighbourhood")
+
+# Only plot neighbourhoods with > 10 buildings and > 8 AGIs
+buildings_agi_tdf <- buildings_agi_tdf %>%
+  filter(Count > 10 & AGI > 8)
+
+# Flag buildings to highlight
+buildings_agi_tdf <- buildings_agi_tdf %>%
+  mutate(top3 = neighbourhood %in% c("Yonge-St.Clair", "Broadview North", "Mimico (includes Humber Bay Shores)"),
+         colour = ifelse(top3, main_colour, grey_colour))
+```
+
+```{r plot-wide}
+# Plot for wide layout
+p <- ggplot(buildings_agi_tdf, aes(agi_ratio, tdf_ratio)) +
+  geom_point(size = 3, aes(color = colour)) +
+  geom_label_repel(data = buildings_agi_tdf %>% filter(top3), aes(label = neighbourhood), size = 4, seed = 1234, family = "Lato") +
+  scale_color_identity() + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1), name = "% of buildings with Tenant Defence Fund grant") +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of buildings with Above Guideline Increase application") +
+  labs(title = "Percent of buildings that received an Above Guideline Increase application in the last 5 years \nversus percent of those buildings that received a Tenant Defence Fund grant, by neighbourhood") +
+  theme_minimal(base_family = "Lato", base_size = 12) +
+  theme(
+    legend.position = "none",
+    plot.title.position = "plot"
+  )
+
+ggsave(here::here("inst", "data_stories", "agi_tdf", "agi_vs_tdf_wide.png"), width = 9, height = 5, dpi = 300, bg = "white")
+fs::file_copy(here::here("inst", "data_stories", "agi_tdf", "agi_vs_tdf_wide.png"), here::here("inst", "app", "www", "agi_vs_tdf_wide.png"), overwrite = TRUE)
+```
+
+```{r plot-narrow}
+# Plot for narrow layout
+p <- ggplot(buildings_agi_tdf, aes(agi_ratio, tdf_ratio)) +
+  geom_point(size = 3, aes(color = colour)) +
+  geom_label_repel(data = buildings_agi_tdf %>% filter(top3), aes(label = neighbourhood), size = 4, seed = 1234, family = "Lato") +
+  scale_color_identity() + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1), name = "% of buildings with Tenant Defence Fund grant") +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of buildings with Above Guideline Increase application") +
+  labs(title = "Percent of buildings that received an Above Guideline\nIncrease application in the last 5 years versus percent\nof those buildings that received a Tenant Defence Fund\ngrant, by neighbourhood") +
+  theme_minimal(base_family = "Lato", base_size = 12) +
+  theme(
+    legend.position = "none",
+    plot.title.position = "plot"
+  )
+
+ggsave(here::here("inst", "data_stories", "agi_tdf", "agi_vs_tdf_narrow.png"), width = 5, height = 7, dpi = 300, bg = "white")
+fs::file_copy(here::here("inst", "data_stories", "agi_tdf", "agi_vs_tdf_narrow.png"), here::here("inst", "app", "www", "agi_vs_tdf_narrow.png"), overwrite = TRUE)
+```

@@ -2,7 +2,6 @@
 #'
 #' Apartment building registry retrieved from the City of Toronto's \href{https://open.toronto.ca/dataset/apartment-building-registration/}{Apartment Building Registration dataset}, and geocoded using the \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/find-a-location-by-address}{Bing geocoding API}. Contains the address of all rental apartment buildings in the city with 3 or more storeys and 10 or more units, the neighbourhood that each apartment is in, and many attributes about the apartment.
 #' @examples
-#' @examples
 #' library(sf)
 #' toronto
 "toronto"
@@ -45,28 +44,13 @@
 #' @rdname aggregates
 "city_aggregate"
 
-#' Amenity density by neighbourhood
-#'
-#' An aggregation of amenity density from \link{proximity_measures}, showing what proportion of a neighbourhood's population lives in high, medium, or low amenity dense areas.
-"amenity_density_by_neighbourhood"
-
-#' Total Affordable By Neighbourhood
-#'
-#' An estimate of the available number of affordable (deeply and very) rental units by neighbourhood.
-"total_affordable_by_neighbourhood"
-
-#' Above Guideline Increase applications and Tenant Defense Fund grants
-#'
-#' The locations of \href{https://www.torontotenants.org/above_guideline_rent_increases}{Above Guideline Increase applications} along with their dates, and whether tenants at those locations received a \href{https://www.toronto.ca/community-people/employment-social-support/housing-support/financial-support-for-renters/}{Tenant Defense Fund} grant to fight the increase. If so, the record also includes how much they were able to reduce the increase by.
-# "agi_applications_and_tdf"
-
-#' Evictions Hearings
-#'
-#' Locations (and number) of eviction hearings scheduled by the Landlord Tenant Board between November 2, 2020 to January 31, 2021.
-# "eviction_hearings"
-
 #' Buildings
 #'
 #' A building-level data set combining: apartment building registry, RentSafeTO scores, Above Guideline Increase applications, tenant defense fund grants, and eviction hearings. Used primarily as a data source for the map, in \link{add_blank_points_layers}.
 #'
 "buildings"
+
+#' Data and definitions
+#'
+#' Definitions and sources of data used throughout the app.
+"data_and_definitions"

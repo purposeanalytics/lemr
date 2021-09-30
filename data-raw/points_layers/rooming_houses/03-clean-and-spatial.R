@@ -39,8 +39,8 @@ rooming_houses_clean <- rooming_houses_continuity %>%
   filter(months_licensed <= "2020-01-01") %>%
   group_by(address) %>%
   mutate(
-    status = if_else(max(months_licensed) == "2020-01-01", "Licensed", "Lapsed"),
-    status = if_else(min(months_licensed) >= "2018-01-01" & status == "Licensed", "Licensed after 2018", status)
+    status = if_else(max(months_licensed) == "2020-01-01", "Licensed prior to 2018", "Lapsed"),
+    status = if_else(min(months_licensed) >= "2018-01-01" & status == "Licensed prior to 2018", "Licensed 2018 onwards", status)
   ) %>%
   ungroup() %>%
   select(address, bing_address, first_month_licensed, last_month_licensed, status, bing_latitude, bing_longitude) %>%
@@ -52,7 +52,7 @@ rooming_houses_sf <- rooming_houses_clean %>%
 
 # Get neighbourhood for each building
 rooming_houses_with_neighbourhood <- rooming_houses_sf %>%
-  st_join(lemur::neighbourhoods) %>%
+  st_join(lemr::neighbourhoods) %>%
   select(address, bing_address, neighbourhood, status, first_month_licensed, last_month_licensed)
 
 # Clean up address

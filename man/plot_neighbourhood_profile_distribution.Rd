@@ -9,8 +9,6 @@ plot_neighbourhood_profile_distribution(
   variable,
   binwidth,
   compare = TRUE,
-  height = NULL,
-  width = NULL,
   static = FALSE
 )
 }
@@ -22,6 +20,8 @@ plot_neighbourhood_profile_distribution(
 \item{binwidth}{Bin width for geom_histogram}
 
 \item{compare}{Whether to show a line with the current neighbourhood's value. Defaults to TRUE - FALSE is useful in the City of Toronto view.}
+
+\item{static}{Whether the plot should be an interactive (FALSE) or static (TRUE) version. Defaults to FALSE.}
 }
 \description{
 Plot the distribution of a variable, across neighbourhoods, with an optional line showing the current neighbourhood's value

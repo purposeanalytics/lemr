@@ -11,6 +11,7 @@
 # LEM via affordable_rental_market/
 # Core housing need via core_housing_need/
 # Evictions data via evictions_by_neighbourhood/
+# Vacancy rate via vacancy_rate/
 
 # Point data aggregated
 # Apartment buildings / units via points_layers/apartment_building_registry/
@@ -73,9 +74,15 @@ amenity_density_city <- readRDS(here::here("data-raw", "aggregate_data", "proxim
 
 # LEM -----
 
-lem_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds"))
+lem_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_neighbourhood_breakdown.rds")) %>%
+  split(.$neighbourhood)
 
 lem_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_city_breakdown.rds"))
+
+lem_percent_by_neighbourhood <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_by_neighbourhood.rds")) %>%
+  split(.$neighbourhood)
+
+lem_percent_city <- readRDS(here::here("data-raw", "aggregate_data", "affordable_rental_market", "aggregate", "lem_percent_city.rds"))
 
 # Core housing need -----
 
@@ -93,6 +100,24 @@ evictions_distribution <- evictions_by_neighbourhood %>%
   map(as_tibble) %>%
   bind_rows()
 
+# Vacancy rate ----
+
+vacancy_rate_by_neighbourhood_2016 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "aggregate", "vacancy_rate_by_neighbourhood_2016.rds"))
+vacancy_rate_city_2016 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "extract", "vacancy_rate_toronto_2016.rds")) %>%
+  pull(vacancy_rate) %>%
+  round(3)
+vacancy_rate_distribution_2016 <- vacancy_rate_by_neighbourhood_2016 %>%
+  map(as_tibble) %>%
+  bind_rows()
+
+vacancy_rate_by_neighbourhood_2020 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "aggregate", "vacancy_rate_by_neighbourhood_2020.rds"))
+vacancy_rate_city_2020 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "extract", "vacancy_rate_toronto_2020.rds")) %>%
+  pull(vacancy_rate) %>%
+  round(3)
+vacancy_rate_distribution_2020 <- vacancy_rate_by_neighbourhood_2020 %>%
+  map(as_tibble) %>%
+  bind_rows()
+
 # Apartment buildings -----
 
 number_of_apartments_city <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "aggregate", "number_of_apartments_city.rds"))
@@ -104,7 +129,7 @@ units_by_neighbourhood <- readRDS(here::here("data-raw", "points_layers", "apart
 
 ## Apartment buildings by type ----
 
-apartments_by_type_by_neighbourhood <- lemur::buildings %>%
+apartments_by_type_by_neighbourhood <- lemr::buildings %>%
   as_tibble() %>%
   filter(apartment) %>%
   group_by(neighbourhood, group = property_type) %>%
@@ -182,8 +207,10 @@ for (i in names(neighbourhood_aggregate)) {
   neighbourhood_aggregate_i[["rental_supply"]] <- rental_supply_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["amenity_density"]] <- amenity_density_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["lem"]] <- lem_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["lem_percent"]] <- lem_percent_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["core_housing_need"]] <- core_housing_need_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["evictions"]] <- evictions_by_neighbourhood[[i]]
+  neighbourhood_aggregate_i[["vacancy_rate_2020"]] <- vacancy_rate_by_neighbourhood_2020[[i]]
 
   neighbourhood_aggregate_i[["number_of_buildings"]] <- apartments_by_neighbourhood[[i]]
   neighbourhood_aggregate_i[["number_of_buildings_private"]] <- apartments_by_type_by_neighbourhood_buildings[[i]][["Privately owned"]]
@@ -208,10 +235,15 @@ city_aggregate[["average_total_income"]] <- average_income_city
 city_aggregate[["rental_supply"]] <- rental_supply_city
 city_aggregate[["amenity_density"]] <- amenity_density_city
 city_aggregate[["lem"]] <- lem_city
+city_aggregate[["lem_percent"]] <- lem_percent_city
 city_aggregate[["core_housing_need"]] <- core_housing_need_city
 city_aggregate[["core_housing_need_distribution"]] <- core_housing_need_distribution
 city_aggregate[["evictions"]] <- evictions_city
 city_aggregate[["evictions_distribution"]] <- evictions_distribution
+city_aggregate[["vacancy_rate_2016"]] <- vacancy_rate_city_2016
+city_aggregate[["vacancy_rate_2020"]] <- vacancy_rate_city_2020
+city_aggregate[["vacancy_rate_2016_distribution"]] <- vacancy_rate_distribution_2016
+city_aggregate[["vacancy_rate_2020_distribution"]] <- vacancy_rate_distribution_2020
 
 city_aggregate[["number_of_buildings"]] <- number_of_apartments_city
 city_aggregate[["number_of_buildings_distribution"]] <- number_of_apartments_distribution

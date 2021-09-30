@@ -127,4 +127,3 @@ saveRDS(tdf_by_neighbourhood, here::here("data-raw", "points_layers", "agi_and_t
 saveRDS(agi_by_neighbourhood, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_by_neighbourhood.rds"))
 saveRDS(agi_city, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "agi_city.rds"))
 saveRDS(tdf_city, here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "aggregate", "tdf_city.rds"))
-

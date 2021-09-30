@@ -20,7 +20,7 @@ clean_neighbourhood_names <- function(neighbourhood) {
     tidyr::separate(.data$x, into = ".neighbourhood_new", sep = " \\([0-9]", extra = "drop", remove = FALSE) %>%
     dplyr::rename(neighbourhood = .data$.neighbourhood_new, .neighbourhood_original = .data$x) %>%
     # Flag if cleaned neighbourhoods match the neighbourhoods data set
-    dplyr::mutate(.neighbourhood_match = neighbourhood %in% lemur::neighbourhoods[["neighbourhood"]]) %>%
+    dplyr::mutate(.neighbourhood_match = neighbourhood %in% lemr::neighbourhoods[["neighbourhood"]]) %>%
     # If not, return the ORIGINAl name (with a warning)
     dplyr::mutate(neighbourhood = dplyr::case_when(
       .data$.neighbourhood_match ~ .data$neighbourhood,

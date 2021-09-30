@@ -4,6 +4,7 @@ library(dplyr)
 library(purrr)
 library(sf)
 library(tidyr)
+library(stringr)
 devtools::load_all()
 
 apartment_building_registry <- readRDS(here::here("data-raw", "points_layers", "apartment_building_registry", "clean", "apartment_building_registry.rds"))
@@ -13,6 +14,8 @@ apartment_building_evaluation <- readRDS(here::here("data-raw", "points_layers",
 agi_applications_and_tdf <- readRDS(here::here("data-raw", "points_layers", "agi_and_tenant_defense_fund", "clean", "agi_applications_and_tdf.rds"))
 
 rooming_houses <- readRDS(here::here("data-raw", "points_layers", "rooming_houses", "clean", "rooming_houses.rds"))
+
+corporate_landlords <- readRDS(here::here("data-raw", "points_layers", "corporate_landlords", "clean", "corporate_landlords.rds"))
 
 # Join registry and RentSafeTO -----
 
@@ -26,18 +29,21 @@ buildings <- apartment_building_registry %>%
     year_built = coalesce(year_built, year_built_evaluation),
     neighbourhood = coalesce(neighbourhood, neighbourhood_evaluation)
   ) %>%
-  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, score_bucket, score_colour, geometry) %>%
-  mutate(landlord = ifelse(property_management == "Unknown", NA_character_, property_management))
+  select(rsn, address, bing_address, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management, property_management, evaluation_completed_on, score, score_percent, score_bucket, geometry) %>%
+  mutate(property_management = ifelse(property_management == "Unknown", NA_character_, property_management))
 
 # Get coords instead of geometry column, so we can coalesce more easily
 apartment_buildings_coords <- buildings %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
+  bind_rows(.id = "address")
 
 buildings <- buildings %>%
-  as_tibble() %>%
-  select(-geometry) %>%
-  bind_cols(apartment_buildings_coords)
+  st_set_geometry(NULL) %>%
+  left_join(apartment_buildings_coords, by = "address")
 
 # Add rooming houses ----
 
@@ -45,19 +51,21 @@ rooming_houses <- rooming_houses %>%
   mutate(rooming_house = TRUE)
 
 rooming_houses_coords <- rooming_houses %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
+  bind_rows(.id = "address")
 
 rooming_houses <- rooming_houses %>%
-  as_tibble() %>%
-  select(-geometry) %>%
-  bind_cols(rooming_houses_coords)
+  st_set_geometry(NULL) %>%
+  left_join(rooming_houses_coords, by = "address")
 
 buildings <- buildings %>%
   full_join(rooming_houses, by = "bing_address", suffix = c("_apt", "_rooming_houses"))
 
 # Add AGI / TDF -----
-# For now, just take property management if it's there, and if not, use landlord
 
 # Combine multiple AGI dates, and take the latest non-NA landlord
 latest_agi_landlord <- agi_applications_and_tdf %>%
@@ -103,17 +111,17 @@ agi_applications <- agi_applications %>%
   left_join(latest_agi_address, by = "bing_address")
 
 agi_applications_coords <- agi_applications %>%
-  group_by(address) %>%
-  slice(1) %>%
-  ungroup() %>%
-  st_coordinates() %>%
-  as_tibble()
+  split(.$address) %>%
+  map(slice, 1) %>%
+  map(~ .x %>%
+    st_coordinates() %>%
+    as_tibble()) %>%
+  bind_rows(.id = "address")
 
 agi_applications <- agi_applications %>%
-  as_tibble() %>%
-  select(-geometry) %>%
+  st_set_geometry(NULL) %>%
   distinct() %>%
-  bind_cols(agi_applications_coords) %>%
+  left_join(agi_applications_coords, by = "address") %>%
   rename(X_agi = X, Y_agi = Y, neighbourhood_agi = neighbourhood, address_agi = address)
 
 buildings <- buildings %>%
@@ -124,12 +132,13 @@ buildings <- buildings %>%
 # Except for address, since different addresses may be geocoded to the same place - prefer to keep them distinct
 buildings <- buildings %>%
   mutate(
-    address = case_when(apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
-                        TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)),
-    property_management_or_landlord = coalesce(landlord_apt, landlord_agi),
-    X = coalesce(X_apt, X_agi, X_rooming_houses),
-    Y = coalesce(Y_apt, Y_agi, Y_rooming_houses),
-    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_agi, neighbourhood_rooming_houses),
+    address = case_when(
+      apartment ~ coalesce(address_apt, address_agi, address_rooming_houses),
+      TRUE ~ coalesce(address_rooming_houses, address_apt, address_agi)
+    ),
+    X = coalesce(X_apt, X_rooming_houses, X_agi),
+    Y = coalesce(Y_apt, Y_rooming_houses, Y_agi),
+    neighbourhood = coalesce(neighbourhood_apt, neighbourhood_rooming_houses, neighbourhood_agi),
     apartment = coalesce(apartment, FALSE),
     agi = coalesce(agi, FALSE),
     tdf = coalesce(tdf, FALSE),
@@ -141,7 +150,79 @@ buildings <- buildings %>%
 # Select columns -----
 
 buildings <- buildings %>%
-  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, property_management_or_landlord, evaluation_completed_on, score, score_percent, score_bucket, score_colour, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, rooming_house, rooming_house_status = status)
+  select(rsn, address, bing_address, X, Y, neighbourhood, apartment, property_type, year_built, year_registered, units, storeys, evaluation_completed_on, score, score_percent, score_bucket, agi, date_agi_initiated, tdf, tdf_year, reduced_increase_by, rooming_house, rooming_house_status = status, property_management, landlord)
+
+# Add in corporate landlords ----
+
+# Clean address format for joining
+
+prep_address_for_join <- function(address) {
+  address <- address %>%
+    str_to_upper() %>%
+    str_replace("EAST", "E") %>%
+    str_replace("NORTH", "N") %>%
+    str_replace("WEST", "W") %>%
+    str_replace("SOUTH", "S")
+
+  street_code_conversion <- tribble(
+    ~street_code_full, ~street_code_short,
+    "AVENUE", "AVE",
+    "BOULEVARD", "BLVD",
+    "CIRCLE", "CRCL",
+    "CIRCUIT", "CRCT",
+    "COURT", "CRT",
+    "CRESCENT", "CRES",
+    "DRIVE", "DR",
+    "GARDEN", "GDNS",
+    "GATE", "GT",
+    "GROVE", "GRV",
+    "HEIGHTS", "HTS",
+    "PARKWAY", "PKWY",
+    "PLACE", "PL",
+    "ROAD", "RD",
+    "SQUARE", "SQ",
+    "STREET", "ST",
+    "TERRACE", "TER",
+    "TRAIL", "TRL"
+  )
+
+  for (i in 1:nrow(street_code_conversion)) {
+    address <- str_replace_all(
+      address, street_code_conversion[i, ][["street_code_full"]],
+      street_code_conversion[i, ][["street_code_short"]]
+    )
+  }
+
+  address %>%
+    str_remove_all("[^[:alnum:]]") %>%
+    str_remove_all(" ")
+}
+
+buildings <- buildings %>%
+  mutate(address_join = prep_address_for_join(address)) %>%
+  left_join(corporate_landlords, by = "address_join") %>%
+  select(-address_join)
+
+# Take business owner > AGI, and property management separately
+
+buildings <- buildings %>%
+  mutate(landlord = coalesce(business_name, landlord)) %>%
+  select(-business_name)
+
+# Set NA landlord to Unknown so they always appear, and property_managament to unknown only for apartments
+
+buildings <- buildings %>%
+  mutate(
+    landlord = coalesce(landlord, "Unknown"),
+    property_management = case_when(
+      apartment ~ coalesce(property_management, "Unknown"),
+      TRUE ~ property_management
+    )
+  )
+
+buildings <- buildings %>%
+  relocate(landlord, .after = bing_address) %>%
+  relocate(property_management, .after = property_type)
 
 # Convert to spatial -----
 
@@ -157,15 +238,16 @@ buildings <- buildings %>%
 generate_tooltip <- function(data) {
   variables <- tribble(
     ~title, ~variable,
+    "Landlord", "landlord",
     "Built", "year_built",
-    "Landlord/Management", "property_management_or_landlord",
-    "Building Type", "property_type",
+    "Apartment building type", "property_type",
+    "Property management", "property_management",
     "Units", "units",
-    "RentSafeTO Evaluation", "score_percent",
-    "AGI Application", "date_agi_initiated",
-    "Tenant Defence Fund Received", "tdf_year",
-    "TDF Reduced Increase By", "reduced_increase_by",
-    "Rooming House Status", "rooming_house_status"
+    "RentSafeTO evaluation", "score_percent",
+    "AGI applications", "date_agi_initiated",
+    "Tenant Defence Fund received", "tdf_year",
+    "TDF reduced increase by", "reduced_increase_by",
+    "Rooming house status", "rooming_house_status"
   )
 
   variables_text <- purrr::map2_chr(

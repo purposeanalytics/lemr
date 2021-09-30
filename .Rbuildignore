@@ -11,3 +11,6 @@ $run_dev.*
 ^app\.R$
 ^rsconnect$
 ^\.github$
+^inst/templates$
+^LICENSE\.md$
+^README_cache$
