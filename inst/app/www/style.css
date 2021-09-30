@@ -533,6 +533,11 @@ ul {
 .full-summary-buttons {
   float: right;
 }
+
+.download-section h2 {
+  display: inline;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Anything smaller than a big ol computer */
