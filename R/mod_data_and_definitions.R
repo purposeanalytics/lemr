@@ -81,7 +81,7 @@ mod_data_and_definitions_server <- function(id) {
       content = function(file) {
         shinybusy::show_spinner()
         on.exit(shinybusy::hide_spinner())
-        zip(file, fs::dir_ls(app_sys("reports/pdf")), extras = "-j")
+        zip(file, c(fs::dir_ls(app_sys("reports/pdf")), fs::dir_ls(app_sys("reports/html"))), extras = "-j")
       },
       contentType = "application/zip"
     )
