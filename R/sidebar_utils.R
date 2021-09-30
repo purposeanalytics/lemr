@@ -74,7 +74,7 @@ summary_statistics_table <- function(data) {
       dplyr::filter(.data$group == "Renter") %>%
       dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1),
     `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
-    `Eviction rate` = format_measure(data[["evictions"]], "evictions"),
+    `Eviction filings rate` = format_measure(data[["evictions"]], "evictions"),
     `Vacancy rate` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
   ) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
@@ -292,7 +292,7 @@ apartment_building_evaluation_number <- function(apartment_building_evaluation_f
   if (apartment_building_evaluation_formatted == "NA%") {
     "RentSafeTO evaluation scores"
   } else {
-    glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted} median score")
+    glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted}")
   }
 }
 
@@ -427,7 +427,7 @@ core_housing_need_plot <- function(data, compare, static = FALSE) {
 # Evictions -----
 
 evictions_number <- function(evictions_formatted) {
-  glue::glue("Eviction rate: {evictions_formatted} of renter households")
+  glue::glue("Eviction filings rate: {evictions_formatted} of renter households")
 }
 
 evictions_description <- function(level, neighbourhood, evictions, evictions_formatted) {

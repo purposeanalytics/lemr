@@ -74,9 +74,6 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
 
     output$layer_summary <- shiny::renderText({
       switch(input$layer,
-        lem = glue::glue("Estimated LEM Units: {units}",
-          units = scales::comma(dataset()[["lem"]][["n"]] %>% sum())
-        ),
         lem_percent = glue::glue("Estimated percent of rental supply that is LEM: {percent}",
           percent = scales::percent(dataset()[["lem_percent"]][["prop"]] %>% sum(), accuracy = 0.1)
         ),
@@ -94,7 +91,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
             scales::percent(accuracy = 0.1)
         ),
         rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$market == "Non-market") %>% dplyr::pull(.data$prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
-        eviction_rate = glue::glue("Eviction rate: {percent}",
+        eviction_rate = glue::glue("Eviction filings rate: {percent}",
           percent = format_measure(dataset()[["evictions"]], "evictions")
         ),
         vacancy_rate = glue::glue("Vacancy rate: {percent}",
@@ -157,7 +154,7 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
 
 # List of layers -----
 
-aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", lem = "Low-end of market rentals - Units", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction rate", vacancy_rate = "Vacancy rate", amenity_density = "Proximity to services")
+aggregate_layers_choices <- list(lem_percent = "Low-end of market - Percent of rental supply", rental_supply_primary = "Primary market", rental_supply_condo = "Condos", rental_supply_non_condo = "Non-condo secondary market", rental_supply_non_market = "Non-market", core_housing_need = "Core housing need", eviction_rate = "Eviction filings rate", vacancy_rate = "Vacancy rate", amenity_density = "Proximity to services")
 
 rental_supply_layers <- c("rental_supply_primary", "rental_supply_condo", "rental_supply_non_condo", "rental_supply_non_market")
 
@@ -193,8 +190,6 @@ generate_conditional_tooltip <- function(layer, ns) {
   )
 }
 
-lem_tooltip <- create_popover(title = "Low-end of Market Rentals", content = "This layer shows the number of rentals that are either \"deeply affordable\" or \"very affordable\" by neighbourhood. Darker blue indicates more rentals in the low-end, while a lighter blue indicates less. For definitions of \"deeply\" and \"very\" affordable and for methodology, please visit the \"Data and Definitions\" tab.")
-
 lem_percent_tooltip <- create_popover(title = "Percent of low-end of market rentals", content = NULL)
 
 amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (orange) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
@@ -209,7 +204,7 @@ rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non m
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
 
-eviction_rate_tooltip <- create_popover(title = "Eviction rate", content = NULL)
+eviction_rate_tooltip <- create_popover(title = "Eviction filings rate", content = NULL)
 
 vacancy_rate_tooltip <- create_popover(title = "Vacancy rate", content = NULL)
 
@@ -229,10 +224,6 @@ generate_conditional_legend <- function(layer, ns) {
 
 amenity_density_legend <- function() {
   create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for proximity to services: low (blue), medium (yellow), and high (orange).")
-}
-
-lem_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0", "1,500", alt_text = "A legend showing values for low-end of market rentals, from 0 (white) to 1500 (dark blue).")
 }
 
 lem_percent_legend <- function() {
@@ -260,7 +251,7 @@ core_housing_need_legend <- function() {
 }
 
 eviction_rate_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction rate, from 0% (white) to 20% (dark blue)."))
+  generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction filings rate, from 0% (white) to 20% (dark blue)."))
 }
 
 vacancy_rate_legend <- function() {
