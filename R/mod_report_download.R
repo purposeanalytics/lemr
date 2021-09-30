@@ -11,20 +11,22 @@ mod_report_download_ui <- function(id) {
   ns <- NS(id)
 
   shiny::tagList(
-  shinyWidgets::dropdownButton(
-    label = "Download",
-    circle = FALSE,
-    inline = TRUE,
-    shiny::downloadButton(ns("download_pdf"), "PDF",
-      icon = NULL,
-      width = "100%", style = "margin-bottom: 0.5em;"
-    ),
-    shiny::downloadButton(ns("download_html"), "HTML",
-      icon = NULL,
-      width = "100%"
-    )
-  ),
-  shinybusy::use_busy_spinner(spin = "fading-circle"))
+    shinyjs::disabled(shinyWidgets::dropdownButton(
+      inputId = ns("download_dropdown"),
+      label = "Download",
+      circle = FALSE,
+      inline = TRUE,
+      shiny::downloadButton(ns("download_pdf"), "PDF",
+        icon = NULL,
+        width = "100%", style = "margin-bottom: 0.5em;"
+      ),
+      shiny::downloadButton(ns("download_html"), "HTML",
+        icon = NULL,
+        width = "100%"
+      )
+    )),
+    shinybusy::use_busy_spinner(spin = "fading-circle")
+  )
 }
 
 #' report_download Server Functions
@@ -49,6 +51,8 @@ mod_report_download_server <- function(id, level, neighbourhood) {
         glue::glue("{download_filename()}.pdf")
       },
       content = function(file) {
+        shiny::req(level())
+
         existing_file <- app_sys(glue::glue("reports/pdf/{download_filename()}.pdf"))
 
         # If file doesn't exist, render it!
@@ -82,6 +86,8 @@ mod_report_download_server <- function(id, level, neighbourhood) {
         glue::glue("{download_filename()}.html")
       },
       content = function(file) {
+        Sys.sleep(2)
+
         existing_file <- app_sys(glue::glue("reports/html/{download_filename()}.html"))
 
         if (existing_file == "") {

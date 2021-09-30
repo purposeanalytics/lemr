@@ -49,7 +49,8 @@ golem_add_external_resources <- function() {
     ),
     cicerone::use_cicerone(),
     glouton::use_glouton(),
-    bsplus::use_bs_popover()
+    bsplus::use_bs_popover(),
+    shinyjs::useShinyjs()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )

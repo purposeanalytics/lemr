@@ -191,12 +191,21 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       level() == "neighbourhood"
     })
 
-    output$header <- shiny::renderText({
+    header <- shiny::reactive(
       switch(level(),
         city = "Toronto",
         neighbourhood = neighbourhood()
       )
+    )
+
+    output$header <- shiny::renderText({
+      header()
     })
+
+    shiny::observeEvent(input$downloadReady,
+                        {
+                          browser()
+                        })
 
     mod_report_download_server("download", level, neighbourhood)
 
@@ -209,7 +218,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     })
 
     output$rental_supply_plot <- plotly::renderPlotly({
-      rental_supply_plot(dataset())
+      rental_supply_plot(dataset()) %>%
+        htmlwidgets::onRender(glue::glue("function() {Shiny.setInputValue({ns('downloadReady')}, true)}"))
     })
 
     output$rental_supply_plot_ui <- shiny::renderUI({
