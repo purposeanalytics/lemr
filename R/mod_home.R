@@ -34,19 +34,19 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            shiny::actionLink(
-              ns("agi_tdf_data_story"),
-              shiny::div(style = "background-color: #F0F0F0;", shiny::HTML("<h3>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:<br/>Three Neighbourhoods Fall Outside the Norm</h3>"))
-            ),
-            shiny::p("The percentage of buildings that have at least one application to increase rent above the mandated guideline, or that have received a grant to dispute such an increase, is not in line with the city's average in Broadview North, Mimico, and Yonge-St.Clair.")
-          ),
-          shiny::column(
-            width = 4,
             shiny::div(
               style = "background-color: #F0F0F0;",
               shiny::HTML("<h3>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:<br/>A City Overview Highlights Key Neighbourhoods</h3>")
             ),
             shiny::p("The estimated lower end of the market rental stock seems concentrated in the city's east and west ends, while accessibility to services is higher in the city core. Considering both dimensions points at areas that have a high percentage of low-end of market rental stock, yet are located within low proximity to services.")
+          ),
+          shiny::column(
+            width = 4,
+            shiny::actionLink(
+              ns("agi_tdf_data_story"),
+              shiny::div(style = "background-color: #F0F0F0;", shiny::HTML("<h3>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:<br/>Three Neighbourhoods Fall Outside the Norm</h3>"))
+            ),
+            shiny::p("The percentage of buildings that have at least one application to increase rent above the mandated guideline, or that have received a grant to dispute such an increase, is not in line with the city's average in Broadview North, Mimico, and Yonge-St.Clair.")
           ),
           shiny::column(
             width = 4,
