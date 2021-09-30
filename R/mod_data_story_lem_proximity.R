@@ -34,12 +34,14 @@ mod_data_story_lem_proximity_ui <- function(id) {
       shiny::p("At a glance, it is evident that the bulk of the estimated low-end of market rental stock in Toronto is located in the periphery of the city. Neighbourhoods like Woburn, Malvern, Dorset Park, and Clairlea-Birchmount on the east end, and West-Humber Clairville on the west, stand out as those with the highest concentration of estimated low-end of market rental stock. In contrast, two neighbourhoods closer to the city core, Playter Estates-Danforth and Yonge-Eglinton, are noticeably devoid of any stock in the estimation."),
       shiny::div(
         align = "center",
+        class = "padded",
         shiny::img(src = fs::path("www", "map_proximity_to_services", ext = "png"), title = "Proximity to services in the City of Toronto", width = "100%", alt = "A map of the City of Toronto divided into neighborhoods shows the population's proximity to services, with a higher proximity to services mainly in the city core, medium proximity mainly in a horseshoe shape surrounding the core, and low proximity mainly towards the periphery of the city."),
         shiny::tags$i("Proximity to services in Toronto varies greatly by neighbourhood. The map shows limited high proximity to services, located almost exclusively within Downtown Toronto, and medium and low proximity towards the city's boundaries.")
       ),
       shiny::p("Similarly, a quick exploration of the proximity to services of rental units in the city, shows another radial pattern – as distance from the city core increases, proximity to services decreases. Services include grocery stores, pharmacies, health care facilities, childcare facilities, schools, libraries, public transit stops, and sources of employment. Proximity to these services has an impact on the success of local businesses and the quality of life of residents.<sup>3</sup> Buildings in neighbourhoods like North St. James Town, Regent Park, Kensington-Chinatown, all situated in Downtown Toronto, are entirely within high proximity to services. Yet, buildings in neighbourhoods like Newtonbrook East, Bathurst Manor, and St.Andrew-Windfields, in the city's north, all have a low proximity to services."),
       shiny::div(
         align = "center",
+        class = "padded",
         shiny::h2("Percent of population living in low proximity to services versus percent of rental supply that is low-end of market, by neighbourhood"),
         shiny::tags$picture(
           shiny::tags$source(
@@ -92,7 +94,11 @@ mod_data_story_lem_proximity_ui <- function(id) {
         align = "center",
         shiny::p(shiny::HTML("<i>
 For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the <b>Map</b>. For data sources and key terms, visit <b>Data & Definitions</b>.</i>"))
-      )
+      ),
+      shiny::div(class = "divider-line"),
+      shiny::HTML("<p><sup>[1]</sup> All other datasets in this prototype contain veridical information from a range of sources. For details, visit <b>Data & Definitions</b>.</p>"),
+      shiny::HTML("<p><sup>[2]</sup> Visit the <a href = 'https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/definitions-of-affordable-housing/' target = '_blank'>City of Toronto website</a> for further details on this classification.</p>"),
+      shiny::HTML("<p><sup>[3]</sup> Learn about the importance of proximity to services on the <a href = 'https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm' target = '_blank'>Statistics Canada website</a>.</p>")
     )
   )
 }

@@ -297,7 +297,7 @@ body > .container-fluid {
   margin-bottom: calc(var(--home-section-padding) * 2);
 }
 
-#data-and-definitions-page .divider-line {
+#data-and-definitions-page .divider-line, #shiny-modal .divider-line {
   margin-top: var(--home-section-padding);
   margin-bottom: var(--home-section-padding);
 }
