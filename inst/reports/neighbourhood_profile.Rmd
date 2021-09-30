@@ -1,24 +1,13 @@
 ---
 params:
   level: neighbourhood
-  neighbourhood: Rouge
+  neighbourhood: North St.James Town
 output:
   html_document:
     df_print: paged
     css: ../app/www/style.css
 knit: pagedown::chrome_print
 ---
-
-```{css, echo = FALSE}
-:root {
-  --base-size: 11px; 
-  --bigger-size: 1.1em;
-}
-
-.visible-minority table {
-  margin-bottom: 0 !important;
-}
-```
 
 ```{r setup, include=FALSE}
 library(lemr)
@@ -71,7 +60,6 @@ if (level == "neighbourhood") {
 
   basemap <- cc_location(
     loc = raster::extent(bbox),
-    zoom = 14,
     base_url = "https://api.mapbox.com/styles/v1/purposeanalytics/cksw80iwn155y1anq5l1f0v5n/tiles/512/{zoom}/{x}/{y}",
     verbose = FALSE
   )
