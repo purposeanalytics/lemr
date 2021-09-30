@@ -11,6 +11,7 @@ mod_data_and_definitions_ui <- function(id) {
     class = "content-page",
     id = "data-and-definitions-page",
     shiny::h1("Data & Definitions"),
+    shinybusy::use_busy_spinner(spin = "fading-circle"),
     shiny::fluidRow(
       shiny::column(
         width = 12,
@@ -23,67 +24,6 @@ mod_data_and_definitions_ui <- function(id) {
         shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
       )
     ),
-
-    # shiny::fluidRow(
-    #   shiny::column(
-    #     width = 12,
-    #     shiny::p("The data used in the Low-end of Market Rental Monitor is available in two datasets and in a set of reports.")
-    #   ),
-    # ),
-    # shiny::fluidRow(
-    #   shiny::div(
-    #     class = "vertical-align",
-    #     shiny::column(
-    #       width = 9,
-    #       shiny::h2("Low-end of Market Rental Monitor, Aggregate Layers"),
-    #       shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto.")
-    #     ),
-    #     shiny::column(
-    #       width = 3, align = "center",
-    #       shiny::downloadButton(
-    #         ns("aggregate_layers"),
-    #         shiny::HTML("<h3>Download<br/><i>Aggregate Layers</i></h3>"),
-    #         icon = NULL
-    #       )
-    #     )
-    #   )
-    # ),
-    # shiny::fluidRow(
-    #   shiny::div(
-    #     class = "vertical-align",
-    #     shiny::column(
-    #       width = 9,
-    #       shiny::h2("Low-end of Market Rental Monitor, Point Layers"),
-    #       shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values.")
-    #     ),
-    #     shiny::column(
-    #       width = 3, align = "center",
-    #       shiny::downloadButton(
-    #         ns("aggregate_layers"),
-    #         shiny::HTML("<h3>Download<br/><i>Point Layers</i></h3>"),
-    #         icon = NULL
-    #       )
-    #     )
-    #   )
-    # ),
-    # shiny::fluidRow(
-    #   shiny::div(
-    #     class = "vertical-align",
-    #     shiny::column(
-    #       width = 8,
-    #       shiny::h2("Low-end of Market Rental Monitor, Reports"),
-    #       shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
-    #     ),
-    #     shiny::column(
-    #       width = 4, align = "center",
-    #       shiny::downloadButton(
-    #         ns("aggregate_layers"),
-    #         shiny::HTML("<h3>Download<br/><i>Reports</i></h3>"),
-    #         icon = NULL
-    #       )
-    #     )
-    #   )
-    # ),
     shiny::div(class = "divider-line"),
     shiny::tagList(
       lemr::data_and_definitions %>%
@@ -132,6 +72,18 @@ mod_data_and_definitions_server <- function(id) {
       content = function(file) {
         file.copy(app_sys("extdata/points_data.csv"), file)
       }
+    )
+
+    output$reports <- shiny::downloadHandler(
+      filename = function() {
+        "LEMR Reports.zip"
+      },
+      content = function(file) {
+        shinybusy::show_spinner()
+        on.exit(shinybusy::hide_spinner())
+        zip(file, fs::dir_ls(app_sys("reports/pdf")), extras = "-j")
+      },
+      contentType = "application/zip"
     )
 
   })
