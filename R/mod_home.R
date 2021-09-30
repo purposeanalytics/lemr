@@ -34,9 +34,12 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
+            shiny::actionLink(
+              ns("lem_proximity_data_story"),
             shiny::div(
               style = "background-color: #F0F0F0;",
               shiny::HTML("<h3>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:<br/>A City Overview Highlights Key Neighbourhoods</h3>")
+            )
             ),
             shiny::p("The estimated lower end of the market rental stock seems concentrated in the city's east and west ends, while accessibility to services is higher in the city core. Considering both dimensions points at areas that have a high percentage of low-end of market rental stock, yet are located within low proximity to services.")
           ),
@@ -126,6 +129,10 @@ mod_home_server <- function(id) {
     })
 
     mod_data_story_agi_tdf_server("agi_tdf")
+
+    shiny::observeEvent(input$lem_proximity_data_story, {
+      mod_data_story_lem_proximity_ui(ns("lem_proximity"))
+    })
   })
 }
 

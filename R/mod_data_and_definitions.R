@@ -24,8 +24,6 @@ mod_data_and_definitions_ui <- function(id) {
       )
     ),
 
-
-
     # shiny::fluidRow(
     #   shiny::column(
     #     width = 12,
