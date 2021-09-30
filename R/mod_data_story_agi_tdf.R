@@ -35,7 +35,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
         shiny::column(
           width = 12,
           align = "center",
-          # This is faster - doesn't need to render, so might choose to do this instead
+          shiny::h2("Percent of buildings that received an Above Guideline Increase application in the last 5 years versus percent of those buildings that received a Tenant Defence Fund grant, by neighbourhood"),
           shiny::tags$picture(
             shiny::tags$source(
               media = "(orientation: landscape)",
@@ -50,7 +50,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
             shiny::img(
               src = "www/agi_vs_tdf_wide.png",
               title = "Above Guideline Increase versus Tenant Defence Fund",
-              width = "90%",
+              width = "100%",
               alt = "A scatter plot showing the percent of buildings with Above Guideline Increases versus the percent of buildings with Tenant Defence Fund grants. The values for Broadview North, Yonge-St.Clair, and Mimico are highlighted in blue while the rest of the neighbourhoods' values are grey."
             )
           ),

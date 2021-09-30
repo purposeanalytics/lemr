@@ -40,6 +40,26 @@ mod_data_story_lem_proximity_ui <- function(id) {
       shiny::p("Similarly, a quick exploration of the proximity to services of rental units in the city, shows another radial pattern – as distance from the city core increases, proximity to services decreases. Services include grocery stores, pharmacies, health care facilities, childcare facilities, schools, libraries, public transit stops, and sources of employment. Proximity to these services has an impact on the success of local businesses and the quality of life of residents.<sup>3</sup> Buildings in neighbourhoods like North St. James Town, Regent Park, Kensington-Chinatown, all situated in Downtown Toronto, are entirely within high proximity to services. Yet, buildings in neighbourhoods like Newtonbrook East, Bathurst Manor, and St.Andrew-Windfields, in the city's north, all have a low proximity to services."),
       shiny::div(
         align = "center",
+        shiny::h2("Percent of population living in low proximity to services versus percent of rental supply that is low-end of market, by neighbourhood"),
+        shiny::tags$picture(
+          shiny::tags$source(
+            media = "(orientation: landscape)",
+            srcset = "www/lem_proximity_to_services_wide.png 2700w",
+            sizes = "800px"
+          ),
+          shiny::tags$source(
+            media = "(orientation: portrait)",
+            srcset = "www/lem_proximity_to_services_wide.png 2700w, www/lem_proximity_to_services_narrow.png 1500w",
+            sizes = "(max-width: 767px) 400px, 800px"
+          ),
+          shiny::img(
+            src = "www/lem_proximity_to_services_wide.png",
+            title = "Proportion of estimated low-end of market stock versus proximity to services",
+            width = "100%",
+            alt = "A scatterplot shows the relationship between the proportion of estimated low-end of rental market stock in a neighbourhood and its proximity to services. It highlights neighbourhoods with a high proportion on estimated rental stock on the lower end of the market, above 25%, yet within low proximity to services, and neighbourhoods with low estimated stock yet within high proximity to services."
+          )
+        ),
+        shiny::br(),
         shiny::tags$i("Considering a neighbourhood's proportion of estimated annual rental stock in the lower end of the market, as well as the area's proximity to services, provides valuable insight. Several neighbourhoods in Toronto within high proximity to services have a noticeably low proportion of estimated low-end of market rental stock.")
       ),
       shiny::tags$p(glue::glue("In Toronto, three neighbourhoods stand out due to their high percentage of estimated stock of low-end of market units – over 25% of the total rental stock per neighbourhood – yet they are mainly located within low proximity to services. These are Rouge, with {rouge_low} of the neighbourhood's residents living within low proximity to services, West Humber-Clairville, with {west_humber_clairville_low} in low proximity, and Clairlea-Birchmount, with {clairlea_birchmount_low} in low proximity. Neighbourhoods with higher proximity to services yet a noticeably low stock of low-end of market rental units – less than 1% of the rental stock in each neighbourhood – are Regent Park, with all residents living within high proximity to services; Moss Park, with {moss_park_high} of residents within high proximity; Church-Yonge Corridor, with {church_yonge_high} in high proximity; and Mount Pleasant West, with {mount_pleasant_west_high} in high proximity. It is worth noting that, in this case, we only look at units accessible through the private market and not through public housing agencies, co-ops, or other non-market means.",
