@@ -286,6 +286,8 @@ body > .container-fluid {
 
 .data-stories-banner h3 {
   color: black;
+  padding: 0.5em;
+  text-align: center;
 }
 
 .divider-line {

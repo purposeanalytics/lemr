@@ -26,7 +26,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
             class = "full-summary-buttons",
             shiny::modalButton("Close")
           ),
-          shiny::h1("Title")
+          shiny::h1("Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto: Three Neighbourhoods Fall Outside the Norm")
         )
       ),
       shiny::p("A notice of rent increase, recalculating the monthly budget, cutting down on non-essential expenses - or finding a new home. The cycle is not unfamiliar to renters in Toronto. In Ontario, renters are protected by a provincially mandated rent increase guideline that is tied to the Consumer Price Index. However, when landlords incur capital expenses for completing major work, building security, or accessibility features, or extraordinary increases to their property tax, they may apply to pass those costs on to tenants through an Above Guideline Increase, or AGI. In turn, tenants may choose to contest an AGI through the Landlord Tenant Board, a process that can be time-consuming and costly. To support this, the City of Toronto offers assistance, financial and otherwise, through the Tenant Defense Fund (TDF) program to tenants in private rental housing."),
