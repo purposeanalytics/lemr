@@ -34,13 +34,24 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            shiny::actionLink(ns("lem_proximity_data_story"),
-            shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods"))
+            shiny::actionLink(
+              ns("lem_proximity_data_story"),
+              shiny::tagList(
+                shiny::img(src = "www/blossom_1.png", height = 275, width = 275),
+                shiny::br(),
+                shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods")
+              )
+            )
           ),
           shiny::column(
             width = 4,
-            shiny::actionLink(ns("agi_tdf_data_story"),
-            shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
+            shiny::actionLink(
+              ns("agi_tdf_data_story"),
+              shiny::tagList(
+                shiny::img(src = "www/blossom_2.png", height = 275, width = 275),
+                shiny::br(),
+                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
+              )
             )
           ),
           shiny::column(

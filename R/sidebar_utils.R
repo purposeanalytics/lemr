@@ -145,7 +145,7 @@ rental_supply_table <- function(data, market) {
       value = scales::comma(.data$value),
       percent = scales::percent(.data$prop, accuracy = 0.1),
       value_percent = glue::glue("{value}{space}({percent})",
-        space = ifelse(.data$prop < 0.1, " &nbsp; &nbsp;", " ")
+        space = ifelse(.data$prop < 0.1, " &nbsp;&nbsp;&nbsp;", " ")
       )
     ) %>%
     dplyr::arrange(.data$group_order) %>%
