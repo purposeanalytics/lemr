@@ -5,7 +5,7 @@
 :root {
   --font: "Lato", Sans-Serif;
   --base-size: 14px;
-  --bigger-size: 1.25em;
+  --bigger-size: 1.15em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
   --smaller-size: 0.9em;
@@ -352,6 +352,10 @@ body > .container-fluid {
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
   background-color: var(--main-color);
+}
+
+.well .shiny-input-container {
+  margin-right: 0 !important;
 }
 
 /* ------ Legend ------ */
