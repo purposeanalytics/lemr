@@ -41,7 +41,7 @@ mod_home_ui <- function(id) {
                 shiny::div(
                   align = "center",
                   # "" alt text indicates this image can be skipped - it does not provide any info
-                  shiny::img(src = "www/blossom_1.png", class = "data-stories-img", alt = "")
+                  shiny::img(src = "www/preview_proximity.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
                 ),
                 shiny::br(),
                 shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods")
@@ -56,7 +56,7 @@ mod_home_ui <- function(id) {
               shiny::tagList(
                 shiny::div(
                   align = "center",
-                  shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "")
+                  shiny::img(src = "www/preview_agi.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
                 ),
                 shiny::br(),
                 shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defence Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
@@ -69,7 +69,7 @@ mod_home_ui <- function(id) {
             shiny::tagList(
               shiny::div(
                 align = "center",
-                shiny::img(src = "www/empty.png", class = "data-stories-img", alt = "")
+                shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
               ),
               shiny::br(),
               shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
