@@ -697,7 +697,7 @@ ul {
 @media print {
 
   :root {
-    --base-size: 11px;
+    --base-size: 12px;
     --bigger-size: 1.1em;
   }
 

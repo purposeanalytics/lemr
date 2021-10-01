@@ -496,7 +496,7 @@ display_rooming_houses <- function(data, compare = TRUE) {
 display_lem <- function(data) {
   lem_total <- data[["lem"]] %>%
     dplyr::arrange(.data$bedrooms, .data$affordable) %>%
-    janitor::adorn_totals(where = "row", name = "Total Affordable Units") %>%
+    janitor::adorn_totals(where = "row", name = "Total Affordable Units", fill = "Total Affordable Units") %>%
     dplyr::mutate(n = scales::comma(.data$n))
 
   cutoffs <- dplyr::tribble(

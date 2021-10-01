@@ -125,7 +125,7 @@ shiny::tagList(
   purrr::pmap(
     dplyr::tibble(
       color = c("Apartment", "Toronto Community Housing", "Other Non-Market"),
-      wording = c("Privately owned", "Toronto Community Housing", "other non-market")
+      wording = c("Privately owned", "Toronto Community Housing", "Other non-market")
     ),
     function(color, wording, data_suffix) {
       lemr:::create_circle_legend(lemr:::rental_supply_colors()[[color]],
@@ -136,17 +136,14 @@ shiny::tagList(
   ),
   purrr::pmap(
     dplyr::tibble(
-      filter = c("Licensed prior to 2018", "Licensed 2018 onwards"),
-      wording = c("licensed prior to 2018", "licensed 2018 onwards")
+      filter = c("Licensed prior to 2018", "Licensed 2018 onwards")
     ),
-    function(filter, wording) {
+    function(filter) {
       lemr:::create_circle_legend(lemr:::rooming_house_colors()[[filter]],
-        glue::glue("{value} {buildings_word}, {wording}",
-          value = dataset[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
-          buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
+        glue::glue("Rooming houses, {wording}",
           wording = tolower(filter)
         ),
-        alt_text = glue::glue("A legend showing the colour of the points of rooming houses {wording}.")
+        alt_text = glue::glue("A legend showing the colour of the points of rooming houses {tolower(filter)}.")
       )
     }
   )
@@ -156,6 +153,8 @@ shiny::tagList(
   </div>
 </div>
 
+<hr>
+
 <div class = "row">
 
   <div class = "col-sm-6">
@@ -164,6 +163,17 @@ shiny::tagList(
 ```{r summary-statistics}
 lemr:::summary_statistics_table(dataset)
 ```
+  
+### Estimated rental supply (2016)
+
+```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
+lemr:::rental_supply_plot(dataset, static = TRUE)
+```
+
+```{r rental-supply-table}
+lemr:::rental_supply_single_table(dataset)
+```
+
   </div>
   
   <div class = "col-sm-6">
@@ -172,37 +182,6 @@ lemr:::summary_statistics_table(dataset)
 ```{r lem}
 lemr:::display_lem(dataset)
 ```
-  </div>
-</div>
-
-<hr>
-
-<div class = "row">
-  <div class = "col-sm-12">
-  
-### Estimated rental supply (2016)
-
-```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
-lemr:::rental_supply_plot(dataset, static = TRUE)
-```
-
-  <div class = "row">
-  <div class = "col-sm-6">
-```{r rental-supply-primary}
-lemr:::rental_supply_primary_table(dataset)
-```
-  </div>
-  <div class = "col-sm-6">
-```{r rental-supply-secondary-non-market}
-lemr:::rental_supply_secondary_table(dataset)
-lemr:::rental_supply_non_market_table(dataset)
-```
-  </div>
-  </div>
-  </div>
-
-  <div class = "col-sm-5">
-
   </div>
 </div>
 
@@ -300,7 +279,7 @@ lemr:::evictions_plot(dataset, compare, static = TRUE)
 vacancy_rate <- lemr:::get_measure(dataset, "vacancy_rate_2020")
 vacancy_rate_formatted <- lemr:::format_measure(vacancy_rate, "vacancy_rate")
 
-glue::glue("Primary market vacancy rate: {vacancy_rate_formatted}") %>%
+lemr:::vacancy_rate_number(vacancy_rate_formatted) %>%
   h3()
 
 lemr:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) %>%
@@ -322,6 +301,8 @@ lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to service
 ```
   </div>
 </div>
+
+<hr>
 
 ##
 <div style = "display:block; clear:both; page-break-after:always;"></div>
@@ -391,7 +372,7 @@ lemr:::unaffordable_housing_description(level, neighbourhood, unaffordable_housi
 lemr:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 ```
 
-### Households by tenure
+### Households by tenure (2016)
 
 ```{r household-tenure, fig.alt = lemr:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemr:::household_tenure_description(level, neighbourhood) %>%
@@ -402,7 +383,7 @@ lemr:::household_tenure_plot(dataset, compare, static = TRUE)
 lemr:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
 ```
 
-### Number of bedrooms
+### Number of bedrooms (2016)
 
 ```{r bedrooms, fig.alt = lemr:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::bedrooms_description(level, neighbourhood) %>%
@@ -414,6 +395,8 @@ lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "P
 ```
   </div>
 </div>
+
+<hr>
 
 ##
 <div style = "display:block; clear:both; page-break-after:always;"></div>
@@ -453,7 +436,7 @@ lemr:::population_change_description(level, neighbourhood, population_change, po
 lemr:::population_change_plot(dataset, compare, static = TRUE)
 ```
 
-### Average Total Household Income 
+### Average Total Household Income (2016)
 
 ```{r average-total-household-income, fig.alt = lemr:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemr:::average_total_household_income_description(level, neighbourhood) %>%
@@ -479,7 +462,7 @@ lemr:::lim_at_plot(dataset, compare, static = TRUE)
   </div>
   <div class = "col-sm-6">
 
-### Household size 
+### Household size (2016)
 
 ```{r household-size, fig.alt = lemr:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::household_size_description(level, neighbourhood) %>%
