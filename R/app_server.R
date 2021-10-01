@@ -19,6 +19,8 @@ app_server <- function(input, output, session) {
 
   mod_page_map_server("map")
 
+  mod_data_and_definitions_server("data_and_definitions")
+
   # Trigger tour when map is loaded
   shiny::observeEvent(input$mapLoaded, {
     if (input$mapLoaded) {
@@ -53,7 +55,7 @@ map_guide <- function() {
     position = "mid-center",
     class = "intro-tour-modal",
     "Welcome to the Low-end of Market Rental Monitor Map",
-    shiny::HTML("LEMR is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
+    shiny::HTML("LEMR is an interactive tool developed to understand changes in the stock of deeply affordable rental housing in the City of Toronto, visualized on a map. Click <b>next</b> for a tutorial."),
     # Set the background for this modal, since it's hacky and not done automatically
     on_highlighted = "function() {
       document.getElementById('driver-page-overlay').setAttribute('style', 'background-color: black !important');}",

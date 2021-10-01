@@ -9,9 +9,9 @@ mod_point_layer_ui <- function(id, layer) {
   ns <- shiny::NS(id)
 
   tooltip <- switch(layer,
-    apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
+    apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, apartment building evaluation scores, and above guideline increase applications, as relevant."),
     rooming_houses = create_popover(title = "Rooming houses", content = "This layer shows the locations of rooming houses, including licensed (pre- and post-2018) and lapsed rooming houses"),
-    apartment_evaluation = create_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Light yellow indicates a failing score (50% or lower) while dark red indicates 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
+    apartment_evaluation = create_popover(title = "Apartment building evaluation scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
     agi = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of apartment buildings whose landlords applied for an Above Guideline Increase (AGI) in the rent from 2016 onwards."),
     tdf = create_popover(title = "Tenant Defence Fund Grants", content = "This layer shows the locations of apartment buildings who received a Tenant Defence Fund grant for the above guideline increases their landlords applied for.")
   )
@@ -22,7 +22,7 @@ mod_point_layer_ui <- function(id, layer) {
         width = 12,
         shinyWidgets::prettyCheckbox(
           inputId = ns("layer"),
-          label = point_layers_choices[[layer]],
+          label = shiny::HTML(point_layers_choices[[layer]]),
           value = FALSE,
           status = "primary",
           inline = TRUE # Ensures tooltip appears beside, since elements are inline
@@ -104,12 +104,11 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
             shiny::tagList(
           purrr::pmap(
             dplyr::tibble(
-              color = c("Low", "Medium", "High"),
               filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed"),
               wording = c("licensed prior to 2018", "licensed 2018 onwards", "whose licenses have lapsed")
             ),
-            function(color, filter, wording) {
-              create_circle_legend(amenity_density_colours()[[color]],
+            function(filter, wording) {
+              create_circle_legend(rooming_house_colors()[[filter]],
                 glue::glue("{value} {buildings_word}, {wording}",
                   value = dataset()[["rooming_houses"]] %>% dplyr::filter(.data$group == filter) %>% dplyr::pull(.data$value),
                   buildings_word = ifelse(value == 1, "rooming house", "rooming houses"),
@@ -183,12 +182,12 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
 }
 
 point_layers_choices <- list(
-  apartment_buildings = "Apartment buildings", rooming_houses = "Rooming houses", apartment_evaluation = "RentSafeTO Evaluation Scores", agi = "Above guideline increase applications",
-  tdf = "Tenant Defence Fund grants"
+  apartment_buildings = "Apartment buildings <span class = 'points-layer-year'>(2021)</span>", rooming_houses = "Rooming house licenses <span class = 'points-layer-year'>(2020)</span>", apartment_evaluation = "Apartment building evaluation scores <span class = 'points-layer-year'>(2021)</span>", agi = "Above guideline increase applications <span class = 'points-layer-year'>(2016 to 2020)</span>",
+  tdf = "Tenant Defence Fund grants <span class = 'points-layer-year'>(2018 to 2020)</span>"
 )
 
 generate_apartment_evaluation_legend <- function() {
-  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for apartment building evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
 }
 
 ## To be copied in the UI

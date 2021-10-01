@@ -5,16 +5,14 @@
 :root {
   --font: "Lato", Sans-Serif;
   --base-size: 14px;
-  --bigger-size: 1.25em;
+  --bigger-size: 1.15em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
   --smaller-size: 0.9em;
   --regular-weight: 400;
   --bold-weight: 700;
-  --main-color: #08569A;
-  --accent-color: #FFC20A;
-  --accent-color-rgba: rgba(255, 194, 10, 1);
-  --accent-color-lighter-rgba: rgba(255, 194, 10, 0.50);
+  --main-color: #0745a8;
+  --accent-color: #F47A21;
   --grey-color: #B8B8B8;
   --light-grey-color: #E0E0E0;
   --dark-grey-color: #4E4E4E;
@@ -278,6 +276,12 @@ body > .container-fluid {
   padding-right: calc(var(--home-section-padding) * 2);
   padding-top: var(--home-section-padding);
   padding-bottom: var(--home-section-padding);
+  text-justify: left;
+  text-align: left;
+}
+
+.data-stories-banner a {
+  color: black;
 }
 
 .data-stories-banner h2 {
@@ -286,6 +290,13 @@ body > .container-fluid {
 
 .data-stories-banner h3 {
   color: black;
+  padding: 0.5em;
+  text-align: center;
+}
+
+.data-stories-img {
+  max-width: 100%;
+  height: auto;
 }
 
 .divider-line {
@@ -293,6 +304,11 @@ body > .container-fluid {
   background-color: var(--accent-color);
   margin-top: calc(var(--home-section-padding) * 2);
   margin-bottom: calc(var(--home-section-padding) * 2);
+}
+
+#data-and-definitions-page .divider-line, #shiny-modal .divider-line {
+  margin-top: var(--home-section-padding);
+  margin-bottom: var(--home-section-padding);
 }
 
 .start-exploring {
@@ -311,6 +327,10 @@ body > .container-fluid {
 
 .modal-content {
   border-radius: 0;
+}
+
+#map-header-rental_supply_non_market_table {
+  margin-top: 1em;
 }
 
 /* Inputs */
@@ -347,6 +367,10 @@ body > .container-fluid {
   background-color: var(--main-color);
 }
 
+.well .shiny-input-container {
+  margin-right: 0 !important;
+}
+
 /* ------ Legend ------ */
 
 ul {
@@ -372,6 +396,11 @@ ul {
 }
 
 /* Layers legend */
+
+.points-layer-year {
+  font-size: var(--smaller-size);
+  color: var(--dark-grey-color);
+}
 
 .layer-popup {
   display: flex;
@@ -476,32 +505,6 @@ ul {
   overflow-y: auto;
 }
 
-/* ------ Tabs ------ */
-
-.nav-tabs {
-  border-bottom: 1px solid black;
-}
-
-.nav-tabs > li > a {
-  margin-right: 0.75em;
-  border: 1px solid black !important;
-  border-radius: 0;
-  background-color: var(--accent-color-lighter-rgba) !important;
-  color: black !important;
-}
-
-.nav-tabs > li.active > a {
-  background-color: var(--accent-color-rgba) !important;
-}
-
-.nav-tabs > li.active > a:hover {
-  text-shadow: 0;
-}
-
-.nav-tabs > li > a:hover {
-  background-color: var(--accent-color-rgba) !important;
-}
-
 /* ------ Well panel ------ */
 
 .well {
@@ -531,6 +534,11 @@ ul {
 .full-summary-buttons {
   float: right;
 }
+
+.download-section h2 {
+  display: inline;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Anything smaller than a big ol computer */
@@ -554,7 +562,7 @@ ul {
   }
 
   .summary-statistics {
-    width: 100%;
+    width: 100% !important;
   }
 
   .navbar-header {

@@ -5,7 +5,7 @@
 \alias{buildings}
 \title{Buildings}
 \format{
-An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 4179 rows and 24 columns.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 4179 rows and 25 columns.
 }
 \usage{
 buildings

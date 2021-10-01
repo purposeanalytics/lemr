@@ -20,12 +20,12 @@ mod_home_ui <- function(id) {
       class = "content-page padded home",
       shiny::div(
         class = "intro-sentence biggest",
-        shiny::HTML("<b>LEMR</b> is an interactive tool developed to understand changes in the supply of deeply affordable rental housing in the City of Toronto.")
+        shiny::HTML("<b>LEMR</b> is an interactive tool developed to understand changes in the stock of deeply affordable rental housing in the City of Toronto.")
       ),
       shiny::div(
         class = "intro-paragraph padded",
         shiny::h2("Why is this important?"),
-        shiny::p(shiny::HTML("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new supply is being created. <i>Deeply affordable</i> describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income.")),
+        shiny::p(shiny::HTML("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new stock is being created. <i>Deeply affordable</i> describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income.")),
         shiny::p("By mapping the dynamics of the low-end of the rental market, LEMR equips policy makers, housing advocates, city planners, government agencies, and researchers with information that can help them to tackle this problem. Access to data is crucial for developing policies, regulation, and programs that protect this important component of the market and advance the right to adequate housing.")
       ),
       shiny::div(
@@ -34,19 +34,46 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            shiny::actionLink(ns("agi_tdf_data_story"), shiny::div(style = "height: 100px; background-color: #F0F0F0;")),
-            shiny::actionLink(ns("agi_tdf_data_story"), shiny::h3("Title")),
-            shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
+            class = "very-padded",
+            shiny::actionLink(
+              ns("lem_proximity_data_story"),
+              shiny::tagList(
+                shiny::div(
+                  align = "center",
+                  # "" alt text indicates this image can be skipped - it does not provide any info
+                  shiny::img(src = "www/blossom_1.png", class = "data-stories-img", alt = "")
+                ),
+                shiny::br(),
+                shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods")
+              )
+            )
           ),
           shiny::column(
             width = 4,
-            shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
-            shiny::h3("Title"), shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
+            class = "padded",
+            shiny::actionLink(
+              ns("agi_tdf_data_story"),
+              shiny::tagList(
+                shiny::div(
+                  align = "center",
+                  shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "")
+                ),
+                shiny::br(),
+                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
+              )
+            )
           ),
           shiny::column(
             width = 4,
-            shiny::div(style = "height: 100px; background-color: #F0F0F0;"),
-            shiny::h3("Title"), shiny::p("Above Guideline Increase applications and Tenant Defense Fund grants in Toronto: three neighbourhoods fall well outside the norm.")
+            class = "padded",
+            shiny::tagList(
+              shiny::div(
+                align = "center",
+                shiny::img(src = "www/empty.png", class = "data-stories-img", alt = "")
+              ),
+              shiny::br(),
+              shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
+            )
           )
         )
       ),
@@ -78,7 +105,7 @@ mod_home_ui <- function(id) {
             shiny::column(
               width = 8,
               class = "smaller",
-              shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental supply, locations of awarded tenant defence fund grants, and more.")
+              shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental stock, locations of awarded tenant defence fund grants, and more.")
             )
           ),
           shiny::column(
@@ -96,7 +123,7 @@ mod_home_ui <- function(id) {
           )
         )
       ),
-      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("<span style = 'color: var(--main-color);'>Questions?</span> Contact us."))),
+      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("Questions? <span style = 'color: var(--main-color);'>Contact us.</span>"))),
       shiny::div(class = "divider-line"),
       shiny::div(
         class = "about",
@@ -121,6 +148,10 @@ mod_home_server <- function(id) {
     })
 
     mod_data_story_agi_tdf_server("agi_tdf")
+
+    shiny::observeEvent(input$lem_proximity_data_story, {
+      mod_data_story_lem_proximity_ui(ns("lem_proximity"))
+    })
   })
 }
 

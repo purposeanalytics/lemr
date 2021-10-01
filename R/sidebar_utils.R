@@ -68,14 +68,14 @@ generate_table <- function(data, measure, compare, first_column_name, rest_colum
 
 summary_statistics_table <- function(data) {
   dplyr::tibble(
-    `Total households` = data[["households"]] %>% scales::comma(),
-    `Total population` = scales::comma(data[["population"]]),
-    `Proportion renters` = data[["household_tenure"]] %>%
+    `Total households (2016)` = data[["households"]] %>% scales::comma(),
+    `Total population (2016)` = scales::comma(data[["population"]]),
+    `Proportion renters (2016)` = data[["household_tenure"]] %>%
       dplyr::filter(.data$group == "Renter") %>%
       dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1),
-    `In core housing need` = format_measure(data[["core_housing_need"]], "core_housing_need"),
-    `Eviction rate` = format_measure(data[["evictions"]], "evictions"),
-    `Vacancy rate` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
+    `Renter households in core housing need (2016)` = format_measure(data[["core_housing_need"]], "core_housing_need"),
+    `Eviction filings (2020)` = format_measure(data[["evictions"]], "evictions"),
+    `Primary market vacancy rate (2020)` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
   ) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
     knitr::kable(col.names = NULL, align = "lr") %>%
@@ -89,8 +89,8 @@ summary_statistics_table <- function(data) {
 
 rental_supply_plot_alt_text <- function(level, neighbourhood) {
   switch(level,
-    "city" = "Bar chart showing the breakdown of the rental market supply in the City of Toronto. The data is in the table that follows.",
-    "neighbourhood" = glue::glue("Bar chart showing the breakdown of the rental market supply in {neighbourhood}. The data is in the table that follows.")
+    "city" = "Bar chart showing the breakdown of the rental market stock in the City of Toronto. The data is in the table that follows.",
+    "neighbourhood" = glue::glue("Bar chart showing the breakdown of the rental market stock in {neighbourhood}. The data is in the table that follows.")
   )
 }
 
@@ -145,7 +145,7 @@ rental_supply_table <- function(data, market) {
       value = scales::comma(.data$value),
       percent = scales::percent(.data$prop, accuracy = 0.1),
       value_percent = glue::glue("{value}{space}({percent})",
-        space = ifelse(.data$prop < 0.1, " &nbsp; &nbsp;", " ")
+        space = ifelse(.data$prop < 0.1, " &nbsp;&nbsp;&nbsp;", " ")
       )
     ) %>%
     dplyr::arrange(.data$group_order) %>%
@@ -290,15 +290,15 @@ number_of_units_plot <- function(data, compare, static = FALSE) {
 
 apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
   if (apartment_building_evaluation_formatted == "NA%") {
-    "RentSafeTO evaluation scores"
+    "Apartment building evaluation scores"
   } else {
-    glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted} median score")
+    glue::glue("Median apartment building evaluation score: {apartment_building_evaluation_formatted}")
   }
 }
 
 apartment_building_evaluation_none <- function(apartment_building_evaluation_formatted) {
   if (apartment_building_evaluation_formatted == "NA%") {
-    "There are no apartment buildings in this neighbourhood, so no RentSafeTO scores to report."
+    "There are no apartment buildings in this neighbourhood, so no evaluation scores to report."
   }
 }
 
@@ -314,15 +314,15 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
   }
 
   switch(level,
-    "city" = "Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings.",
-    "neighbourhood" = glue::glue("Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "city" = "Distribution of median apartment building evaluation score for each of the City of Toronto neighbourhoods with apartment buildings.",
+    "neighbourhood" = glue::glue("Distribution of median apartment building evaluation score for each of the City of Toronto neighbourhoods with apartment buildings. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
   )
 }
 
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemr::city_aggregate[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
+  alt_text <- glue::glue("Histogram showing the distribution of median apartment building evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
@@ -337,7 +337,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   }
 
   if (level == "neighbourhood") {
-    neighbourhood_alt_text <- glue::glue("The bar containing the median RentSafeTO score in {neighbourhood} is highlighted.")
+    neighbourhood_alt_text <- glue::glue("The bar containing the median apartment building score in {neighbourhood} is highlighted.")
     alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
   }
 
@@ -427,7 +427,7 @@ core_housing_need_plot <- function(data, compare, static = FALSE) {
 # Evictions -----
 
 evictions_number <- function(evictions_formatted) {
-  glue::glue("Eviction rate: {evictions_formatted} of renter households")
+  glue::glue("Eviction filings rate: {evictions_formatted} of renter households")
 }
 
 evictions_description <- function(level, neighbourhood, evictions, evictions_formatted) {

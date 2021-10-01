@@ -1,0 +1,84 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r library}
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(sf)
+library(purrr)
+library(tidyr)
+library(stringr)
+library(ggrepel)
+devtools::load_all()
+```
+
+```{r}
+neighbourhood_aggregate <- lemr::neighbourhood_aggregate %>%
+  transpose()
+
+neighbourhood_aggregate <- neighbourhood_aggregate[c("amenity_density", "lem_percent", "rental_supply")] %>%
+  map(bind_rows)
+
+low_proximity_to_services <- neighbourhood_aggregate[["amenity_density"]] %>%
+  filter(group == "Low") %>%
+  rename(low_proximity = prop) %>%
+  select(-group)
+
+lem_percent <- neighbourhood_aggregate[["lem_percent"]] %>%
+  group_by(neighbourhood) %>%
+  summarise(lem_percent = sum(prop))
+
+renters <- neighbourhood_aggregate[["rental_supply"]] %>%
+  filter(!is.na(renters)) %>%
+  distinct(neighbourhood, renters)
+
+lem_percent_with_proximity_to_services <- low_proximity_to_services %>%
+  left_join(lem_percent, by = "neighbourhood") %>%
+  left_join(renters, by = "neighbourhood")
+
+# Remove really low stock, < 25th percentile
+renters_25th_percentile <- lem_percent_with_proximity_to_services[["renters"]] %>%
+  quantile(0.25)
+
+lem_percent_with_proximity_to_services <- lem_percent_with_proximity_to_services %>%
+  filter(renters > renters_25th_percentile)
+```
+
+```{r}
+lem_percent_with_proximity_to_services <- lem_percent_with_proximity_to_services %>%
+  mutate(
+    highlight = neighbourhood %in% c(
+      "Moss Park", "Regent Park", "Mount Pleasant West",
+      "Church-Yonge Corridor", "Rouge",
+      "West Humber-Clairville", "Clairlea-Birchmount"
+    ),
+    colour = ifelse(highlight, main_colour, grey_colour)
+  )
+
+p <- lem_percent_with_proximity_to_services %>%
+  arrange(highlight) %>%
+  ggplot(aes(y = lem_percent, x = low_proximity)) +
+  geom_point(size = 3, aes(colour = colour)) +
+  geom_label_repel(
+    data = lem_percent_with_proximity_to_services %>% filter(highlight), 
+    aes(label = neighbourhood), size = 4, seed = 1234, family = "Lato"
+  ) +
+  scale_color_identity() +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .3), name = "% of LEM rental supply") +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of population with proximity to services") +
+  # Move title to div instead
+  # labs(title = "Percent of population living in low proximity to services versus percent of rental supply that is low-end of market, by neighbourhood") +
+  theme_minimal(base_family = "Lato", base_size = 12)
+
+ggsave(here::here("inst", "data_stories", "lem_proximity_to_services", "lem_proximity_to_services_wide.png"), width = 9, height = 5, dpi = 300, bg = "white")
+fs::file_copy(here::here("inst", "data_stories", "lem_proximity_to_services", "lem_proximity_to_services_wide.png"), here::here("inst", "app", "www", "lem_proximity_to_services_wide.png"), overwrite = TRUE)
+
+ggsave(here::here("inst", "data_stories", "lem_proximity_to_services", "lem_proximity_to_services_narrow.png"), width = 5, height = 7, dpi = 300, bg = "white")
+fs::file_copy(here::here("inst", "data_stories", "lem_proximity_to_services", "lem_proximity_to_services_narrow.png"), here::here("inst", "app", "www", "lem_proximity_to_services_narrow.png"), overwrite = TRUE)
+```

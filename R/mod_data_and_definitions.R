@@ -11,6 +11,25 @@ mod_data_and_definitions_ui <- function(id) {
     class = "content-page",
     id = "data-and-definitions-page",
     shiny::h1("Data & Definitions"),
+    shinybusy::use_busy_spinner(spin = "fading-circle"),
+    shiny::fluidRow(
+      shiny::column(
+        width = 12,
+        shiny::p("The data used in the Low-end of Market Rental Monitor is available in two datasets and in a set of reports."),
+        shiny::downloadLink(ns("aggregate_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Aggregate Layers", shiny::icon("download")))),
+        shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto."),
+        shiny::downloadLink(ns("point_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Point Layers", shiny::icon("download")))),
+        shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values."),
+        shiny::downloadLink(ns("reports"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Reports", shiny::icon("download")))),
+        shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
+      )
+    ),
+    shiny::div(class = "divider-line"),
+    shiny::tagList(
+      lemr::data_and_definitions %>%
+        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
+        dplyr::pull(.data$definition_full)
+    ),
     # I wish I could explain why this is necessary, but removing it makes the tooltips everywhere go away
     # I guess some different JS is getting attached. I don't know!
     shiny::div(
@@ -26,11 +45,6 @@ mod_data_and_definitions_ui <- function(id) {
           show = TRUE
         )
       )
-    ),
-    shiny::tagList(
-      lemr::data_and_definitions %>%
-        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
-        dplyr::pull(.data$definition_full)
     )
   )
 }
@@ -41,6 +55,37 @@ mod_data_and_definitions_ui <- function(id) {
 mod_data_and_definitions_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    output$aggregate_layers <- shiny::downloadHandler(
+      filename = function() {
+        "Aggregate Layers.csv"
+      },
+      content = function(file) {
+        file.copy(app_sys("extdata/aggregate_data.csv"), file)
+      }
+    )
+
+    output$point_layers <- shiny::downloadHandler(
+      filename = function() {
+        "Point Layers.csv"
+      },
+      content = function(file) {
+        file.copy(app_sys("extdata/points_data.csv"), file)
+      }
+    )
+
+    output$reports <- shiny::downloadHandler(
+      filename = function() {
+        "LEMR Reports.zip"
+      },
+      content = function(file) {
+        shinybusy::show_spinner()
+        on.exit(shinybusy::hide_spinner())
+        utils::zip(file, c(fs::dir_ls(app_sys("reports/pdf")), fs::dir_ls(app_sys("reports/html"))), extras = "-j")
+      },
+      contentType = "application/zip"
+    )
+
   })
 }
 
