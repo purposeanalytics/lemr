@@ -39,6 +39,12 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       Shiny.onInputChange('mapZoom', mapZoom);
       });
 
+      // disable map rotation using right click + drag
+      map.dragRotate.disable();
+
+      // disable map rotation using touch rotation gesture
+      map.touchZoomRotate.disableRotation();
+
       // Highlight / fill neighbourhood on hover
 
       let hoveredNghdId = null;
