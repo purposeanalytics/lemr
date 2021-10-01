@@ -34,17 +34,14 @@ mod_home_ui <- function(id) {
         shiny::fluidRow(
           shiny::column(
             width = 4,
-            class = "padded",
+            class = "very-padded",
             shiny::actionLink(
               ns("lem_proximity_data_story"),
               shiny::tagList(
                 shiny::div(
-                  style =
-                 "width: 100%;
-                  height: 275px;
-                  background-image: url('www/blossom_1.png');
-                  background-repeat: no-repeat;
-                  background-size: contain;"
+                  align = "center",
+                  # "" alt text indicates this image can be skipped - it does not provide any info
+                  shiny::img(src = "www/blossom_1.png", class = "data-stories-img", alt = "")
                 ),
                 shiny::br(),
                 shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods")
@@ -58,12 +55,8 @@ mod_home_ui <- function(id) {
               ns("agi_tdf_data_story"),
               shiny::tagList(
                 shiny::div(
-                  style =
-                    "width: 100%;
-                  height: 275px;
-                  background-image: url('www/blossom_2.png');
-                  background-repeat: no-repeat;
-                  background-size: contain;"
+                  align = "center",
+                  shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "")
                 ),
                 shiny::br(),
                 shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
@@ -75,14 +68,12 @@ mod_home_ui <- function(id) {
             class = "padded",
             shiny::tagList(
               shiny::div(
-                style =
-                  "width: 100%;
-                  height: 275px;
-                background-color: var(--grey-color);"
+                align = "center",
+                shiny::img(src = "www/empty.png", class = "data-stories-img", alt = "")
               ),
               shiny::br(),
-            shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
-          )
+              shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
+            )
           )
         )
       ),

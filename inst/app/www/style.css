@@ -294,6 +294,11 @@ body > .container-fluid {
   text-align: center;
 }
 
+.data-stories-img {
+  max-width: 100%;
+  height: auto;
+}
+
 .divider-line {
   height: 1px;
   background-color: var(--accent-color);
