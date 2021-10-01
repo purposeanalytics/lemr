@@ -60,7 +60,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5,
+          width = 7,
           shiny::h2("Broadview North"),
           shiny::p(
             glue::glue("Broadview North, located in East York, has one of the highest AGI rates for apartment buildings in the city. Here, {n_agi} of the {n_buildings} buildings - or {prop_agi} - have at least one. The rate of TDF grants is close to the city average, at {prop_tdf}, with {n_tdf} of the {n_agi} buildings facing an AGI having received a grant.",
@@ -82,14 +82,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%", alt = "A map of Broadview North showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5,
+          width = 7,
           shiny::h2("Mimico"),
           shiny::p(
             glue::glue("Mimico is a primarily residential neighbourhood southwest of Toronto in Etobicoke. The rate of AGIs here is {prop_agi}, or {n_agi} out of {n_buildings} buildings, but more than half of those buildings, {prop_tdf}, have organized with support from a TDF grant.",
@@ -109,14 +109,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5, shiny::h2("Yonge-St. Clair"),
+          width = 7, shiny::h2("Yonge-St. Clair"),
           shiny::p(
             glue::glue("Yonge-St. Clair is an affluent, vibrant neighbourhood known for its restaurants, boutiques, and high-rises. Here, while AGIs are noticeably above the average at a rate of {prop_agi}, TDF grants are only at {prop_tdf}. Out of {n_buildings} apartment buildings in the neighbourhood, {n_agi} have at least one AGI. Only {n_tdf} of those buildings have received a TDF grant.",
               n_agi = lemr::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
@@ -137,7 +137,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
