@@ -7,4 +7,3 @@ corporate_landlords <- read_excel(here::here("data-raw", "points_layers", "corpo
 
 # Save resource with date extracted
 saveRDS(corporate_landlords, here::here("data-raw", "points_layers", "corporate_landlords", "extract", glue::glue("{Sys.Date()}-corporate_landlords.rds")))
-

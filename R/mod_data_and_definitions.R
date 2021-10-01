@@ -85,7 +85,6 @@ mod_data_and_definitions_server <- function(id) {
       },
       contentType = "application/zip"
     )
-
   })
 }
 

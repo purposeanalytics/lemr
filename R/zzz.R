@@ -42,4 +42,3 @@ rooming_house_colors <- function() {
     c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed")
   )
 }
-

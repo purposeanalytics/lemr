@@ -53,7 +53,8 @@ mod_page_map_server <- function(id) {
 
     output$header <- shiny::renderText({
       if (is.null(
-        address_and_neighbourhood$neighbourhood)) {
+        address_and_neighbourhood$neighbourhood
+      )) {
         "Toronto"
       } else {
         address_and_neighbourhood$neighbourhood
