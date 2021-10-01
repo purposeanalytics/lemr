@@ -115,8 +115,7 @@ tm_shape(basemap) +
   add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Social housing"), lemr:::rental_supply_colors()[["Other Non-Market"]], level = level) %>%
   # Rooming houses
   add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Licensed 2018 onwards"), lemr:::rooming_house_colors()[["Licensed 2018 onwards"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Licensed prior to 2018"), lemr:::rooming_house_colors()[["Licensed prior to 2018"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Lapsed"), lemr:::rooming_house_colors()[["Lapsed"]], level = level)
+  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Licensed prior to 2018"), lemr:::rooming_house_colors()[["Licensed prior to 2018"]], level = level)
 ```
   </div>
   <div class = "col-sm-4">
@@ -137,8 +136,8 @@ shiny::tagList(
   ),
   purrr::pmap(
     dplyr::tibble(
-      filter = c("Licensed prior to 2018", "Licensed 2018 onwards", "Lapsed"),
-      wording = c("licensed prior to 2018", "licensed 2018 onwards", "whose licenses have lapsed")
+      filter = c("Licensed prior to 2018", "Licensed 2018 onwards"),
+      wording = c("licensed prior to 2018", "licensed 2018 onwards")
     ),
     function(filter, wording) {
       lemr:::create_circle_legend(lemr:::rooming_house_colors()[[filter]],
