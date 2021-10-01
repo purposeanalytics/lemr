@@ -192,7 +192,7 @@ generate_conditional_tooltip <- function(layer, ns) {
 
 lem_percent_tooltip <- create_popover(title = "Estimated availability of low-end of market rental units", content = NULL)
 
-amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (orange) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
+amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (light blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (mid-toned blue) if it has access to all eight, and high proximity (dark blue) if its proximity to the eight is in the top third.")
 
 rental_supply_primary_tooltip <- create_popover(title = "Estimated rental stock: Primary market units", content = NULL)
 
@@ -223,7 +223,7 @@ generate_conditional_legend <- function(layer, ns) {
 }
 
 amenity_density_legend <- function() {
-  create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for proximity to services: low (blue), medium (yellow), and high (orange).")
+  create_square_legend(amenity_density_colours(), c("Low", "Medium", "High"), alt_text = "A legend showing possible values for proximity to services: low (light blue), medium (mid toned blue), and high (dark blue).")
 }
 
 lem_percent_legend <- function() {
