@@ -180,7 +180,7 @@ lemr:::display_lem(dataset)
 <div class = "row">
   <div class = "col-sm-12">
   
-### Estimated rental supply
+### Estimated rental supply (2016)
 
 ```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
 lemr:::rental_supply_plot(dataset, static = TRUE)
@@ -249,13 +249,13 @@ lemr:::apartment_building_evaluation_description(level, neighbourhood, apartment
 lemr:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 ```
 
-### Rooming houses
+### Rooming house licenses (2020)
 
 ```{r rooming-houses}
 lemr:::display_rooming_houses(dataset, compare = compare)
 ```
 
-### AGI Applications and TDF Grants
+### AGI Applications (2016 to 2020) and TDF Grants (2018 to 2020)
 
 ```{r}
 lemr:::agi_tdf_description(level, neighbourhood) %>%
@@ -309,7 +309,7 @@ lemr:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_fo
 lemr:::vacancy_rate_plot(dataset, compare, static = TRUE)
 ```
 
-### Proximity to services
+### Proximity to services (2020)
 
 ```{r amenity-density, fig.alt = lemr:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemr:::amenity_density_description(level, neighbourhood) %>%
@@ -351,7 +351,7 @@ lemr:::number_of_apartments_description(level, neighbourhood, number_of_apartmen
 lemr:::number_of_apartments_plot(dataset, compare, static = TRUE)
 ```
   
-### Housing structure type
+### Housing structure type (2016)
 
 ```{r structure-type, fig.alt = lemr:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::structure_type_description(level, neighbourhood) %>%
