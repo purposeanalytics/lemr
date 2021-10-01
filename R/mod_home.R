@@ -128,6 +128,7 @@ mod_home_ui <- function(id) {
       shiny::div(
         class = "about",
         shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.")),
+        full_team,
         shiny::p("Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada."),
         shiny::p("For the source code, you will be able to visit the project's GitHub repository."),
         shiny::p(shiny::tags$i("Last updated: September 2021"))
@@ -155,8 +156,46 @@ mod_home_server <- function(id) {
   })
 }
 
-## To be copied in the UI
-# mod_home_ui("home")
+team <- dplyr::tribble(
+  ~name, ~role, ~link,
+  "Lorena Almaraz De La Garza", "Design Researcher", "https://ca.linkedin.com/in/lalmaraz",
+  "Nigel Carvalho", "Assistant Housing Consultant", "https://ca.linkedin.com/in/nigel-carvalho",
+  "Sharla Gelfand", "Statistician & Software Developer", "https://www.sharlagelfand.com/",
+  "Melissa Goldstein", "Housing Consultant", "https://www.melissagoldstein.com/",
+  "Tara Kamal Ahmadi", "Data Analyst", "https://ca.linkedin.com/in/tara-kamal-ahmadi-651453a3",
+  "Daniel Liadsky", "Project Manager", "https://purposeanalytics.ca/",
+  "Thomas Rosenthal", "Data Scientist", "https://purposeanalytics.ca/",
+  "Richard Marshall", NA_character_, NA_character_,
+  "Steve Pomeroy", NA_character_, "http://www.focus-consult.com/",
+  "Jens von Bergmann", NA_character_, "https://mountainmath.ca/"
+)
 
-## To be copied in the server
-# mod_home_server("home")
+generate_team_item <- function(name, link, role) {
+  if (!is.na(link)) {
+    name <- glue::glue("<a href = '{link}' target = '_blank'>{name}</a>")
+  }
+
+  if (!is.na(role)) {
+    role <- glue::glue(", {role}")
+  }
+
+  shiny::HTML(glue::glue("{name}{role}<br>", .na = ""))
+}
+
+team <- team %>%
+  dplyr::mutate(item = purrr::pmap(list(name, link, role), generate_team_item))
+
+team_items <- team %>%
+  dplyr::filter(!is.na(role)) %>%
+  dplyr::pull(item) %>%
+  shiny::tagList()
+
+advisor_items <- team %>%
+  dplyr::filter(is.na(role)) %>%
+  dplyr::pull(item) %>%
+  shiny::tagList()
+
+full_team <- shiny::tagList(
+  shiny::p("Team members:", shiny::br(), team_items),
+  shiny::p("Advisors:", shiny::br(), advisor_items)
+)
