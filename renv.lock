@@ -946,9 +946,15 @@
     "lemr": {
       "Package": "lemr",
       "Version": "0.0.0.9005",
-      "Source": "unknown",
+      "Source": "GitHub",
       "Remotes": "benmarwick/words2number, rstudio/shinyvalidate,\nColinFay/glouton",
-      "Hash": "0ba0bad06fd92751cda928b171f1450a"
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "lemur",
+      "RemoteUsername": "purposeanalytics",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "ae7a76409a2aaf81980a945a2529db3e02d247bc",
+      "Hash": "946e1eeea6df8da0d8fd99faabb4c170"
     },
     "lhs": {
       "Package": "lhs",
