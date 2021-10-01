@@ -44,7 +44,7 @@ mod_full_summary_modal_ui <- function(id) {
                 shiny::column(
                   width = 12,
                   shiny::hr(),
-                  shiny::h2("Estimated rental supply"),
+                  shiny::h2("Estimated rental stock (2016)"),
                   shiny::uiOutput(ns("rental_supply_plot_ui (2016)"))
                 ),
                 shiny::column(

@@ -231,19 +231,19 @@ lem_percent_legend <- function() {
 }
 
 rental_supply_primary_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "primary market"))
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rental units, from 0% (white) to 100% (dark blue).", market = "primary market"))
 }
 
 rental_supply_condo_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market condominium"))
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rental units, from 0% (white) to 100% (dark blue).", market = "secondary market condominium"))
 }
 
 rental_supply_non_condo_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rental units, from 0% (white) to 100% (dark blue).", market = "secondary market non-condominium"))
 }
 
 rental_supply_non_market_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rentals, from 0% (white) to 100% (dark blue).", market = "non-market"))
+  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of {market} rental units, from 0% (white) to 100% (dark blue).", market = "non-market"))
 }
 
 core_housing_need_legend <- function() {

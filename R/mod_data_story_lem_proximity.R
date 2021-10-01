@@ -28,7 +28,7 @@ mod_data_story_lem_proximity_ui <- function(id) {
       shiny::div(
         align = "center",
         class = "padded",
-        shiny::img(src = fs::path("www", "map_lem_percent", ext = "png"), title = "Low-end of market rentals in the City of Toronto", width = "100%", alt = "A map of the City of Toronto divided into neighborhoods shows the estimated annual availability of low-end of market rental units concentrated in the east and west ends."),
+        shiny::img(src = fs::path("www", "map_lem_percent", ext = "png"), title = "Low-end of market rental units in the City of Toronto", width = "100%", alt = "A map of the City of Toronto divided into neighborhoods shows the estimated annual availability of low-end of market rental units concentrated in the east and west ends."),
         shiny::tags$i("The estimated annual availability of low-end of market rental units in Toronto tends towards the east end of the city, with Woburn as the neighbourhood with highest concentration of stock.")
       ),
       shiny::p("At a glance, it is evident that the bulk of the estimated low-end of market rental stock in Toronto is located in the periphery of the city. Neighbourhoods like Woburn, Malvern, Dorset Park, and Clairlea-Birchmount on the east end, and West-Humber Clairville on the west, stand out as those with the highest concentration of estimated low-end of market rental stock. In contrast, two neighbourhoods closer to the city core, Playter Estates-Danforth and Yonge-Eglinton, are noticeably devoid of any stock in the estimation."),
@@ -56,7 +56,7 @@ mod_data_story_lem_proximity_ui <- function(id) {
           ),
           shiny::img(
             src = "www/lem_proximity_to_services_wide.png",
-            title = "Proportion of estimated low-end of market stock versus proximity to services",
+            title = "Proportion of annual estimated low-end of market stock versus proximity to services",
             width = "100%",
             alt = "A scatterplot shows the relationship between the proportion of estimated low-end of rental market stock in a neighbourhood and its proximity to services. It highlights neighbourhoods with a high proportion on estimated rental stock on the lower end of the market, above 25%, yet within low proximity to services, and neighbourhoods with low estimated stock yet within high proximity to services."
           )

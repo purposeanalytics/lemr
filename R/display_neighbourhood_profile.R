@@ -554,7 +554,7 @@ rental_supply_single_table <- function(data) {
         if (stringr::str_ends(x, ":")) {
           return(x)
         }
-        create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
+        create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rental units in the above plot.")) %>% as.character()
       }),
       group = forcats::fct_relevel(
         group, "Primary market units:", "Apartment", "Non-Apartment",
@@ -589,7 +589,7 @@ rental_supply_table <- function(data, market) {
   data %>%
     dplyr::mutate(group_order = forcats::fct_relevel(.data$group, layer_order)) %>%
     dplyr::mutate(group = purrr::map_chr(.data$group, function(x) {
-      create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rentals in the above plot.")) %>% as.character()
+      create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rental units in the above plot.")) %>% as.character()
     })) %>%
     janitor::adorn_totals(name = totals_name, fill = totals_name) %>%
     dplyr::mutate(
