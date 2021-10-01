@@ -9,9 +9,9 @@ mod_point_layer_ui <- function(id, layer) {
   ns <- shiny::NS(id)
 
   tooltip <- switch(layer,
-    apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, RentSafeTO evaluation scores, and above guideline increase applications, as relevant."),
+    apartment_buildings = create_popover(title = "Apartment Buildings", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, apartment building evaluation scores, and above guideline increase applications, as relevant."),
     rooming_houses = create_popover(title = "Rooming houses", content = "This layer shows the locations of rooming houses, including licensed (pre- and post-2018) and lapsed rooming houses"),
-    apartment_evaluation = create_popover(title = "RentSafeTO Evaluation Scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
+    apartment_evaluation = create_popover(title = "Apartment building evaluation scores", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
     agi = create_popover(title = "Above Guideline Increase Applications", content = "This layer shows the locations of apartment buildings whose landlords applied for an Above Guideline Increase (AGI) in the rent from 2016 onwards."),
     tdf = create_popover(title = "Tenant Defence Fund Grants", content = "This layer shows the locations of apartment buildings who received a Tenant Defence Fund grant for the above guideline increases their landlords applied for.")
   )
@@ -187,7 +187,7 @@ point_layers_choices <- list(
 )
 
 generate_apartment_evaluation_legend <- function() {
-  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for RentSafeTO evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
+  create_circle_legend(colour = unname(rentsafe_colors()), text = names(rentsafe_colors()), alt_text = "A legend showing the colours of points for apartment building evaluation scores, broken into categories of 0% to 50%, 51% to 65%, 66% to 80%, and 81% to 100%.")
 }
 
 ## To be copied in the UI

@@ -19,6 +19,8 @@ mod_page_map_ui <- function(id) {
         style = "margin-left: 15px; padding-right: 30px;",
         mod_search_ui(ns("search")),
         shiny::hr(),
+        shiny::h1(style = "padding-top: 0;", shiny::textOutput(ns("header"))),
+        shiny::hr(),
         mod_aggregate_layer_ui(ns("aggregate")),
         shiny::h2("Select points layer(s)", id = "points_layer_div"),
         mod_point_layer_ui(ns("apartment_buildings"), "apartment_buildings"),
@@ -46,6 +48,17 @@ mod_page_map_server <- function(id) {
     mod_search_server("search", address_and_neighbourhood, search_method)
 
     mod_map_server("map", address_and_neighbourhood, search_method, point_layers, aggregate_layers)
+
+    # Just text header!
+
+    output$header <- shiny::renderText({
+      if (is.null(
+        address_and_neighbourhood$neighbourhood)) {
+        "Toronto"
+      } else {
+        address_and_neighbourhood$neighbourhood
+      }
+    })
 
     # Header
 

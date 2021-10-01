@@ -290,15 +290,15 @@ number_of_units_plot <- function(data, compare, static = FALSE) {
 
 apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
   if (apartment_building_evaluation_formatted == "NA%") {
-    "RentSafeTO evaluation scores"
+    "Apartment building evaluation scores"
   } else {
-    glue::glue("Median RentSafeTO evaluation score: {apartment_building_evaluation_formatted}")
+    glue::glue("Median apartment building evaluation score: {apartment_building_evaluation_formatted}")
   }
 }
 
 apartment_building_evaluation_none <- function(apartment_building_evaluation_formatted) {
   if (apartment_building_evaluation_formatted == "NA%") {
-    "There are no apartment buildings in this neighbourhood, so no RentSafeTO scores to report."
+    "There are no apartment buildings in this neighbourhood, so no evaluation scores to report."
   }
 }
 
@@ -314,15 +314,15 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
   }
 
   switch(level,
-    "city" = "Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings.",
-    "neighbourhood" = glue::glue("Distribution of median RentSafeTO evaluation score for each of the City of Toronto neighbourhoods with apartment buildings. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
+    "city" = "Distribution of median apartment building evaluation score for each of the City of Toronto neighbourhoods with apartment buildings.",
+    "neighbourhood" = glue::glue("Distribution of median apartment building evaluation score for each of the City of Toronto neighbourhoods with apartment buildings. The value for {neighbourhood}, {apartment_building_evaluation_formatted}, is higher than {scales::percent(accuracy = 1, value_percentile)} of other neighbourhoods'.")
   )
 }
 
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemr::city_aggregate[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median RentSafeTO evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
+  alt_text <- glue::glue("Histogram showing the distribution of median apartment building evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
@@ -337,7 +337,7 @@ apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   }
 
   if (level == "neighbourhood") {
-    neighbourhood_alt_text <- glue::glue("The bar containing the median RentSafeTO score in {neighbourhood} is highlighted.")
+    neighbourhood_alt_text <- glue::glue("The bar containing the median apartment building score in {neighbourhood} is highlighted.")
     alt_text <- glue::glue("{alt_text} {neighbourhood_alt_text}")
   }
 
