@@ -632,9 +632,8 @@ ul {
     margin-right: 0 !important;
   }
 
-/* Extra small devices (portrait phones, up to 575px) */
-@media (max-width: 575px) {
-
+/* Small devices (Phones / Portrait iPad) */
+@media (max-width: 768px) {
   #shiny-modal {
     padding-right: 0 !important;
   }
@@ -669,6 +668,15 @@ ul {
     margin-right: 0 !important;
   }
 }
+
+/* Small font sizes in tables on phone */
+@media (max-width: 575px) {
+  .lightable-minimal, .table {
+    font-size: 0.75em;
+  }
+
+}
+
 
 /* When bootstrap collapsed navbar is not triggered, style the navbar all nice */
 /* Only then, otherwise it looks bad in the hamburger menu! */
