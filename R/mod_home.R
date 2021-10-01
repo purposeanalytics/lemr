@@ -100,7 +100,7 @@ mod_home_ui <- function(id) {
             class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::icon("layer-group", class = "fa-5x fa-fw")
+              shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::icon("layer-group", class = "fa-5x fa-fw"), style = "color: black !important;")
             ),
             shiny::column(
               width = 8,
@@ -113,7 +113,7 @@ mod_home_ui <- function(id) {
             class = "vertical-align",
             shiny::column(
               width = 4,
-              shiny::icon("book-open", class = "fa-5x fa-fw")
+              shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::icon("book-open", class = "fa-5x fa-fw"), style = "color: black !important;")
             ),
             shiny::column(
               width = 8,
