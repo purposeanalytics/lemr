@@ -72,7 +72,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
 
     output$layer_summary <- shiny::renderText({
       switch(input$layer,
-        lem_percent = glue::glue("Estimated percent of rental stock that is LEM: {percent}",
+        lem_percent = glue::glue("Estimated proportion of private low-end of market units (dummy data): {percent}",
           percent = scales::percent(dataset()[["lem_percent"]][["prop"]] %>% sum(), accuracy = 0.1)
         ),
         amenity_density = dataset()[["amenity_density"]] %>%
@@ -81,18 +81,18 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
           dplyr::pull(.data$res) %>%
           glue::glue_collapse(sep = "; ") %>%
           paste0(" of population"),
-        rental_supply_primary = glue::glue("Primary market households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$market == "Primary") %>% dplyr::pull(.data$prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
-        rental_supply_condo = glue::glue("Condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$group == "Condo") %>% dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1)),
-        rental_supply_non_condo = glue::glue("Secondary market non-condominium households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$group == "Non-Condo") %>% dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1)),
-        core_housing_need = glue::glue("Core housing need: {percent}",
+        rental_supply_primary = glue::glue("Estimated proportion of primary market units (2016): {percent}", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$market == "Primary") %>% dplyr::pull(.data$prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
+        rental_supply_condo = glue::glue("Estimated proportion of secondary market condo units (2016): {percent}", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$group == "Condo") %>% dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1)),
+        rental_supply_non_condo = glue::glue("Estimated proportion of secondary market non-condo units (2016): {percent}", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$group == "Non-Condo") %>% dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1)),
+        core_housing_need = glue::glue("Renter households in core housing need (2016): {percent}",
           percent = dataset()[["core_housing_need"]] %>%
             scales::percent(accuracy = 0.1)
         ),
-        rental_supply_non_market = glue::glue("Non-market rental households: {percent} of renter households", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$market == "Non-market") %>% dplyr::pull(.data$prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
-        eviction_rate = glue::glue("Eviction filings rate: {percent}",
+        rental_supply_non_market = glue::glue("Estimated proportion of non-market units (2016): {percent}", percent = dataset()[["rental_supply"]] %>% dplyr::filter(.data$market == "Non-market") %>% dplyr::pull(.data$prop) %>% sum() %>% scales::percent(accuracy = 0.1)),
+        eviction_rate = glue::glue("Eviction filings per renter households (2016): {percent}",
           percent = format_measure(dataset()[["evictions"]], "evictions")
         ),
-        vacancy_rate = glue::glue("Vacancy rate: {percent}",
+        vacancy_rate = glue::glue("Primary market vacancy rate (2020): {percent}",
           percent = format_measure(dataset()[["vacancy_rate_2020"]], "vacancy_rate")
         )
       )
