@@ -74,7 +74,7 @@ summary_statistics_table <- function(data) {
       dplyr::filter(.data$group == "Renter") %>%
       dplyr::pull(.data$prop) %>% scales::percent(accuracy = 0.1),
     `Renter households in core housing need (2016)` = format_measure(data[["core_housing_need"]], "core_housing_need"),
-    `Eviction filings (2020)` = format_measure(data[["evictions"]], "evictions"),
+    `Eviction filings (2016)` = format_measure(data[["evictions"]], "evictions"),
     `Primary market vacancy rate (2020)` = format_measure(data[["vacancy_rate_2020"]], "vacancy_rate")
   ) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%

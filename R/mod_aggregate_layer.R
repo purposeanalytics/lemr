@@ -247,7 +247,7 @@ rental_supply_non_market_legend <- function() {
 }
 
 core_housing_need_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "100%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 100% (dark blue)."))
+  generate_layers_legend(low_high_legend_colors(), "0%", "60%", alt_text = glue::glue("A legend showing the proportion of renters in core housing need, from 0% (white) to 60% (dark blue)."))
 }
 
 eviction_rate_legend <- function() {
