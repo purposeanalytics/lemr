@@ -97,7 +97,7 @@ rental_supply_plot_alt_text <- function(level, neighbourhood) {
 # Number of apartments ----
 
 number_of_apartments_number <- function(number_of_apartments_formatted) {
-  glue::glue("Apartment buildings: {number_of_apartments_formatted}")
+  glue::glue("Apartment buildings (2021): {number_of_apartments_formatted}")
 }
 
 number_of_apartments_breakdown <- function(data) {
@@ -150,7 +150,7 @@ number_of_apartments_plot <- function(data, compare, static = FALSE) {
 }
 
 number_of_units_number <- function(number_of_units_formatted) {
-  glue::glue("Apartment building units: {number_of_units_formatted}")
+  glue::glue("Apartment building units (2021): {number_of_units_formatted}")
 }
 
 number_of_units_breakdown <- function(data) {
@@ -214,9 +214,9 @@ number_of_units_plot <- function(data, compare, static = FALSE) {
 
 apartment_building_evaluation_number <- function(apartment_building_evaluation_formatted) {
   if (apartment_building_evaluation_formatted == "NA%") {
-    "Apartment building evaluation scores"
+    "Apartment building evaluation scores (2021)"
   } else {
-    glue::glue("Median apartment building evaluation score: {apartment_building_evaluation_formatted}")
+    glue::glue("Median apartment building evaluation score (2021): {apartment_building_evaluation_formatted}")
   }
 }
 
@@ -303,7 +303,7 @@ amenity_density_plot <- function(data, compare, static = FALSE) {
 
 
 core_housing_need_number <- function(core_housing_need_formatted) {
-  glue::glue("Core housing need: {core_housing_need_formatted} of renter households")
+  glue::glue("Core housing need (2016): {core_housing_need_formatted} of renter households")
 }
 
 core_housing_need_description <- function(level, neighbourhood, core_housing_need, core_housing_need_formatted) {
@@ -351,7 +351,7 @@ core_housing_need_plot <- function(data, compare, static = FALSE) {
 # Evictions -----
 
 evictions_number <- function(evictions_formatted) {
-  glue::glue("Eviction filings rate: {evictions_formatted} of renter households")
+  glue::glue("Eviction filings per renter households (2016): {evictions_formatted} of renter households")
 }
 
 evictions_description <- function(level, neighbourhood, evictions, evictions_formatted) {
@@ -399,7 +399,7 @@ evictions_plot <- function(data, compare, static = FALSE) {
 # Vacancy rate ----
 
 vacancy_rate_number <- function(vacancy_rate_formatted) {
-  glue::glue("Vacancy rate: {vacancy_rate_formatted} of renter households")
+  glue::glue("Primary market vacancy rate (2020): {vacancy_rate_formatted} of renter households")
 }
 
 vacancy_rate_description <- function(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) {
@@ -495,7 +495,7 @@ population_change_plot <- function(data, compare, static = FALSE) {
 # Population density ----
 
 population_density_number <- function(data) {
-  glue::glue("Population density: {data} people per square kilometre")
+  glue::glue("Population density (2016): {data} people per square kilometre")
 }
 
 population_density_description <- function(level, neighbourhood, population_density, population_density_formatted) {
@@ -586,7 +586,7 @@ average_total_household_income_plot <- function(data, compare, static = FALSE) {
 # Unaffordable housing ----
 
 unaffordable_housing_number <- function(unaffordable_housing_formatted, level) {
-  number <- glue::glue("Unaffordable housing: {unaffordable_housing_formatted} of renter households")
+  number <- glue::glue("Unaffordable housing (2016): {unaffordable_housing_formatted} of renter households")
 
   if (level == "neighbourhood") {
     glue::glue('{number} (City of Toronto: {scales::percent(lemr::city_aggregate[["unaffordable_housing"]], accuracy = 0.1)})')
@@ -641,7 +641,7 @@ unaffordable_housing_plot <- function(data, compare, static = FALSE) {
 # LIM-AT
 
 lim_at_number <- function(data, level) {
-  number <- glue::glue("Low-income measure after tax: {data} of population")
+  number <- glue::glue("Low-income measure after tax (2016): {data} of population")
 
   if (level == "neighbourhood") {
     glue::glue('{number} (City of Toronto: {format_measure(lemr::city_aggregate[["lim_at"]], "lim_at")})')
@@ -702,7 +702,7 @@ visible_minority_number <- function(data, level) {
     sum() %>%
     scales::percent(accuracy = 0.1)
 
-  number <- glue::glue("Visible minority population: {prop}")
+  number <- glue::glue("Visible minority population (2016): {prop}")
 
   if (level == "neighbourhood") {
     city_prop <- lemr::city_aggregate[["visible_minority"]] %>%
@@ -784,7 +784,7 @@ household_tenure_plot <- function(data, compare, static = FALSE) {
 # Shelter cost -----
 
 shelter_cost_number <- function(shelter_cost_formatted, level) {
-  number <- glue::glue("Average renter shelter cost: {shelter_cost_formatted}")
+  number <- glue::glue("Average renter shelter cost (2016): {shelter_cost_formatted}")
 
   if (level == "neighbourhood") {
     glue::glue('{number} (City of Toronto: {scales::dollar(lemr::city_aggregate[["average_renter_shelter_cost"]], accuracy = 1)})')

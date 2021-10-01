@@ -27,7 +27,7 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 12,
-      shiny::h2("Estimated rental supply"),
+      shiny::h2("Estimated rental supply (2016)"),
       shiny::uiOutput(ns("rental_supply_plot_ui"))
     ),
     shiny::column(
