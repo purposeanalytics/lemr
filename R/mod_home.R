@@ -130,8 +130,8 @@ mod_home_ui <- function(id) {
         shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.")),
         full_team,
         shiny::p("Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada."),
-        shiny::p("For the source code, you will be able to visit the project's GitHub repository."),
-        shiny::p(shiny::tags$i("Last updated: September 2021"))
+        shiny::p(shiny::HTML("For the source code, you can visit the project's <a href = 'https://github.com/purposeanalytics/lemur/' target = '_blank'>GitHub repository</a>.")),
+        shiny::p(shiny::tags$i("Last updated: October 2021"))
       )
     )
   )
