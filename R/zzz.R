@@ -1,6 +1,6 @@
 main_colour <- "#08569A"
 default_line_colour <- "#FFFFFF"
-accent_colour <- mid_colour <- "#FFC20A"
+accent_colour <- mid_colour <- "#F47A21"
 low_colour <- "#3BA535"
 high_colour <- "#9C62BE"
 grey_colour <- "#B8B8B8"
@@ -9,14 +9,14 @@ bearing <- -17
 
 layer_colours <- c(
   apartment_buildings_private = "#27a167",
-  agi_apartment = "#ED7521",
-  agi_other = "#F0A26A",
+  agi_apartment = "#FFC20A",
+  agi_other = "#FFE69C",
   tdf = "#ffffbf"
 )
 
 rental_supply_colors <- function() {
   stats::setNames(
-    c("#27a167", "#67BF95", "#0642a1", "#1569ed", "#f53216", "#f77460"),
+    c("#27a167", "#67BF95", "#0642a1", "#1569ed", accent_colour, "#FF9E58"),
     c("Apartment", "Non-Apartment", "Condo", "Non-Condo", "Toronto Community Housing", "Other Non-Market")
   )
 }
