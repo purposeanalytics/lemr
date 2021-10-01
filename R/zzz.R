@@ -1,4 +1,4 @@
-main_colour <- "#08569A"
+main_colour <- "#0745a8"
 default_line_colour <- "#FFFFFF"
 accent_colour <- mid_colour <- "#F47A21"
 low_colour <- "#3BA535"
@@ -16,13 +16,13 @@ layer_colours <- c(
 
 rental_supply_colors <- function() {
   stats::setNames(
-    c("#27a167", "#67BF95", "#0642a1", "#1569ed", accent_colour, "#FF9E58"),
+    c("#27a167", "#67BF95", main_colour, "#386aba", accent_colour, "#FF9E58"),
     c("Apartment", "Non-Apartment", "Condo", "Non-Condo", "Toronto Community Housing", "Other Non-Market")
   )
 }
 
 low_high_legend_colors <- function() {
-  c("#ffffff", "#cedaee", "#9cb5dd", "#6a8fcb", "#386aba", "#0745a8")
+  c("#ffffff", "#cedaee", "#9cb5dd", "#6a8fcb", "#386aba", main_colour)
 }
 
 amenity_density_colours <- function() {
