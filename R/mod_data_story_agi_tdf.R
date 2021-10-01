@@ -8,7 +8,7 @@
 mod_data_story_agi_tdf_ui <- function(id) {
   map_legend <- shiny::tagList(
     create_circle_legend(layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defencee fund grants.")
+    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defence fund grants.")
   )
 
   ns <- shiny::NS(id)

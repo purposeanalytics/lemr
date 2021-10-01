@@ -34,7 +34,7 @@ render_reports <- function(level, neighbourhood) {
 
 # Iterate over neighbourhoods
 
-walk(neighbourhoods[113:140], ~ render_reports("neighbourhood", .x))
+walk(neighbourhoods, ~ render_reports("neighbourhood", .x))
 
 # City level
 render_reports("city", "Toronto")
