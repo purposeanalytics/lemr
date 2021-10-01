@@ -190,23 +190,23 @@ generate_conditional_tooltip <- function(layer, ns) {
   )
 }
 
-lem_percent_tooltip <- create_popover(title = "Estimated availability of low-end of market rental units", content = NULL)
+lem_percent_tooltip <- create_popover(title = "Estimated availability of low-end of market rental units", content = "This layer shows the approximate percent of rental stock that has been defined as \"deeply\" or \"very\" affordable housing. Percentages are calculated by the number of low-end units by the total estimated rental stock. Darker colours indicate a higher percentage.")
 
 amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (light blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (mid-toned blue) if it has access to all eight, and high proximity (dark blue) if its proximity to the eight is in the top third.")
 
-rental_supply_primary_tooltip <- create_popover(title = "Estimated rental stock: Primary market units", content = NULL)
+rental_supply_primary_tooltip <- create_popover(title = "Estimated rental stock: Primary market units", content = "This layer shows the percent of estimated rental stock available through the primary market. Percentages are calculated by the number of primary rental units by the total estimated rental stock. Darker colours indicate a higher percentage.")
 
-rental_supply_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market condo units", content = NULL)
+rental_supply_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market condo units", content = "This layer shows the percent of estimated rental stock within condominiums. Percentages are calculated by the number of rented condo units by the total estimated rental stock. Darker colours indicate a higher percentage.")
 
-rental_supply_non_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market non-condo units", content = NULL)
+rental_supply_non_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market non-condo units", content = "This layer shows the percent of estimated rental stock available through the secondary market but is not a condominium. Percentages are calculated by the number of non-condo secondary market units by the total estimated rental stock. Darker colours indicate a higher percentage.")
 
-rental_supply_non_market_tooltip <- create_popover(title = "Estimated rental stock: Non-market units", content = NULL)
+rental_supply_non_market_tooltip <- create_popover(title = "Estimated rental stock: Non-market units", content = "This layer shows the percent of estimated rental stock available through non-market means, such as Toronto Community Housing, rooming houses, and other non-market housing. Percentages are calculated by the number of non-market units by the total estimated rental stock. Darker colours indicate a higher proportion of units.")
 
-core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
+core_housing_need_tooltip <- create_popover(title = "Core housing need", content = "This layer shows the percentage of households meeting the criteria to be in core housing need. According to Statistics Canada, ahousehold is in core housing need if its housing falls below at least one of the adequacy, affordability or suitability standards and if it would have to spend 30% or more of its total before-tax income to pay the median rent of alternative local housing that <i>is</i> acceptable (meets all three housing standards). Darker colours indicate a higher proportion of households.")
 
-eviction_rate_tooltip <- create_popover(title = "Eviction filings", content = NULL)
+eviction_rate_tooltip <- create_popover(title = "Eviction filings", content = "This layer shows the percentage of eviction filings per rental household. Darker colours indicate a higher proportion of eviction filings.")
 
-vacancy_rate_tooltip <- create_popover(title = "Primary market vacancy rate", content = NULL)
+vacancy_rate_tooltip <- create_popover(title = "Primary market vacancy rate", content = "This layer shows the percent of primary market rental units that sit unoccupied. Darker colours indicate a higher proportion of vacant units.")
 
 # Legends ----
 
