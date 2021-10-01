@@ -494,16 +494,48 @@ display_rooming_houses <- function(data, compare = TRUE) {
 }
 
 display_lem <- function(data) {
-  data[["lem"]] %>%
+  lem_total <- data[["lem"]] %>%
     dplyr::select(-tidyselect::any_of("neighbourhood")) %>%
-    tidyr::pivot_wider(names_from = .data$affordable, values_from = .data$n) %>%
-    janitor::adorn_totals(c("row", "col")) %>%
-    dplyr::mutate(dplyr::across(-.data$bedrooms, scales::comma)) %>%
-    dplyr::rename(Bedrooms = .data$bedrooms) %>%
-    kableExtra::kable(align = "lrrr") %>%
-    kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
-    kableExtra::column_spec(1, width = "30%") %>%
-    kableExtra::column_spec(2:4, width = "20%")
+    dplyr::arrange(bedrooms, affordable) %>%
+    split(.$bedrooms) %>%
+    purrr::map(function(x) {
+      x %>%
+        janitor::adorn_totals(name = "Total Affordable Units") %>%
+        dplyr::mutate(affordable = forcats::fct_inorder(affordable),
+               affordable = forcats::fct_relevel(affordable, "Total Affordable Units", after = 0)) %>%
+        dplyr::arrange(affordable)}) %>%
+    dplyr::bind_rows(.id = "bedrooms") %>%
+    dplyr::select(bedrooms, affordable, n) %>%
+    dplyr::mutate(n = scales::comma(n))
+
+  cutoffs <- dplyr::tribble(
+    ~affordable, ~bedrooms, ~min, ~max,
+    "Deeply Affordable", "Bachelor", 0, 385,
+    "Very Affordable", "Bachelor", 386, 812,
+    "Deeply Affordable", "1 bedroom", 0, 495,
+    "Very Affordable", "1 bedroom", 496, 1090,
+    "Deeply Affordable", "2 bedrooms", 0, 929,
+    "Very Affordable", "2 bedrooms", 930, 1661,
+    "Deeply Affordable", "3+ bedrooms", 0, 1046,
+    "Very Affordable", "3+ bedrooms", 1047, 1858
+  ) %>%
+    dplyr::mutate(dplyr::across(c(min, max), scales::comma),
+           cutoff = glue::glue("{min} - {max}")) %>%
+    dplyr::select(-min, -max)
+
+  lem_total %>%
+    dplyr::left_join(cutoffs, by = c("bedrooms", "affordable")) %>%
+    dplyr::select(bedrooms, affordable, cutoff, n) %>%
+    dplyr::mutate(cutoff = dplyr::coalesce(cutoff, "")) %>%
+    dplyr::select(-bedrooms) %>%
+    knitr::kable(col.names = c("", "Cutoff", "Estimated Units"), align = "lrr") %>%
+    kableExtra::kable_styling(bootstrap_options = "condensed",
+                  html_font = "\"Lato\", sans-serif") %>%
+    kableExtra::pack_rows("Bachelor", 1, 3) %>%
+    kableExtra::pack_rows("1 bedroom", 4, 6) %>%
+    kableExtra::pack_rows("2 bedrooms", 7, 9) %>%
+    kableExtra::pack_rows("3+ bedrooms", 10, 12) %>%
+    kableExtra::row_spec(c(1, 4, 7, 10), bold = TRUE)
 }
 
 
