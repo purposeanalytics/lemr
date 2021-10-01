@@ -10,7 +10,7 @@ knit: pagedown::chrome_print
 ---
 
 ```{r setup, include=FALSE}
-library(lemr)
+devtools::load_all()
 library(htmltools)
 library(knitr)
 library(leaflet)
@@ -35,6 +35,11 @@ title <- switch(level,
 )
 
 dataset <- lemr:::determine_dataset_from_level(level, neighbourhood)
+
+legend <- if (level == "neighbourhood") {
+  legend_label <- glue::glue("A legend showing {neighbourhood} (dark blue) versus City of Toronto (grey), used for plots on this page.")
+  shiny::HTML(glue::glue("<div role = 'img' aria-label = '{legend_label}'>{lemr::create_neighbourhood_legend(neighbourhood)}</div>"))
+}
 ```
 
 <!-- <div style = "background-color: var(--main-color) !important; color: white; height: 5em; text-align: center;"> -->
@@ -205,9 +210,12 @@ lemr:::rental_supply_non_market_table(dataset)
 <hr>
 
 <div style = "display:block; clear:both; page-break-after:always;"></div>
-
 <div class = "row">
   <div class = "col-sm-6">
+  
+```{r output = "asis"}
+legend
+```
 
 ```{r apartment-building-units, fig.alt = lemr:::number_of_units_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_units <- lemr:::get_measure(dataset, "number_of_units")
@@ -322,7 +330,11 @@ lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to service
 ## Housing characteristics 
 
 <div class = "row">
-  <div class = "col-sm-6">
+  <div class = "col-sm-6">  
+  
+```{r output = "asis"}
+legend
+```
 
 ```{r apartment-buildings, fig.alt = lemr:::number_of_apartments_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_apartments <- lemr:::get_measure(dataset, "number_of_buildings")
@@ -410,7 +422,11 @@ lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "P
 ## Sociodemographic characteristics
 
 <div class = "row">
-  <div class = "col-sm-6">
+  <div class = "col-sm-6">  
+  
+```{r output = "asis"}
+legend
+```
   
 ```{r population-density, fig.alt = lemr:::population_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 population_density <- lemr:::get_measure(dataset, "population_density")
