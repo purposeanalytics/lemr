@@ -12,18 +12,14 @@ mod_home_ui <- function(id) {
       class = "welcome-banner",
       shiny::div(
         class = "welcome-banner-content",
-        shiny::h1("Welcome to the Low-end of Market Rental Monitor"),
-        shiny::tags$i(shiny::HTML("This tool is a <b>proof of concept</b> that demonstrates the potential for linking housing data from multiple sources with a future goal of estimating the volume of deeply affordable housing units, where they are located, and how this is changing over time."))
+        shiny::h1(shiny::HTML("Welcome to the<br/>Low-end of Market Rental Monitor")),
+        shiny::p("This tool is a proof of concept that demonstrates the potential for linking housing data from multiple sources with a future goal of estimating how the supply of deeply affordable housing units in the private market is changing over time.")
       )
     ),
     shiny::div(
       class = "content-page padded home",
       shiny::div(
-        class = "intro-sentence biggest",
-        shiny::HTML("<b>LEMR</b> is an interactive tool developed to understand changes in the stock of deeply affordable rental housing in the City of Toronto.")
-      ),
-      shiny::div(
-        class = "intro-paragraph padded",
+        class = "intro-paragraph padded center-padded bigger",
         shiny::h2("Why is this important?"),
         shiny::p(shiny::HTML("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new stock is being created. <i>Deeply affordable</i> describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income.")),
         shiny::p("By mapping the dynamics of the low-end of the rental market, LEMR equips policy makers, housing advocates, city planners, government agencies, and researchers with information that can help them to tackle this problem. Access to data is crucial for developing policies, regulation, and programs that protect this important component of the market and advance the right to adequate housing.")
@@ -77,34 +73,32 @@ mod_home_ui <- function(id) {
           )
         )
       ),
-      shiny::div(class = "divider-line"),
+      shiny::div(class = "divider-line center-padded"),
       shiny::div(
-        class = "start-exploring",
+        class = "start-exploring center-padded",
         shiny::column(width = 12, align = "center", shiny::h2("Start exploring LEMR", style = "padding-top: 0;")),
         shiny::fluidRow(
           shiny::column(
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 4,
+              width = 5,
               shiny::icon("newspaper", class = "fa-5x fa-fw")
             ),
             shiny::column(
-              width = 8,
-              class = "smaller",
-              shiny::HTML("Read <b>Data Stories</b> above for our data analyses and learn how their implications may impact you, your organization, or your community.")
+              width = 7,
+              shiny::HTML("Read <b>Data Stories</b> above for analyses and learn how their implications may impact you, your organization, or your community.")
             )
           ),
           shiny::column(
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 4,
+              width = 5,
               shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::icon("layer-group", class = "fa-5x fa-fw"), style = "color: black !important;")
             ),
             shiny::column(
-              width = 8,
-              class = "smaller",
+              width = 7,
               shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental stock, locations of awarded tenant defence fund grants, and more.")
             )
           ),
@@ -112,22 +106,20 @@ mod_home_ui <- function(id) {
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 4,
+              width = 5,
               shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::icon("book-open", class = "fa-5x fa-fw"), style = "color: black !important;")
             ),
             shiny::column(
-              width = 8,
-              class = "smaller",
-              shiny::p("Learn about the data sources included in the tool, find key terminology used throughout, and access processed data in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
+              width = 7,
+              shiny::p("Learn about the data sources included in the tool, find key terminology, and access processed data in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
             )
           )
         )
       ),
-      shiny::fluidRow(shiny::column(class = "questions biggest", width = 12, align = "center", shiny::HTML("Questions? <span style = 'color: var(--main-color);'>Contact us.</span>"))),
-      shiny::div(class = "divider-line"),
+      shiny::div(class = "divider-line center-padded"),
       shiny::div(
-        class = "about",
-        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round.")),
+        class = "about center-padded",
+        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round. The Low-end of Market Rental Housing Monitor received funding from the Housing Supply Challenge - Data Driven Round (Incubation Stage), however, the views expressed are the personal views of the project and CMHC accepts no responsibility for them.")),
         full_team,
         shiny::p("Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada."),
         shiny::p(shiny::HTML("For the source code, you can visit the project's <a href = 'https://github.com/purposeanalytics/lemur/' target = '_blank'>GitHub repository</a>.")),

@@ -226,13 +226,16 @@ body > .container-fluid {
 /* Home page */
 
 .home {
-  text-align: justify;
-  text-justify: inter-word;
   font-size: var(--base-size);
 }
 
 .home h2 {
   font-size: var(--middle-size);
+}
+
+.center-padded {
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 .welcome-banner {
@@ -245,14 +248,15 @@ body > .container-fluid {
 }
 
 .welcome-banner-content {
-  max-width: 1000px;
+  max-width: 880px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .welcome-banner h1 {
   font-weight: var(--regular-weight);
-  font-size: 2em;
+  font-size: 3em;
+  margin-bottom: 0.25em;
 }
 
 .intro-sentence {
@@ -261,6 +265,7 @@ body > .container-fluid {
 }
 
 .intro-paragraph {
+  padding-top: var(--home-section-padding);
   padding-bottom: var(--home-section-padding);
 }
 
@@ -561,6 +566,11 @@ ul {
     font-size: var(--bigger-size);
   }
 
+  .center-padded {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .pretty {
     font-size: var(--base-size);
   }
@@ -592,13 +602,13 @@ ul {
   }
 
   .welcome-banner {
-  padding-top: var(--home-section-padding);
+    padding-top: var(--home-section-padding);
     min-height: 0;
     margin: 2em !important;
   }
 
   .welcome-banner h1 {
-    font-size: var(--bigger-size);
+    font-size: var(--biggest-size);
   }
 
   .intro-sentence {

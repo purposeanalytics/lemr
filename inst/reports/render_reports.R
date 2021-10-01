@@ -1,6 +1,5 @@
 # Pre-render all templates so that serving them up is super quick
 
-library(lemr)
 library(rmarkdown)
 library(purrr)
 library(pagedown)
@@ -35,7 +34,7 @@ render_reports <- function(level, neighbourhood) {
 
 # Iterate over neighbourhoods
 
-walk(neighbourhoods, ~ render_reports("neighbourhood", .x))
+walk(neighbourhoods[113:140], ~ render_reports("neighbourhood", .x))
 
 # City level
 render_reports("city", "Toronto")
