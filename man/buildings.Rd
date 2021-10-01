@@ -11,6 +11,6 @@ An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{dat
 buildings
 }
 \description{
-A building-level data set combining: apartment building registry, RentSafeTO scores, Above Guideline Increase applications, tenant defense fund grants, and eviction hearings. Used primarily as a data source for the map, in \link{add_blank_points_layers}.
+A building-level data set combining: apartment building registry, apartment building evaluation scores, Above Guideline Increase applications, tenant defense fund grants, and eviction hearings. Used primarily as a data source for the map, in \link{add_blank_points_layers}.
 }
 \keyword{datasets}

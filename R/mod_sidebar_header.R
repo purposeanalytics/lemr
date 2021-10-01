@@ -27,19 +27,13 @@ mod_sidebar_header_ui <- function(id) {
     ),
     shiny::column(
       width = 12,
-      shiny::h2("Estimated rental supply"),
+      shiny::h2("Estimated rental stock (2016)"),
       shiny::uiOutput(ns("rental_supply_plot_ui"))
     ),
     shiny::column(
-      width = 6,
+      width = 12,
       class = "summary-statistics padded",
-      shiny::uiOutput(ns("rental_supply_primary_table"))
-    ),
-    shiny::column(
-      width = 6,
-      class = "summary-statistics padded",
-      shiny::uiOutput(ns("rental_supply_secondary_table")),
-      shiny::uiOutput(ns("rental_supply_non_market_table"))
+      shiny::uiOutput(ns("rental_supply_table"))
     ),
     shiny::column(
       width = 12,
@@ -109,16 +103,8 @@ mod_sidebar_header_server <- function(id, address_and_neighbourhood, search_meth
       )
     })
 
-    output$rental_supply_primary_table <- shiny::renderText({
-      rental_supply_primary_table(dataset())
-    })
-
-    output$rental_supply_secondary_table <- shiny::renderText({
-      rental_supply_secondary_table(dataset())
-    })
-
-    output$rental_supply_non_market_table <- shiny::renderText({
-      rental_supply_non_market_table(dataset())
+    output$rental_supply_table <- shiny::renderText({
+      rental_supply_single_table(dataset())
     })
 
     output$lem_table <- shiny::renderText({

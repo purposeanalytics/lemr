@@ -44,19 +44,13 @@ mod_full_summary_modal_ui <- function(id) {
                 shiny::column(
                   width = 12,
                   shiny::hr(),
-                  shiny::h2("Estimated rental supply"),
-                  shiny::uiOutput(ns("rental_supply_plot_ui"))
+                  shiny::h2("Estimated rental stock (2016)"),
+                  shiny::uiOutput(ns("rental_supply_plot_ui (2016)"))
                 ),
                 shiny::column(
-                  width = 6,
+                  width = 12,
                   class = "modal-summary-statistics",
-                  shiny::uiOutput(ns("rental_supply_primary_table"))
-                ),
-                shiny::column(
-                  width = 6,
-                  class = "modal-summary-statistics",
-                  shiny::uiOutput(ns("rental_supply_secondary_table")),
-                  shiny::uiOutput(ns("rental_supply_non_market_table"))
+                  shiny::uiOutput(ns("rental_supply_table"))
                 ),
                 shiny::column(
                   width = 12,
@@ -76,10 +70,10 @@ mod_full_summary_modal_ui <- function(id) {
                   shiny::textOutput(ns("apartment_building_evaluation_description")),
                   shiny::uiOutput(ns("apartment_building_evaluation_plot_ui")),
                   shiny::hr(),
-                  shiny::h3("Rooming houses"),
+                  shiny::h3("Rooming house licenses (2020)"),
                   shiny::htmlOutput(ns("rooming_houses_table")),
                   shiny::hr(),
-                  shiny::h3("Above Guideline Increase applications and Tenant Defence Fund grants"),
+                  shiny::h3("Above Guideline Increase applications (2016 to 2020) and Tenant Defence Fund grants (2018 to 2020)"),
                   shiny::htmlOutput(ns("agi_tdf_apartments_description")),
                   shiny::htmlOutput(ns("agi_tdf_apartments_table")),
                   shiny::textOutput(ns("agi_non_apartments")),
@@ -99,7 +93,7 @@ mod_full_summary_modal_ui <- function(id) {
                   shiny::textOutput(ns("vacancy_rate_description")),
                   shiny::uiOutput(ns("vacancy_rate_plot_ui")),
                   shiny::hr(),
-                  shiny::h3("Proximity to services"),
+                  shiny::h3("Proximity to services (2020)"),
                   shiny::textOutput(ns("amenity_density_description")),
                   shiny::uiOutput(ns("amenity_density_plot_ui")),
                   shiny::htmlOutput(ns("amenity_density_table")),
@@ -116,7 +110,7 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::textOutput(ns("number_of_apartments_description")),
               shiny::uiOutput(ns("number_of_apartments_plot_ui")),
               shiny::hr(),
-              shiny::h3("Housing structure type"),
+              shiny::h3("Housing structure type (2016)"),
               shiny::textOutput(ns("structure_type_description")),
               shiny::uiOutput(ns("structure_type_plot_ui")),
               shiny::htmlOutput(ns("structure_type_table")),
@@ -131,12 +125,12 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::textOutput(ns("unaffordable_housing_description")),
               shiny::uiOutput(ns("unaffordable_housing_plot_ui")),
               shiny::hr(),
-              shiny::h3("Households by tenure"),
+              shiny::h3("Households by tenure (2016)"),
               shiny::textOutput(ns("household_tenure_description")),
               shiny::uiOutput(ns("household_tenure_plot_ui")),
               shiny::htmlOutput(ns("household_tenure_table")),
               shiny::hr(),
-              shiny::h3("Number of bedrooms"),
+              shiny::h3("Number of bedrooms (2016)"),
               shiny::textOutput(ns("bedrooms_description")),
               shiny::uiOutput(ns("bedrooms_plot_ui")),
               shiny::htmlOutput(ns("bedrooms_table")),
@@ -154,7 +148,7 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::textOutput(ns("population_change_description")),
               shiny::uiOutput(ns("population_change_plot_ui")),
               shiny::hr(),
-              shiny::h3("Average total household income"),
+              shiny::h3("Average total household income (2016)"),
               shiny::textOutput(ns("average_total_household_income_description")),
               shiny::uiOutput(ns("average_total_household_income_plot_ui")),
               shiny::htmlOutput(ns("average_total_household_income_table")),
@@ -163,7 +157,7 @@ mod_full_summary_modal_ui <- function(id) {
               shiny::textOutput(ns("lim_at_description")),
               shiny::uiOutput(ns("lim_at_plot_ui")),
               shiny::hr(),
-              shiny::h3("Household size"),
+              shiny::h3("Household size (2016)"),
               shiny::textOutput(ns("household_size_description")),
               shiny::uiOutput(ns("household_size_plot_ui")),
               shiny::htmlOutput(ns("household_size_table")),
@@ -220,16 +214,8 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
       )
     })
 
-    output$rental_supply_primary_table <- shiny::renderText({
-      rental_supply_primary_table(dataset())
-    })
-
-    output$rental_supply_secondary_table <- shiny::renderText({
-      rental_supply_secondary_table(dataset())
-    })
-
-    output$rental_supply_non_market_table <- shiny::renderText({
-      rental_supply_non_market_table(dataset())
+    output$rental_supply_table <- shiny::renderText({
+      rental_supply_single_table(dataset())
     })
 
     output$lem_table <- shiny::renderText({

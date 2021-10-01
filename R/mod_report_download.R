@@ -9,20 +9,21 @@ mod_report_download_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-  shinyWidgets::dropdownButton(
-    label = "Download",
-    circle = FALSE,
-    inline = TRUE,
-    shiny::downloadButton(ns("download_pdf"), "PDF",
-      icon = NULL,
-      width = "100%", style = "margin-bottom: 0.5em;"
+    shinyWidgets::dropdownButton(
+      label = "Download",
+      circle = FALSE,
+      inline = TRUE,
+      shiny::downloadButton(ns("download_pdf"), "PDF",
+        icon = NULL,
+        width = "100%", style = "margin-bottom: 0.5em;"
+      ),
+      shiny::downloadButton(ns("download_html"), "HTML",
+        icon = NULL,
+        width = "100%"
+      )
     ),
-    shiny::downloadButton(ns("download_html"), "HTML",
-      icon = NULL,
-      width = "100%"
-    )
-  ),
-  shinybusy::use_busy_spinner(spin = "fading-circle"))
+    shinybusy::use_busy_spinner(spin = "fading-circle")
+  )
 }
 
 #' report_download Server Functions

@@ -226,13 +226,16 @@ body > .container-fluid {
 /* Home page */
 
 .home {
-  text-align: justify;
-  text-justify: inter-word;
   font-size: var(--base-size);
 }
 
 .home h2 {
   font-size: var(--middle-size);
+}
+
+.center-padded {
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 .welcome-banner {
@@ -245,14 +248,15 @@ body > .container-fluid {
 }
 
 .welcome-banner-content {
-  max-width: 1000px;
+  max-width: 880px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .welcome-banner h1 {
   font-weight: var(--regular-weight);
-  font-size: 2em;
+  font-size: 3em;
+  margin-bottom: 0.25em;
 }
 
 .intro-sentence {
@@ -261,6 +265,7 @@ body > .container-fluid {
 }
 
 .intro-paragraph {
+  padding-top: var(--home-section-padding);
   padding-bottom: var(--home-section-padding);
 }
 
@@ -539,6 +544,10 @@ ul {
   display: inline;
 }
 
+.table-condensed td {
+  border-bottom-color: var(--grey-color) !important;
+}
+
 /* Media queries - smaller screen sizes */
 
 /* Anything smaller than a big ol computer */
@@ -555,6 +564,11 @@ ul {
 
   h1 {
     font-size: var(--bigger-size);
+  }
+
+  .center-padded {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .pretty {
@@ -588,13 +602,13 @@ ul {
   }
 
   .welcome-banner {
-  padding-top: var(--home-section-padding);
+    padding-top: var(--home-section-padding);
     min-height: 0;
     margin: 2em !important;
   }
 
   .welcome-banner h1 {
-    font-size: var(--bigger-size);
+    font-size: var(--biggest-size);
   }
 
   .intro-sentence {
@@ -632,9 +646,8 @@ ul {
     margin-right: 0 !important;
   }
 
-/* Extra small devices (portrait phones, up to 575px) */
-@media (max-width: 575px) {
-
+/* Small devices (Phones / Portrait iPad) */
+@media (max-width: 768px) {
   #shiny-modal {
     padding-right: 0 !important;
   }
@@ -670,6 +683,15 @@ ul {
   }
 }
 
+/* Small font sizes in tables on phone */
+@media (max-width: 575px) {
+  .lightable-minimal, .table {
+    font-size: 0.75em;
+  }
+
+}
+
+
 /* When bootstrap collapsed navbar is not triggered, style the navbar all nice */
 /* Only then, otherwise it looks bad in the hamburger menu! */
 @media (min-width: 768px) {
@@ -685,7 +707,7 @@ ul {
 @media print {
 
   :root {
-    --base-size: 11px;
+    --base-size: 12px;
     --bigger-size: 1.1em;
   }
 
