@@ -59,7 +59,7 @@ mod_home_ui <- function(id) {
                   shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "")
                 ),
                 shiny::br(),
-                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defense Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
+                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defence Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
               )
             )
           ),

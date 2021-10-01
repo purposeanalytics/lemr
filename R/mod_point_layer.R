@@ -10,10 +10,10 @@ mod_point_layer_ui <- function(id, layer) {
 
   tooltip <- switch(layer,
     apartment_buildings = create_popover(title = "Apartment buildings (2021)", content = "This layer shows the location of all apartment buildings with at least three storeys and at least ten units in the City of Toronto. Each point contains information on the year built, number of units, landlord or property management, apartment building evaluation scores, and above guideline increase applications, as relevant."),
-    rooming_houses = create_popover(title = "Rooming house licenses (2020)", content = "This layer shows the locations of rooming houses, including licensed (pre- and post-2018) and lapsed rooming houses"),
+    rooming_houses = create_popover(title = "Rooming house licenses (2020)", content = "This layer shows the locations of rooming houses, including licensed (pre- and post-2018) and lapsed rooming houses."),
     apartment_evaluation = create_popover(title = "Apartment building evaluation scores (2021)", content = "This layer shows the latest evaluation scores for buildings registered with RentSafeTO. Buildings must undergo evaluation at least once every three years. Scores range from 0% to 100%. Apartments that fail the evaluation by scoring less than 50% must undergo an audit."),
-    agi = create_popover(title = "Above Guideline Increase applications (2016 to 2020)", content = "This layer shows the locations of apartment buildings whose landlords applied for an Above Guideline Increase (AGI) in the rent from 2016 onwards."),
-    tdf = create_popover(title = "Tenant Defence Fund grants (2018 to 2020)", content = "This layer shows the locations of apartment buildings who received a Tenant Defence Fund grant for the above guideline increases their landlords applied for.")
+    agi = create_popover(title = "Above Guideline Increase applications (2016 to 2020)", content = "This layer shows the locations of apartment buildings whose landlords applied for an Above Guideline Increase (AGI) in the rent from 2016 to 2020."),
+    tdf = create_popover(title = "Tenant Defence Fund grants (2018 to 2020)", content = "This layer shows the locations of apartment buildings who received a Tenant Defence Fund grant (between 2018 and 2020) for the above guideline increases their landlords applied for.")
   )
 
   shiny::tagList(
@@ -132,7 +132,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           )
         ),
         tdf = shiny::div(
-          create_circle_legend(layer_colours[["tdf"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} received TDF grants", buildings = dataset()[["tdf"]][["n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of tenant defense fund grants."),
+          create_circle_legend(layer_colours[["tdf"]], glue::glue("{scales::comma(buildings)} apartment {buildings_word} received TDF grants", buildings = dataset()[["tdf"]][["n"]], buildings_word = ifelse(buildings == 1, "building", "buildings")), alt_text = "A legend showing the colour of the points of tenant defence fund grants."),
           shiny::uiOutput(ns("tdf_prop"))
         )
       )
