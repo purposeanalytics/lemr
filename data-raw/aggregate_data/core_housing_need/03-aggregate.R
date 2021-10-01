@@ -44,7 +44,7 @@ core_housing_need_by_neighbourhood <- core_housing_need_by_neighbourhood %>%
   bind_rows(.id = "neighbourhood") %>%
   rename(prop = value) %>%
   mutate(
-    core_housing_need = cut(prop, seq(0, 1, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    core_housing_need = cut(prop, seq(0, 0.60, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
     core_housing_need = ifelse(prop == 0, 0, core_housing_need)
   ) %>%
   select(-prop)

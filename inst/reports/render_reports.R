@@ -1,6 +1,5 @@
 # Pre-render all templates so that serving them up is super quick
 
-library(lemr)
 library(rmarkdown)
 library(purrr)
 library(pagedown)

@@ -23,8 +23,8 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
     # Initial map ----
     output$map <- mapboxer::renderMapboxer({
       map_toronto() %>%
-        add_blank_aggregate_layers() %>%
         add_blank_amenity_density_layer() %>%
+        add_blank_aggregate_layers() %>%
         add_blank_points_layers() %>%
         add_blank_address_layer() %>%
         # Observe zoom-out level, once rendered, to know whether to zoom back out to "city view"
@@ -38,6 +38,12 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
       var mapZoom = map.getZoom();
       Shiny.onInputChange('mapZoom', mapZoom);
       });
+
+      // disable map rotation using right click + drag
+      map.dragRotate.disable();
+
+      // disable map rotation using touch rotation gesture
+      map.touchZoomRotate.disableRotation();
 
       // Highlight / fill neighbourhood on hover
 
@@ -181,7 +187,7 @@ mod_map_server <- function(id, address_and_neighbourhood, search_method, point_l
         }
 
         # Turn not-selected layers off
-        diff_layers <- setdiff(names(aggregate_layers_choices), aggregate_layers())
+        diff_layers <- setdiff(aggregate_layers_choices, aggregate_layers())
 
         for (l in diff_layers) {
           map <- map %>%

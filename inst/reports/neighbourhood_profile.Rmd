@@ -10,7 +10,7 @@ knit: pagedown::chrome_print
 ---
 
 ```{r setup, include=FALSE}
-library(lemr)
+devtools::load_all()
 library(htmltools)
 library(knitr)
 library(leaflet)
@@ -35,6 +35,11 @@ title <- switch(level,
 )
 
 dataset <- lemr:::determine_dataset_from_level(level, neighbourhood)
+
+legend <- if (level == "neighbourhood") {
+  legend_label <- glue::glue("A legend showing {neighbourhood} (dark blue) versus City of Toronto (grey), used for plots on this page.")
+  shiny::HTML(glue::glue("<div role = 'img' aria-label = '{legend_label}'>{lemr::create_neighbourhood_legend(neighbourhood)}</div>"))
+}
 ```
 
 <!-- <div style = "background-color: var(--main-color) !important; color: white; height: 5em; text-align: center;"> -->
@@ -109,14 +114,8 @@ tm_shape(basemap) +
   add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Toronto Community Housing"), lemr:::rental_supply_colors()[["Toronto Community Housing"]], level = level) %>%
   add_circle_layer(dplyr::filter(map_buildings, apartment, property_type == "Social housing"), lemr:::rental_supply_colors()[["Other Non-Market"]], level = level) %>%
   # Rooming houses
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status %in% c("Licensed prior to 2018", "Licensed 2018 onwards")), lemr:::amenity_density_colours()[["Low"]], level = level) %>%
-  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Lapsed"), lemr:::amenity_density_colours()[["High"]], level = level) %>%
-  # AGI
-  add_circle_layer(dplyr::filter(map_buildings, agi), lemr:::layer_colours[["agi_apartment"]], level = level) %>%
-  # TDF
-  add_circle_layer(dplyr::filter(map_buildings, tdf), lemr:::layer_colours[["tdf"]], level = level)
-# tm_add_legend(type = "symbol", labels = c("Apartment buildings", "Above Guideline Increase applications", "Tenant Defense Fund grants"), col = lemr:::layer_colours, shape = 16) +
-# tm_layout(legend.bg.color = "white", legend.bg.alpha = 0.5, legend.outside = FALSE, legend.position = c("right", "bottom"), legend.text.fontfamily = "Lato", legend.text.size = 0.5, asp = 2)
+  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Licensed 2018 onwards"), lemr:::rooming_house_colors()[["Licensed 2018 onwards"]], level = level) %>%
+  add_circle_layer(dplyr::filter(map_buildings, rooming_house, rooming_house_status == "Licensed prior to 2018"), lemr:::rooming_house_colors()[["Licensed prior to 2018"]], level = level)
 ```
   </div>
   <div class = "col-sm-4">
@@ -126,7 +125,7 @@ shiny::tagList(
   purrr::pmap(
     dplyr::tibble(
       color = c("Apartment", "Toronto Community Housing", "Other Non-Market"),
-      wording = c("Privately owned", "Toronto Community Housing", "Social housing")
+      wording = c("Privately owned", "Toronto Community Housing", "Other non-market")
     ),
     function(color, wording, data_suffix) {
       lemr:::create_circle_legend(lemr:::rental_supply_colors()[[color]],
@@ -137,24 +136,24 @@ shiny::tagList(
   ),
   purrr::pmap(
     dplyr::tibble(
-      color = c("Low", "High"),
-      wording = c("Licensed", "Lapsed")
+      filter = c("Licensed prior to 2018", "Licensed 2018 onwards")
     ),
-    function(color, wording) {
-      lemr:::create_circle_legend(lemr:::amenity_density_colours()[[color]],
-        glue::glue("{wording} rooming houses"),
-        alt_text = glue::glue("A legend showing the colour of the points of {tolower(wording)} rooming houses.")
+    function(filter) {
+      lemr:::create_circle_legend(lemr:::rooming_house_colors()[[filter]],
+        glue::glue("Rooming houses, {wording}",
+          wording = tolower(filter)
+        ),
+        alt_text = glue::glue("A legend showing the colour of the points of rooming houses {tolower(filter)}.")
       )
     }
-  ),
-  lemr:::create_circle_legend(lemr:::layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-  lemr:::create_circle_legend(lemr:::layer_colours[["agi_other"]], "Other buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-  lemr:::create_circle_legend(lemr:::layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+  )
 )
 ```
   
   </div>
 </div>
+
+<hr>
 
 <div class = "row">
 
@@ -164,6 +163,17 @@ shiny::tagList(
 ```{r summary-statistics}
 lemr:::summary_statistics_table(dataset)
 ```
+  
+### Estimated rental supply (2016)
+
+```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
+lemr:::rental_supply_plot(dataset, static = TRUE)
+```
+
+```{r rental-supply-table}
+lemr:::rental_supply_single_table(dataset)
+```
+
   </div>
   
   <div class = "col-sm-6">
@@ -177,41 +187,13 @@ lemr:::display_lem(dataset)
 
 <hr>
 
-<div class = "row">
-  <div class = "col-sm-12">
-  
-### Estimated rental supply
-
-```{r rental-supply, fig.alt = lemr:::rental_supply_plot_alt_text(level, neighbourhood), fig.height = 0.5}
-lemr:::rental_supply_plot(dataset, static = TRUE)
-```
-
-  <div class = "row">
-  <div class = "col-sm-6">
-```{r rental-supply-primary}
-lemr:::rental_supply_primary_table(dataset)
-```
-  </div>
-  <div class = "col-sm-6">
-```{r rental-supply-secondary-non-market}
-lemr:::rental_supply_secondary_table(dataset)
-lemr:::rental_supply_non_market_table(dataset)
-```
-  </div>
-  </div>
-  </div>
-
-  <div class = "col-sm-5">
-
-  </div>
-</div>
-
-<hr>
-
 <div style = "display:block; clear:both; page-break-after:always;"></div>
-
 <div class = "row">
   <div class = "col-sm-6">
+  
+```{r output = "asis"}
+legend
+```
 
 ```{r apartment-building-units, fig.alt = lemr:::number_of_units_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_units <- lemr:::get_measure(dataset, "number_of_units")
@@ -246,13 +228,13 @@ lemr:::apartment_building_evaluation_description(level, neighbourhood, apartment
 lemr:::apartment_building_evaluation_plot(dataset, compare, static = TRUE)
 ```
 
-### Rooming houses
+### Rooming house licenses (2020)
 
 ```{r rooming-houses}
 lemr:::display_rooming_houses(dataset, compare = compare)
 ```
 
-### AGI Applications and TDF Grants
+### AGI Applications (2016 to 2020) and TDF Grants (2018 to 2020)
 
 ```{r}
 lemr:::agi_tdf_description(level, neighbourhood) %>%
@@ -297,7 +279,7 @@ lemr:::evictions_plot(dataset, compare, static = TRUE)
 vacancy_rate <- lemr:::get_measure(dataset, "vacancy_rate_2020")
 vacancy_rate_formatted <- lemr:::format_measure(vacancy_rate, "vacancy_rate")
 
-glue::glue("Primary market vacancy rate: {vacancy_rate_formatted}") %>%
+lemr:::vacancy_rate_number(vacancy_rate_formatted) %>%
   h3()
 
 lemr:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_formatted) %>%
@@ -306,7 +288,7 @@ lemr:::evictions_description(level, neighbourhood, vacancy_rate, vacancy_rate_fo
 lemr:::vacancy_rate_plot(dataset, compare, static = TRUE)
 ```
 
-### Proximity to services
+### Proximity to services (2020)
 
 ```{r amenity-density, fig.alt = lemr:::amenity_density_plot_alt_text(level, neighbourhood), fig.height = 2}
 lemr:::amenity_density_description(level, neighbourhood) %>%
@@ -320,13 +302,19 @@ lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to service
   </div>
 </div>
 
+<hr>
+
 ##
 <div style = "display:block; clear:both; page-break-after:always;"></div>
 
 ## Housing characteristics 
 
 <div class = "row">
-  <div class = "col-sm-6">
+  <div class = "col-sm-6">  
+  
+```{r output = "asis"}
+legend
+```
 
 ```{r apartment-buildings, fig.alt = lemr:::number_of_apartments_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 number_of_apartments <- lemr:::get_measure(dataset, "number_of_buildings")
@@ -344,7 +332,7 @@ lemr:::number_of_apartments_description(level, neighbourhood, number_of_apartmen
 lemr:::number_of_apartments_plot(dataset, compare, static = TRUE)
 ```
   
-### Housing structure type
+### Housing structure type (2016)
 
 ```{r structure-type, fig.alt = lemr:::structure_type_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::structure_type_description(level, neighbourhood) %>%
@@ -384,7 +372,7 @@ lemr:::unaffordable_housing_description(level, neighbourhood, unaffordable_housi
 lemr:::unaffordable_housing_plot(dataset, compare, static = TRUE)
 ```
 
-### Households by tenure
+### Households by tenure (2016)
 
 ```{r household-tenure, fig.alt = lemr:::household_tenure_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemr:::household_tenure_description(level, neighbourhood) %>%
@@ -395,7 +383,7 @@ lemr:::household_tenure_plot(dataset, compare, static = TRUE)
 lemr:::generate_table(dataset, "household_tenure", compare, "Housing Structure Type", "Percent")
 ```
 
-### Number of bedrooms
+### Number of bedrooms (2016)
 
 ```{r bedrooms, fig.alt = lemr:::bedrooms_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::bedrooms_description(level, neighbourhood) %>%
@@ -408,13 +396,19 @@ lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "P
   </div>
 </div>
 
+<hr>
+
 ##
 <div style = "display:block; clear:both; page-break-after:always;"></div>
 
 ## Sociodemographic characteristics
 
 <div class = "row">
-  <div class = "col-sm-6">
+  <div class = "col-sm-6">  
+  
+```{r output = "asis"}
+legend
+```
   
 ```{r population-density, fig.alt = lemr:::population_density_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 population_density <- lemr:::get_measure(dataset, "population_density")
@@ -442,7 +436,7 @@ lemr:::population_change_description(level, neighbourhood, population_change, po
 lemr:::population_change_plot(dataset, compare, static = TRUE)
 ```
 
-### Average Total Household Income 
+### Average Total Household Income (2016)
 
 ```{r average-total-household-income, fig.alt = lemr:::average_total_household_income_plot_alt_text(level, neighbourhood), fig.height = 1.75}
 lemr:::average_total_household_income_description(level, neighbourhood) %>%
@@ -468,7 +462,7 @@ lemr:::lim_at_plot(dataset, compare, static = TRUE)
   </div>
   <div class = "col-sm-6">
 
-### Household size 
+### Household size (2016)
 
 ```{r household-size, fig.alt = lemr:::household_size_plot_alt_text(level, neighbourhood), fig.height = 2.5}
 lemr:::household_size_description(level, neighbourhood) %>%

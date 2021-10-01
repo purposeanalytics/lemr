@@ -494,14 +494,164 @@ display_rooming_houses <- function(data, compare = TRUE) {
 }
 
 display_lem <- function(data) {
-  data[["lem"]] %>%
-    dplyr::select(-tidyselect::any_of("neighbourhood")) %>%
-    tidyr::pivot_wider(names_from = .data$affordable, values_from = .data$n) %>%
-    janitor::adorn_totals(c("row", "col")) %>%
-    dplyr::mutate(dplyr::across(-.data$bedrooms, scales::comma)) %>%
-    dplyr::rename(Bedrooms = .data$bedrooms) %>%
-    kableExtra::kable(align = "lrrr") %>%
-    kableExtra::kable_styling(bootstrap_options = "condensed", full_width = FALSE, position = "left") %>%
-    kableExtra::column_spec(1, width = "30%") %>%
-    kableExtra::column_spec(2:4, width = "20%")
+  lem_total <- data[["lem"]] %>%
+    dplyr::arrange(.data$bedrooms, .data$affordable) %>%
+    janitor::adorn_totals(where = "row", name = "Total Affordable Units", fill = "Total Affordable Units") %>%
+    dplyr::mutate(n = scales::comma(.data$n))
+
+  cutoffs <- dplyr::tribble(
+    ~affordable, ~bedrooms, ~min, ~max,
+    "Deeply Affordable", "Bachelor", 0, 385,
+    "Very Affordable", "Bachelor", 386, 812,
+    "Deeply Affordable", "1 bedroom", 0, 495,
+    "Very Affordable", "1 bedroom", 496, 1090,
+    "Deeply Affordable", "2 bedrooms", 0, 929,
+    "Very Affordable", "2 bedrooms", 930, 1661,
+    "Deeply Affordable", "3+ bedrooms", 0, 1046,
+    "Very Affordable", "3+ bedrooms", 1047, 1858
+  ) %>%
+    dplyr::mutate(dplyr::across(c(min, max), scales::comma),
+      cutoff = glue::glue("{min}{to}{max}",
+        min = ifelse(min == "$0", "Under ", min),
+        to = ifelse(min == "Under ", "", " to ")
+      ),
+      cutoff = as.character(cutoff)
+    ) %>%
+    dplyr::select(-min, -max)
+
+  combined <- lem_total %>%
+    dplyr::left_join(cutoffs, by = c("bedrooms", "affordable")) %>%
+    dplyr::select(bedrooms, affordable, cutoff, n) %>%
+    dplyr::mutate(cutoff = dplyr::coalesce(cutoff, "")) %>%
+    dplyr::select(-bedrooms)
+
+  combined %>%
+    knitr::kable(col.names = c("", "Cutoff (in dollars)", "Estimated Units"),
+                 align = "lrr",
+                 escape = TRUE, format = "html") %>%
+    kableExtra::kable_styling(
+      bootstrap_options = "condensed",
+      html_font = "\"Lato\", sans-serif",
+      protect_latex = FALSE
+    ) %>%
+    kableExtra::pack_rows("Bachelor", 1, 2) %>%
+    kableExtra::pack_rows("1 bedroom", 3, 4) %>%
+    kableExtra::pack_rows("2 bedrooms", 5, 6) %>%
+    kableExtra::pack_rows("3+ bedrooms", 7, 8) %>%
+    kableExtra::row_spec(nrow(combined), bold = TRUE)
+  }
+
+
+rental_supply_plot <- function(data, static = FALSE) {
+  data <- data[["rental_supply"]] %>%
+    dplyr::mutate(
+      group = forcats::fct_expand(.data$group, names(rental_supply_colors())),
+      group = forcats::fct_relevel(.data$group, names(rental_supply_colors()))
+    )
+
+  if (!static) {
+    data %>%
+      plotly::plot_ly(x = ~prop, y = 1, color = ~group, type = "bar", orientation = "h", hoverinfo = "skip", colors = rental_supply_colors()) %>%
+      plotly::layout(barmode = "stack") %>%
+      plotly::layout(
+        yaxis = list(title = NA, showgrid = FALSE, showticklabels = FALSE, fixedrange = TRUE),
+        xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, showticklabels = FALSE, zeroline = FALSE, range = c(0, 1)),
+        margin = list(t = 5, r = 5, b = 5, l = 5),
+        showlegend = FALSE,
+        font = list(family = "Lato", size = 12, color = "black")
+      ) %>%
+      plotly::config(displayModeBar = FALSE)
+  } else {
+    data %>%
+      dplyr::mutate(group = forcats::fct_rev(.data$group)) %>%
+      ggplot2::ggplot(ggplot2::aes(x = .data$prop, y = "1", fill = .data$group)) +
+      ggplot2::geom_col() +
+      ggplot2::scale_fill_manual(values = rental_supply_colors()) +
+      ggplot2::theme_void() +
+      ggplot2::theme(legend.position = "none") +
+      ggplot2::coord_cartesian(expand = FALSE)
+  }
+}
+
+rental_supply_single_table <- function(data) {
+  data[["rental_supply"]] %>%
+    dplyr::select(.data$market, .data$group, .data$value, .data$prop) %>%
+    split(.$market) %>%
+    purrr::map(janitor::adorn_totals) %>%
+    dplyr::bind_rows(.id = "market") %>%
+    dplyr::mutate(
+      group = dplyr::case_when(
+        market %in% c("Primary", "Secondary") & group == "-" ~ glue::glue("{market} market units:"),
+        group == "-" ~ glue::glue("{market} units:"),
+        TRUE ~ glue::glue("{group}")
+      ),
+      group_display = purrr::map_chr(.data$group, function(x) {
+        if (stringr::str_ends(x, ":")) {
+          return(x)
+        }
+        create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rental units in the above plot.")) %>% as.character()
+      }),
+      group = forcats::fct_relevel(
+        group, "Primary market units:", "Apartment", "Non-Apartment",
+        "Secondary market units:", "Condo", "Non-Condo",
+        "Non-market units:", "Toronto Community Housing", "Other Non-Market"
+      )
+    ) %>%
+    dplyr::arrange(.data$group) %>%
+    dplyr::select(.data$group_display, .data$value, .data$prop) %>%
+    dplyr::mutate(
+      value = scales::comma(.data$value),
+      prop = scales::percent(.data$prop, accuracy = 0.1)
+    ) %>%
+    knitr::kable(col.names = NULL, align = "lrr", escape = FALSE) %>%
+    kableExtra::kable_minimal(
+      html_font = "\"Lato\", sans-serif",
+      full_width = TRUE
+    ) %>%
+    kableExtra::row_spec(row = c(1, 4, 7), bold = TRUE)
+}
+
+rental_supply_table <- function(data, market) {
+  totals_name <- ifelse(market == "Non-market", "Non-market units:", glue::glue("{market} market units:"))
+
+  data <- data[["rental_supply"]] %>%
+    dplyr::filter(.data$market == !!market) %>%
+    dplyr::select(.data$group, .data$value, .data$prop)
+
+  layer_order <- names(rental_supply_colors())[names(rental_supply_colors()) %in% data[["group"]]]
+
+  data %>%
+    dplyr::mutate(group_order = forcats::fct_relevel(.data$group, layer_order)) %>%
+    dplyr::mutate(group = purrr::map_chr(.data$group, function(x) {
+      create_square_legend(rental_supply_colors()[[x]], paste0(x, ":"), glue::glue("A legend showing the color that represents {x} rental units in the above plot.")) %>% as.character()
+    })) %>%
+    janitor::adorn_totals(name = totals_name, fill = totals_name) %>%
+    dplyr::mutate(
+      group_order = forcats::fct_relevel(.data$group_order, totals_name, layer_order),
+      value = scales::comma(.data$value),
+      percent = scales::percent(.data$prop, accuracy = 0.1),
+      value_percent = glue::glue("{value}{space}({percent})",
+        space = ifelse(.data$prop < 0.1, " &nbsp;&nbsp;&nbsp;", " ")
+      )
+    ) %>%
+    dplyr::arrange(.data$group_order) %>%
+    dplyr::select(.data$group, .data$value_percent) %>%
+    knitr::kable(col.names = NULL, align = "lr", escape = FALSE) %>%
+    kableExtra::kable_minimal(
+      html_font = "\"Lato\", sans-serif",
+      full_width = TRUE
+    ) %>%
+    kableExtra::row_spec(row = 1, bold = TRUE)
+}
+
+rental_supply_primary_table <- function(data) {
+  rental_supply_table(data, "Primary")
+}
+
+rental_supply_secondary_table <- function(data) {
+  rental_supply_table(data, "Secondary")
+}
+
+rental_supply_non_market_table <- function(data) {
+  rental_supply_table(data, "Non-market")
 }

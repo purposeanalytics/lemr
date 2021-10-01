@@ -630,6 +630,13 @@
       "Repository": "CRAN",
       "Hash": "d7566c471c7b17e095dd023b9ef155ad"
     },
+    "ggrepel": {
+      "Package": "ggrepel",
+      "Version": "0.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "08ab869f37e6a7741a64ab9069bcb67d"
+    },
     "gh": {
       "Package": "gh",
       "Version": "1.3.0",
@@ -935,6 +942,19 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "819d7169c7d39f0f952473e943375da1"
+    },
+    "lemr": {
+      "Package": "lemr",
+      "Version": "0.0.0.9005",
+      "Source": "GitHub",
+      "Remotes": "benmarwick/words2number, rstudio/shinyvalidate,\nColinFay/glouton",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "lemur",
+      "RemoteUsername": "purposeanalytics",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "df4ad6894d8025a7cb62df3154437389f1eee46b",
+      "Hash": "d7d1a2f85cf415a4e257a617835725c0"
     },
     "lhs": {
       "Package": "lhs",

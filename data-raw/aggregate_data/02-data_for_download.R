@@ -51,8 +51,10 @@ for (i in names(neighbourhoods)) {
 
 # Make a separate element for Deeply / Very affordable
 lem <- neighbourhoods[["lem"]] %>%
-  rename(group = bedrooms,
-         value = n) %>%
+  rename(
+    group = bedrooms,
+    value = n
+  ) %>%
   split(.$affordable) %>%
   map(select, -affordable)
 

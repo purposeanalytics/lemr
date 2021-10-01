@@ -1,6 +1,6 @@
 #' Add blank points layers
 #'
-#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), RentSafeTO scores (apartment_evaluation), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
+#' Add empty layers of \link{buildings}. The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): apartment building registry (apartment_buildings), apartment building evaluation scores (apartment_evaluation), Above Guideline Increase applications (agi), and tenant defense fund grants (tdf).
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -27,8 +27,10 @@ add_blank_points_layers <- function(map) {
   # Temporarily setting NA score_colour to "none" so we can filter the data in the RentSafeTO layer
   # I can't figure out how to filter out NA/null yet
   data <- lemr::buildings %>%
-    dplyr::mutate(score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"),
-                  show_tdf = .data$tdf & .data$apartment)
+    dplyr::mutate(
+      score_bucket = dplyr::coalesce(as.character(.data$score_bucket), "none"),
+      show_tdf = .data$tdf & .data$apartment
+    )
 
   map %>%
     # All points layers source data ----
@@ -64,9 +66,9 @@ add_blank_points_layers <- function(map) {
       filter = list("==", "rooming_house", TRUE),
       circle_color = list(
         "case",
-        list("==", c("get", "rooming_house_status"), "Licensed prior to 2018"), amenity_density_colours()[["Low"]],
-        list("==", c("get", "rooming_house_status"), "Licensed 2018 onwards"), amenity_density_colours()[["Medium"]],
-        list("==", c("get", "rooming_house_status"), "Lapsed"), amenity_density_colours()[["High"]],
+        list("==", c("get", "rooming_house_status"), "Licensed prior to 2018"), rooming_house_colors()[["Licensed prior to 2018"]],
+        list("==", c("get", "rooming_house_status"), "Licensed 2018 onwards"), rooming_house_colors()[["Licensed 2018 onwards"]],
+        list("==", c("get", "rooming_house_status"), "Lapsed"), rooming_house_colors()[["Lapsed"]],
         # Defaults to 'white'
         "white"
       ),
@@ -200,8 +202,7 @@ add_blank_amenity_density_layer <- function(map) {
             # Defaults to 'white'
             "white"
           ),
-          "fill-opacity" = c("get", "alpha"),
-          "fill-outline-color" = "black"
+          "fill-opacity" = 0.65
         )
       )
     )
@@ -209,7 +210,7 @@ add_blank_amenity_density_layer <- function(map) {
 
 #' Add a blank aggregate layers
 #'
-#' Add empty aggregate layers to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): estimated low-end of market rentals (lem), rental supply (primary - rental_supply_primary; condo - rental_supply_condo; non-condo secondary - rental_supply_non_condo; non-market - rental_supply_non_market), core housing need (core_housing_need), eviction rate (eviction_rate), and all neighbourhood outline / click / etc layers. Note that LEM is visible by default.
+#' Add empty aggregate layers to a map (created via \link{map_toronto}). The purpose of this function is to allow for toggling the layers on and off, via \link{toggle_layer_visible} and \link{toggle_layer_invisible}. This function adds the following layers (accessed via IDs): estimated proportion low-end of market rentals (lem_percent), rental supply (primary - rental_supply_primary; condo - rental_supply_condo; non-condo secondary - rental_supply_non_condo; non-market - rental_supply_non_market), core housing need (core_housing_need), eviction filings rate (eviction_rate), and all neighbourhood outline / click / etc layers. Note that LEM is visible by default.
 #'
 #' @param map Map created via \link{map_toronto}
 #'
@@ -220,7 +221,7 @@ add_blank_amenity_density_layer <- function(map) {
 #'
 #' map_toronto() %>%
 #'   add_blank_aggregate_layers() %>%
-#'   toggle_layer_visible("lem")
+#'   toggle_layer_visible("lem_percent")
 add_blank_aggregate_layers <- function(map) {
   source_name <- "neighbourhoods_data"
   source_url <- "mapbox://purposeanalytics.4juivyoh"
@@ -235,10 +236,7 @@ add_blank_aggregate_layers <- function(map) {
     ),
     id = source_name
     ) %>%
-    # LEM ----
-    ## LEM #
-    add_blank_aggregate_layer_fill("lem", source_name, source_layer) %>%
-    ## LEM % ----
+    # LEM % ----
     add_blank_aggregate_layer_fill("lem_percent", source_name, source_layer, visibility = "visible") %>%
     # Rental supply ----
     ## Primary market ----

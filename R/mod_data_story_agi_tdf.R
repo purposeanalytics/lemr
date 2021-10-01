@@ -5,15 +5,13 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList
 mod_data_story_agi_tdf_ui <- function(id) {
   map_legend <- shiny::tagList(
     create_circle_legend(layer_colours[["agi_apartment"]], "Apartment buildings with AGI applications", alt_text = "A legend showing the colour of the points of above guideline increase applications for apartment buildings."),
-    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defense fund grants.")
+    create_circle_legend(layer_colours[["tdf"]], "TDF grants", alt_text = "A legend showing the colour of the points of tenant defence fund grants.")
   )
 
-  ns <- NS(id)
+  ns <- shiny::NS(id)
   shiny::showModal(
     shiny::modalDialog(
       size = "l",
@@ -26,16 +24,18 @@ mod_data_story_agi_tdf_ui <- function(id) {
             class = "full-summary-buttons",
             shiny::modalButton("Close")
           ),
-          shiny::h1("Title")
+          shiny::h1("Above Guideline Increase Applications and Tenant Defence Fund Grants in Toronto: Three Neighbourhoods Fall Outside the Norm")
         )
       ),
-      shiny::p("A notice of rent increase, recalculating the monthly budget, cutting down on non-essential expenses - or finding a new home. The cycle is not unfamiliar to renters in Toronto. In Ontario, renters are protected by a provincially mandated rent increase guideline that is tied to the Consumer Price Index. However, when landlords incur capital expenses for completing major work, building security, or accessibility features, or extraordinary increases to their property tax, they may apply to pass those costs on to tenants through an Above Guideline Increase, or AGI. In turn, tenants may choose to contest an AGI through the Landlord Tenant Board, a process that can be time-consuming and costly. To support this, the City of Toronto offers assistance, financial and otherwise, through the Tenant Defense Fund (TDF) program to tenants in private rental housing."),
-      shiny::p("In the City of Toronto, AGI applications are abundant. Out of 3,480 apartment buildings in the city, a quarter of them had at least one AGI application in the last five years, and of these, just under a quarter received a TDF grant. In this story, we look at the distribution of AGIs and TDF grants across neighbourhoods of Toronto."),
+      shiny::p("A notice of rent increase, recalculating the monthly budget, cutting down on non-essential expenses - or finding a new home. The cycle is not unfamiliar to renters in Toronto. In Ontario, renters are protected by a provincially mandated rent increase guideline that is tied to the Consumer Price Index. However, when landlords incur capital expenses for completing major work, building security, or accessibility features, or extraordinary increases to their property tax, they may apply to pass those costs on to tenants through an Above Guideline Increase, or AGI. In turn, tenants may choose to contest an AGI through the Landlord Tenant Board, a process that can be time-consuming and costly. To support this, the City of Toronto offers assistance, financial and otherwise, through the Tenant Defence Fund (TDF) program to tenants in private rental housing."),
+      shiny::p(glue::glue("In the City of Toronto, AGI applications are abundant. Out of {n_apt} privately owned apartment buildings in the city, almost thirty percent of them had at least one AGI application in the last five years, and of these, just under a quarter received a TDF grant. In this story, we look at the distribution of AGIs and TDF grants across neighbourhoods of Toronto.",
+        n_apt = scales::comma(lemr::city_aggregate[["number_of_buildings_private"]])
+      )),
       shiny::fluidRow(
         shiny::column(
           width = 12,
           align = "center",
-          # This is faster - doesn't need to render, so might choose to do this instead
+          shiny::h2("Percent of buildings that received an Above Guideline Increase application in the last 5 years versus percent of those buildings that received a Tenant Defence Fund grant, by neighbourhood"),
           shiny::tags$picture(
             shiny::tags$source(
               media = "(orientation: landscape)",
@@ -50,17 +50,17 @@ mod_data_story_agi_tdf_ui <- function(id) {
             shiny::img(
               src = "www/agi_vs_tdf_wide.png",
               title = "Above Guideline Increase versus Tenant Defence Fund",
-              width = "90%",
+              width = "100%",
               alt = "A scatter plot showing the percent of buildings with Above Guideline Increases versus the percent of buildings with Tenant Defence Fund grants. The values for Broadview North, Yonge-St.Clair, and Mimico are highlighted in blue while the rest of the neighbourhoods' values are grey."
             )
           ),
-          shiny::p(shiny::HTML("<i>Broadview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defense Fund grants in these neighbourhoods fall outside the norm.</i>"))
+          shiny::p(shiny::HTML("<i>Broadview North, Yonge-St.Clair, and Mimico are highlighted as outliers in the city: the rate of Above Guideline Increase applications or Tenant Defence Fund grants in these neighbourhoods fall outside the norm.</i>"))
         )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5,
+          width = 7,
           shiny::h2("Broadview North"),
           shiny::p(
             glue::glue("Broadview North, located in East York, has one of the highest AGI rates for apartment buildings in the city. Here, {n_agi} of the {n_buildings} buildings - or {prop_agi} - have at least one. The rate of TDF grants is close to the city average, at {prop_tdf}, with {n_tdf} of the {n_agi} buildings facing an AGI having received a grant.",
@@ -82,14 +82,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_broadview_north", ext = "png"), title = "Location of AGIs and TDF grants in Broadview North", width = "100%", alt = "A map of Broadview North showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5,
+          width = 7,
           shiny::h2("Mimico"),
           shiny::p(
             glue::glue("Mimico is a primarily residential neighbourhood southwest of Toronto in Etobicoke. The rate of AGIs here is {prop_agi}, or {n_agi} out of {n_buildings} buildings, but more than half of those buildings, {prop_tdf}, have organized with support from a TDF grant.",
@@ -109,14 +109,14 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_mimico", ext = "png"), title = "Location of AGIs and TDF grants in Mimico", width = "100%", alt = "A map of Mimico showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
       shiny::fluidRow(
         class = "agi-data-story-neighbourhood",
         shiny::column(
-          width = 5, shiny::h2("Yonge-St. Clair"),
+          width = 7, shiny::h2("Yonge-St. Clair"),
           shiny::p(
             glue::glue("Yonge-St. Clair is an affluent, vibrant neighbourhood known for its restaurants, boutiques, and high-rises. Here, while AGIs are noticeably above the average at a rate of {prop_agi}, TDF grants are only at {prop_tdf}. Out of {n_buildings} apartment buildings in the neighbourhood, {n_agi} have at least one AGI. Only {n_tdf} of those buildings have received a TDF grant.",
               n_agi = lemr::neighbourhood_aggregate[["Yonge-St.Clair"]][["agi"]] %>%
@@ -137,7 +137,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
           )
         ),
         shiny::column(
-          width = 7,
+          width = 5,
           shiny::img(src = fs::path("www", "map_yonge_st_clair", ext = "png"), title = "Location of AGIs and TDF grants in Yonge-St. Clair", width = "100%", alt = "A map of Yonge-St. Clair north showing the locations of buildings with Above Guideline Increase applications and buildings that received a Tenant Defence Fund grant")
         )
       ),
