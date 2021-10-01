@@ -495,18 +495,9 @@ display_rooming_houses <- function(data, compare = TRUE) {
 
 display_lem <- function(data) {
   lem_total <- data[["lem"]] %>%
-    dplyr::select(-tidyselect::any_of("neighbourhood")) %>%
-    dplyr::arrange(bedrooms, affordable) %>%
-    split(.$bedrooms) %>%
-    purrr::map(function(x) {
-      x %>%
-        janitor::adorn_totals(name = "Total Affordable Units") %>%
-        dplyr::mutate(affordable = forcats::fct_inorder(affordable),
-               affordable = forcats::fct_relevel(affordable, "Total Affordable Units", after = 0)) %>%
-        dplyr::arrange(affordable)}) %>%
-    dplyr::bind_rows(.id = "bedrooms") %>%
-    dplyr::select(bedrooms, affordable, n) %>%
-    dplyr::mutate(n = scales::comma(n))
+    dplyr::arrange(.data$bedrooms, .data$affordable) %>%
+    janitor::adorn_totals(where = "row", name = "Total Affordable Units") %>%
+    dplyr::mutate(n = scales::comma(.data$n))
 
   cutoffs <- dplyr::tribble(
     ~affordable, ~bedrooms, ~min, ~max,
@@ -520,23 +511,35 @@ display_lem <- function(data) {
     "Very Affordable", "3+ bedrooms", 1047, 1858
   ) %>%
     dplyr::mutate(dplyr::across(c(min, max), scales::comma),
-           cutoff = glue::glue("{min} - {max}")) %>%
+      cutoff = glue::glue("{min}{to}{max}",
+        min = ifelse(min == "$0", "Under ", min),
+        to = ifelse(min == "Under ", "", " to ")
+      ),
+      cutoff = as.character(cutoff)
+    ) %>%
     dplyr::select(-min, -max)
 
-  lem_total %>%
+  combined <- lem_total %>%
     dplyr::left_join(cutoffs, by = c("bedrooms", "affordable")) %>%
     dplyr::select(bedrooms, affordable, cutoff, n) %>%
     dplyr::mutate(cutoff = dplyr::coalesce(cutoff, "")) %>%
-    dplyr::select(-bedrooms) %>%
-    knitr::kable(col.names = c("", "Cutoff", "Estimated Units"), align = "lrr") %>%
-    kableExtra::kable_styling(bootstrap_options = "condensed",
-                  html_font = "\"Lato\", sans-serif") %>%
-    kableExtra::pack_rows("Bachelor", 1, 3) %>%
-    kableExtra::pack_rows("1 bedroom", 4, 6) %>%
-    kableExtra::pack_rows("2 bedrooms", 7, 9) %>%
-    kableExtra::pack_rows("3+ bedrooms", 10, 12) %>%
-    kableExtra::row_spec(c(1, 4, 7, 10), bold = TRUE)
-}
+    dplyr::select(-bedrooms)
+
+  combined %>%
+    knitr::kable(col.names = c("", "Cutoff (in dollars)", "Estimated Units"),
+                 align = "lrr",
+                 escape = TRUE, format = "html") %>%
+    kableExtra::kable_styling(
+      bootstrap_options = "condensed",
+      html_font = "\"Lato\", sans-serif",
+      protect_latex = FALSE
+    ) %>%
+    kableExtra::pack_rows("Bachelor", 1, 2) %>%
+    kableExtra::pack_rows("1 bedroom", 3, 4) %>%
+    kableExtra::pack_rows("2 bedrooms", 5, 6) %>%
+    kableExtra::pack_rows("3+ bedrooms", 7, 8) %>%
+    kableExtra::row_spec(nrow(combined), bold = TRUE)
+  }
 
 
 rental_supply_plot <- function(data, static = FALSE) {
@@ -606,7 +609,6 @@ rental_supply_single_table <- function(data) {
       full_width = TRUE
     ) %>%
     kableExtra::row_spec(row = c(1, 4, 7), bold = TRUE)
-
 }
 
 rental_supply_table <- function(data, market) {
@@ -629,7 +631,7 @@ rental_supply_table <- function(data, market) {
       value = scales::comma(.data$value),
       percent = scales::percent(.data$prop, accuracy = 0.1),
       value_percent = glue::glue("{value}{space}({percent})",
-                                 space = ifelse(.data$prop < 0.1, " &nbsp;&nbsp;&nbsp;", " ")
+        space = ifelse(.data$prop < 0.1, " &nbsp;&nbsp;&nbsp;", " ")
       )
     ) %>%
     dplyr::arrange(.data$group_order) %>%
