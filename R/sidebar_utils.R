@@ -246,7 +246,7 @@ apartment_building_evaluation_description <- function(level, neighbourhood, apar
 apartment_building_evaluation_plot_alt_text <- function(level, neighbourhood) {
   values <- lemr::city_aggregate[["apartment_building_evaluation_distribution"]][["value"]]
 
-  alt_text <- glue::glue("Histogram showing the distribution of median apartment building evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The range of possible values is from 0% to 100%, but the values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
+  alt_text <- glue::glue("Histogram showing the distribution of median apartment building evaluation score for each of Toronto's neighbourhoods that have apartment buildings. The values range from {min}% to {max}% and the distribution is normally distributed with most values between {skew_min}% and {skew_max}%.",
     min = min(values, na.rm = TRUE),
     max = max(values, na.rm = TRUE),
     skew_min = stats::quantile(values, 0.1, na.rm = TRUE),
@@ -274,10 +274,10 @@ apartment_building_evaluation_plot <- function(data, compare, static = FALSE) {
 
   if (static) {
     p +
-      ggplot2::scale_x_continuous(limits = c(0, 100), labels = function(x) paste0(x, "%"))
+      ggplot2::scale_x_continuous(labels = function(x) paste0(x, "%"))
   } else {
     p %>%
-      plotly::layout(xaxis = list(range = c(0, 100), ticksuffix = "%"))
+      plotly::layout(xaxis = list(ticksuffix = "%"))
   }
 }
 
