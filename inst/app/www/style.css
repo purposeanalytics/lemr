@@ -329,6 +329,10 @@ body > .container-fluid {
   border-radius: 0;
 }
 
+#map-header-rental_supply_non_market_table {
+  margin-top: 1em;
+}
+
 /* Inputs */
 
 .pretty {
@@ -555,6 +559,10 @@ ul {
 
   .pretty {
     font-size: var(--base-size);
+  }
+
+  .summary-statistics {
+    width: 100% !important;
   }
 
   .navbar-header {

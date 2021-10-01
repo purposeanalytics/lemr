@@ -72,7 +72,7 @@ mod_aggregate_layer_server <- function(id, address_and_neighbourhood, aggregate_
 
     output$layer_summary <- shiny::renderText({
       switch(input$layer,
-        lem_percent = glue::glue("Estimated percent of rental supply that is LEM: {percent}",
+        lem_percent = glue::glue("Estimated percent of rental stock that is LEM: {percent}",
           percent = scales::percent(dataset()[["lem_percent"]][["prop"]] %>% sum(), accuracy = 0.1)
         ),
         amenity_density = dataset()[["amenity_density"]] %>%
@@ -194,13 +194,13 @@ lem_percent_tooltip <- create_popover(title = "Percent of low-end of market rent
 
 amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (orange) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
 
-rental_supply_primary_tooltip <- create_popover(title = "Rental supply: Primary market rentals", content = NULL)
+rental_supply_primary_tooltip <- create_popover(title = "Rental stock: Primary market rentals", content = NULL)
 
-rental_supply_condo_tooltip <- create_popover(title = "Rental supply: Condominium rentals", content = NULL)
+rental_supply_condo_tooltip <- create_popover(title = "Rental stock: Condominium rentals", content = NULL)
 
-rental_supply_non_condo_tooltip <- create_popover(title = "Rental supply: Secondary market non-condominium rentals", content = NULL)
+rental_supply_non_condo_tooltip <- create_popover(title = "Rental stock: Secondary market non-condominium rentals", content = NULL)
 
-rental_supply_non_market_tooltip <- create_popover(title = "Rental supply: Non market rentals", content = NULL)
+rental_supply_non_market_tooltip <- create_popover(title = "Rental stock: Non market rentals", content = NULL)
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
 

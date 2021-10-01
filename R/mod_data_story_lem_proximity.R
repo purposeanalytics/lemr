@@ -42,7 +42,7 @@ mod_data_story_lem_proximity_ui <- function(id) {
       shiny::div(
         align = "center",
         class = "padded",
-        shiny::h2("Percent of population living in low proximity to services versus percent of rental supply that is low-end of market, by neighbourhood"),
+        shiny::h2("Percent of population living in low proximity to services versus percent of rental stock that is low-end of market, by neighbourhood"),
         shiny::tags$picture(
           shiny::tags$source(
             media = "(orientation: landscape)",

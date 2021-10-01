@@ -89,8 +89,8 @@ summary_statistics_table <- function(data) {
 
 rental_supply_plot_alt_text <- function(level, neighbourhood) {
   switch(level,
-    "city" = "Bar chart showing the breakdown of the rental market supply in the City of Toronto. The data is in the table that follows.",
-    "neighbourhood" = glue::glue("Bar chart showing the breakdown of the rental market supply in {neighbourhood}. The data is in the table that follows.")
+    "city" = "Bar chart showing the breakdown of the rental market stock in the City of Toronto. The data is in the table that follows.",
+    "neighbourhood" = glue::glue("Bar chart showing the breakdown of the rental market stock in {neighbourhood}. The data is in the table that follows.")
   )
 }
 

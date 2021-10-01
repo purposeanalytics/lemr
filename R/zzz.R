@@ -10,7 +10,7 @@ bearing <- -17
 layer_colours <- c(
   apartment_buildings_private = "#27a167",
   agi_apartment = "#ED7521",
-  agi_other = "#ED7521",
+  agi_other = "#F0A26A",
   tdf = "#ffffbf"
 )
 
