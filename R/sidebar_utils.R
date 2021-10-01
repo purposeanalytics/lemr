@@ -101,7 +101,7 @@ number_of_apartments_number <- function(number_of_apartments_formatted) {
 }
 
 number_of_apartments_breakdown <- function(data) {
-  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} social housing)",
+  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} other non-market)",
     privately_owned = data[["number_of_buildings_private"]],
     tch = data[["number_of_buildings_tch"]],
     social_housing = data[["number_of_buildings_social_housing"]]
@@ -154,7 +154,7 @@ number_of_units_number <- function(number_of_units_formatted) {
 }
 
 number_of_units_breakdown <- function(data) {
-  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} social housing)",
+  glue::glue("({scales::comma(privately_owned)} privately owned, {scales::comma(tch)} Toronto Community Housing, {scales::comma(social_housing)} other non-market)",
     privately_owned = data[["number_of_units_private"]],
     tch = data[["number_of_units_tch"]],
     social_housing = data[["number_of_units_social_housing"]]

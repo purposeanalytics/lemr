@@ -83,7 +83,7 @@ mod_point_layer_server <- function(id, address_and_neighbourhood, point_layers, 
           purrr::pmap(
             dplyr::tibble(
               color = c("Apartment", "Toronto Community Housing", "Other Non-Market"),
-              wording = c("privately owned", "Toronto Community Housing", "social housing"),
+              wording = c("privately owned", "Toronto Community Housing", "other non-market"),
               data_suffix = c("private", "tch", "social_housing")
             ),
             function(color, wording, data_suffix) {

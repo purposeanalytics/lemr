@@ -126,7 +126,7 @@ shiny::tagList(
   purrr::pmap(
     dplyr::tibble(
       color = c("Apartment", "Toronto Community Housing", "Other Non-Market"),
-      wording = c("Privately owned", "Toronto Community Housing", "Social housing")
+      wording = c("Privately owned", "Toronto Community Housing", "other non-market")
     ),
     function(color, wording, data_suffix) {
       lemr:::create_circle_legend(lemr:::rental_supply_colors()[[color]],
