@@ -153,8 +153,8 @@ generate_low_mid_high_legends <- function(colors, min_text, mid_text, max_text, 
 # List of layers -----
 
 aggregate_layers_choices_grouped <- list(
-  `Estimated availability of low-end of market rental units ` = "lem_percent",
-  `Estimated rental stock ` = c(
+  `Estimated availability of low-end of market rental units` = "lem_percent",
+  `Estimated rental stock` = c(
     `Primary market units` = "rental_supply_primary",
     `Secondary market condo units` = "rental_supply_condo",
     `Secondary market non-condo units` = "rental_supply_non_condo",
@@ -190,23 +190,23 @@ generate_conditional_tooltip <- function(layer, ns) {
   )
 }
 
-lem_percent_tooltip <- create_popover(title = "Percent of low-end of market rentals", content = NULL)
+lem_percent_tooltip <- create_popover(title = "Estimated availability of low-end of market rental units", content = NULL)
 
 amenity_density_tooltip <- create_popover(title = "Proximity to services", content = "This layer shows the proximity to services of each census block. An area has low proximity to services (blue) if it does not have access to all of the following: grocery store, pharmacy, health care facility, child care facility, primary school, library, public transit stop, and source of employment. It has medium proximity (yellow) if it has access to all eight, and high proximity (orange) if its proximity to the eight is in the top third. Darker colours indicate higher population, while lighter colours indicate lower population.")
 
-rental_supply_primary_tooltip <- create_popover(title = "Rental stock: Primary market rentals", content = NULL)
+rental_supply_primary_tooltip <- create_popover(title = "Estimated rental stock: Primary market units", content = NULL)
 
-rental_supply_condo_tooltip <- create_popover(title = "Rental stock: Condominium rentals", content = NULL)
+rental_supply_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market condo units", content = NULL)
 
-rental_supply_non_condo_tooltip <- create_popover(title = "Rental stock: Secondary market non-condominium rentals", content = NULL)
+rental_supply_non_condo_tooltip <- create_popover(title = "Estimated rental stock: Secondary market non-condo units", content = NULL)
 
-rental_supply_non_market_tooltip <- create_popover(title = "Rental stock: Non market rentals", content = NULL)
+rental_supply_non_market_tooltip <- create_popover(title = "Estimated rental stock: Non-market units", content = NULL)
 
 core_housing_need_tooltip <- create_popover(title = "Core housing need", content = NULL)
 
-eviction_rate_tooltip <- create_popover(title = "Eviction filings rate", content = NULL)
+eviction_rate_tooltip <- create_popover(title = "Eviction filings", content = NULL)
 
-vacancy_rate_tooltip <- create_popover(title = "Vacancy rate", content = NULL)
+vacancy_rate_tooltip <- create_popover(title = "Primary market vacancy rate", content = NULL)
 
 # Legends ----
 
