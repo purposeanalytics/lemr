@@ -52,7 +52,7 @@ evictions_by_neighbourhood <- evictions_by_neighbourhood %>%
   bind_rows(.id = "neighbourhood") %>%
   select(neighbourhood, prop = value) %>%
   mutate(
-    eviction_rate = cut(prop, seq(0, 0.20, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
+    eviction_rate = cut(prop, seq(0, 0.15, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
     eviction_rate = ifelse(prop == 0, 0, eviction_rate)
   ) %>%
   select(-prop)

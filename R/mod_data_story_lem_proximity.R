@@ -20,28 +20,29 @@ mod_data_story_lem_proximity_ui <- function(id) {
             class = "full-summary-buttons",
             shiny::modalButton("Close")
           ),
-          shiny::h1("Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services: A City Overview Highlights Key Neighbourhoods")
+          shiny::h1("Estimated Annual Availability of Low-end of Market Rental Stock: An example exploration of some of the datasets in LEMR")
         )
       ),
-      shiny::HTML("<p>In this story, we look at the aggregate layers in the Low-end of Market Rental Monitor (LEMR) Map to get acquainted with the current state of the rental housing market in Toronto. The low-end of market dataset in this prototype contains estimated values and is used for demonstration purposes only.<sup>1</sup></p>"),
-      shiny::HTML("<p>The lower end of the rental market includes both 'deeply affordable' and 'very affordable' housing. The term 'affordable' refers to housing that is intended to cost less than 30% of a household's before-tax income in Toronto. The terms 'deeply affordable' and 'very affordable', as used in this prototype in particular, follow the City of Toronto's definitions for \"proposed minimum affordable rent\" and \"proposed maximum affordable rent\", respectively. These set out specific thresholds for affordable rent costs, taking into account the number of bedrooms in a unit as well as the number of members in a household.<sup>2</sup> Recognizing that this segment of the rental market includes people who are precariously housed, including people in informal rental arrangements, we expect that any estimate that we make will be undercounted.</p>"),
+      shiny::HTML("<p><b>Note:</b> the \"Estimated availability of low-end of market rental units\" data layer in this proof of concept displays dummy data and it is provided for demonstration purposes only.<sup>1</sup></p>"),
+      shiny::HTML("<p>In this data story, we look at what the aggregate layers in LEMR communicate about deeply affordable rental housing in Toronto. LEMR produces an estimate of the availability of low-end of market rental which segments the private market into \"deeply affordable\" and \"very affordable\" units based on asking rents. Given that many households in low-end of market units face challenges accessing housing, are precariously housed, and may have informal rental arrangements, this estimate will likely undercount the true number."),
+      shiny::HTML("<p>The low-end of the market is defined as units that cost less than 30% of the before-tax income of households that are on the low-end of the income spectrum. The thresholds have been adapted from the City of Toronto's proposed definitions for affordable rent, of which the minimum and maximum thresholds which correspond to LEMR's deeply and very affordable thresholds, respectively. The thresholds are stratified by unit size and aligned with the income of corresponding household sizes.<sup>2</sup>"),
+      shiny::HTML("<p>A map of the estimated annual availability of low-end of market rental units in Toronto shows the following:"),
       shiny::div(
-        align = "center",
-        class = "padded",
+        class = "very-padded",
         shiny::img(src = fs::path("www", "map_lem_percent", ext = "png"), title = "Low-end of market rental units in the City of Toronto", width = "100%", alt = "A map of the City of Toronto divided into neighborhoods shows the estimated annual availability of low-end of market rental units concentrated in the east and west ends."),
-        shiny::tags$i("The estimated annual availability of low-end of market rental units in Toronto tends towards the east end of the city, with Woburn as the neighbourhood with highest concentration of stock.")
+        shiny::p("The estimated annual availability of low-end of market rental units in Toronto tends towards the east end of the city, with Woburn as the neighbourhood with highest concentration of stock.")
       ),
-      shiny::p("At a glance, it is evident that the bulk of the estimated low-end of market rental stock in Toronto is located in the periphery of the city. Neighbourhoods like Woburn, Malvern, Dorset Park, and Clairlea-Birchmount on the east end, and West-Humber Clairville on the west, stand out as those with the highest concentration of estimated low-end of market rental stock. In contrast, two neighbourhoods closer to the city core, Playter Estates-Danforth and Yonge-Eglinton, are noticeably devoid of any stock in the estimation."),
+      shiny::p("At a glance, it is evident that the bulk of the estimated low-end of market rental stock in Toronto is located in the periphery of the city. Neighbourhoods like Woburn, Malvern, Dorset Park, and Clairlea-Birchmount on the east end, and West-Humber Clairville on the west, stand out as those with the highest concentration of estimated low-end of market rental stock. In contrast, two neighbourhoods closer to the city core, Playter Estates-Danforth and Yonge-Eglinton, are estimated to have no low-end of market rental units at all."),
+      shiny::HTML("<p>Not surprisingly, a map of the proximity to serivces is a near-inversion of the low-end of market rental units:"),
       shiny::div(
-        align = "center",
-        class = "padded",
+        class = "very-padded",
         shiny::img(src = fs::path("www", "map_proximity_to_services", ext = "png"), title = "Proximity to services in the City of Toronto", width = "100%", alt = "A map of the City of Toronto divided into neighborhoods shows the population's proximity to services, with a higher proximity to services mainly in the city core, medium proximity mainly in a horseshoe shape surrounding the core, and low proximity mainly towards the periphery of the city."),
-        shiny::tags$i("Proximity to services in Toronto varies greatly by neighbourhood. The map shows limited high proximity to services, located almost exclusively within Downtown Toronto, and medium and low proximity towards the city's boundaries.")
+        shiny::p("Proximity to services in Toronto varies greatly by neighbourhood. The map shows the highest proximity to service located almost exclusively within the old cit of Toronto and medium and low proximity concentrated in the inner suburbes.")
       ),
-      shiny::p(shiny::HTML("Similarly, a quick exploration of the proximity to services of rental units in the city, shows another radial pattern - as distance from the city core increases, proximity to services decreases. Services include grocery stores, pharmacies, health care facilities, childcare facilities, schools, libraries, public transit stops, and sources of employment. Proximity to these services has an impact on the success of local businesses and the quality of life of residents.<sup>3</sup> Buildings in neighbourhoods like North St. James Town, Regent Park, Kensington-Chinatown, all situated in Downtown Toronto, are entirely within high proximity to services. Yet, buildings in neighbourhoods like Newtonbrook East, Bathurst Manor, and St.Andrew-Windfields, in the city's north, all have a low proximity to services.")),
+      shiny::p(shiny::HTML("Here, we see a radial pattern: as the distance from the city core increases, proximity to services decreases. The services include in this composite measure include grocery stores, pharmacies, health care facilities, childcare facilities, schools, libraries, public transit stops, and sources of employment.<sup>3</sup> Entire neighbourhoods such as North St. James Town, Regent Park, Kensington-Chinatown, all situated in downtown Toronto, are  classified as having high proximity to services. Yet, neighbourhoods like Newtonbrook East, Bathurst Manor, and St.Andrew-Windfields in the city's north, are have exclusively low proximity to services.")),
+      shiny::p(shiny::HTML("Taking the data from both maps, we can examine the relationship between proximity to services and the availability of low-end of market rental units by creating a scatter plot for all neighbourhoods. The plot shows a lot of variation, but generally speaking the neighbourhoods with lowest proximity to services (towards the right of the chart) are more likely to have the highest proportion of low-end of market rental units (towards the top of the chart).")),
       shiny::div(
-        align = "center",
-        class = "padded",
+        class = "very-padded",
         shiny::h2("Percent of population living in low proximity to services versus percent of rental stock that is low-end of market, by neighbourhood"),
         shiny::tags$picture(
           shiny::tags$source(
@@ -62,21 +63,22 @@ mod_data_story_lem_proximity_ui <- function(id) {
           )
         ),
         shiny::br(),
-        shiny::tags$i("Considering a neighbourhood's proportion of estimated annual rental stock in the lower end of the market, as well as the area's proximity to services, provides valuable insight. Several neighbourhoods in Toronto within high proximity to services have a noticeably low proportion of estimated low-end of market rental stock.")
+        shiny::p("Considering a neighbourhood's proportion of estimated annual rental stock in the lower end of the market, as well as the area's proximity to services, provides valuable insight. Several neighbourhoods in Toronto within high proximity to services have a noticeably low proportion of estimated low-end of market rental stock.")
       ),
-      shiny::tags$p(glue::glue("In Toronto, three neighbourhoods stand out due to their high percentage of estimated stock of low-end of market units - over 25% of the total rental stock per neighbourhood - yet they are mainly located within low proximity to services. These are Rouge, with {rouge_low} of the neighbourhood's residents living within low proximity to services, West Humber-Clairville, with {west_humber_clairville_low} in low proximity, and Clairlea-Birchmount, with {clairlea_birchmount_low} in low proximity. Neighbourhoods with higher proximity to services yet a noticeably low stock of low-end of market rental units - less than 1% of the rental stock in each neighbourhood - are Regent Park, with all residents living within high proximity to services; Moss Park, with {moss_park_high} of residents within high proximity; Church-Yonge Corridor, with {church_yonge_high} in high proximity; and Mount Pleasant West, with {mount_pleasant_west_high} in high proximity. It is worth noting that, in this case, we only look at units accessible through the private market and not through public housing agencies, co-ops, or other non-market means.",
-        rouge_low = lemr::neighbourhood_aggregate[["Rouge"]][["amenity_density"]] %>%
-          dplyr::filter(.data$group == "Low") %>%
-          dplyr::pull("prop") %>%
-          scales::percent(),
-        west_humber_clairville_low = lemr::neighbourhood_aggregate[["West Humber-Clairville"]][["amenity_density"]] %>%
-          dplyr::filter(.data$group == "Low") %>%
-          dplyr::pull("prop") %>%
-          scales::percent(),
-        clairlea_birchmount_low = lemr::neighbourhood_aggregate[["Clairlea-Birchmount"]][["amenity_density"]] %>%
-          dplyr::filter(.data$group == "Low") %>%
-          dplyr::pull("prop") %>%
-          scales::percent(),
+      shiny::tags$p(glue::glue("In Toronto, three neighbourhoods stand out due to their high percentage of estimated stock of low-end of market units - over 25% of the total rental stock per neighbourhood – yet they are mainly located within low proximity to services. These are Rouge, with {rouge_low} of the neighbourhood's residents living within low proximity to services, West Humber-Clairville, with {west_humber_clairville_low} in low proximity, and Clairlea-Birchmount, with {clairlea_birchmount_low} in low proximity.",
+                               rouge_low = lemr::neighbourhood_aggregate[["Rouge"]][["amenity_density"]] %>%
+                                 dplyr::filter(.data$group == "Low") %>%
+                                 dplyr::pull("prop") %>%
+                                 scales::percent(),
+                               west_humber_clairville_low = lemr::neighbourhood_aggregate[["West Humber-Clairville"]][["amenity_density"]] %>%
+                                 dplyr::filter(.data$group == "Low") %>%
+                                 dplyr::pull("prop") %>%
+                                 scales::percent(),
+                               clairlea_birchmount_low = lemr::neighbourhood_aggregate[["Clairlea-Birchmount"]][["amenity_density"]] %>%
+                                 dplyr::filter(.data$group == "Low") %>%
+                                 dplyr::pull("prop") %>%
+                                 scales::percent())),
+      shiny::tags$p(glue::glue("Conversely, neighbourhoods with higher proximity to services yet a noticeably sparse stock of low-end of market rental units – less than 1% of the rental stock in each neighbourhood – are Regent Park, with all residents living within high proximity to services; Moss Park, with {moss_park_high} of residents within high proximity; Church-Yonge Corridor, with {church_yonge_high} in high proximity; and Mount Pleasant West, with {mount_pleasant_west_high} in high proximity.",
         moss_park_high = lemr::neighbourhood_aggregate[["Moss Park"]][["amenity_density"]] %>%
           dplyr::filter(.data$group == "High") %>%
           dplyr::pull("prop") %>%
@@ -91,9 +93,16 @@ mod_data_story_lem_proximity_ui <- function(id) {
           scales::percent()
       )),
       shiny::div(
-        align = "center",
-        shiny::p(shiny::HTML("<i>
-For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the <b>Map</b>. For data sources and key terms, visit <b>Data & Definitions</b>.</i>"))
+        shiny::p(class="light", "For a full data summary, including sociodemographic and housing characteristics either by neighbourhood or city-wide, access the", shiny::tags$b("Interactive Map."), "For data sources and key terms, visit", shiny::tags$b("Data & Definitions"))
+      ),
+      shiny::fluidRow(
+        shiny::column(
+          width = 12,
+          shiny::div(
+            class = "full-summary-buttons",
+            shiny::modalButton("Close")
+          )
+        )
       ),
       shiny::div(class = "divider-line"),
       shiny::HTML("<p><sup>[1]</sup> All other datasets in this prototype contain veridical information from a range of sources. For details, visit <b>Data & Definitions</b>.</p>"),

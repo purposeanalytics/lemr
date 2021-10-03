@@ -251,7 +251,7 @@ core_housing_need_legend <- function() {
 }
 
 eviction_rate_legend <- function() {
-  generate_layers_legend(low_high_legend_colors(), "0%", "20%", alt_text = glue::glue("A legend showing the eviction filings rate, from 0% (white) to 20% (dark blue)."))
+  generate_layers_legend(low_high_legend_colors(), "0%", "15%", alt_text = glue::glue("A legend showing the eviction filings rate, from 0% (white) to 15% (dark blue)."))
 }
 
 vacancy_rate_legend <- function() {

@@ -13,21 +13,41 @@ mod_data_and_definitions_ui <- function(id) {
     shiny::h1("Data & Definitions"),
     shinybusy::use_busy_spinner(spin = "fading-circle"),
     shiny::fluidRow(
+      shiny::column(width = 12,
+        shiny::p("The data used in the Low-end of Market Rental Monitor is available in two datasets and a set of reports.")
+      ),
       shiny::column(
-        width = 12,
-        shiny::p("The data used in the Low-end of Market Rental Monitor is available in two datasets and in a set of reports."),
-        shiny::downloadLink(ns("aggregate_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Aggregate Layers", shiny::icon("download")))),
-        shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto."),
-        shiny::downloadLink(ns("point_layers"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Point Layers", shiny::icon("download")))),
-        shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values."),
-        shiny::downloadLink(ns("reports"), label = shiny::tagList(shiny::h2("Low-end of Market Rental Monitor, Reports", shiny::icon("download")))),
+        width = 8,
+        shiny::h2("LEMR Aggregate Layers"),
+        shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto.")
+      ),
+      shiny::column(
+        width = 4,
+        shiny::downloadButton(ns("aggregate_layers"), label = shiny::HTML("<b>Download</b> (.csv)"), icon = shiny::icon("download"))
+      ),
+      shiny::column(
+        width = 8,
+        shiny::h2("LEMR Point Layers"),
+        shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values.")
+      ),
+      shiny::column(
+        width = 4,
+        shiny::downloadButton(ns("point_layers"), label = shiny::HTML("<b>Download</b> (.csv)"), icon = shiny::icon("download"))
+      ),
+      shiny::column(
+        width = 8,
+        shiny::h2("LEMR Reports"),
         shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
+      ),
+      shiny::column(
+        width = 4,
+        shiny::downloadButton(ns("reports"), label = shiny::HTML("<b>Download</b> (.zip)"), icon = shiny::icon("download"))
       )
     ),
     shiny::div(class = "divider-line"),
     shiny::tagList(
       lemr::data_and_definitions %>%
-        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$description, .data$data_source_prefix, .data$data_source_suffix, .data$data_source, .data$data_source_link), format_definition)) %>%
+        dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$definition, .data$dataset, .data$dataset_link, .data$data_owner, .data$years, .data$published), format_definition)) %>%
         dplyr::pull(.data$definition_full)
     ),
     # I wish I could explain why this is necessary, but removing it makes the tooltips everywhere go away
@@ -88,33 +108,42 @@ mod_data_and_definitions_server <- function(id) {
   })
 }
 
-format_definition <- function(name, description, data_source_prefix, data_source_suffix, data_source, data_source_link) {
-  includes_data_source <- !is.na(data_source)
+format_definition <- function(name, definition, dataset, dataset_link, data_owner, years, published) {
 
-  if (includes_data_source) {
-    data_source_is_link <- !is.na(data_source_link)
+    definition_only <- is.na(data_owner)
+    dataset_is_link <- !is.na(dataset_link)
 
-    if (data_source_is_link) {
-      data_source <- glue::glue("<a href = '{data_source_link}' target = '_blank'>{data_source}</a>")
+    if (definition_only) {
+
+      details <- NULL
+
+    } else {
+
+      if (dataset_is_link) {
+        dataset <- glue::glue("<a href = '{dataset_link}' target = '_blank'>{dataset}</a>")
+      }
+
+      dataset <- dataset %>%
+        stringr::str_squish() %>%
+        shiny::HTML()
+
+      details <- shiny::p(shiny::tags$b("Related Datset:"), dataset,
+                          shiny::tags$br(),
+                          shiny::tags$b("Data Owner:"), shiny::HTML(data_owner),
+                          shiny::tags$br(),
+                          shiny::tags$b("Years Included:"), shiny::HTML(years),
+                          shiny::tags$br(),
+                          shiny::tags$b("Publication Year:"), shiny::HTML(published))
+
     }
 
-    data_source_full <- glue::glue("{data_source_prefix} {data_source} {data_source_suffix}",
-      data_source_prefix = dplyr::coalesce(data_source_prefix, ""),
-      data_source_suffix = dplyr::coalesce(data_source_suffix, "")
-    ) %>%
-      stringr::str_squish() %>%
-      shiny::HTML()
 
-    data_source_full <- shiny::p(shiny::tags$i("Data Source:"), data_source_full)
-  } else {
-    data_source_full <- NULL
-  }
 
-  data_source <-
+  data_details <-
     definition <- shiny::tagList(
       bigger_padded(shiny::tags$b(name)),
-      shiny::p(shiny::tags$i("Description:"), shiny::HTML(description)),
-      data_source_full,
+      shiny::p(shiny::tags$b("Definition:"), shiny::HTML(definition)),
+      details,
       shiny::hr()
     )
 

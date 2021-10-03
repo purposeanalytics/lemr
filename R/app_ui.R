@@ -12,7 +12,7 @@ app_ui <- function(request) {
       }'
     )),
     shiny::navbarPage(
-      shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor"),
+      shiny::tags$a(href="/", onclick = "link('Home')", shiny::img(class = "navbar-img", src = fs::path("www", "lemr-logo", ext = "png"), title = "Low-end of market rental monitor")),
       collapsible = TRUE,
       id = "page",
       selected = "Home",

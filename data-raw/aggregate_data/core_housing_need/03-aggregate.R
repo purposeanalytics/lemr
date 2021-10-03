@@ -6,6 +6,7 @@ library(stringr)
 library(purrr)
 library(readr)
 library(forcats)
+library(classInt)
 devtools::load_all()
 
 #### Read data ----
@@ -41,12 +42,27 @@ saveRDS(core_housing_need_city, here::here("data-raw", "aggregate_data", "core_h
 
 core_housing_need_by_neighbourhood <- core_housing_need_by_neighbourhood %>%
   map(as_tibble) %>%
-  bind_rows(.id = "neighbourhood") %>%
-  rename(prop = value) %>%
-  mutate(
-    core_housing_need = cut(prop, seq(0, 0.60, length.out = length(low_high_legend_colors())), include.lowest = FALSE, labels = FALSE),
-    core_housing_need = ifelse(prop == 0, 0, core_housing_need)
-  ) %>%
-  select(-prop)
+  bind_rows(.id = "neighbourhood")
 
-saveRDS(core_housing_need_by_neighbourhood, here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood_layer.rds"))
+# Break into groups using Jenks
+
+# Leave white for actual 0
+n <- length(low_high_legend_colors()) - 1
+
+jenks_breaks <- core_housing_need_by_neighbourhood %>%
+  filter(value > 0) %>%
+  pull(value) %>%
+  classIntervals(n = n, style = "jenks") %>%
+  pluck("brks")
+
+# Take -1 from the first break, since the Jenks interval includes it but cut does not, so need to update the breaks
+jenks_breaks[1] <- jenks_breaks[1] - 1
+
+core_housing_need_by_neighbourhood_layer <- core_housing_need_by_neighbourhood %>%
+  mutate(
+    core_housing_need = cut(value, breaks = jenks_breaks, labels = FALSE),
+    core_housing_need = coalesce(core_housing_need, 0),
+  ) %>%
+  select(neighbourhood, core_housing_need)
+
+saveRDS(core_housing_need_by_neighbourhood_layer, here::here("data-raw", "aggregate_data", "core_housing_need", "aggregate", "core_housing_need_by_neighbourhood_layer.rds"))

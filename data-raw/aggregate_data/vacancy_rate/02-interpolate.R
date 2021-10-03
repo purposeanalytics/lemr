@@ -18,14 +18,13 @@ vacancy_rate_toronto_2020 <- readRDS(here::here("data-raw", "aggregate_data", "v
 cmhc_to_neighbourhood <- read_csv(here::here("data-raw", "aggregate_data", "vacancy_rate", "raw", "ct_2016_to_cmhc_neighbourhood.csv"))
 
 cmhc_to_neighbourhood <- cmhc_to_neighbourhood %>%
-  mutate(ct = glue::glue("535{CTNAME}")) %>%
-  select(ct, cmhc_neighbourhood = CMHC_NEIGHBOURHOOD, neighbourhood = AREA_NAME) %>%
+  select(ctuid = CTUID, cmhc_neighbourhood = CMHC_NEIGHBOURHOOD, neighbourhood = AREA_NAME) %>%
   mutate(neighbourhood = clean_neighbourhood_names(neighbourhood))
 
 join_cmhc_to_neighbourhood <- function(vacancy_rate) {
   vacancy_rate %>%
     inner_join(cmhc_to_neighbourhood, by = "cmhc_neighbourhood") %>%
-    distinct(ct, neighbourhood, vacancy_rate)
+    distinct(ctuid, neighbourhood, vacancy_rate)
 }
 
 vacancy_rate_2016 <- vacancy_rate_2016 %>%
@@ -40,7 +39,7 @@ vacancy_rate_2020 <- vacancy_rate_2020 %>%
 # If both are missing, just use the city average for the year
 
 vacancy_rate_combined <- vacancy_rate_2016 %>%
-  full_join(vacancy_rate_2020, by = c("ct", "neighbourhood"), suffix = c("_2016", "_2020"))
+  full_join(vacancy_rate_2020, by = c("ctuid", "neighbourhood"), suffix = c("_2016", "_2020"))
 
 vacancy_rate_combined_for_model <- vacancy_rate_combined %>%
   filter(!is.na(vacancy_rate_2016 & !is.na(vacancy_rate_2020)))
@@ -74,12 +73,12 @@ vacancy_rate_combined <- vacancy_rate_combined %>%
     mutate(
       estimate_2020 = TRUE,
       estimate_2016 = FALSE
-    ), by = c("ct", "neighbourhood")) %>%
+    ), by = c("ctuid", "neighbourhood")) %>%
   rows_update(vacancy_rate_predict_2016 %>%
     mutate(
       estimate_2020 = FALSE,
       estimate_2016 = TRUE
-    ), by = c("ct", "neighbourhood"))
+    ), by = c("ctuid", "neighbourhood"))
 
 vacancy_rate_combined <- vacancy_rate_combined %>%
   mutate(
@@ -101,10 +100,10 @@ vacancy_rate_combined %>%
 
 # Save interpolated vacancy rates
 vacancy_rate_2016 <- vacancy_rate_combined %>%
-  select(ct, neighbourhood, vacancy_rate = vacancy_rate_2016)
+  select(ctuid, neighbourhood, vacancy_rate = vacancy_rate_2016)
 
 vacancy_rate_2020 <- vacancy_rate_combined %>%
-  select(ct, neighbourhood, vacancy_rate = vacancy_rate_2020)
+  select(ctuid, neighbourhood, vacancy_rate = vacancy_rate_2020)
 
 saveRDS(vacancy_rate_2016, here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2016.rds"))
 saveRDS(vacancy_rate_2020, here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2020.rds"))

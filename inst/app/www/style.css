@@ -4,7 +4,7 @@
 
 :root {
   --font: "Lato", Sans-Serif;
-  --base-size: 14px;
+  --base-size: 16px;
   --bigger-size: 1.15em;
   --middle-size: 1.5em;
   --biggest-size: 1.75em;
@@ -27,12 +27,27 @@ body {
   font-weight: var(--regular-weight);
 }
 
+p {
+  margin-bottom: 1em;
+}
+
+p.light {
+  color: #aaaaaa;
+}
+
 a {
   color: var(--main-color);
+  transition: 0.2s;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: 0.2s;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1em;
+  line-height: 1.2em;
   padding-top: 0.75em;
   margin-top: 0;
   margin-bottom: 1em;
@@ -86,6 +101,10 @@ h3 {
   background-color: var(--accent-color);
 }
 
+.modal-body {
+  padding: 30px;
+}
+
 /* Navbar */
 
 .navbar {
@@ -110,6 +129,10 @@ h3 {
   height: 100%;
 }
 
+.navbar-default .navbar-nav {
+  font-size: 110%;
+}
+
 .navbar-default .navbar-nav > a:hover {
   color: white;
 }
@@ -124,6 +147,10 @@ h3 {
   font-size: var(--bigger-size);
   font-weight: var(--bold-weight);
   font-family: Kanit;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: var(--accent-color);
 }
 
 /* Collapsed navbar in small layout */
@@ -154,6 +181,7 @@ h3 {
 
 hr {
   margin-top: 10px;
+  border-top: 1px solid var(--light-grey-color);
 }
 
 .map-col {
@@ -220,7 +248,7 @@ body > .container-fluid {
 
 .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
   background-color: transparent !important;
-  border-color: var(--grey-color)
+  border-color: var(--grey-color);
 }
 
 /* Home page */
@@ -234,8 +262,8 @@ body > .container-fluid {
 }
 
 .center-padded {
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .welcome-banner {
@@ -248,15 +276,20 @@ body > .container-fluid {
 }
 
 .welcome-banner-content {
-  max-width: 880px;
+  max-width: 940px;
   margin-left: auto;
   margin-right: auto;
+  font-size: var(--bigger-size);
 }
 
 .welcome-banner h1 {
   font-weight: var(--regular-weight);
-  font-size: 3em;
+  font-size: 2.25em;
   margin-bottom: 0.25em;
+}
+
+.welcome-banner p {
+  font-size: var(--bigger-size);
 }
 
 .intro-sentence {
@@ -277,16 +310,17 @@ body > .container-fluid {
 .data-stories-banner {
   background-color: var(--light-grey-color);
   min-height: calc(var(--home-section-padding) * 10);
-  padding-left: calc(var(--home-section-padding) * 2);
-  padding-right: calc(var(--home-section-padding) * 2);
+  padding-left: calc(var(--home-section-padding));
+  padding-right: calc(var(--home-section-padding));
   padding-top: var(--home-section-padding);
   padding-bottom: var(--home-section-padding);
-  text-justify: left;
   text-align: left;
+  font-size: var(--bigger-size);
 }
 
 .data-stories-banner a {
-  color: black;
+  color: var(--dark-grey-color);
+  transition: 0.2s;
 }
 
 .data-stories-banner h2 {
@@ -302,6 +336,32 @@ body > .container-fluid {
 .data-stories-img {
   max-width: 100%;
   height: auto;
+  border: 2px solid var(--grey-color);
+  margin-bottom: 0.8em;
+}
+
+a .data-stories-img:hover {
+  border: 2px solid var(--main-color);
+  transition: 0.2s;
+}
+
+.data-stories-banner a:hover {
+  color: var(--main-color)
+}
+
+.row.agi-data-story-neighbourhood {
+  display: flex;
+  align-items: stretch;
+}
+
+.map-legend {
+  font-size: 80%;
+  margin: 6px 0;
+}
+
+.map-legend .color-preview-circle {
+  width: 0.6em;
+  height: 0.6em;
 }
 
 .divider-line {
@@ -316,8 +376,46 @@ body > .container-fluid {
   margin-bottom: var(--home-section-padding);
 }
 
+#data-and-definitions-page h2 {
+  padding-top: 0;
+}
+
+#data-and-definitions-page .btn.shiny-download-link {
+  padding: 15px 60px;
+  margin-top: 1em;
+  float: right;
+}
+
 .start-exploring {
   text-align: left !important;
+}
+
+.start-exploring .row {
+  display: flex;
+  align-items: stretch;
+}
+
+.start-exploring .vertical-align {
+  align-items: normal;
+}
+
+.start-exploring .col-sm-4 .col-sm-4 {
+  padding: 0;
+}
+
+.start-exploring .col-sm-4 .col-sm-4 a .fa {
+  color: #333;
+  transition: 0.2s;
+}
+
+.start-exploring .col-sm-4 .col-sm-4 a:hover .fa {
+  color: var(--main-color);
+  transition: 0.2s;
+}
+
+
+.start-exploring .col-sm-4 .col-sm-8 {
+  padding: 0 10px;
 }
 
 .questions {
@@ -363,9 +461,21 @@ body > .container-fluid {
   box-shadow: none;
 }
 
+.btn-default {
+  transition: 0.2s;
+  background-color: #eeeeee;
+}
+
 .btn-default:hover {
   border-color: var(--accent-color);
-  background-color: inherit;
+  background-color: #fef5e3;
+  color: var(--accent-color);
+  transition: 0.2s;
+}
+
+.dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active {
+  background-color: white;
+  color: inherit;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
@@ -508,6 +618,12 @@ ul {
 
 .map-sidebar {
   overflow-y: auto;
+  font-size: var(--smaller-size);
+}
+
+.map-sidebar h1 {
+  margin-bottom: 0.5em;
+  padding-top: 0;
 }
 
 /* ------ Well panel ------ */
@@ -529,6 +645,33 @@ ul {
   padding-bottom: 2em;
   display: flex;
   align-items: center;
+}
+
+.modal-content .very-padded {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-content .very-padded p {
+  font-size: var(--smaller-size);
+  line-height: 1.2em;
+  padding-top: 0.5em;
+  color: #777777;
+}
+
+.full-summary-modal .modal-content h1 {
+  float: left;
+  padding-top: 0.25em;
+  margin-bottom: 0.5em;
+}
+
+.full-summary-modal .modal-content {
+  font-size: var(--smaller-size);
+}
+
+.full-summary-modal .shiny-html-output {
+  padding-bottom: 1em;
 }
 
 /* Makes sure "download reports" button dropdown is spaced properly */
@@ -641,10 +784,11 @@ ul {
     display: block;
   }
 
-  .agi-data-story-neighbourhood .col-sm-5, .agi-data-story-neighbourhood .col-sm-7
+  .agi-data-story-neighbourhood .col-sm-44, .agi-data-story-neighbourhood .col-sm-88 {
     width: 100% !important;
     margin-right: 0 !important;
   }
+}
 
 /* Small devices (Phones / Portrait iPad) */
 @media (max-width: 768px) {
@@ -681,6 +825,12 @@ ul {
     width: 100%;
     margin-right: 0 !important;
   }
+
+  /* Make data story images full width */
+  .modal-content .very-padded {
+    width: 100%;
+  }
+
 }
 
 /* Small font sizes in tables on phone */

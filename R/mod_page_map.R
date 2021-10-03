@@ -20,7 +20,6 @@ mod_page_map_ui <- function(id) {
         mod_search_ui(ns("search")),
         shiny::hr(),
         shiny::h1(style = "padding-top: 0;", shiny::textOutput(ns("header"))),
-        shiny::hr(),
         mod_aggregate_layer_ui(ns("aggregate")),
         shiny::h2("Select point layer(s)", id = "points_layer_div"),
         mod_point_layer_ui(ns("apartment_buildings"), "apartment_buildings"),

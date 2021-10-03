@@ -97,8 +97,8 @@ secondary_condo_city <- custom_tab_toronto_cts %>%
 
 structure_type_clean <- tribble(
   ~original, ~clean,
-  "Apartment in a building that has fewer than five storeys", "Apartment, < 5 storeys",
   "Apartment in a building that has five or more storeys", "Apartment, 5+ storeys",
+  "Apartment in a building that has fewer than five storeys", "Apartment, < 5 storeys",
   "Apartment or flat in a duplex", "Duplex",
   "Semi-detached house, row house, or other single attached house", "Single-, semi-detached, or row house",
   "Single-detached house", "Single-, semi-detached, or row house"
@@ -110,14 +110,16 @@ structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
     condominium_status != "Total - Condominium status"
   ) %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type)) %>%
+  mutate(structural_type = coalesce(clean, structural_type),
+         structural_type = factor(structural_type, levels = c("Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house"))) %>%
   aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling") %>%
   select(-value)
 
 structure_type_city <- custom_tab_toronto_cts %>%
   filter(tenure_including_subsidy == "Renter") %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type)) %>%
+  mutate(structural_type = coalesce(clean, structural_type),
+         structural_type = factor(structural_type, levels = c("Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house"))) %>%
   aggregate_prop_city("structural_type", "Total - Structural type of dwelling") %>%
   select(-value)
 

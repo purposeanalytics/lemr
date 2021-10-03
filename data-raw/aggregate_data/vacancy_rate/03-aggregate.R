@@ -13,7 +13,8 @@ dimensions_by_ct <- readRDS(here::here("data-raw", "aggregate_data", "census_pro
 
 renter_by_ct <- dimensions_by_ct %>%
   filter(dimension_full == "Total - Private households by tenure - 25% sample data::Renter", dimension == "Renter") %>%
-  select(geo_code, total)
+  select(geo_code, total) %>%
+  mutate(geo_code = as.character(geo_code))
 
 vacancy_rate_2016 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2016.rds"))
 
@@ -21,7 +22,9 @@ vacancy_rate_2020 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_r
 
 aggregate_vacancy_rate_to_neighbourhood <- function(vacancy_rate) {
   vacancy_rate %>%
-    left_join(renter_by_ct, by = c("ct" = "geo_code")) %>%
+    mutate(ctuid = as.character(ctuid),
+           ctuid = if_else(nchar(ctuid) < 10, paste0(ctuid, ".00"), ctuid)) %>%
+    left_join(renter_by_ct, by = c("ctuid" = "geo_code")) %>%
     mutate(total = coalesce(total, 0)) %>%
     group_by(neighbourhood) %>%
     summarise(

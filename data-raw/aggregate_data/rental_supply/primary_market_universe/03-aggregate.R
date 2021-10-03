@@ -12,12 +12,17 @@ primary_market_cts <- readRDS(here::here("data-raw", "aggregate_data", "rental_s
 
 vacancy_rate_2016 <- readRDS(here::here("data-raw", "aggregate_data", "vacancy_rate", "interpolate", "vacancy_rate_2016.rds"))
 
+vacancy_rate_2016 <- vacancy_rate_2016 %>%
+  mutate(ctuid = as.character(ctuid),
+         ctuid = if_else(nchar(ctuid) < 10, paste0(ctuid, ".00"), ctuid))
+
 primary_market_cts <- primary_market_cts %>%
-  pivot_longer(-c(neighbourhood, ct), names_to = "group", names_prefix = "total_")
+  rename(ctuid = ct) %>%
+  pivot_longer(-c(neighbourhood, ctuid), names_to = "group", names_prefix = "total_")
 
 # Use vacancy rate to lower numbers ----
 primary_market_cts <- primary_market_cts %>%
-  left_join(vacancy_rate_2016, by = c("ct", "neighbourhood")) %>%
+  left_join(vacancy_rate_2016, by = c("ctuid", "neighbourhood")) %>%
   mutate(value = value * (1 - vacancy_rate))
 
 ## Aggregate primary market with breakdown ----

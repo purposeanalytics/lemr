@@ -135,11 +135,15 @@ display_neighbourhood_profile <- function(data, variable, compare = TRUE, width 
     }
 
     if (!static) {
+
+      # bargroupgap produces spurious warnings; presumably this will be fixed in a later Plotly version
+
       p <- p %>%
         plotly::layout(
           yaxis = list(title = NA, showgrid = FALSE, fixedrange = TRUE),
-          xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE),
-          margin = list(t = 15, r = 25, b = 5, l = 25),
+          xaxis = list(title = NA, fixedrange = TRUE, showgrid = FALSE, zeroline = FALSE, showline = FALSE, showticklabels = FALSE),
+          bargroupgap = 0.1,
+          margin = list(t = 15, r = 25, b = 5, l = 25, pad = 6),
           showlegend = FALSE,
           font = list(family = "Lato", size = 12, color = "black")
         ) %>%
@@ -279,8 +283,7 @@ plot_amenity_density <- function(data, xaxis_title = FALSE, b = 15, static = FAL
         xaxis = list(showgrid = FALSE, title = xaxis_title, fixedrange = TRUE),
         yaxis = list(
           showgrid = FALSE, zeroline = FALSE, title = FALSE,
-          tickformat = "%",
-          fixedrange = TRUE
+          fixedrange = TRUE, showline = FALSE, showticklabels = FALSE
         ),
         margin = list(t = 15, r = 0, b = b, l = 15),
         font = list(family = "Lato", size = 12, color = "black")
@@ -500,33 +503,25 @@ display_lem <- function(data) {
     dplyr::mutate(n = scales::comma(.data$n))
 
   cutoffs <- dplyr::tribble(
-    ~affordable, ~bedrooms, ~min, ~max,
-    "Deeply Affordable", "Bachelor", 0, 385,
-    "Very Affordable", "Bachelor", 386, 812,
-    "Deeply Affordable", "1 bedroom", 0, 495,
-    "Very Affordable", "1 bedroom", 496, 1090,
-    "Deeply Affordable", "2 bedrooms", 0, 929,
-    "Very Affordable", "2 bedrooms", 930, 1661,
-    "Deeply Affordable", "3+ bedrooms", 0, 1046,
-    "Very Affordable", "3+ bedrooms", 1047, 1858
-  ) %>%
-    dplyr::mutate(dplyr::across(c(min, max), scales::comma),
-      cutoff = glue::glue("{min}{to}{max}",
-        min = ifelse(min == "$0", "Under ", min),
-        to = ifelse(min == "Under ", "", " to ")
-      ),
-      cutoff = as.character(cutoff)
-    ) %>%
-    dplyr::select(-min, -max)
+    ~affordable, ~bedrooms, ~range,
+    "Deeply Affordable", "Bachelor", "Under $386",
+    "Very Affordable", "Bachelor", "$386 to $812",
+    "Deeply Affordable", "1 bedroom", "Under $496",
+    "Very Affordable", "1 bedroom", "$496 to $1,090",
+    "Deeply Affordable", "2 bedrooms", "Under $930",
+    "Very Affordable", "2 bedrooms", "$930 to $1,661",
+    "Deeply Affordable", "3+ bedrooms", "Under $1,047",
+    "Very Affordable", "3+ bedrooms", "$1,047 to $1,858"
+  )
 
   combined <- lem_total %>%
     dplyr::left_join(cutoffs, by = c("bedrooms", "affordable")) %>%
-    dplyr::select(bedrooms, affordable, cutoff, n) %>%
-    dplyr::mutate(cutoff = dplyr::coalesce(cutoff, "")) %>%
+    dplyr::select(bedrooms, affordable, range, n) %>%
+    dplyr::mutate(range = dplyr::coalesce(range, "")) %>%
     dplyr::select(-bedrooms)
 
   combined %>%
-    knitr::kable(col.names = c("", "Cutoff (in dollars)", "Estimated Units"),
+    knitr::kable(col.names = c("", "Threshold", "Estimated Units"),
                  align = "lrr",
                  escape = TRUE, format = "html") %>%
     kableExtra::kable_styling(

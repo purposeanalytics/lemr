@@ -13,7 +13,7 @@ mod_home_ui <- function(id) {
       shiny::div(
         class = "welcome-banner-content",
         shiny::h1(shiny::HTML("Welcome to the<br/>Low-end of Market Rental Monitor")),
-        shiny::p("This tool is a proof of concept that demonstrates the potential for linking housing data from multiple sources with a future goal of estimating how the supply of deeply affordable housing units in the private market is changing over time.")
+        shiny::p("This proof of concept application demonstrates the potential for linking housing data from multiple sources with a future goal of estimating how the supply of deeply affordable housing units in the private market is changing over time.")
       )
     ),
     shiny::div(
@@ -21,12 +21,16 @@ mod_home_ui <- function(id) {
       shiny::div(
         class = "intro-paragraph padded center-padded bigger",
         shiny::h2("Why is this important?"),
-        shiny::p(shiny::HTML("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new stock is being created. <i>Deeply affordable</i> describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income.")),
-        shiny::p("By mapping the dynamics of the low-end of the rental market, LEMR equips policy makers, housing advocates, city planners, government agencies, and researchers with information that can help them to tackle this problem. Access to data is crucial for developing policies, regulation, and programs that protect this important component of the market and advance the right to adequate housing.")
+        shiny::p("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new stock is being created. \"Deeply affordable\" describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income."),
+        shiny::p("By mapping the dynamics of the low-end of the rental market, LEMR equips policy makers, housing advocates, city planners, government agencies, and researchers with information that can help them to tackle this problem. Access to data is crucial for developing policies, regulation, and programs that can help to preserve this important component of the market and advance the right to adequate housing."),
+        shiny::h2("Note on the data"),
+        shiny::p("LEMR draws on housing-related datasets from a variety of sources (e.g. open data, freedom of information requests, other administrative data) and jurisdictions (e.g. municipal, provincial, and federal). For this proof of concept, LEMR presents a convenience sample of datasets that were readily accessible to the project team between April and September 2021. Datasets that were received late in the project cycle or whose access could not be negotiated in time have been excluded from the proof of concept."),
+        shiny::p("In this proof of concept, the \"estimated availability of low-end of market rental units\" data is a dummy dataset. Datasets that were critical to creating a data-driven estimate were not available in time. The dummy dataset is provided for demonstration purposes and should not be used to make conclusions or decisions about the supply of deeply affordable housing in Toronto. All other datasets presented in the proof of concept are real and from authoritative sources.")
       ),
       shiny::div(
         class = "data-stories-banner",
-        shiny::h2(shiny::HTML("Featured <i>Data Stories</i>")),
+        shiny::span("", id = "data-stories"),
+        shiny::h2(shiny::HTML("Featured Data Stories")),
         shiny::fluidRow(
           shiny::column(
             width = 4,
@@ -37,10 +41,9 @@ mod_home_ui <- function(id) {
                 shiny::div(
                   align = "center",
                   # "" alt text indicates this image can be skipped - it does not provide any info
-                  shiny::img(src = "www/preview_proximity.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
+                  shiny::img(src = "www/preview_proximity.png", class = "data-stories-img", alt = "")
                 ),
-                shiny::br(),
-                shiny::HTML("<b>Toronto's Estimated Low-end of Market Rental Stock and Proximity to Services:</b><br>An Overview Highlights Key Neighbourhoods")
+                shiny::HTML("<b>Estimated Annual Availability of Low-end of Market Rental Stock:</b> An example exploration of some of the datasets in LEMR")
               )
             )
           ),
@@ -52,10 +55,9 @@ mod_home_ui <- function(id) {
               shiny::tagList(
                 shiny::div(
                   align = "center",
-                  shiny::img(src = "www/preview_agi.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
+                  shiny::img(src = "www/preview_agi.png", class = "data-stories-img", alt = "")
                 ),
-                shiny::br(),
-                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defence Fund Grants in Toronto:</b><br>Three Neighbourhoods Fall Outside the Norm")
+                shiny::HTML("<b>Above Guideline Increase Applications and Tenant Defence Fund Grants in Toronto:</b> A closer look at three neighbourhoods ")
               )
             )
           ),
@@ -65,10 +67,9 @@ mod_home_ui <- function(id) {
             shiny::tagList(
               shiny::div(
                 align = "center",
-                shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "", style = "border: 2px solid var(--grey-color);")
+                shiny::img(src = "www/blossom_2.png", class = "data-stories-img", alt = "")
               ),
-              shiny::br(),
-              shiny::HTML("<b>Coming soon...</b><br>Check back again soon for new Data Stories.")
+              shiny::HTML("<b>Coming soon...</b>")
             )
           )
         )
@@ -76,42 +77,42 @@ mod_home_ui <- function(id) {
       shiny::div(class = "divider-line center-padded"),
       shiny::div(
         class = "start-exploring center-padded",
-        shiny::column(width = 12, align = "center", shiny::h2("Start exploring LEMR", style = "padding-top: 0;")),
+        shiny::column(width = 12, align = "center", shiny::h2("Start exploring LEMR", style = "padding-top: 0; padding-bottom: 0.5em;")),
         shiny::fluidRow(
           shiny::column(
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 5,
-              shiny::icon("newspaper", class = "fa-5x fa-fw")
+              width = 4,
+              shiny::tags$a(id = "link_map", href = "#data-stories", shiny::icon("newspaper", class = "fa-5x fa-fw"))
             ),
             shiny::column(
-              width = 7,
-              shiny::HTML("Read <b>Data Stories</b> above for analyses and learn how their implications may impact you, your organization, or your community.")
+              width = 8,
+              shiny::HTML("Read the <a href='#data-stories'><b>Data Stories</b></a> above for analyses about the state of deeply affordable housing in the city and your community.")
             )
           ),
           shiny::column(
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 5,
-              shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::icon("layer-group", class = "fa-5x fa-fw"), style = "color: black !important;")
+              width = 4,
+              shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::icon("layer-group", class = "fa-5x fa-fw"))
             ),
             shiny::column(
-              width = 7,
-              shiny::p("Go to", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Map")), "for summary statistics, estimated rental stock, locations of awarded tenant defence fund grants, and more.")
+              width = 8,
+              shiny::p("Explore the data directly in the ", shiny::tags$a(id = "link_map", href = "#", onclick = "link('Map')", shiny::tags$b("Interactive Map")), " and access summary statistics and reports.")
             )
           ),
           shiny::column(
             width = 4,
             class = "vertical-align",
             shiny::column(
-              width = 5,
-              shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::icon("book-open", class = "fa-5x fa-fw"), style = "color: black !important;")
+              width = 4,
+              shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::icon("book-open", class = "fa-5x fa-fw"))
             ),
             shiny::column(
-              width = 7,
-              shiny::p("Learn about the data sources included in the tool, find key terminology, and access processed data in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions")), ".")
+              width = 8,
+              shiny::p("Download linked datasets, reviews definitions, and learn more about the datasets themselves in", shiny::tags$a(id = "link_data_and_definitions", href = "#", onclick = "link('Data & Definitions')", shiny::tags$b("Data & Definitions.")))
             )
           )
         )
@@ -119,10 +120,10 @@ mod_home_ui <- function(id) {
       shiny::div(class = "divider-line center-padded"),
       shiny::div(
         class = "about center-padded",
-        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> as a short-listed project through the Canada Mortgage Housing Corporation's Housing Supply Challenge Data Driven Round. The Low-end of Market Rental Housing Monitor received funding from the Housing Supply Challenge - Data Driven Round (Incubation Stage), however, the views expressed are the personal views of the project and CMHC accepts no responsibility for them.")),
+        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> with funding from the Canada Mortgage Housing Corporation's Housing Supply Challenge – Data Driven Round (Incubation Stage). The views expressed are those of the project and CMHC accepts no responsibility for them.")),
         full_team,
-        shiny::p("Purpose Analytics is partnering with the Centre for Equality Rights in Accommodation, Canadian Alliance to End Homelessness, BC Non-profit Housing Association, Ontario Non-profit Housing Association, and the Community Housing Transformation Centre in applying for second stage funding to scale this proof of concept to major urban areas across Canada."),
-        shiny::p(shiny::HTML("For the source code, you can visit the project's <a href = 'https://github.com/purposeanalytics/lemur/' target = '_blank'>GitHub repository</a>.")),
+        shiny::p(shiny::HTML("Purpose Analytics is partnering with the <a href='https://equalityrights.org' target='_blank'>Centre for Equality Rights in Accommodation</a>, <a href='https://bcnpha.ca' target='_blank'>BC Non-profit Housing Association</a>, <a href='https://caeh.ca' target='_blank'>Canadian Alliance to End Homelessness</a>, <a href='https://centre.support' target='_blank'>Community Housing Transformation Centre</a>, <a href='https://www.onpha.on.ca' target='_blank'>Ontario Non-profit Housing Association</a> in applying for implementation funding to scale this proof of concept to major urban areas across Canada.")),
+        shiny::p(shiny::HTML("For the source code, visit the project's <a href = 'https://github.com/purposeanalytics/lemur/' target = '_blank'>GitHub repository</a>.")),
         shiny::p(shiny::tags$i("Last updated: October 2021"))
       )
     )
