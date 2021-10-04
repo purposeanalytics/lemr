@@ -10,7 +10,7 @@ mod_data_and_definitions_ui <- function(id) {
   shiny::div(
     class = "content-page",
     id = "data-and-definitions-page",
-    shiny::h1("Data & Definitions"),
+    shiny::h1("Data Downloads"),
     shinybusy::use_busy_spinner(spin = "fading-circle"),
     shiny::fluidRow(
       shiny::column(width = 12,
@@ -23,6 +23,7 @@ mod_data_and_definitions_ui <- function(id) {
       ),
       shiny::column(
         width = 4,
+        align = "right",
         shiny::downloadButton(ns("aggregate_layers"), label = shiny::HTML("<b>Download</b> (.csv)"), icon = shiny::icon("download"))
       ),
       shiny::column(
@@ -32,19 +33,22 @@ mod_data_and_definitions_ui <- function(id) {
       ),
       shiny::column(
         width = 4,
+        align = "right",
         shiny::downloadButton(ns("point_layers"), label = shiny::HTML("<b>Download</b> (.csv)"), icon = shiny::icon("download"))
       ),
       shiny::column(
         width = 8,
         shiny::h2("LEMR Reports"),
-        shiny::p("These files include the Full Summary report for each neighbourhood and the City of Toronto, summarising data from the aggregate and point layers.")
+        shiny::p("These files include the Full Summary reports for each neighbourhood and the City of Toronto with charts and tables summarising the aggregate and point layers.")
       ),
       shiny::column(
         width = 4,
+        align = "right",
         shiny::downloadButton(ns("reports"), label = shiny::HTML("<b>Download</b> (.zip)"), icon = shiny::icon("download"))
       )
     ),
     shiny::div(class = "divider-line"),
+    shiny::h1("Definitions"),
     shiny::tagList(
       lemr::data_and_definitions %>%
         dplyr::mutate(definition_full = purrr::pmap(list(.data$name, .data$definition, .data$dataset, .data$dataset_link, .data$data_owner, .data$years, .data$published), format_definition)) %>%

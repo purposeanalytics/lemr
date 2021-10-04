@@ -14,6 +14,7 @@ add_blank_points_layers <- function(map) {
   blur <- 0
   radius <- list(
     "stops" = list(
+      c(7, 2),
       c(10, 3.5),
       c(13, 5),
       c(16, 7),

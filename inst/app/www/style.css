@@ -393,8 +393,9 @@ a .data-stories-img:hover {
 
 #data-and-definitions-page .btn.shiny-download-link {
   padding: 15px 60px;
+  max-width: 270px;
   margin-top: 1em;
-  float: right;
+  margin-bottom: 2em;
 }
 
 .start-exploring {
@@ -798,9 +799,8 @@ ul {
   }
 
   .welcome-banner {
-    padding-top: var(--home-section-padding);
     min-height: 0;
-    margin: 2em !important;
+    padding: 30px;
   }
 
   .welcome-banner h1 {
@@ -814,6 +814,11 @@ ul {
 
   .data-stories-banner {
     min-height: 0px;
+    padding: 30px;
+  }
+
+  .start-exploring .row {
+    display: inline;
   }
 
   .start-exploring .col-sm-4 {
@@ -832,6 +837,10 @@ ul {
   #data-and-definitions-page .bigger {
     font-size: var(--base-size);
   }
+
+  #data-and-definitions-page .row .col-sm-4 {
+    text-align: center;
+}
 
   .agi-data-story-neighbourhood {
     display: block;
