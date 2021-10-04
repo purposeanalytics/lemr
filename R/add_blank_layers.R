@@ -14,10 +14,10 @@ add_blank_points_layers <- function(map) {
   blur <- 0
   radius <- list(
     "stops" = list(
-      c(10, 4),
-      c(12, 6),
-      c(14, 8),
-      c(16, 10)
+      c(10, 3.5),
+      c(13, 5),
+      c(16, 7),
+      c(19, 9)
     )
   )
   opacity <- 0.8
@@ -264,7 +264,7 @@ add_blank_aggregate_layers <- function(map) {
         "paint" = list(
           "line-color" = default_line_colour,
           "line-width" = 1.5,
-          "line-opacity" = 0.6
+          "line-opacity" = 0.5
         )
       )
     ) %>%

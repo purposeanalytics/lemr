@@ -24,7 +24,7 @@ mod_point_layer_ui <- function(id, layer) {
           inputId = ns("layer"),
           label = shiny::HTML(point_layers_choices[[layer]]),
           value = FALSE,
-          status = "primary",
+          status = "default",
           inline = TRUE # Ensures tooltip appears beside, since elements are inline
         ),
         tooltip

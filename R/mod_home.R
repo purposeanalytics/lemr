@@ -13,7 +13,7 @@ mod_home_ui <- function(id) {
       shiny::div(
         class = "welcome-banner-content",
         shiny::h1(shiny::HTML("Welcome to the<br/>Low-end of Market Rental Monitor")),
-        shiny::p("This proof of concept application demonstrates the potential for linking housing data from multiple sources with a future goal of estimating how the supply of deeply affordable housing units in the private market is changing over time.")
+        shiny::p("This proof of concept demonstrates the potential for linking housing data from multiple sources using the City of Toronto as a pilot site. The future goal is to estimate how the supply of deeply affordable housing rent units in the private market is changing over time.")
       )
     ),
     shiny::div(
