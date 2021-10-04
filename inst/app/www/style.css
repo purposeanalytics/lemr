@@ -832,10 +832,6 @@ ul {
     padding: 15px 30px;
   }
 
-  .start-exploring .row {
-    display: inline;
-  }
-
   .start-exploring .col-sm-4 {
     margin-bottom: calc(var(--home-section-padding) * 0.5);
   }
