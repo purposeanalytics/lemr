@@ -777,10 +777,6 @@ ul {
     width: 100% !important;
   }
 
-  .navbar-default .container-fluid {
-    padding: 15px 30px;
-  }
-
   .navbar-header {
     height: 75px;
   }
@@ -861,6 +857,10 @@ ul {
 @media (max-width: 768px) {
   #shiny-modal {
     padding-right: 0 !important;
+  }
+
+  .navbar-default .container-fluid {
+    padding: 15px 30px;
   }
 
   .content-page {
