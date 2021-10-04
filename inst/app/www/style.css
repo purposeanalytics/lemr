@@ -157,6 +157,14 @@ h5 {
   color: var(--accent-color);
 }
 
+#map-search-back {
+  color: var(--main-color);
+}
+
+#map-search-back:hover, #map-search-back:focus {
+  color: var(--accent-color);
+}
+
 /* Collapsed navbar in small layout */
 /* Say "MENU" instead of hamburger menu icon, which a lot of people don't understand */
 
