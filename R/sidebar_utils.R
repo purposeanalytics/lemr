@@ -586,7 +586,7 @@ average_total_household_income_plot <- function(data, compare, static = FALSE) {
 # Unaffordable housing ----
 
 unaffordable_housing_number <- function(unaffordable_housing_formatted, level) {
-  number <- glue::glue("Renters in unaffordable housing (2016): {unaffordable_housing_formatted}")
+  number <- glue::glue("Renter households in unaffordable housing (2016): {unaffordable_housing_formatted}")
 
   if (level == "neighbourhood") {
     glue::glue('{number} (City of Toronto: {scales::percent(lemr::city_aggregate[["unaffordable_housing"]], accuracy = 0.1)})')
