@@ -143,7 +143,7 @@ mod_home_ui <- function(id) {
           </div>
           <div class='form-group mb-3' style=''>
           <div class='controls'>
-          <textarea rows='2' data-ebay_field='' data-ebay_add_as='ADDASNOTE' id='eb_temp_field_text_box' name='eb_temp_field_text_box' type='textarea' style='background-color:#fff;' placeholder='Your Message*' class='form-control' required='true'></textarea>
+          <textarea rows='4' data-ebay_field='' data-ebay_add_as='ADDASNOTE' id='eb_temp_field_text_box' name='eb_temp_field_text_box' type='textarea' style='background-color:#fff;' placeholder='Your Message*' class='form-control' required='true'></textarea>
           </div>
           </div>
           <div class='form-group mb-3'>
