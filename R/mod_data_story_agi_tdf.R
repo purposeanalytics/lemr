@@ -38,7 +38,7 @@ mod_data_story_agi_tdf_ui <- function(id) {
 
       shiny::div(
           class = "very-padded",
-          shiny::h2("Percentage of buildings that received an AGI application in the last 5 years versus those buildings that received a Tenant Defence Fund grant, by neighbourhood"),
+          shiny::h5("Percentage of buildings that received an AGI application in the last 5 years versus those buildings that received a Tenant Defence Fund grant, by neighbourhood"),
           shiny::tags$picture(
             shiny::tags$source(
               media = "(orientation: landscape)",

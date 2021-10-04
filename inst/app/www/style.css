@@ -69,6 +69,10 @@ h3 {
   color: #6c6c6c;
 }
 
+h5 {
+  font-weight: var(--bold-weight);
+}
+
 .padded {
   margin-bottom: 0.5em;
 }

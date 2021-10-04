@@ -43,7 +43,7 @@ mod_data_story_lem_proximity_ui <- function(id) {
       shiny::p(shiny::HTML("Taking the data from both maps, we can examine the relationship between proximity to services and the availability of low-end of market rental units by creating a scatter plot for all neighbourhoods. The plot shows a lot of variation, but generally speaking the neighbourhoods with lowest proximity to services (towards the right of the chart) are more likely to have the highest proportion of low-end of market rental units (towards the top of the chart).")),
       shiny::div(
         class = "very-padded",
-        shiny::h2("Percent of population living in low proximity to services versus percent of rental stock that is low-end of market, by neighbourhood"),
+        shiny::h5("Percent of population living in low proximity to services versus percent of rental stock that is low-end of market, by neighbourhood"),
         shiny::tags$picture(
           shiny::tags$source(
             media = "(orientation: landscape)",
