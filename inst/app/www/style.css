@@ -247,7 +247,6 @@ body > .container-fluid {
 }
 
 .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
-  background-color: transparent !important;
   border-color: var(--grey-color);
 }
 
@@ -461,25 +460,31 @@ a .data-stories-img:hover {
   box-shadow: none;
 }
 
-.btn-default {
+.btn-default, button#map-header-modal {
   transition: 0.2s;
   background-color: #eeeeee;
+  font-size: 100%;
 }
 
-.btn-default:hover {
+.btn-default:hover, .btn-default:focus, .btn-default:active, .shiny-bound-input:hover, button#map-header-modal:hover {
   border-color: var(--accent-color);
   background-color: #fef5e3;
   color: var(--accent-color);
   transition: 0.2s;
 }
 
-.dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active {
+.dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active, .shiny-bound-input, .shiny-bound-input:hover {
   background-color: white;
   color: inherit;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
   background-color: var(--main-color);
+}
+
+.full-summary-buttons .dropdown-menu > li > a:focus, .full-summary-buttons .dropdown-menu > li > a:hover {
+  color: var(--accent-color);
+  background-color: #fef5e3;
 }
 
 .well .shiny-input-container {

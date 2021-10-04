@@ -19,7 +19,7 @@ mod_data_and_definitions_ui <- function(id) {
       shiny::column(
         width = 8,
         shiny::h2("LEMR Aggregate Layers"),
-        shiny::p("This dataset includes the data used in each of the aggregate layers in this tool, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto.")
+        shiny::p("This dataset includes the data used in each of the aggregate layers in this application, as well as all values shown in the full summary view, for each neighbourhood and the City of Toronto.")
       ),
       shiny::column(
         width = 4,
@@ -28,7 +28,7 @@ mod_data_and_definitions_ui <- function(id) {
       shiny::column(
         width = 8,
         shiny::h2("LEMR Point Layers"),
-        shiny::p("This dataset includes the data used in each of the point layers in the tool. It contains all addresses and spatial information along with the layer values.")
+        shiny::p("This dataset includes the data used in each of the point layers in this application. It contains addresses and spatial coordinates along with the layer values.")
       ),
       shiny::column(
         width = 4,
