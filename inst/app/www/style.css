@@ -207,7 +207,10 @@ hr {
 }
 
 .vertical-align {
-  display: flex;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   align-items: center;
 }
 
@@ -362,6 +365,10 @@ a .data-stories-img:hover {
 }
 
 .row.agi-data-story-neighbourhood {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   align-items: stretch;
 }
@@ -401,11 +408,6 @@ a .data-stories-img:hover {
 
 .start-exploring {
   text-align: left !important;
-}
-
-.start-exploring .row {
-  display: flex;
-  align-items: stretch;
 }
 
 .start-exploring .vertical-align {
@@ -573,6 +575,10 @@ ul {
 }
 
 .layer-popup {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   justify-content: left;
   align-items: center;
@@ -657,6 +663,10 @@ ul {
 }
 
 .legend .triple-text ul {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -698,6 +708,10 @@ ul {
 /* Data stories */
 .agi-data-story-neighbourhood {
   padding-bottom: 2em;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   align-items: center;
 }
