@@ -460,6 +460,42 @@ a .data-stories-img:hover {
   box-shadow: none;
 }
 
+.contact-form .form-control{
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.contact-form .controls input,.contact-form .controls textarea {
+  font-size: 100%;
+}
+
+.contact-form .form-group {
+  margin-bottom: 10px;
+}
+
+.contact-form .form-style-form1 {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.engage-bay-source-form fieldset {
+    visibility: visible !important;
+}
+
 .btn-default, button#map-header-modal {
   transition: 0.2s;
   background-color: #eeeeee;
@@ -474,7 +510,7 @@ a .data-stories-img:hover {
 }
 
 .dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active, .shiny-bound-input, .shiny-bound-input:hover {
-  background-color: white;
+  background-color: transparent;
   color: inherit;
 }
 

@@ -23,9 +23,9 @@ mod_home_ui <- function(id) {
         shiny::h2("Why is this important?"),
         shiny::p("Housing is becoming increasingly expensive and anecdotal evidence suggests that deeply affordable rental is disappearing faster than new stock is being created. \"Deeply affordable\" describes private market rental housing units that are affordable to households at the low-end of the income spectrum. A long-standing convention defines housing to be affordable when shelter costs do not exceed 30% of before-tax household income."),
         shiny::p("By mapping datasets related to the loss of units and displacement of people from the low-end of market, LEMR equips policy makers, housing advocates, and researchers with information about the dynamics of the private market that can help them to make decisions around the supply and preservation of this important segment of the rental stock."),
-        shiny::h2("Note on the data"),
+        shiny::h2("About the data"),
         shiny::p("LEMR draws on housing-related datasets from a variety of sources (e.g. open data, freedom of information requests, other administrative data) and jurisdictions (e.g. municipal, provincial, and federal). For this proof of concept, LEMR presents a convenience sample of datasets that were readily accessible to the project team between April and September 2021. Datasets that were received late in the project cycle or whose access could not be negotiated in time have been excluded from the proof of concept."),
-        shiny::p("In this proof of concept, the \"estimated availability of low-end of market rental units\" data is a dummy dataset. Datasets that were critical to creating a data-driven estimate were not available in time. The dummy dataset is provided for demonstration purposes and should not be used to make conclusions or decisions about the supply of deeply affordable housing in Toronto. All other datasets presented in the proof of concept are real and from authoritative sources.")
+        shiny::p("Important Note: In this proof of concept, the \"estimated availability of low-end of market rental units\" data is a dummy dataset. Datasets that were critical to creating a data-driven estimate were not available in time. The dummy dataset is provided for demonstration purposes and should not be used to make conclusions or decisions about the supply of deeply affordable housing in Toronto. All other datasets presented in the proof of concept are real and from authoritative sources.")
       ),
       shiny::div(
         class = "data-stories-banner",
@@ -118,11 +118,60 @@ mod_home_ui <- function(id) {
         )
       ),
       shiny::div(class = "divider-line center-padded"),
+      shiny::h2(align = "center", "Contact Us"),
+      shiny::div(class="contact-form", shiny::HTML(
+        "<div class='engage-bay-source-form engagebay-forms' data-id='5664808817917952'><form class='form form-style-form1 default text-center' onsubmit='window.EhForm.submit_form(event,this)', data-id='5664808817917952'><input type='hidden' name='engagebay_skip_captcha' value='true'> <fieldset>
+                    <!-- Form Name -->
+                    <div class='form-group mb-3' style=''>
+                    <div class='controls'>
+                    <input data-ebay_field='name' data-ebay_add_as='' id='name' title='' name='name' type='text' style='background-color:#fff;' placeholder='Your First Name*' class='form-control' required='true'>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3' style=''>
+                    <div class='controls'>
+                    <input data-ebay_field='last_name' data-ebay_add_as='' id='last_name' title='' name='last_name' type='text' style='background-color:#fff;' placeholder='Your Last Name*' class='form-control' required='true'>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3' style=''>
+                    <div class='controls'>
+                    <input data-ebay_field='email' data-ebay_add_as='' id='email' title='' name='email' type='email' style='background-color:#fff;' placeholder='Your Email*' class='form-control' required='true'>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3' style=''>
+                    <div class='controls'>
+                    <input data-ebay_field='company' data-ebay_add_as='' id='company' title='' name='company' type='text' style='background-color:#fff;' placeholder='Your Organization*' class='form-control' required='true'>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3' style=''>
+                    <div class='controls'>
+                    <textarea rows='2' data-ebay_field='' data-ebay_add_as='ADDASNOTE' id='eb_temp_field_text_box' name='eb_temp_field_text_box' type='textarea' style='background-color:#fff;' placeholder='Your Message*' class='form-control' required='true'></textarea>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3'>
+                    <div class='controls'>
+                    <input data-ebay_field='' data-ebay_add_as='ADDASTAG' id='eb_temp_field_hidden_field' name='eb_temp_field_hidden_field' type='hidden' value='LEMR' style='background-color:#fff;' class='form-control'>
+                    </div>
+                    </div>
+                    <div class='form-group mb-3'>
+                    <div>
+                    <button data-ebay_field='' data-ebay_add_as='ADDASTAG' type='submit' class='submit-btn btn btn-default btn-secondary my-1 fw-bold border-dark bg-dark'>Submit</button>
+                    <br>
+                    <span id='error-msg'></span>
+                    </div>
+                    </div>
+                    </fieldset>
+                    <div class='error-success-container notices green'></div>
+                    </form>
+                    </div>")),
+      shiny::div(class = "divider-line center-padded"),
       shiny::div(
         class = "about center-padded",
-        shiny::p(shiny::HTML("LEMR was developed by <b><a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a></b> with funding from the Canada Mortgage Housing Corporation's Housing Supply Challenge – Data Driven Round (Incubation Stage). The views expressed are those of the project and CMHC accepts no responsibility for them.")),
-        full_team,
+        shiny::h3("Land Acknowledgement"),
+        shiny::p(shiny::HTML("The project team recognizes that in addition to the pressing and urgent issue of displacement that people living in low-end of market housing face, there is the inescapable history of a much larger-scale displacement of Indigenous Peoples that also occurred on these lands, inflicting harm that continues to reverberate today. We further acknowledge that this project is hosted on the traditional lands of the Mississaugas of the Credit, the Anishinaabek, the Chippewa, the Haudenosaunee, and the Wendat peoples.")),
+        shiny::h3("About Us"),
+        shiny::p(shiny::HTML("LEMR was developed by <a href = 'https://purposeanalytics.ca/' target = '_blank'>Purpose Analytics</a> with funding from the Canada Mortgage Housing Corporation's Housing Supply Challenge – Data Driven Round (Incubation Stage). The views expressed are those of the project and CMHC accepts no responsibility for them.")),
         shiny::p(shiny::HTML("Purpose Analytics is partnering with the <a href='https://equalityrights.org' target='_blank'>Centre for Equality Rights in Accommodation</a>, <a href='https://bcnpha.ca' target='_blank'>BC Non-profit Housing Association</a>, <a href='https://caeh.ca' target='_blank'>Canadian Alliance to End Homelessness</a>, <a href='https://centre.support' target='_blank'>Community Housing Transformation Centre</a>, <a href='https://www.onpha.on.ca' target='_blank'>Ontario Non-profit Housing Association</a> in applying for implementation funding to scale this proof of concept to major urban areas across Canada.")),
+        full_team,
         shiny::p(shiny::HTML("For the source code, visit the project's <a href = 'https://github.com/purposeanalytics/lemur/' target = '_blank'>GitHub repository</a>.")),
         shiny::p(shiny::tags$i("Last updated: October 2021"))
       )
