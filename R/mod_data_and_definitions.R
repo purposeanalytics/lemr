@@ -103,9 +103,12 @@ mod_data_and_definitions_server <- function(id) {
         "LEMR Reports.zip"
       },
       content = function(file) {
-        shinybusy::show_spinner()
-        on.exit(shinybusy::hide_spinner())
-        utils::zip(file, c(fs::dir_ls(app_sys("reports/pdf")), fs::dir_ls(app_sys("reports/html"))), extras = "-j")
+        file.copy(app_sys("extdata/LEMR Reports.zip"), file)
+
+        # commenting out because this takes too long
+        # shinybusy::show_spinner()
+        # on.exit(shinybusy::hide_spinner())
+        # utils::zip(file, c(fs::dir_ls(app_sys("reports/pdf")), fs::dir_ls(app_sys("reports/html"))), extras = "-j")
       },
       contentType = "application/zip"
     )
