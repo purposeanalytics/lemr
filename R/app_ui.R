@@ -62,7 +62,18 @@ golem_add_external_resources <- function() {
   		m.parentNode.insertBefore(sc,m);
   		})(document, 'script', '//d2p078bqz5urf7.cloudfront.net/jsapi/ehform.js');
   		</script>
-  		"))
+  		")),
+    shiny::tags$head(HTML("
+    		<!-- Global site tag (gtag.js) - Google Analytics -->
+    		<script async src='https://www.googletagmanager.com/gtag/js?id=G-Q8KYE4S9DG'></script>
+    		<script>
+    			window.dataLayer = window.dataLayer || [];
+    			function gtag(){dataLayer.push(arguments);}
+    			gtag('js', new Date());
+
+    			gtag('config', 'G-Q8KYE4S9DG');
+    		</script>
+    "))
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )
