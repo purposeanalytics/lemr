@@ -303,7 +303,7 @@ amenity_density_plot <- function(data, compare, static = FALSE) {
 
 
 core_housing_need_number <- function(core_housing_need_formatted) {
-  glue::glue("Core housing need (2016): {core_housing_need_formatted} of renter households")
+  glue::glue("Renter households in core housing need (2016): {core_housing_need_formatted}")
 }
 
 core_housing_need_description <- function(level, neighbourhood, core_housing_need, core_housing_need_formatted) {
@@ -586,7 +586,7 @@ average_total_household_income_plot <- function(data, compare, static = FALSE) {
 # Unaffordable housing ----
 
 unaffordable_housing_number <- function(unaffordable_housing_formatted, level) {
-  number <- glue::glue("Unaffordable housing (2016): {unaffordable_housing_formatted} of renter households")
+  number <- glue::glue("Renters in unaffordable housing (2016): {unaffordable_housing_formatted}")
 
   if (level == "neighbourhood") {
     glue::glue('{number} (City of Toronto: {scales::percent(lemr::city_aggregate[["unaffordable_housing"]], accuracy = 0.1)})')

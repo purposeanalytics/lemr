@@ -539,7 +539,7 @@ mod_full_summary_modal_server <- function(id, level, neighbourhood, dataset) {
     })
 
     output$structure_type_table <- shiny::renderText({
-      generate_table(dataset(), "structure_type", compare(), "Housing Structure Type", "Percent")
+      generate_table(dataset(), "structure_type", compare(), "Structural Type", "Percent")
     }) %>%
       shiny::bindCache(level(), neighbourhood())
 
