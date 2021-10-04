@@ -202,7 +202,7 @@ add_blank_amenity_density_layer <- function(map) {
             # Defaults to 'white'
             "white"
           ),
-          "fill-opacity" = 0.65
+          "fill-opacity" = 0.75
         )
       )
     )
@@ -226,7 +226,7 @@ add_blank_aggregate_layers <- function(map) {
   source_name <- "neighbourhoods_data"
   source_url <- "mapbox://purposeanalytics.4juivyoh"
   source_layer <- "neighbourhoods-0jaap1"
-  opacity <- 0.65
+  opacity <- 0.75
 
   map %>%
     mapboxer::add_source(mapboxer::mapbox_source(
@@ -263,7 +263,8 @@ add_blank_aggregate_layers <- function(map) {
         "source-layer" = "neighbourhoods-0jaap1",
         "paint" = list(
           "line-color" = default_line_colour,
-          "line-width" = 1.5
+          "line-width" = 1.5,
+          "line-opacity" = 0.6
         )
       )
     ) %>%
@@ -290,7 +291,7 @@ add_blank_aggregate_layers <- function(map) {
         filter = list("==", "neighbourhood", "none"),
         "paint" = list(
           "line-color" = main_colour,
-          "line-width" = 5
+          "line-width" = 4
         )
       )
     ) %>%
@@ -309,7 +310,7 @@ add_blank_aggregate_layers <- function(map) {
           ),
           "line-width" = list(
             "case",
-            list("boolean", c("feature-state", "hover"), FALSE), 5,
+            list("boolean", c("feature-state", "hover"), FALSE), 4,
             1
           ),
           "line-opacity" = list(
@@ -345,7 +346,7 @@ add_blank_aggregate_layer_fill <- function(map, layer, source_name, source_layer
             # Defaults to 'white'
             "black"
           ),
-          "fill-opacity" = 0.65
+          "fill-opacity" = 0.75
         )
       )
     )
