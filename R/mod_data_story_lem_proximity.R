@@ -105,7 +105,7 @@ mod_data_story_lem_proximity_ui <- function(id) {
         )
       ),
       shiny::div(class = "divider-line"),
-      shiny::HTML("<p><sup>[1]</sup> All other datasets in this prototype contain veridical information from a range of sources. For details, visit <b>Data & Definitions</b>.</p>"),
+      shiny::HTML("<p><sup>[1]</sup> All other datasets in this prototype are real and from authoritative sources. For details, visit <b>Data & Definitions</b>.</p>"),
       shiny::HTML("<p><sup>[2]</sup> Visit the <a href = 'https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/definitions-of-affordable-housing/' target = '_blank'>City of Toronto website</a> for further details on this classification.</p>"),
       shiny::HTML("<p><sup>[3]</sup> Learn about the importance of proximity to services on the <a href = 'https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm' target = '_blank'>Statistics Canada website</a>.</p>")
     )
