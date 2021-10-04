@@ -50,7 +50,19 @@ golem_add_external_resources <- function() {
     golem::favicon(),
     cicerone::use_cicerone(),
     glouton::use_glouton(),
-    bsplus::use_bs_popover()
+    bsplus::use_bs_popover(),
+    shiny::tags$head(HTML("
+      <!-- Engagebay code -->
+  		<script type='text/javascript' >
+  		var EhAPI = EhAPI || {}; EhAPI.after_load = function(){
+  		EhAPI.set_account('k0ka9ikceq0dbvm3ekmbg59lnq', 'purposeanalytics');
+  		EhAPI.execute('rules');};(function(d,s,f) {
+  		var sc=document.createElement(s);sc.type='text/javascript';
+  		sc.async=true;sc.src=f;var m=document.getElementsByTagName(s)[0];
+  		m.parentNode.insertBefore(sc,m);
+  		})(document, 'script', '//d2p078bqz5urf7.cloudfront.net/jsapi/ehform.js');
+  		</script>
+  		"))
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )

@@ -120,49 +120,48 @@ mod_home_ui <- function(id) {
       shiny::div(class = "divider-line center-padded"),
       shiny::h2(align = "center", "Contact Us"),
       shiny::div(class="contact-form", shiny::HTML(
-        "<div class='engage-bay-source-form engagebay-forms' data-id='5664808817917952'><form class='form form-style-form1 default text-center' onsubmit='window.EhForm.submit_form(event,this)', data-id='5664808817917952'><input type='hidden' name='engagebay_skip_captcha' value='true'> <fieldset>
-                    <!-- Form Name -->
-                    <div class='form-group mb-3' style=''>
-                    <div class='controls'>
-                    <input data-ebay_field='name' data-ebay_add_as='' id='name' title='' name='name' type='text' style='background-color:#fff;' placeholder='Your First Name*' class='form-control' required='true'>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3' style=''>
-                    <div class='controls'>
-                    <input data-ebay_field='last_name' data-ebay_add_as='' id='last_name' title='' name='last_name' type='text' style='background-color:#fff;' placeholder='Your Last Name*' class='form-control' required='true'>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3' style=''>
-                    <div class='controls'>
-                    <input data-ebay_field='email' data-ebay_add_as='' id='email' title='' name='email' type='email' style='background-color:#fff;' placeholder='Your Email*' class='form-control' required='true'>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3' style=''>
-                    <div class='controls'>
-                    <input data-ebay_field='company' data-ebay_add_as='' id='company' title='' name='company' type='text' style='background-color:#fff;' placeholder='Your Organization*' class='form-control' required='true'>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3' style=''>
-                    <div class='controls'>
-                    <textarea rows='2' data-ebay_field='' data-ebay_add_as='ADDASNOTE' id='eb_temp_field_text_box' name='eb_temp_field_text_box' type='textarea' style='background-color:#fff;' placeholder='Your Message*' class='form-control' required='true'></textarea>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3'>
-                    <div class='controls'>
-                    <input data-ebay_field='' data-ebay_add_as='ADDASTAG' id='eb_temp_field_hidden_field' name='eb_temp_field_hidden_field' type='hidden' value='LEMR' style='background-color:#fff;' class='form-control'>
-                    </div>
-                    </div>
-                    <div class='form-group mb-3'>
-                    <div>
-                    <button data-ebay_field='' data-ebay_add_as='ADDASTAG' type='submit' class='submit-btn btn btn-default btn-secondary my-1 fw-bold border-dark bg-dark'>Submit</button>
-                    <br>
-                    <span id='error-msg'></span>
-                    </div>
-                    </div>
-                    </fieldset>
-                    <div class='error-success-container notices green'></div>
-                    </form>
-                    </div>")),
+        "<div class='engage-bay-source-form engagebay-forms' data-id='5664808817917952'><form class='form form-style-form1 default text-center' onsubmit='window.EhForm.submit_form(event,this)' data-id='5664808817917952'><input type='hidden' name='engagebay_skip_captcha' value='true'> <fieldset>
+						<div class='form-group mb-3' style=''>
+						 <div class='controls'>
+							<input data-ebay_field='name' data-ebay_add_as='' id='name' title='' name='name' type='text' style='background-color:#fff;' placeholder='Your First Name*' class='form-control' required='true'>
+          </div>
+          </div>
+          <div class='form-group mb-3' style=''>
+          <div class='controls'>
+          <input data-ebay_field='last_name' data-ebay_add_as='' id='last_name' title='' name='last_name' type='text' style='background-color:#fff;' placeholder='Your Last Name*' class='form-control' required='true'>
+          </div>
+          </div>
+          <div class='form-group mb-3' style=''>
+          <div class='controls'>
+          <input data-ebay_field='email' data-ebay_add_as='' id='email' title='' name='email' type='email' style='background-color:#fff;' placeholder='Your Email*' class='form-control' required='true'>
+          </div>
+          </div>
+          <div class='form-group mb-3' style=''>
+          <div class='controls'>
+          <input data-ebay_field='company' data-ebay_add_as='' id='company' title='' name='company' type='text' style='background-color:#fff;' placeholder='Your Organization*' class='form-control' required='true'>
+          </div>
+          </div>
+          <div class='form-group mb-3' style=''>
+          <div class='controls'>
+          <textarea rows='2' data-ebay_field='' data-ebay_add_as='ADDASNOTE' id='eb_temp_field_text_box' name='eb_temp_field_text_box' type='textarea' style='background-color:#fff;' placeholder='Your Message*' class='form-control' required='true'></textarea>
+          </div>
+          </div>
+          <div class='form-group mb-3'>
+          <div class='controls'>
+          <input data-ebay_field='' data-ebay_add_as='ADDASTAG' id='eb_temp_field_hidden_field' name='eb_temp_field_hidden_field' type='hidden' value='LEMR' style='background-color:#fff;' class='form-control'>
+          </div>
+          </div>
+          <div class='form-group mb-3'>
+          <div>
+          <button data-ebay_field='' data-ebay_add_as='ADDASTAG' class='btn btn-default'>Contact Us</button>
+          <br>
+          <span id='error-msg'></span>
+          </div>
+          </div>
+          </fieldset>
+          <div class='error-success-container notices green'></div>
+          </form>
+          </div>")),
       shiny::div(class = "divider-line center-padded"),
       shiny::div(
         class = "about center-padded",
