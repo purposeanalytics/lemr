@@ -6,7 +6,7 @@ linking housing data from multiple sources with a future goal of
 estimating the volume of deeply affordable housing units, where they are
 located, and how this is changing over time.
 
-[LEMR](https://app.lemr.ca/shiny/) is an interactive tool developed to
+[LEMR](https://lemr.ca/) is an interactive tool developed to
 understand changes in the supply of deeply affordable rental housing in
 the City of Toronto.
 
