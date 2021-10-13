@@ -110,18 +110,29 @@ structure_type_by_neighbourhood <- custom_tab_toronto_cts %>%
     condominium_status != "Total - Condominium status"
   ) %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type),
-         structural_type = factor(structural_type, levels = c("Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house"))) %>%
+  mutate(
+    structural_type = coalesce(clean, structural_type)
+  ) %>%
   aggregate_prop_by_neighbourhood("structural_type", "Total - Structural type of dwelling") %>%
-  select(-value)
+  select(-value) %>%
+  mutate(
+    group = fct_relevel(group, "Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house")
+  )
 
 structure_type_city <- custom_tab_toronto_cts %>%
-  filter(tenure_including_subsidy == "Renter") %>%
+  filter(
+    tenure_including_subsidy == "Renter",
+    condominium_status != "Total - Condominium status"
+  ) %>%
   left_join(structure_type_clean, by = c("structural_type" = "original")) %>%
-  mutate(structural_type = coalesce(clean, structural_type),
-         structural_type = factor(structural_type, levels = c("Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house"))) %>%
+  mutate(
+    structural_type = coalesce(clean, structural_type)
+  ) %>%
   aggregate_prop_city("structural_type", "Total - Structural type of dwelling") %>%
-  select(-value)
+  select(-value) %>%
+  mutate(
+    group = fct_relevel(group, "Apartment, 5+ storeys", "Apartment, < 5 storeys", "Duplex", "Single-, semi-detached, or row house")
+  )
 
 ### Save aggregates ----
 saveRDS(secondary_condo_by_neighbourhood, here::here("data-raw", "aggregate_data", "rental_supply", "census_custom_tab_2016_table1", "aggregate", "secondary_condo_by_neighbourhood.rds"))
