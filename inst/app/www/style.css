@@ -691,6 +691,10 @@ ul {
   padding-top: 0;
 }
 
+.mapboxgl-popup {
+  max-width: 320px !important;
+}
+
 /* ------ Well panel ------ */
 
 .well {
