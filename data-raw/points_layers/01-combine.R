@@ -238,16 +238,16 @@ buildings <- buildings %>%
 generate_tooltip <- function(data) {
   variables <- tribble(
     ~title, ~variable,
-    "Landlord", "landlord",
-    "Built", "year_built",
-    "Apartment building type", "property_type",
-    "Property management", "property_management",
-    "Units", "units",
-    "RentSafeTO evaluation", "score_percent",
-    "AGI applications", "date_agi_initiated",
-    "Tenant Defence Fund received", "tdf_year",
-    "TDF reduced increase by", "reduced_increase_by",
-    "Rooming house status", "rooming_house_status"
+    "Number of units", "units",
+    "Year built", "year_built",
+    "Ownership type", "property_type",
+    "Property owner", "landlord",
+    "Property manager", "property_management",
+    "Apartment building evaluation score", "score_percent",
+    "Above Guideline Increase applications", "date_agi_initiated",
+    "Tenant Defence Fund grants", "tdf_year",
+    "AGI reduction with TDF grant support", "reduced_increase_by",
+    "Rooming house license status", "rooming_house_status"
   )
 
   variables_text <- purrr::map2_chr(
