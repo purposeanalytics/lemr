@@ -191,7 +191,7 @@ lemr:::display_lem(dataset)
 <div class = "row">
   <div class = "col-sm-6">
   
-```{r output = "asis"}
+```{r output = "asis", eval = level == "neighbourhood"}
 legend
 ```
 
@@ -312,7 +312,7 @@ lemr:::generate_table(dataset, "amenity_density", compare, "Proximity to service
 <div class = "row">
   <div class = "col-sm-6">  
   
-```{r output = "asis"}
+```{r output = "asis", eval = level == "neighbourhood"}
 legend
 ```
 
@@ -406,7 +406,7 @@ lemr:::generate_table(dataset, "bedrooms", compare, "Housing Structure Type", "P
 <div class = "row">
   <div class = "col-sm-6">  
   
-```{r output = "asis"}
+```{r output = "asis", eval = level == "neighbourhood"}
 legend
 ```
   
