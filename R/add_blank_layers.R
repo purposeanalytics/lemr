@@ -21,7 +21,7 @@ add_blank_points_layers <- function(map) {
       c(19, 9)
     )
   )
-  opacity <- 0.8
+  opacity <- 1
   stroke_colour <- "#FFFFFF"
   stroke_width <- 1
 
