@@ -71,7 +71,7 @@ p <- lem_percent_with_proximity_to_services %>%
   ) +
   scale_color_identity() +
   scale_y_continuous(labels = scales::percent, limits = c(0, .3), name = "% of LEM rental supply") +
-  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of population with proximity to services") +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1), name = "% of population with low proximity to services") +
   # Move title to div instead
   # labs(title = "Percent of population living in low proximity to services versus percent of rental supply that is low-end of market, by neighbourhood") +
   theme_minimal(base_family = "Lato", base_size = 12)
