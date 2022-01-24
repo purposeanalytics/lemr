@@ -5,8 +5,33 @@ output: github_document
 # Neighbourhood Census Profiles - 2016 census
 
 ```{r, echo = FALSE, message = FALSE}
-options(knitr.kable.NA = '')
-metadata <- readr::read_csv(here::here("data-raw", "census_profiles_2016", "clean", "metadata.csv"))
+library(dplyr)
+options(knitr.kable.NA = "")
+metadata <- readr::read_csv(here::here("data-raw", "aggregate_data", "census_profiles_2016", "clean", "metadata.csv"))
+
+# Some corrections based on using different sources
+custom_tabulations <- tribble(
+  ~Field, ~Link, ~`Table details`, ~`LEMR repo location`,
+  "Household size", "https://dataverse.scholarsportal.info/dataset.xhtml?persistentId=doi:10.5683/SP2/SGQVAE", "geography, bedrooms, condominium, tenure", "data-raw/aggregate_data/census_custom_tab_2016_table_2",
+  "Number of bedrooms", "https://dataverse.scholarsportal.info/dataset.xhtml?persistentId=doi:10.5683/SP2/SGQVAE", "geography, bedrooms, condominium, tenure", "data-raw/aggregate_data/census_custom_tab_2016_table_2",
+  "Average total household income", "https://dataverse.scholarsportal.info/dataset.xhtml?persistentId=doi:10.5683/SP2/7WR7FG", "geography, structural type, condominium, tenure", "data-raw/aggregate_data/census_custom_tab_2016_table1_income",
+  "Private dwellings by structure", "https://dataverse.scholarsportal.info/dataset.xhtml?persistentId=doi:10.5683/SP2/7WR7FG", "geography, structural type, condominium, tenure", "data-raw/aggregate_data/rental_supply/census_custom_tab_2016_table1"
+)
+
+metadata <- metadata %>%
+  mutate(`Custom Tabulation` = ifelse(
+    Field %in% custom_tabulations[["Field"]],
+    "TRUE", NA_character_
+  ))
 
 knitr::kable(metadata)
 ```
+
+## Custom tabulation details
+
+All filtered by `Household tenure = "renter"`
+
+```{r, echo = FALSE}
+knitr::kable(custom_tabulations)
+```
+
